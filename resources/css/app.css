@@ -1,0 +1,20 @@
+@import url("satoshi.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@theme {
+    --font-sans: 'Satoshi-Medium', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-black: #1c1d21;
+}
+@theme {
+    --text-6xl: 3.375rem;
+    --font-weight-bold: 700;
+    --text-5xl: 2.625rem;
+    --text-4xl: 2rem;
+    --text-3xl: 1.5rem;
+    --text-2xl: 1.25rem;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
