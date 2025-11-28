@@ -1,20 +1,84 @@
-@import url("satoshi.css");
+@import url("design-system.css");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @theme {
-    --font-sans: 'Satoshi-Medium', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Satoshi-Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
-    --color-black: #1c1d21;
 }
+
+/**
+* SPACING
+**/
+@theme {
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1.0rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 2.5rem;
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 3.5rem;
+    --spacing-4xl: 4rem;
+}
+/**
+* LINE HEIGHT
+**/
+@theme{
+    --leading-subtitle: 110%;
+    --leading-heading: 110%;
+    --leading-body: 140%;
+}
+/**
+* HEADING THEMES
+**/
 @theme {
     --text-6xl: 3.375rem;
-    --font-weight-bold: 700;
     --text-5xl: 2.625rem;
     --text-4xl: 2rem;
     --text-3xl: 1.5rem;
     --text-2xl: 1.25rem;
+    --text-xl: 1.125rem;
+    --font-weight-heading: 700;
+}
+/**
+* SUBTITLE THEMES
+**/
+@theme {
+    --text-subtitle-m: 1rem;
+    --text-subtitle-s:  0.875rem;
+    --font-weight-subtitle: 500;
+}
+/**
+* BODY THEMES
+**/
+@theme {
+    --font-weight-body: 500;
+    --text-body-l: 1.125rem;
+    --text-body-m:  1rem;
+    --text-body-s:  0.875rem;
+    --text-body-xs:  0.75rem;
+    --text-body-xxs:  0.625rem;
 }
 
+/**
+* COLOR SCHEMAS
+**/
+@theme{
+    --color-black: #1c1d21;
+    --color-primary: #5E81F4;
+    --color-secondary: rgba(94, 129, 244, 0.25);
+    --color-primary-grey: #8181A5;
+    --color-button-hover: #4C5FAE;
+    --color-secondary-error: #FF4B5A;
+    --color-secondary-warning: #F4BE5E;
+    --color-secondary-success: #7CE7AC;
+    --color-secondary-error-100: rgba(255, 75, 90, 0.20);
+    --color-secondary-warning-100: rgba(244, 190, 94, 0.20);
+    --color-secondary-success-100: rgba(124, 231, 172, 0.20);
+    --color-light: #F5F5FA;
+    --color-white: #FFFFFF;
+    --color-base: #F6F6F6;
+    --color-outline-grey: #F0F0F3;
+}
 @custom-variant dark (&:where(.dark, .dark *));

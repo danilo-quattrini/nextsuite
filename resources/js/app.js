@@ -1,1 +1,1 @@
-import.meta.glob(['../fonts/**',]);
+import.meta.glob(['/resources/fonts/**',]);
