@@ -1,0 +1,53 @@
+/* Button Base */
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs);
+    gap: var(--spacing-xs);
+    border-radius: 5px;
+    font-size: var(--text-sm) ;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-button);
+    line-height: var(--line-height-none);
+    transition: all var(--transition-slow);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+/* Button variants */
+.btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-button-hover);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--color-primary);
+    }
+}
+
+.btn-rest {
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--color-secondary);
+    }
+}
+
+.btn-disable {
+    background-color: var(--color-light);
+    color: var(--color-primary-grey);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-primary-grey);
+        color: var(--color-white);
+    }
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--color-primary-grey);
+    }
+}

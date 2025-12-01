@@ -1,0 +1,54 @@
+/* ============================================
+   FONT LOADING
+   ============================================ */
+
+@font-face {
+    font-family: 'Satoshi-Variable';
+    src: url('/resources/fonts/Satoshi-Variable.woff2') format('woff2'),
+    url('/resources/fonts/Satoshi-Variable.woff') format('woff'),
+    url('/resources/fonts/Satoshi-Variable.ttf') format('truetype');
+    font-weight: 300 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* ============================================
+   BASE TYPOGRAPHY
+   ============================================ */
+
+body {
+    font-family: var(--font-sans), serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+p{
+    line-height: var(--line-height-none);
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--font-weight-bold);
+    line-height: var(--line-height-snug);
+}
+
+h1 {
+    font-size: var(--font-size-6xl);
+}
+
+h2 {
+    font-size: var(--font-size-5xl);
+}
+
+h3 {
+    font-size: var(--font-size-4xl);
+}
+
+h4 {
+    font-size: var(--font-size-3xl);
+}
+
+h5 {
+    font-size: var(--font-size-2xl);
+}
+
+h6 {
+    font-size: var(--font-size-lg);
+}
