@@ -67,6 +67,9 @@
         <x-button variant="warning">
             <x-heroicon name="exclamation-triangle" variant="outline" size="md"/>
         </x-button>
+    </div>
 
+    <div>
+        <x-form.input-container :recovery_link="true"/>
     </div>
 </x-guest-layout>
