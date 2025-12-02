@@ -11,7 +11,13 @@
     $variants = [
         'primary' => 'btn-primary',
         'rest' => 'btn-rest',
-        'disable' => 'btn-disable'
+        'disable' => 'btn-disable',
+        'error' => 'btn-error',
+        'warning' => 'btn-warning',
+        'outline-primary' => ' btn-outline-primary',
+        'outline-disable' => ' btn-outline-disable',
+        'outline-error' => ' btn-outline-error',
+        'outline-warning' => ' btn-outline-warning',
         ];
 
     $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']);

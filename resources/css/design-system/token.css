@@ -8,6 +8,7 @@
     --color-primary-grey: #8181A5;
     --color-button-hover: #4C5FAE;
     --color-secondary-error: #FF4B5A;
+    --color-secondary-error-hover: #ff2939;
     --color-secondary-warning: #F4BE5E;
     --color-secondary-success: #7CE7AC;
     --color-secondary-error-100: rgba(255, 75, 90, 0.20);
@@ -70,10 +71,10 @@
      LETTER SPACING SYSTEM
      ============================================ */
     --tracking-button: 0.03125rem;
+
     /* ============================================
      SHADOWS
      ============================================ */
-
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -84,8 +85,12 @@
     /* ============================================
        TRANSITIONS
        ============================================ */
-
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* ============================================
+       RADIUS
+       ============================================ */
+    --radius-md: 0.32rem;
 }
