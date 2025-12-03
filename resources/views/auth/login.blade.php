@@ -1,8 +1,8 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
+        <x-slot:logo>
             <x-authentication-card-logo />
-        </x-slot>
+        </x-slot:logo>
 
         <x-validation-errors class="mb-4" />
 
@@ -14,16 +14,14 @@
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
+            <!-- EMAIL -->
+            <x-form.input-container label="Email" :recovery_link="false">
+                <x-input id="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+            </x-form.input-container>
 
-            <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
-            </div>
+            <x-form.input-container label="Password" :recovery_link="true" right_label="Forgot your password?">
+                <x-input id="password" :value="old('email')" required autofocus autocomplete="username" type="password" right-icon="lock-closed" placeholder="Password"></x-input>
+            </x-form.input-container>
 
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
