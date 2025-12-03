@@ -6,7 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
+        <link rel="icon" href="{{asset('img/nextsuite-logo.png')}}" type="image/png">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
