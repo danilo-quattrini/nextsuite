@@ -1,9 +1,10 @@
-<div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100 dark:bg-gray-900">
-    <div>
-        {{ $logo }}
-    </div>
-
-    <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+<div class="min-h-screen mx-auto flex flex-col justify-center items-center gap-2.5 overflow-hidden rounded-md bg-light">
+    <div class="my-auto px-24 py-16 flex flex-col justify-start items-start gap-10 bg-white rounded-md overflow-hidden">
+        <!-- Logo -->
+        <div class="flex justify-center items-center">
+            {{ $logo }}
+        </div>
+        <!-- Content -->
         {{ $slot }}
     </div>
 </div>
