@@ -69,7 +69,4 @@
         </x-button>
     </div>
 
-    <div>
-        <x-form.input-container :recovery_link="true"/>
-    </div>
 </x-guest-layout>
