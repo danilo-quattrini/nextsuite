@@ -32,8 +32,7 @@
     }
 
 
-    $input = "w-full text-base font-medium text-black placeholder-primary-grey
-              border-none bg-transparent focus:outline-none";
+    $input = ' input ';
 @endphp
 
 

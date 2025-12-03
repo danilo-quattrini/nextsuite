@@ -114,3 +114,17 @@
     border: 2px solid var(--color-secondary-warning);
     color: var(--color-secondary-warning);
 }
+
+/* Button variants */
+.input{
+    width: 100%;
+    font-size: var(--text-base) ;
+    font-weight: var(--font-weight-medium);
+    color:  var(--color-black);
+    border: none;
+    background: transparent;
+
+    &:focus{
+        outline: none;
+    }
+}
