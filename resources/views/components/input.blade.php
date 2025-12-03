@@ -8,9 +8,7 @@
     'placeholder' => ''
     ])
 @php
-    $base = ' w-full inline-flex items-center gap-4 px-6 py-4 rounded-md
-                outline outline-offset-[-2px] bg-white
-                transition-all duration-150 ';
+    $base = ' input-border ';
     $style = [
         'default'      => 'outline-outline-grey outline-1',
         'active'    => 'outline-primary outline-2',
