@@ -1,5 +1,6 @@
 @props([
     'variant' => 'primary',
+    'size' => ' default',
     'type' => 'button',
     'href' => null,
 ])
@@ -19,8 +20,12 @@
         'outline-error' => ' btn-outline-error',
         'outline-warning' => ' btn-outline-warning',
         ];
+    $sizes = [
+        'default' => ' w-[72px]',
+        'large' => ' w-[150px]',
+    ];
 
-    $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']);
+    $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']) . ' ' . ($sizes[$size] ?? $sizes['default']);
 @endphp
 
 @if($href)
