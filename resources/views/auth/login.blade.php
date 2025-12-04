@@ -21,8 +21,8 @@
             <x-form.container>
                 <!-- EMAIL -->
                 <x-form.input-container>
-                    <x-form.label-container label="Email"/>
-                    <x-input id="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+                    <x-form.label-container label="{{ __('Email') }}"/>
+                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
                 </x-form.input-container>
 
                 <!-- PASSWORD -->
@@ -34,7 +34,7 @@
                             </a>
                         @endif
                     </x-form.label-container>
-                    <x-input id="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password"></x-input>
+                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password"></x-input>
                 </x-form.input-container>
 
             </x-form.container>
