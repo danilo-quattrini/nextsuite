@@ -7,7 +7,6 @@
             <h3 class="mb-4">{{__('Sign Up to getting start')}}</h3>
             <p class="text-primary-grey text-base font-medium">{{__('Enter your details to start')}}</p>
         </x-slot:message>
-        <x-validation-errors class="mb-4" />
 
         <form method="POST" action="{{ route('register') }}">
             @csrf
@@ -15,26 +14,30 @@
                 <!-- FULL NAME -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Full Name') }}"/>
-                    <x-input id="full_name" :value="old('full_name')" required autofocus autocomplete="username" type="text" right-icon="user" placeholder="Jon Doe"></x-input>
+                    <x-input id="full_name" name="full_name" :value="old('full_name')" required autofocus autocomplete="username" type="text" right-icon="user" placeholder="Jon Doe" :error="$errors->has('full_name')"></x-input>
+                    <x-input-error for="full_name"/>
                 </x-form.input-container>
 
 
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}"/>
-                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
+                    <x-input-error for="email"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD -->
                 <x-form.input-container>
                     <x-form.label-container label="Password"/>
-                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password"></x-input>
+                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
+                    <x-input-error for="password"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD CONFIRMATION -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Confirm Password') }}"/>
-                    <x-input id="password_confirmation" name="password_confirmation" required autofocus autocomplete="new-password" type="password" placeholder="Confirm Password"></x-input>
+                    <x-input id="password_confirmation" name="password_confirmation" required autofocus autocomplete="new-password" type="password" placeholder="Confirm Password" :error="$errors->has('password_confirmation')"></x-input>
+                    <x-input-error for="password_confirmation"/>
                 </x-form.input-container>
             </x-form.container>
 
