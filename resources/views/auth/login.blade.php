@@ -7,7 +7,6 @@
             <h3 class="mb-4">{{__('Welcome back')}}!<br> {{__('Sign In to getting start')}}</h3>
             <p class="text-primary-grey text-base font-medium">Enter your details to start</p>
         </x-slot:message>
-        <x-validation-errors class="mb-4" />
 
         @session('status')
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
@@ -22,7 +21,8 @@
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}"/>
-                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
+                    <x-input-error for="email"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD -->
@@ -34,7 +34,8 @@
                             </a>
                         @endif
                     </x-form.label-container>
-                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password"></x-input>
+                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
+                    <x-input-error for="password"/>
                 </x-form.input-container>
 
             </x-form.container>

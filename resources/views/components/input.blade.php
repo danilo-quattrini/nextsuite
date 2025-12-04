@@ -1,54 +1,34 @@
 @props([
-    'active' => false,
-    'fill' => false,
-    'error' => false,
-    'disabled' => false,
     'leftIcon' => null,
     'rightIcon' => null,
+    'error' => false,
     'placeholder' => ''
     ])
 @php
     $base = ' input-border ';
-    $style = [
-        'default'      => 'outline-outline-grey outline-1',
-        'active'    => 'outline-primary outline-2',
-        'fill'    => 'outline-black outline-2',
-        'error'     => 'outline-secondary-error outline-2',
-        'disabled'  => 'bg-light text-primary-grey outline-outline-grey opacity-60 cursor-not-allowed outline-1 ',
-    ];
-
-    if ($disabled) {
-        $base .= ' ' . $style['disabled'];
-    } elseif ($error) {
-        $base .= ' ' . $style['error'];
-    } elseif ($active) {
-        $base .= ' ' . $style['active'];
-    } elseif($fill) {
-        $base .= ' ' . $style['fill'];
-    } else {
-        $base .= ' ' . $style['default'];
-    }
-
-
     $input = ' input ';
+
+    if ($error) {
+        $iconColor = ' text-secondary-error group-focus-within:text-secondary-error ';
+    }
+    $iconColor = ' text-primary-grey group-focus-within:text-black ';
 @endphp
 
 
-<div class="{{ $base }}">
+<div class="group {{ $base }} {{ $error ? 'has-error' : '' }}">
 
     {{-- LEFT ICON --}}
     @if($leftIcon)
-        <x-heroicon :name="$rightIcon"
+        <x-heroicon :name="$leftIcon"
                     size="md"
-                    variant="solid"
-                    class="{{ $error ? 'text-secondary-error' : 'text-primary-grey' }}"
+                    variant="outline"
+                    class="{{$iconColor}}"
         />
 
     @endif
 
     {{-- INPUT FIELD --}}
     <input
-            {{ $disabled ? 'disabled' : '' }}
             placeholder="{{ $placeholder }}"
             class="{{ $input }}"
             {{ $attributes }}
@@ -58,12 +38,8 @@
     @if($rightIcon)
         <x-heroicon :name="$rightIcon"
                     size="md"
-                    variant="solid"
-                    class="{{ $error ? 'text-secondary-error' : 'text-primary-grey' }}" />
+                    variant="outline"
+                    class="{{$iconColor}}"
+        />
     @endif
 </div>
-
-{{-- ERROR TEXT --}}
-@if($error && $slot)
-    <x-input-error/>
-@endif

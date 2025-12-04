@@ -144,12 +144,20 @@
     outline: var(--color-outline-grey);
     outline-offset: -2px;
 
-    &:focus-within{
-        outline: var(--color-primary);
-        outline-offset: -2px;
-        border: 2px solid var(--color-primary);
-        color: var(--color-black);
-    }
+}
+.input-border.has-error {
+    outline: 1px solid var(--color-secondary-error) !important;
+    border-color: var(--color-secondary-error) !important;
+}
+
+.input-border:focus-within:not(.has-error) {
+    outline: 1px solid var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.input-border:not(:focus-within):not(.has-error):has(input:not(:placeholder-shown)) {
+    outline: 1px solid var(--color-black);
+    border-color: var(--color-black);
 }
 
 .ds-checkbox-container {

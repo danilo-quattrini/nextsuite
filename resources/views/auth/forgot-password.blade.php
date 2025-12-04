@@ -21,7 +21,7 @@
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}"/>
-                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
                     <x-input-error for="email"/>
                 </x-form.input-container>
 
