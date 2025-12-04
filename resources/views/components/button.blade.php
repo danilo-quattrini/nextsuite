@@ -21,8 +21,8 @@
         'outline-warning' => ' btn-outline-warning',
         ];
     $sizes = [
-        'default' => ' w-[72px]',
-        'large' => ' w-[150px]',
+        'default' => ' w-[72px] h-[38px]',
+        'large' => ' w-[150px] h-[38px]',
     ];
 
     $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']) . ' ' . ($sizes[$size] ?? $sizes['default']);
