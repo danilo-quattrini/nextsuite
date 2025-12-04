@@ -39,11 +39,16 @@
 
             </x-form.container>
 
-            <div class="my-10 flex w-full">
-                <label for="remember_me" class="flex-1">
-                    <x-checkbox id="remember_me" name="remember" />
-                    <span class=" text-sm font-medium text-black dark:text-white">{{ __('Remember me') }}</span>
-                </label>
+            <div class="my-10 flex flex-1 justify-between w-full">
+                <x-toggle-container>
+                    <x-slot:span>
+                        <span class="ds-checkbox-mark"></span>
+                    </x-slot:span>
+                    <x-slot:element>
+                        <x-checkbox name="remember" />
+                    </x-slot:element>
+                    {{ __('Remember Me') }}
+                </x-toggle-container>
                 <a href="/register">
                     <x-span-link>{{ __('Don\'t have an account?') }}</x-span-link>
                 </a>
