@@ -1,12 +1,12 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
+        <x-slot:logo>
             <x-authentication-card-logo />
-        </x-slot>
-
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
-        </div>
+        </x-slot:logo>
+        <x-slot:message>
+            <h3 class="mb-4">{{__('Lost your password?')}}</h3>
+            <p class="text-primary-grey text-base font-medium">{{__('Forgot your password? No problem!')}}</p>
+        </x-slot:message>
 
         @session('status')
             <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
@@ -14,21 +14,24 @@
             </div>
         @endsession
 
-        <x-validation-errors class="mb-4" />
-
         <form method="POST" action="{{ route('password.email') }}">
             @csrf
 
-            <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
+            <x-form.container>
+                <!-- EMAIL -->
+                <x-form.input-container>
+                    <x-form.label-container label="{{ __('Email') }}"/>
+                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email"></x-input>
+                    <x-input-error for="email"/>
+                </x-form.input-container>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
+                <!-- RECOVE BUTTON -->
+                <div class="w-[470px] flex items-center justify-center mb-10">
+                    <x-button size="large" type="submit">
+                        {{ __('Recover') }}
+                    </x-button>
+                </div>
+            </x-form.container>
         </form>
     </x-authentication-card>
 </x-guest-layout>
