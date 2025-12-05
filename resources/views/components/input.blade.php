@@ -16,7 +16,7 @@
 @endphp
 
 
-<div class="group {{ $base }} {{ $error ? 'has-error' : '' }}">
+<div x-data="{ show: false }" class="group {{ $base }} {{ $error ? 'has-error' : '' }}">
 
     {{-- LEFT ICON --}}
     @if($leftIcon)
@@ -32,15 +32,27 @@
     <input
             placeholder="{{ $placeholder }}"
             class="{{ $input }}"
-            {{ $attributes }}
+            :type="show ? 'text' : '{{ $attributes->get('type') }}'"
+            {{ $attributes->except('type') }}
     />
 
     {{-- RIGHT ICON --}}
     @if($rightIcon)
-        <x-heroicon :name="$rightIcon"
-                    size="md"
-                    variant="outline"
-                    class="{{$iconColor}}"
-        />
+        @if($rightIcon != 'eye')
+            <x-heroicon :name="$rightIcon"
+                        size="md"
+                        variant="outline"
+                        class="{{$iconColor}}"
+            />
+        @else
+            <span @click="show = !show" class="cursor-pointer">
+                <span x-show="!show">
+                   <x-heroicon name="eye" size="md" variant="outline" class="{{$iconColor}}" />
+                </span>
+                <span x-show="show">
+                    <x-heroicon name="eye-slash" size="md" variant="outline" class="{{$iconColor}}" />
+                </span>
+            </span>
+        @endif
     @endif
 </div>
