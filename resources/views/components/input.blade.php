@@ -10,8 +10,9 @@
 
     if ($error) {
         $iconColor = ' text-secondary-error group-focus-within:text-secondary-error ';
+    }else{
+        $iconColor = ' text-primary-grey group-focus-within:text-black ';
     }
-    $iconColor = ' text-primary-grey group-focus-within:text-black ';
 @endphp
 
 

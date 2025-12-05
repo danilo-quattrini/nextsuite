@@ -160,7 +160,7 @@
     border-color: var(--color-black);
 }
 
-.ds-checkbox-container {
+.ds-checkbox-container, .ds-radio-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -174,8 +174,8 @@
     position: relative;
 }
 
-/* Hide browser checkbox */
-.ds-checkbox-input {
+/* Hide browser checkbox and radio */
+.ds-checkbox-input, .ds-radio-input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -227,5 +227,53 @@
 }
 /* Show checkmark */
 .ds-checkbox-input:checked ~ .ds-checkbox-mark::after {
+    display: block;
+}
+
+/* Radio Button */
+.ds-radio-mark {
+    display: inline-block;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 999px; /* rounded */
+    background-color: var(--color-light);
+    border: 1px solid var(--color-outline-grey);
+    transition: all 150ms ease-in-out;
+    position: relative;
+}
+
+/* Hover effect */
+.ds-radio-container:hover .ds-radio-mark {
+    background-color: var(--color-light);
+    border-color: var(--color-outline-grey);
+}
+
+/* Checked circle */
+.ds-radio-input:checked ~ .ds-radio-mark {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* Inner dot (hidden by default) */
+.ds-radio-mark::after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    /* Center */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Dot size */
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+
+    background-color: white; /* same as checkbox mark color */
+}
+
+/* Show dot */
+.ds-radio-input:checked ~ .ds-radio-mark::after {
     display: block;
 }

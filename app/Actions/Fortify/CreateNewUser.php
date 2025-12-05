@@ -20,15 +20,18 @@ class CreateNewUser implements CreatesNewUsers
     public function create(array $input): User
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'full_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
+        $imageName = strtolower($input['full_name']).'.'.request()->profile_photo->extension();
+        request()->profile_photo->move(public_path('storage/profile-photos'), $imageName);
+
         return User::create([
-            'name' => $input['name'],
+            'profile_photo_path' => $input['profile_photo'],
             'full_name' => $input['full_name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
