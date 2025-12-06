@@ -1,4 +1,5 @@
 @props([
+    'input_type' => '',
     'leftIcon' => null,
     'rightIcon' => null,
     'error' => false,
@@ -29,12 +30,23 @@
     @endif
 
     {{-- INPUT FIELD --}}
-    <input
-            placeholder="{{ $placeholder }}"
-            class="{{ $input }}"
-            :type="show ? 'text' : '{{ $attributes->get('type') }}'"
-            {{ $attributes->except('type') }}
-    />
+    @if($input_type === 'phone')
+        {{-- PHONE FIELD FOR intl-tel-input --}}
+        <input
+                placeholder="{{ $placeholder }}"
+                class="phone-input {{ $input }}"
+                type="tel"
+                {{ $attributes->except('type') }}
+        />
+    @else
+        {{-- NORMAL INPUT --}}
+        <input
+                placeholder="{{ $placeholder }}"
+                class="{{ $input }}"
+                :type="show ? 'text' : '{{ $attributes->get('type') }}'"
+                {{ $attributes->except('type') }}
+        />
+    @endif
 
     {{-- RIGHT ICON --}}
     @if($rightIcon)
