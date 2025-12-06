@@ -41,12 +41,12 @@
             </x-form.container>
 
             <div class="my-10 flex flex-1 justify-between w-full">
-                <x-toggle-container>
+                <x-toggle-container for="remember_me">
                     <x-slot:span>
                         <span class="ds-checkbox-mark"></span>
                     </x-slot:span>
                     <x-slot:element>
-                        <x-checkbox name="remember" />
+                        <x-checkbox id="remember_me" name="remember" />
                     </x-slot:element>
                     {{ __('Remember Me') }}
                 </x-toggle-container>
