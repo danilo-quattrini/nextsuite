@@ -1,13 +1,15 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/register-business', function (){
-    return view('auth.register-business');
+Route::controller(CompanyController::class)->group(function (){
+   Route::get('/register-business', 'index');
+   Route::post('/register-business', 'store');
 });
 
 Route::middleware([
