@@ -2,9 +2,6 @@ import.meta.glob(['/resources/fonts/**']);
 import Alpine from 'alpinejs'
 import intlTelInput from "intl-tel-input";
 import "intl-tel-input/build/css/intlTelInput.css";
-// If you want Alpine's instance to be available globally.
-window.Alpine = Alpine
-Alpine.start()
 // Attach to all inputs with class .phone-input
 document.addEventListener("DOMContentLoaded", () => {
     const phoneInputs = document.querySelectorAll(".phone-input");
