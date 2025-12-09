@@ -1,4 +1,4 @@
-<label class="ds-checkbox-container flex items-center gap-2 cursor-pointer" for="{{$attributes->get('for')}}">
+<label class="ds-checkbox-container flex items-center gap-2 cursor-pointer">
     {{$element}}
     {{$span}}
     <span>{{$slot}}</span>

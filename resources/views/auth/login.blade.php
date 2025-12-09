@@ -37,23 +37,24 @@
                     <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
                     <x-input-error for="password"/>
                 </x-form.input-container>
-
             </x-form.container>
-
+            <!-- TOGGLE &  LINK -->
             <div class="my-10 flex flex-1 justify-between w-full">
-                <x-toggle-container for="remember_me">
-                    <x-slot:span>
-                        <span class="ds-checkbox-mark"></span>
-                    </x-slot:span>
+                <x-toggle-container>
                     <x-slot:element>
                         <x-checkbox id="remember_me" name="remember" />
                     </x-slot:element>
+
+                    <x-slot:span>
+                        <span class="ds-checkbox-mark"></span>
+                    </x-slot:span>
                     {{ __('Remember Me') }}
                 </x-toggle-container>
                 <a href="/register">
                     <x-span-link>{{ __('Don\'t have an account?') }}</x-span-link>
                 </a>
             </div>
+
             <!-- LOGIN BUTTON -->
             <div class="w-[470px] flex items-center justify-center mb-10">
                 <x-button size="large" type="submit">
