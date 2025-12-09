@@ -1,0 +1,87 @@
+/* Input variants */
+.input{
+    width: 100%;
+    font-size: var(--text-base) ;
+    font-weight: var(--font-weight-medium);
+    color:  var(--color-black);
+    border: none;
+    background: transparent;
+
+    &:focus{
+        outline: none;
+    }
+}
+
+
+.input-border{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-outline-grey);
+    background-color: var(--color-white);
+    transition: all;
+    transition-duration: 150ms;
+    outline: var(--color-outline-grey);
+    outline-offset: -2px;
+
+}
+.input-border.has-error {
+    outline: 1px solid var(--color-secondary-error) !important;
+    border-color: var(--color-secondary-error) !important;
+}
+
+.input-border:focus-within:not(.has-error) {
+    outline: 1px solid var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.input-border:not(:focus-within):not(.has-error):has(input:not(:placeholder-shown)) {
+    outline: 1px solid var(--color-black);
+    border-color: var(--color-black);
+}
+
+/* Make the .iti wrapper behave like a normal input */
+.input-border .iti {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Remove weird padding added by the plugin */
+.input-border .iti input.iti__tel-input {
+    padding-left: var(--spacing-2xl) !important; /* override plugin's inline padding */
+}
+
+/* Make flag container match the look of your left icon */
+.input-border .iti__flag-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Make sure the dropdown arrow aligns like your icons */
+.input-border .iti__selected-flag {
+    padding: 0;
+    width: auto;
+}
+
+/* Fix height to match your input */
+.input-border .iti__selected-flag,
+.input-border .iti__tel-input {
+    height: 100%;
+}
+
+/* Adjust spacing between flag and input text */
+.input-border .iti__selected-dial-code {
+    margin-right: var(--spacing-sm);
+}
+
+/* Full control over dropdown menu */
+.iti__country-list {
+    z-index: 9999; /* needed to prevent clipping */
+}
