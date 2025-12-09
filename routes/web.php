@@ -9,7 +9,6 @@ Route::get('/', function () {
 
 Route::controller(CompanyController::class)->group(function (){
    Route::get('/register-business', 'index');
-   Route::post('/register-business', 'store');
 });
 
 Route::middleware([
