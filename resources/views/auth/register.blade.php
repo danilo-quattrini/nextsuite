@@ -83,7 +83,7 @@
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
                 </a>
             </div>
-            <!-- LOGIN BUTTON -->
+            <!-- SIGN UP BUTTON -->
             <div class="w-[470px] flex items-center justify-center mb-10">
                 <x-button size="large" type="submit">
                     {{ __('Sing Up') }}
