@@ -1,0 +1,40 @@
+/* Select variants */
+.select{
+    width: 100%;
+    font-size: var(--text-base) ;
+    font-weight: var(--font-weight-medium);
+    color:  var(--color-black);
+    border: none;
+    background: transparent;
+}
+
+.select:focus-within {
+    outline: none;
+}
+
+
+.select-border {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 16px 24px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-outline-grey);
+    background-color: var(--color-white);
+    transition: all;
+    transition-duration: 150ms;
+    outline: var(--color-outline-grey);
+    outline-offset: -2px;
+
+}
+.select-border.has-error {
+    outline: 1px solid var(--color-secondary-error) !important;
+    border-color: var(--color-secondary-error) !important;
+}
+
+.select-border:focus,
+.select-border:hover{
+    outline: 1px solid var(--color-primary);
+    border-color: var(--color-primary);
+}
