@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Company;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Field;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -11,10 +11,17 @@ class CreateCompany extends Component
 {
     use WithFileUploads;
 
-    public $name;
-    public $employees;
-    public $phone;
+    public string $name;
+    public ?int $employees = null;
+    public string $phone =  '';
     public $business_photo;
+    public $fields;
+    public ?int $field;
+
+    public function mount()
+    {
+        $this->fields = Field::all(); // assign values
+    }
 
     public function render()
     {
@@ -28,6 +35,7 @@ class CreateCompany extends Component
             'employees' => 'required|integer',
             'phone' => 'required',
             'business_photo' => 'required|image|max:2048',
+            'field' => 'required|exists:fields,id',
         ];
     }
 
@@ -39,10 +47,11 @@ class CreateCompany extends Component
         $this->business_photo->storeAs('business-profile-photos', $imageName, 'public');
 
         Company::create([
-            'name' => $this->name,
-            'employees' => $this->employees,
-            'phone' => $this->phone,
+            'name' => $validated['name'],
+            'employees' => $validated['employees'],
+            'phone' => $validated['phone'],
             'business_photo' => $imageName,
+            'field_id' => $validated['field'],
         ]);
 
         $this->redirect('/');

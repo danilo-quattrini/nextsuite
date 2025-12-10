@@ -38,6 +38,15 @@
                 <x-input-error for="phone"/>
             </x-form.input-container>
 
+            <!-- COMPANY SECTOR -->
+            <x-form.input-container>
+                <x-form.label-container label="{{ __('Select Company:') }}" :required="true"/>
+                <x-form.select-wrapper :error="$errors->has('field')">
+                        <x-form.select-element  name="field" id="field"  :options="$fields"/>
+                </x-form.select-wrapper>
+                <x-input-error for="field"/>
+            </x-form.input-container>
+
             <!-- BUSINESS SELECTOR -->
         </x-form.container>
         <!-- LOGIN BUTTON -->
