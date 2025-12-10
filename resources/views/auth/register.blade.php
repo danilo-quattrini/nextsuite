@@ -12,7 +12,7 @@
             @csrf
             <x-form.container>
                 <!-- AVATAR UPLOAD WRAPPER -->
-                <label for="profile_photo" class="relative w-32 h-32 block rounded-full overflow-hidden cursor-pointer bg-secondary flex items-center justify-center">
+                <label for="profile_photo" class="relative w-32 h-32 rounded-full overflow-hidden cursor-pointer bg-secondary flex items-center justify-center">
                     <!-- Preview -->
                     <img id="profilePreview" class="absolute inset-0 w-full h-full object-cover hidden" alt="Preview">
 
@@ -25,7 +25,7 @@
                 <!-- FULL NAME -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Full Name') }}" :required="true"/>
-                    <x-input id="full_name" name="full_name" :value="old('full_name')" required autofocus autocomplete="username" type="text" right-icon="user" placeholder="Jon Doe" :error="$errors->has('full_name')"></x-input>
+                    <x-input id="full_name" name="full_name" :value="old('full_name')" autofocus autocomplete="name" type="text" right-icon="user" placeholder="Jon Doe" :error="$errors->has('full_name')"></x-input>
                     <x-input-error for="full_name"/>
                 </x-form.input-container>
 
@@ -33,21 +33,21 @@
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}" :required="true"/>
-                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" autocomplete="email" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
                     <x-input-error for="email"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD -->
                 <x-form.input-container>
                     <x-form.label-container label="Password" :required="true"/>
-                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
+                    <x-input id="password" name="password" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
                     <x-input-error for="password"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD CONFIRMATION -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Confirm Password') }}" :required="true"/>
-                    <x-input id="password_confirmation" name="password_confirmation" required autofocus autocomplete="new-password" type="password" placeholder="Confirm Password" :error="$errors->has('password_confirmation')"></x-input>
+                    <x-input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" :error="$errors->has('password_confirmation')"></x-input>
                     <x-input-error for="password_confirmation"/>
                 </x-form.input-container>
             </x-form.container>

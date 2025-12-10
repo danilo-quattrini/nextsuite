@@ -21,7 +21,7 @@
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}"/>
-                    <x-input id="email" name="email" :value="old('email')" required autofocus autocomplete="username" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" autofocus autocomplete="email" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
                     <x-input-error for="email"/>
                 </x-form.input-container>
 
@@ -34,7 +34,7 @@
                             </a>
                         @endif
                     </x-form.label-container>
-                    <x-input id="password" name="password" required autofocus autocomplete="username" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
+                    <x-input id="password" name="password" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
                     <x-input-error for="password"/>
                 </x-form.input-container>
             </x-form.container>

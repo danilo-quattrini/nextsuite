@@ -10,6 +10,9 @@
     &:focus{
         outline: none;
     }
+    &:is(:-webkit-autofill, :autofill){
+        border: 3px dotted orange;
+    }
 }
 
 
@@ -34,12 +37,12 @@
 }
 
 .input-border:focus-within:not(.has-error) {
-    outline: 1px solid var(--color-primary);
+    outline: 1px var(--color-primary);
     border-color: var(--color-primary);
 }
 
 .input-border:not(:focus-within):not(.has-error):has(input:not(:placeholder-shown)) {
-    outline: 1px solid var(--color-black);
+    outline: 1px var(--color-black);
     border-color: var(--color-black);
 }
 
