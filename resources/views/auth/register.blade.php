@@ -52,22 +52,6 @@
                 </x-form.input-container>
             </x-form.container>
 
-            @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                <div class="mt-4">
-                    <x-label for="terms">
-                        <div class="flex items-center">
-                            <x-checkbox name="terms" id="terms" required />
-
-                            <div class="ms-2">
-                                {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                        'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">'.__('Terms of Service').'</a>',
-                                        'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">'.__('Privacy Policy').'</a>',
-                                ]) !!}
-                            </div>
-                        </div>
-                    </x-label>
-                </div>
-            @endif
             <div class="my-10 flex flex-1 justify-between w-full">
                 <x-radio-container>
                     <x-slot:element>
@@ -77,7 +61,15 @@
                     <x-slot:span>
                         <span class="ds-radio-mark"></span>
                     </x-slot:span>
-                    {{ __('I agree with terms & conditions') }} <span class="text-secondary-error m-0.5">*</span>
+                    {{ __('I agree to the') }} <br>
+                    <a href="{{ route('terms.show') }}" target="_blank">
+                        <x-span-link>{{ __('Terms & Conditions') }}</x-span-link>
+                    </a>
+                    and
+                    <a href="{{ route('policy.show') }}" target="_blank">
+                        <x-span-link>{{ __('Privacy Policy') }}</x-span-link>
+                    </a>
+                    <span class="text-secondary-error m-0.5">*</span>
                 </x-radio-container>
                 <a href="{{route('login')}}">
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
