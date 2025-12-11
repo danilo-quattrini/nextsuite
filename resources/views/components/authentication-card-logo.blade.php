@@ -43,5 +43,5 @@
             </filter>
         </defs>
     </svg>
-    <h1>NextSuit</h1>
+    <h1>NextSuite</h1>
 </a>

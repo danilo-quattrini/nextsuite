@@ -11,8 +11,15 @@
         outline: none;
     }
     &:is(:-webkit-autofill, :autofill){
-        border: 3px dotted orange;
+        background: none;
     }
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active{
+        -webkit-box-shadow: 0 0 0 30px var(--color-white) inset !important;
+    }
+
 }
 
 
