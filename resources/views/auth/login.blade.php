@@ -8,12 +8,6 @@
             <p class="text-primary-grey text-base font-medium">Enter your details to start</p>
         </x-slot:message>
 
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                {{ $value }}
-            </div>
-        @endsession
-
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
