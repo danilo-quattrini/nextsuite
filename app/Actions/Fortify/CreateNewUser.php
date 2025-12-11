@@ -31,7 +31,7 @@ class CreateNewUser implements CreatesNewUsers
         request()->profile_photo->move(public_path('storage/profile-photos'), $imageName);
 
         return User::create([
-            'profile_photo_path' => $input['profile_photo'],
+            'profile_photo_url' => $input['profile_photo'],
             'full_name' => $input['full_name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
