@@ -5,7 +5,7 @@
         </x-slot:logo>
         <x-slot:message>
             <h3 class="mb-4">{{__('Sign Up to getting start')}}</h3>
-            <p class="text-primary-grey text-base font-medium">{{__('Enter your details to start')}}</p>
+            <p class="text-primary-grey text-base font-medium">{{__('Enter your personal details first')}}</p>
         </x-slot:message>
 
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
@@ -78,7 +78,7 @@
             <!-- SIGN UP BUTTON -->
             <div class="w-[470px] flex items-center justify-center mb-10">
                 <x-button size="large" type="submit">
-                    {{ __('Sing Up') }}
+                    {{ __('Next') }}
                 </x-button>
             </div>
         </form>

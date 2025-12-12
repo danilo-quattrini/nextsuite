@@ -50,10 +50,7 @@
             <!-- BUSINESS SELECTOR -->
         </x-form.container>
         <!-- LOGIN BUTTON -->
-        <div class="w-[470px] flex items-center justify-between my-10">
-            <x-button href="/" size="large" variant="rest">
-                {{ __('Cancel') }}
-            </x-button>
+        <div class="w-[470px] flex items-center justify-center my-10">
             <x-button size="large" type="submit">
                 {{ __('Next') }}
             </x-button>
