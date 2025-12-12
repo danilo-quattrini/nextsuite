@@ -1,44 +1,38 @@
 <x-guest-layout>
     <x-authentication-card>
-        <x-slot name="logo">
+        <x-slot:logo>
             <x-authentication-card-logo />
-        </x-slot>
+        </x-slot:logo>
 
-        <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-            {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-        </div>
+        <x-slot:message>
+            {{ __('Before continuing, could you verify your email address?.') }}<br>
+            {{ __('We sent you a link! If you didn\'t receive thought email, we will gladly send you another') }}
+        </x-slot:message>
 
-        @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
-                {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
-            </div>
-        @endif
 
-        <div class="mt-4 flex items-center justify-between">
+        <div class="mt-2 flex items-center justify-between">
             <form method="POST" action="{{ route('verification.send') }}">
                 @csrf
 
-                <div>
-                    <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
+                <div class="w-[470px] flex items-center justify-center">
+                    <x-button size="large" type="submit">
+                        {{ __('Resend Email') }}
                     </x-button>
                 </div>
             </form>
+            <form method="POST" action="{{ route('logout') }}" class="inline">
+                @csrf
 
-            <div>
-                <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800"
-                >
-                    {{ __('Edit Profile') }}</a>
-
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
-
-                    <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 ms-2">
+                <div class="w-[470px] flex items-center justify-center">
+                    <x-button size="large" type="submit" variant="rest">
                         {{ __('Log Out') }}
-                    </button>
-                </form>
+                    </x-button>
+                </div>
+            </form>
+            <div>
+                <a href="{{ route('profile.show') }}">
+                    <x-span-link>{{ __('Edit Profile') }}</x-span-link>
+                </a>
             </div>
         </div>
     </x-authentication-card>
