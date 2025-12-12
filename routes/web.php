@@ -7,8 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::controller(CompanyController::class)->group(function (){
-   Route::get('/register-business', 'index');
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(CompanyController::class)->group(function () {
+
+   Route::get('/onboarding/company/create', 'index')
+       ->name('company.create');
 });
 
 Route::middleware([
