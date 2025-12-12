@@ -1,5 +1,4 @@
 @props([
-    'input_type' => '',
     'leftIcon' => null,
     'rightIcon' => null,
     'error' => false,
@@ -9,7 +8,6 @@
 @php
     $base = 'input-border';
     $input = 'input';
-    $isPhone = $input_type === 'phone';
 
     $iconColor = $error
         ? 'text-secondary-error group-focus-within:text-secondary-error'
@@ -27,7 +25,7 @@
     {{-- ========================================================= --}}
     {{-- LEFT ICON (ONLY IF NOT PHONE INPUT) --}}
     {{-- ========================================================= --}}
-    @if(!$isPhone && $leftIcon)
+    @if($leftIcon)
         <x-heroicon
                 :name="$leftIcon"
                 size="md"
@@ -39,36 +37,19 @@
         />
     @endif
 
-    {{-- ========================================================= --}}
-    {{-- PHONE INPUT (intl-tel-input) --}}
-    {{-- ========================================================= --}}
-    @if($isPhone)
-        <input
-                x-ref="input"
-                type="tel"
-                class="phone-input {{ $input }}"
-                placeholder="{{ $placeholder }}"
-                @input="filled = $event.target.value.length > 0"
-                {{ $attributes->except('type') }}
-        />
-    @endif
-
-    {{-- NORMAL INPUT --}}
-    @if(!$isPhone)
-        <input
-                x-ref="input"
-                type="{{ $attributes->get('type') }}"
-                class="{{ $input }}"
-                placeholder="{{ $placeholder }}"
-                @input="filled = $event.target.value.length > 0"
-                {{ $attributes->except('type') }}
-        />
-    @endif
+    <input
+            x-ref="input"
+            type="{{ $attributes->get('type') }}"
+            class="{{ $input }} {{$attributes->get('class')}}"
+            placeholder="{{ $placeholder }}"
+            @input="filled = $event.target.value.length > 0"
+            {{ $attributes->except('type') }}
+    />
 
     {{-- ========================================================= --}}
     {{-- RIGHT ICON (NOT FOR PHONE INPUTS) --}}
     {{-- ========================================================= --}}
-    @if(!$isPhone && $rightIcon)
+    @if($rightIcon)
         @if($rightIcon !== 'eye')
             <x-heroicon
                     :name="$rightIcon"

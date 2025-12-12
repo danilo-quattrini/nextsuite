@@ -19,7 +19,7 @@
             <!-- COMPANY NAME -->
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Company Name') }}" :required="true"/>
-                <x-input id="name" name="name" wire:model="name" required autofocus autocomplete="username" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')"></x-input>
+                <x-input id="name" name="name" wire:model="name" required autofocus autocomplete="username" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')" />
                 <x-input-error for="name"/>
             </x-form.input-container>
 
@@ -27,14 +27,17 @@
             <!-- EMPLOYEES -->
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Employees') }}" :required="true"/>
-                <x-input id="employees" name="employees" wire:model="employees" required autofocus autocomplete="username" type="number" right-icon="users" placeholder="1-10 Employees" :error="$errors->has('employees')"></x-input>
+                <x-input id="employees" name="employees" wire:model="employees" required autofocus autocomplete="username" type="number" right-icon="users" placeholder="1-10 Employees" :error="$errors->has('employees')" />
                 <x-input-error for="employees"/>
             </x-form.input-container>
 
             <!-- PHONE -->
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Phone') }}" :required="true"/>
-                <x-input wire:ignore input_type="phone" id="phone" name="phone" wire:model="phone" required right-icon="phone" placeholder="123456789" :error="$errors->has('phone')"></x-input>
+                <div wire:ignore class="w-[470px]">
+                    <x-input id="phone_display" type="tel" wire:model="phone" required right-icon="phone" placeholder="123456789" :error="$errors->has('phone')" />
+                </div>
+                <input type="hidden" id="phone" wire:model.defer="phone" />
                 <x-input-error for="phone"/>
             </x-form.input-container>
 
