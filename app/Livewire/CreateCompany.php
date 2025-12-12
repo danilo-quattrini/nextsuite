@@ -16,7 +16,8 @@ class CreateCompany extends Component
     public string $phone =  '';
     public $business_photo;
     public $fields;
-    public ?int $field;
+    public ?int $field = null;
+    public ?int $owner_id = null;
 
     public function mount()
     {
@@ -36,6 +37,7 @@ class CreateCompany extends Component
             'phone' => 'required',
             'business_photo' => 'required|image|max:2048',
             'field' => 'required|exists:fields,id',
+            'owner_id' => 'nullable|exists:users,id',
         ];
     }
 
@@ -46,12 +48,15 @@ class CreateCompany extends Component
         $imageName = strtolower(str_replace(' ', '_', $this->name)) . '.' . $this->business_photo->extension();
         $this->business_photo->storeAs('business-profile-photos', $imageName, 'public');
 
+        $userId = $validated['owner_id'] ?? auth()->id();
+
         Company::create([
             'name' => $validated['name'],
             'employees' => $validated['employees'],
             'phone' => $validated['phone'],
             'business_photo' => $imageName,
             'field_id' => $validated['field'],
+            'owner_id' => $userId,
         ]);
 
         $this->redirect('/');

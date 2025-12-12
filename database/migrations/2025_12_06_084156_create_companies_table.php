@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Field;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,10 +16,11 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignIdFor(Field::class);
             $table->string('business_photo');
             $table->integer('employees');
             $table->string('phone');
+            $table->foreignIdFor(Field::class);
+            $table->foreignIdFor(User::class, 'owner_id')->constrained('users');
             $table->timestamps();
         });
     }
