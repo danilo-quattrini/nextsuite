@@ -34,7 +34,7 @@ class CreateCompany extends Component
         return [
             'name' => 'required|min:5|max:255',
             'employees' => 'required|integer',
-            'phone' => 'required',
+            'phone' => 'required|string',
             'business_photo' => 'required|image|max:2048',
             'field' => 'required|exists:fields,id',
             'owner_id' => 'nullable|exists:users,id',
