@@ -34,7 +34,7 @@
             <!-- PHONE -->
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Phone') }}" :required="true"/>
-                <div wire:ignore class="w-[470px]">
+                <div wire:ignore class="w-117.5">
                     <x-input id="phone_display" type="tel" wire:model="phone" required right-icon="phone" placeholder="123456789" :error="$errors->has('phone')" />
                 </div>
                 <input type="hidden" id="phone" wire:model.defer="phone" />
@@ -45,7 +45,7 @@
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Select Company:') }}" :required="true"/>
                 <x-form.select-wrapper :error="$errors->has('field')">
-                        <x-form.select-element  name="field" id="field"  :options="$fields"/>
+                        <x-form.select-element name="field" id="field"  :options="$fields"/>
                 </x-form.select-wrapper>
                 <x-input-error for="field"/>
             </x-form.input-container>
@@ -53,7 +53,7 @@
             <!-- BUSINESS SELECTOR -->
         </x-form.container>
         <!-- LOGIN BUTTON -->
-        <div class="w-[470px] flex items-center justify-center my-10">
+        <div class="w-117.5 flex items-center justify-center my-10">
             <x-button size="large" type="submit">
                 {{ __('Next') }}
             </x-button>
