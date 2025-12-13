@@ -58,6 +58,40 @@ it('create a company for the user', function(){
     ]);
 
 });
+
+test('user can create multiple company', function(){
+    $user = User::factory()->create();
+
+    Storage::fake('public');
+
+    $field = Field::factory()->create();
+    $file = UploadedFile::fake()->image('logo.jpg');
+
+    Livewire::test(CreateCompany::class)
+        ->set('name', 'Company 1 S.R.L')
+        ->set('employees', 50)
+        ->set('phone', '123-456-7890')
+        ->set('business_photo', $file)
+        ->set('field', $field->id)
+        ->set('owner_id', $user->id)
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    Livewire::test(CreateCompany::class)
+        ->set('name', 'Company 2 S.R.L')
+        ->set('employees', 50)
+        ->set('phone', '123-456-7890')
+        ->set('business_photo', $file)
+        ->set('field', $field->id)
+        ->set('owner_id', $user->id)
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    $this->assertDatabaseHas('companies', ['name' => 'Company 1 S.R.L']);
+    $this->assertDatabaseHas('companies', ['name' => 'Company 2 S.R.L']);
+    $this->assertDatabaseCount('companies', 2);
+
+});
 it('allows creating multiple companies with the same name', function () {
     $user = User::factory()->create();
 
