@@ -32,7 +32,7 @@ class CreateCompany extends Component
     public function rules(): array
     {
         return [
-            'name' => 'required|min:5|max:255',
+            'name' => 'required|min:5|max:255|unique:companies',
             'employees' => 'required|integer',
             'phone' => 'required|string',
             'business_photo' => 'required|image|max:2048',
