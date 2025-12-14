@@ -13,21 +13,26 @@ class FieldSeeder extends Seeder
      */
     public function run(): void
     {
-        Field::factory(4)->create(
-            new Sequence(
-                [
-                    'name' => 'Nutritionist'
-                ],
-                [
-                    'name' => 'Artificial Intelligence'
-                ],
-                [
-                    'name' => 'HR Company'
-                ],
-                [
-                    'name' => 'Gym'
-                ]
-            )
-        );
+        $names = [
+            'Gym',
+            'Nutrition',
+            'Human Resources',
+            'Artificial Intelligence',
+            'Software',
+            'Healthcare',
+            'Legal',
+            'Education',
+            'Logistics',
+            'Finance',
+            'Marketing',
+            'Construction',
+            'Agriculture',
+            'Retail',
+            'Hospitality',
+        ];
+
+        foreach ($names as $name) {
+            Field::firstOrCreate(['name' => $name]);
+        }
     }
 }
