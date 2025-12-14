@@ -2,13 +2,16 @@
 
 namespace Database\Factories;
 
+use App\Enums\CategoryType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Field>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class FieldFactory extends Factory
+class CategoryFactory extends Factory
 {
+    public $id;
+
     /**
      * Define the model's default state.
      *
@@ -17,7 +20,7 @@ class FieldFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->randomElement([
+            'name' =>  fake()->randomElement([
                 'Gym',
                 'Nutrition',
                 'Human Resources',
@@ -34,6 +37,7 @@ class FieldFactory extends Factory
                 'Retail',
                 'Hospitality',
             ]),
+            'type' => fake()->randomElement(CategoryType::class),
         ];
     }
 }
