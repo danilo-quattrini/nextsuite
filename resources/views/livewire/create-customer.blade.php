@@ -1,39 +1,130 @@
 <form wire:submit.prevent="submit" enctype="multipart/form-data">
-        @csrf
-        <x-form.container>
-            <!-- AVATAR UPLOAD WRAPPER -->
-            <label for="customer_photo" class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center">
-                <!-- Preview -->
-                @if ($customer_photo)
-                    <img id="customerPhotoPreview"
-                         src="{{ $customer_photo->temporaryUrl() }}"
-                         class="absolute inset-0 w-full h-full object-cover" alt="Business Photo Preview" />
+    <x-form.container>
+
+        {{-- ================= STEP 1 ================= --}}
+        @if ($step === 1)
+
+            {{-- AVATAR --}}
+            <label
+                    for="customer_photo"
+                    class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
+            >
+                @if ($form->customer_photo)
+                    <img
+                            src="{{ $form->customer_photo->temporaryUrl() }}"
+                            class="absolute inset-0 w-full h-full object-cover"
+                            alt="Customer Photo Preview"
+                    />
                 @else
-                    <!-- Default icon -->
-                    <x-heroicon name="user" variant="outline" size="xl" id="placeholderIcon" class="text-primary" />
+                    <x-heroicon name="user" variant="outline" size="xl" class="text-primary"/>
                 @endif
-                <input id="customer_photo" name="customer_photo" wire:model="customer_photo" type="file" class="hidden" />
+
+                <input
+                        id="customer_photo"
+                        type="file"
+                        wire:model="form.customer_photo"
+                        class="hidden"
+                />
             </label>
+            <x-input-error for="form.customer_photo"/>
 
-            <!-- CUSTOMER NAME -->
+            {{-- FULL NAME --}}
             <x-form.input-container>
-                <x-form.label-container label="{{ __('Full Name') }}" :required="true"/>
-                <x-input id="name" name="name" wire:model="full_name" required autofocus autocomplete="username" type="text" right-icon="user" placeholder="John Doe" :error="$errors->has('full_name')"></x-input>
-                <x-input-error for="full_name"/>
+                <x-form.label-container label="Full Name" :required="true"/>
+
+                <x-input
+                        wire:model.defer="form.full_name"
+                        placeholder="John Doe"
+                        right-icon="user"
+                        :error="$errors->has('form.full_name')"
+                />
+
+                <x-input-error for="form.full_name"/>
             </x-form.input-container>
 
-            <!-- CUSTOMER EMAIL -->
+            {{-- EMAIL --}}
             <x-form.input-container>
-                <x-form.label-container label="{{ __('Email') }}" :required="true"/>
-                <x-input id="name" name="name" wire:model="email" required autofocus autocomplete="username" type="text" right-icon="envelope" placeholder="johndoe@gmail.com" :error="$errors->has('name')"></x-input>
-                <x-input-error for="name"/>
+                <x-form.label-container label="Email" :required="true"/>
+
+                <x-input
+                        wire:model.defer="form.email"
+                        placeholder="johndoe@gmail.com"
+                        right-icon="envelope"
+                        :error="$errors->has('form.email')"
+                />
+
+                <x-input-error for="form.email"/>
             </x-form.input-container>
 
-        </x-form.container>
-        <!-- CREATE CUSTOMER BUTTON -->
-        <div class="w-[470px] flex items-center justify-center my-10">
-            <x-button size="large" type="submit">
-                {{ __('Create') }}
+            <x-button size="large" wire:click="nextStep">
+                Next
             </x-button>
-        </div>
+
+            {{-- ================= STEP 2 ================= --}}
+        @elseif ($step === 2)
+
+            {{-- PHONE --}}
+            <x-form.input-container>
+                <x-form.label-container label="Phone" :required="true"/>
+
+                {{-- IMPORTANT: no wire:ignore here --}}
+                <x-input
+                        wire:model.defer="form.phone"
+                        type="tel"
+                        placeholder="+123 123456789"
+                        right-icon="phone"
+                        :error="$errors->has('form.phone')"
+                />
+
+                <x-input-error for="form.phone"/>
+            </x-form.input-container>
+
+            {{-- DOB --}}
+            <x-form.input-container>
+                <x-form.label-container label="Date of Birth" :required="true"/>
+
+                <x-input
+                        wire:model.defer="form.dob"
+                        type="date"
+                        :error="$errors->has('form.dob')"
+                />
+
+                <x-input-error for="form.dob"/>
+            </x-form.input-container>
+
+            {{-- GENDER --}}
+            <x-form.input-container>
+                <x-form.label-container label="Gender" :required="true"/>
+
+                <div class="flex gap-6">
+                    @foreach (['man' => 'Man', 'woman' => 'Woman', 'other' => 'Other'] as $value => $label)
+                        <x-radio-container>
+                            <x-slot:element>
+                                <input
+                                        type="radio"
+                                        value="{{ $value }}"
+                                        wire:model="form.gender"
+                                        class="ds-radio-input"
+                                />
+                            </x-slot:element>
+                            <x-slot:span>
+                                <span class="ds-radio-mark"></span>
+                            </x-slot:span>
+                            {{ __($label) }}
+                        </x-radio-container>
+                    @endforeach
+                </div>
+
+                <x-input-error for="form.gender"/>
+            </x-form.input-container>
+
+            <div class="flex justify-center mt-10">
+                <x-button size="large" type="submit">
+                    Create
+                </x-button>
+            </div>
+
+        @endif
+
+    </x-form.container>
 </form>
