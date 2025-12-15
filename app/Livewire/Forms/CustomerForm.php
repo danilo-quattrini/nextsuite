@@ -11,7 +11,7 @@ class CustomerForm extends Form
     #[Validate(['required', 'string', 'max:255', 'min:5'])]
     public string $full_name = '';
 
-    #[Validate(['required', 'string', 'email', 'max:255', 'unique:customers,users'])]
+    #[Validate(['required', 'string', 'email', 'max:255', 'unique:customers', 'unique:users'])]
     public string $email = '';
 
     #[Validate('required')]

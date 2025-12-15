@@ -54,6 +54,9 @@ class CreateCustomer extends Component
         $imageName = strtolower(str_replace(' ', '_', $this->form->full_name)) . '.' . $this->customer_photo->extension();
         $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
 
+
+        $company = auth()->user()->company()->firstOrFail();
+
         Customer::create([
             'profile_photo_url' => $imageName,
             'full_name'  => $this->form->full_name,
@@ -61,6 +64,7 @@ class CreateCustomer extends Component
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
+            'company_id' => $company->id
         ]);
 
         $this->redirect('/dashboard');
