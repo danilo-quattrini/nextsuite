@@ -45,13 +45,14 @@ class CreateCustomer extends Component
         $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
 
         Customer::create([
-            'name'  => $this->form->full_name,
             'profile_photo_url' => $imageName,
+            'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
         ]);
-        return redirect()->to('/dashboard');
+
+        $this->redirect('/dashboard');
     }
 }

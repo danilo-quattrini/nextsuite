@@ -9,9 +9,9 @@
                     for="customer_photo"
                     class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
             >
-                @if ($form->customer_photo)
+                @if ($customer_photo)
                     <img
-                            src="{{ $form->customer_photo->temporaryUrl() }}"
+                            src="{{ $customer_photo->temporaryUrl() }}"
                             class="absolute inset-0 w-full h-full object-cover"
                             alt="Customer Photo Preview"
                     />
@@ -22,11 +22,11 @@
                 <input
                         id="customer_photo"
                         type="file"
-                        wire:model="form.customer_photo"
+                        wire:model="customer_photo"
                         class="hidden"
                 />
             </label>
-            <x-input-error for="form.customer_photo"/>
+            <x-input-error for="customer_photo"/>
 
             {{-- FULL NAME --}}
             <x-form.input-container>
@@ -118,13 +118,13 @@
                 <x-input-error for="form.gender"/>
             </x-form.input-container>
 
-            <div class="flex justify-center mt-10">
-                <x-button size="large" type="submit">
-                    Create
-                </x-button>
-            </div>
-
         @endif
-
     </x-form.container>
+    @if($step === 2)
+        <div class="flex justify-center mt-10">
+            <x-button size="large" type="submit">
+                Create
+            </x-button>
+        </div>
+    @endif
 </form>
