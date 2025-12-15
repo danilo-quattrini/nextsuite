@@ -26,7 +26,7 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/create-customer', function () {
+    Route::get('/onboarding/customer/create', function () {
         return view('create-customer');
-    })->name('customer');
+    })->name('customer.create');
 });

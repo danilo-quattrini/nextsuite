@@ -52,7 +52,7 @@
 
             <!-- BUSINESS SELECTOR -->
         </x-form.container>
-        <!-- LOGIN BUTTON -->
+        <!-- CREATE COMPANY BUTTON -->
         <div class="w-117.5 flex items-center justify-center my-10">
             <x-button size="large" type="submit">
                 {{ __('Next') }}

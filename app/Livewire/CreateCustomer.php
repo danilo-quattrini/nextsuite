@@ -3,7 +3,7 @@
 namespace App\Livewire;
 
 use App\Livewire\Forms\CustomerForm;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Customer;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -30,6 +30,15 @@ class CreateCustomer extends Component
 
     public function nextStep(): void
     {
+        if ($this->step === 1) {
+            $this->form->validateOnly('full_name');
+            $this->form->validateOnly('email');
+        }
+        if ($this->step === 2) {
+            $this->form->validateOnly('phone');
+            $this->form->validateOnly('dob');
+            $this->form->validateOnly('gender');
+        }
         $this->step++;
     }
     public function previousStep(): void
@@ -37,8 +46,9 @@ class CreateCustomer extends Component
         $this->step--;
     }
 
-    public function save(): RedirectResponse
+    public function submit(): void
     {
+
         $this->form->validate();
 
         $imageName = strtolower(str_replace(' ', '_', $this->form->full_name)) . '.' . $this->customer_photo->extension();
