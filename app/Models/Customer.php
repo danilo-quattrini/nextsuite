@@ -20,6 +20,7 @@ class Customer extends Model
         'gender',
         'nationality',
         'company_id',
+        'user_id'
     ];
 
     protected function casts(): array
@@ -32,5 +33,10 @@ class Customer extends Model
     public function company(): BelongsTo
     {
         return $this->belongsTo(Company::class);
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

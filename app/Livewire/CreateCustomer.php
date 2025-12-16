@@ -98,7 +98,8 @@ class CreateCustomer extends Component
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
-            'company_id' => $company->id
+            'company_id' => $company->id,
+            'user_id' => auth()->id()
         ]);
 
         $this->redirect('/dashboard');
