@@ -1,7 +1,7 @@
 @props([
     'name' => null,
-    'id' => null,
-    'options' => []
+    'model' => 'field',
+    'id' => null
 ])
 <select
         name="{{ $name }}"
@@ -18,14 +18,7 @@
         $dispatch('select-changed', { label: selected ? selected.text : 'Select an option' });
     "
 >
-    {{-- explicit placeholder so first real option triggers change when selected --}}
-    <option value="0" disabled hidden>Select an option</option>
-
-    @foreach ($options as $value => $label)
-        <option value="{{ $value + 1}}">
-            {{ $label->name }}
-        </option>
-    @endforeach
+    {{  $options }}
 </select>
 
 <span

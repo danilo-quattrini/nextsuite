@@ -45,7 +45,18 @@
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Select Company:') }}" :required="true"/>
                 <x-form.select-wrapper :error="$errors->has('field')">
-                        <x-form.select-element name="field" id="field"  :options="$fields"/>
+                        <x-form.select-element name="field" id="field">
+                            <x-slot:options>
+                                {{-- explicit placeholder so first real option triggers change when selected --}}
+                                <option value="0" disabled hidden>Select an option</option>
+
+                                @foreach ($fields as $value => $label)
+                                    <option value="{{ $value + 1}}">
+                                        {{ $label->name }}
+                                    </option>
+                                @endforeach
+                            </x-slot:options>
+                        </x-form.select-element>
                 </x-form.select-wrapper>
                 <x-input-error for="field"/>
             </x-form.input-container>
