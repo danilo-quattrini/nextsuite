@@ -3,6 +3,7 @@
     width: 100%;
     font-size: var(--text-base) ;
     font-weight: var(--font-weight-medium);
+    background-color: var(--color-white);
     color:  var(--color-black);
     border: none;
     /* Remove default arrow */
