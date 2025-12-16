@@ -18,6 +18,7 @@ class Customer extends Model
         'phone',
         'dob',
         'gender',
+        'nationality',
         'company_id',
     ];
 

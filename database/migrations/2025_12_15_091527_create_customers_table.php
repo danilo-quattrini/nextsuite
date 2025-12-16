@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->dateTime('dob');
             $table->string('gender');
+            $table->string('nationality');
             $table->foreignIdFor(Company::class, 'company_id')
                 ->constrained('companies')
                 ->cascadeOnDelete();

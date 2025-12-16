@@ -23,4 +23,6 @@ class CustomerForm extends Form
     #[Validate('required')]
     public string $gender = '';
 
+    #[Validate(['required', 'string', 'size:2'])]
+    public string $nationality = '';
 }

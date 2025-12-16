@@ -23,9 +23,41 @@ class CreateCustomer extends Component
 
     public $step = 1;
 
+    protected function flagEmoji(string $code): string
+    {
+        // Ensure we only try to build flags for two-letter ISO codes
+        $clean = strtoupper(trim($code));
+        if (!preg_match('/^[A-Z]{2}$/', $clean)) {
+            return '';
+        }
+
+        return mb_chr(0x1F1E6 + (ord($clean[0]) - 65))
+            . mb_chr(0x1F1E6 + (ord($clean[1]) - 65));
+    }
+
+    public function getNationalitiesProperty()
+    {
+        return cache()->rememberForever('nationalities', function () {
+            return collect(countries())
+                ->map(function ($country, $code) {
+                    $codeStr = (string) $code;
+                    return [
+                        'code' => $codeStr,
+                        'name' => $country['name'] ?? $codeStr,
+                        'flag' => $this->flagEmoji($codeStr),
+                    ];
+                })
+                ->sortBy('name')
+                ->values()
+                ->toArray();
+        });
+    }
+
     public function render(): View
     {
-        return view('livewire.create-customer');
+        return view('livewire.create-customer', [
+                'nationalities' => $this->nationalities,
+        ]);
     }
 
     public function nextStep(): void
@@ -33,6 +65,7 @@ class CreateCustomer extends Component
         if ($this->step === 1) {
             $this->form->validateOnly('full_name');
             $this->form->validateOnly('email');
+            $this->form->validateOnly('nationality');
         }
         if ($this->step === 2) {
             $this->form->validateOnly('phone');
@@ -61,6 +94,7 @@ class CreateCustomer extends Component
             'profile_photo_url' => $imageName,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
+            'nationality' => $this->form->nationality,
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,

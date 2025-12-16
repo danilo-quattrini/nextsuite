@@ -16,7 +16,7 @@
                             alt="Customer Photo Preview"
                     />
                 @else
-                    <x-heroicon name="user" variant="outline" size="xl" class="text-primary"/>
+                    <x-heroicon name="user-plus" variant="outline" size="xl" class="text-primary"/>
                 @endif
 
                 <input
@@ -56,6 +56,27 @@
                 <x-input-error for="form.email"/>
             </x-form.input-container>
 
+            {{-- NATIONALITY --}}
+            <x-form.input-container>
+                <x-form.label-container label="Nationality" :required="true"/>
+
+                <x-form.select-wrapper :error="$errors->has('form.nationality')">
+                    <x-form.select-element name="nationality" id="nationality" model="form.nationality">
+                        <x-slot:options>
+                            <option value="" disabled selected hidden>
+                                Select nationality
+                            </option>
+                            @foreach ($nationalities as $nation)
+                                <option value="{{ $nation['code'] }}">
+                                    {{ $nation['flag'] }} {{ $nation['name'] }}
+                                </option>
+                            @endforeach
+                        </x-slot:options>
+                    </x-form.select-element>
+                </x-form.select-wrapper>
+
+                <x-input-error for="form.nationality"/>
+            </x-form.input-container>
             <x-button size="large" wire:click="nextStep">
                 Next
             </x-button>
