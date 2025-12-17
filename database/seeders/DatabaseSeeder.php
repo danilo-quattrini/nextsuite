@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             FieldSeeder::class,
             FieldCategorySeeder::class,
+            SkillSeeder::class
         ]);
     }
 }
