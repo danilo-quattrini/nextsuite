@@ -45,6 +45,13 @@ class CategorySeeder extends Seeder
                     'Hospitality',
                 ],
             ],
+            [
+                'name' => 'Languages',
+                'type' => CategoryType::PROFESSIONAL_SERVICES,
+                'fields' => [
+                    'Education',
+                ],
+            ],
         ];
 
         foreach ($fieldWithCategory as $category) {
