@@ -42,7 +42,6 @@ class SkillSeeder extends Seeder
             $category = Category::where('name', $categoryName)->first();
 
             if (! $category) {
-                // Skip if category does not exist (safe seeding)
                 continue;
             }
 
