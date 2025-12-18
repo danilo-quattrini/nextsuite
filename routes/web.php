@@ -1,11 +1,21 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\PDFController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(PDFController::class)->group(function(){
+   Route::get('/generate', 'show')
+   ->name('document.show');
+});
 
 Route::middleware([
     'auth:sanctum',
