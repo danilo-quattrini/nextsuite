@@ -138,6 +138,52 @@
 
                 <x-input-error for="form.gender"/>
             </x-form.input-container>
+            <x-form.input-container>
+                <x-form.label-container label="Skill" :required="true"/>
+                @foreach ($skillsByCategory as $category => $skills)
+                    <div>
+                        @foreach ($skills as $skill)
+                            <div class="flex flex-col items-start gap-4 my-3">
+
+                                {{-- Select skill --}}
+                                <div>
+                                    <x-toggle-container>
+                                        <x-slot:element>
+                                            <x-checkbox id="{{$skill['id']}}" name="{{strtolower($skill['name'])}}"   wire:model="form.skills.{{ $skill['id'] }}.selected" />
+                                        </x-slot:element>
+
+                                        <x-slot:span>
+                                            <span class="ds-checkbox-mark"></span>
+                                        </x-slot:span>
+                                        {{ $skill['name'] }}
+                                    </x-toggle-container>
+                                    <x-input-error for="form.skills.*.selected"/>
+                                </div>
+                                @if(!($form->skills[$skill['id']]['selected'] ?? false))
+                                    <div class="flex space-x-5">
+                                        {{-- Level --}}
+                                        <x-input
+                                                type="number"
+                                                wire:model="form.skills.{{ $skill['id'] }}.level"
+                                                placeholder="Level"
+
+                                        />
+
+                                        {{-- Years --}}
+                                        <x-input
+                                                type="number"
+                                                wire:model="form.skills.{{ $skill['id'] }}.years"
+                                                placeholder="Years"
+                                        />
+                                    </div>
+                                @endif
+                                <x-input-error for="form.skills.*.years"/>
+                                <x-input-error for="form.skills.*.level"/>
+                            </div>
+                        @endforeach
+                    </div>
+                @endforeach
+            </x-form.input-container>
 
         @endif
     </x-form.container>
