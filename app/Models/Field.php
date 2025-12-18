@@ -14,7 +14,7 @@ class Field extends Model
 
     protected $fillable = ['name'];
 
-    public function company(): HasMany
+    public function companies(): HasMany
     {
         return $this->hasMany(Company::class);
     }
