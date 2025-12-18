@@ -23,6 +23,8 @@ class CreateCustomer extends Component
 
     public $step = 1;
 
+    public array $skillsByCategory = [];
+
     protected function flagEmoji(string $code): string
     {
         // Ensure we only try to build flags for two-letter ISO codes
@@ -53,6 +55,21 @@ class CreateCustomer extends Component
         });
     }
 
+    public function mount(): void
+    {
+        $company = auth()->user()->company()->firstOrFail();
+
+        $company->load('field.categories.skills');
+
+        $this->skillsByCategory = $company->field
+            ->categories
+            ->flatMap(fn ($category) => $category->skills)
+            ->unique('id')
+            ->groupBy(fn ($skill) => $skill->category->name)
+            ->toArray();
+
+    }
+
     public function render(): View
     {
         return view('livewire.create-customer', [
@@ -63,14 +80,17 @@ class CreateCustomer extends Component
     public function nextStep(): void
     {
         if ($this->step === 1) {
-            $this->form->validateOnly('full_name');
-            $this->form->validateOnly('email');
-            $this->form->validateOnly('nationality');
+            $this->validateOnly('customer_photo');
+
+            $this->form->validate(
+                $this->form->rulesForStep(1)
+            );
         }
+
         if ($this->step === 2) {
-            $this->form->validateOnly('phone');
-            $this->form->validateOnly('dob');
-            $this->form->validateOnly('gender');
+            $this->form->validate(
+                $this->form->rulesForStep(2)
+            );
         }
         $this->step++;
     }
@@ -90,7 +110,7 @@ class CreateCustomer extends Component
 
         $company = auth()->user()->company()->firstOrFail();
 
-        Customer::create([
+        $customer = Customer::create([
             'profile_photo_url' => $imageName,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
@@ -101,6 +121,19 @@ class CreateCustomer extends Component
             'company_id' => $company->id,
             'user_id' => auth()->id()
         ]);
+
+        $skillsToAttach = [];
+
+        foreach ($this->form->skills as $skillId => $data) {
+            if (!empty($data['selected'])) {
+                $skillsToAttach[$skillId] = [
+                    'level' => $data['level'],
+                    'years' => $data['years'],
+                ];
+            }
+        }
+
+        $customer->skills()->sync($skillsToAttach);
 
         $this->redirect('/dashboard');
     }
