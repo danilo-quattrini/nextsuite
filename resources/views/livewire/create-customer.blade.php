@@ -159,24 +159,25 @@
                                     </x-toggle-container>
                                     <x-input-error for="form.skills.*.selected"/>
                                 </div>
-                                @if(!($form->skills[$skill['id']]['selected'] ?? false))
-                                    <div class="flex space-x-5">
-                                        {{-- Level --}}
-                                        <x-input
-                                                type="number"
-                                                wire:model="form.skills.{{ $skill['id'] }}.level"
-                                                placeholder="Level"
+                                <div class="flex space-x-5">
+                                    {{-- Level --}}
+                                    <x-input
+                                            type="number"
+                                            min="1"
+                                            max="5"
+                                            wire:model="form.skills.{{ $skill['id'] }}.level"
+                                            placeholder="Level"
 
-                                        />
+                                    />
 
-                                        {{-- Years --}}
-                                        <x-input
-                                                type="number"
-                                                wire:model="form.skills.{{ $skill['id'] }}.years"
-                                                placeholder="Years"
-                                        />
-                                    </div>
-                                @endif
+                                    {{-- Years --}}
+                                    <x-input
+                                            type="number"
+                                            min="1"
+                                            wire:model="form.skills.{{ $skill['id'] }}.years"
+                                            placeholder="Years"
+                                    />
+                                </div>
                                 <x-input-error for="form.skills.*.years"/>
                                 <x-input-error for="form.skills.*.level"/>
                             </div>
