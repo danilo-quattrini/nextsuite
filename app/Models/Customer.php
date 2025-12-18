@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Customer extends Model
+class   Customer extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -26,7 +26,8 @@ class Customer extends Model
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class, 'skill_customer', 'customer_id', 'skill_id');
+        return $this->belongsToMany(Skill::class, 'skill_customer', 'customer_id', 'skill_id')
+            ->withPivot(['years', 'level']);
     }
 
     protected function casts(): array
