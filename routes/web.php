@@ -33,7 +33,9 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $customers = Customer::with('skills')
+            ->paginate(5);
+        return view('dashboard', compact('customers'));
     })->name('dashboard');
 
     Route::get('/onboarding/customer/create', function () {

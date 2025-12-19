@@ -1,9 +1,8 @@
 <x-app-layout>
-    <x-button href="{{ route('customer.create') }}" size="large">
-        Create Customer
-    </x-button>
-
-    <x-button href="{{ route('document.show') }}" size="large">
-        Generate Document
-    </x-button>
+    <div class="flex gap-5 items-center justify-center my-12">
+        <x-button href="{{ route('customer.create') }}" size="large">
+            Create Customer
+        </x-button>
+    </div>
+    <x-table :customers="$customers" />
 </x-app-layout>
