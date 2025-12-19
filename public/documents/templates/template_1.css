@@ -1,0 +1,25 @@
+@page {
+    size: A4;
+    margin: 2cm;
+}
+.avatar{
+    width: 128px;
+    height: 128px;
+}
+body {
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    color: var(--color-black);
+}
+
+.page {
+    width: 100%;
+}
+
+h1, h2 {
+    margin-bottom: 0.4rem;
+}
+
+.section {
+    margin-top: 1.5rem;
+}

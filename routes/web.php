@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\PDFController;
+use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -13,8 +14,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->controller(PDFController::class)->group(function(){
-   Route::get('/generate', 'show')
-   ->name('document.show');
+    Route::get('/generate/{customer}', 'show')
+       ->name('document.show');
 });
 
 Route::middleware([

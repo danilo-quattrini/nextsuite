@@ -2,16 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class PDFController extends Controller
 {
-    public function show()
+    public function show(Customer $customer)
     {
 
-        $customer = auth()->user()->company->customers()->with('skills')->firstOrFail();
-        $skills = $customer->skills->map(function ($skill){
+        list($customer, $skills) = $this->customer_info($customer);
+
+        $pdf = Pdf::loadView('pdf.document-example', compact('customer', 'skills'));
+
+        return $pdf->stream('document-example.pdf');
+    }
+
+    /**
+     * @return array
+     */
+    public function customer_info(Customer $customer): array
+    {
+        $skills = $customer->skills->map(function ($skill) {
             return [
                 'id' => $skill->id,
                 'name' => $skill->name,
@@ -20,9 +32,6 @@ class PDFController extends Controller
                 'level' => $skill->pivot->level ?? null,
             ];
         });
-
-        $pdf = Pdf::loadView('pdf.document-example', compact('customer', 'skills'));
-
-        return $pdf->stream('document-example.pdf');
+        return array($customer, $skills);
     }
 }
