@@ -1,6 +1,10 @@
 /.phpunit.cache
 /node_modules
-/public/build
+# DO NOT ignore these (needed for production):
+# /public/build
+# /public/css
+# /public/js
+# /public/mix-manifest.json
 /public/hot
 /public/storage
 /storage/*.key
