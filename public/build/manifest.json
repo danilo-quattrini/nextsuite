@@ -1,24 +1,4 @@
 {
-  "node_modules/intl-tel-input/build/img/flags.webp": {
-    "file": "assets/flags-a2kmUSbF.webp",
-    "src": "node_modules/intl-tel-input/build/img/flags.webp"
-  },
-  "node_modules/intl-tel-input/build/img/flags@2x.webp": {
-    "file": "assets/flags@2x-gR6KPp3x.webp",
-    "src": "node_modules/intl-tel-input/build/img/flags@2x.webp"
-  },
-  "node_modules/intl-tel-input/build/img/globe.webp": {
-    "file": "assets/globe-CKC-qWvL.webp",
-    "src": "node_modules/intl-tel-input/build/img/globe.webp"
-  },
-  "node_modules/intl-tel-input/build/img/globe@2x.webp": {
-    "file": "assets/globe@2x-CEs4Xftd.webp",
-    "src": "node_modules/intl-tel-input/build/img/globe@2x.webp"
-  },
-  "node_modules/intl-tel-input/build/js/utils.js": {
-    "file": "assets/utils-Cof0Px81.js",
-    "src": "node_modules/intl-tel-input/build/js/utils.js"
-  },
   "resources/css/app.css": {
     "file": "assets/app-BToaihIJ.css",
     "src": "resources/css/app.css",
@@ -221,19 +201,7 @@
     "src": "resources/fonts/Satoshi-VariableItalic.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-DrL08SCu.js",
     "name": "app",
     "src": "resources/js/app.js",
-    "isEntry": true,
-    "css": [
-      "assets/app-DpS1I1S1.css"
-    ],
-    "assets": [
-      "assets/utils-Cof0Px81.js",
-      "assets/flags-a2kmUSbF.webp",
-      "assets/flags@2x-gR6KPp3x.webp",
-      "assets/globe-CKC-qWvL.webp",
-      "assets/globe@2x-CEs4Xftd.webp"
-    ]
   }
 }
