@@ -37,6 +37,7 @@
                         placeholder="John Doe"
                         right-icon="user"
                         :error="$errors->has('form.full_name')"
+                        value="{{ old('form.full_name') }}"
                 />
 
                 <x-input-error for="form.full_name"/>
@@ -51,6 +52,7 @@
                         placeholder="johndoe@gmail.com"
                         right-icon="envelope"
                         :error="$errors->has('form.email')"
+                        value="{{ old('form.email') }}"
                 />
 
                 <x-input-error for="form.email"/>
@@ -67,7 +69,7 @@
                                 Select nationality
                             </option>
                             @foreach ($nationalities as $nation)
-                                <option value="{{ $nation['code'] }}">
+                                <option value="{{ $nation['name'] }}">
                                     {{ $nation['flag'] }} {{ $nation['name'] }}
                                 </option>
                             @endforeach
@@ -95,6 +97,7 @@
                         placeholder="+123 123456789"
                         right-icon="phone"
                         :error="$errors->has('form.phone')"
+                        value="{{ old('form.phone') }}"
                 />
 
                 <x-input-error for="form.phone"/>
@@ -108,6 +111,7 @@
                         wire:model.defer="form.dob"
                         type="date"
                         :error="$errors->has('form.dob')"
+                        value="{{ old('form.dob') }}"
                 />
 
                 <x-input-error for="form.dob"/>

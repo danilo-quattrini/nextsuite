@@ -23,7 +23,7 @@ class CustomerForm extends Form
     #[Validate('required')]
     public string $gender = '';
 
-    #[Validate(['required', 'string', 'size:2'])]
+    #[Validate(['required', 'string'])]
     public string $nationality = '';
 
     #[Validate([
@@ -39,7 +39,7 @@ class CustomerForm extends Form
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
                 'email' => ['required', 'email'],
-                'nationality' => ['required', 'string', 'size:2'],
+                'nationality' => ['required', 'string'],
             ],
 
             2 => [
