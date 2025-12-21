@@ -42,5 +42,10 @@
                 @endforeach
             </ul>
         </div>
+
+        <div>
+            <h2>Professional Summary</h2>
+            {{ $summary }}
+        </div>
     </body>
 </html>
