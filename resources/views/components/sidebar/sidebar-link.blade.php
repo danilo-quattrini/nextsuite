@@ -2,7 +2,7 @@
 
 @php
     $class = ' flex justify-start items-center gap-2 px-4 py-2 rounded-md';
-
+    $text  = ' font-medium text-base flex-1 ';
     if($active)
     {
         $class .= ' text-white bg-primary ';
@@ -11,5 +11,5 @@
 
 <a {{$attributes->merge(['class' => $class])}} >
     {{ $icon }}
-    <span class="font-medium text-base flex-1"> {{ $slot }} </span>
+    <span class="{{ $text }}"> {{ $slot }} </span>
 </a>

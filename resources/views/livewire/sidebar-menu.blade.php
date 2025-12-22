@@ -18,12 +18,12 @@
         <p class="text-base text-primary-grey font-medium mb-6.25">OVERVIEW</p>
 
         {{-- DASHBOARD --}}
-        <x-sidebar-link :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}" >
+        <x-sidebar.sidebar-link :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}" >
             <x-slot:icon>
                 <x-heroicon name="home" size="lg"/>
             </x-slot:icon>
             Home
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
         {{-- CUSTOMERS --}}
         <x-sidebar-link :active="request()->routeIs('customer.create')" href="{{ route('customer.create') }}" >
@@ -34,20 +34,20 @@
         </x-sidebar-link>
 
         {{-- DOCUMENTS --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="document" size="lg"/>
             </x-slot:icon>
             Documents
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
         {{-- REPORTS --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="chart-pie" size="lg"/>
             </x-slot:icon>
             Reports
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
     </nav>
 
@@ -57,20 +57,20 @@
     <p class="text-base text-primary-grey font-medium">MANAGEMENT</p>
 
         {{-- DASHBOARD --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="briefcase" size="lg"/>
             </x-slot:icon>
             Service
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
         {{-- EMPLOYEES --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="user-group" size="lg"/>
             </x-slot:icon>
             Employees
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
     </nav>
 
     {{-- TOOLS --}}
@@ -79,12 +79,12 @@
         <p class="text-base text-primary-grey font-medium">TOOLS</p>
 
         {{-- TEMPLATES --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="clipboard-document" size="lg"/>
             </x-slot:icon>
             Templates
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
     </nav>
 
@@ -94,46 +94,46 @@
         <p class="text-base text-primary-grey font-medium">RESOURCES</p>
 
         {{-- BASE KNOWLEDGE --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="information-circle" size="lg"/>
             </x-slot:icon>
             Base Knowledge
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
         {{-- POLICIES --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="lifebuoy" size="lg"/>
             </x-slot:icon>
             Policies
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
         {{-- SUPPORT --}}
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="chat-bubble-oval-left-ellipsis" size="lg"/>
             </x-slot:icon>
             Support
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
     </nav>
 
 
     <div class="mt-auto pt-6 border-t">
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="question-mark-circle" size="lg"/>
             </x-slot:icon>
             Help
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
-        <x-sidebar-link href="" >
+        <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="clock" size="lg"/>
             </x-slot:icon>
             Changelog
-        </x-sidebar-link>
+        </x-sidebar.sidebar-link>
 
     </div>
 </div>
