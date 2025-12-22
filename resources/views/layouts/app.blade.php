@@ -18,7 +18,7 @@
         <div class="min-h-screen flex bg-gray-100 dark:bg-gray-900">
 
             {{-- SIDEBAR --}}
-            <aside class="w-70 bg-white shrink-0 text-black">
+            <aside class="w-70 bg-white shrink-0 text-black border-r border-r-outline-grey">
                 @livewire('sidebar-menu')
             </aside>
 
@@ -26,7 +26,7 @@
             <div class="flex-1 flex flex-col">
 
                 {{-- NAVBAR --}}
-                <header class="h-20 bg-green-500 flex items-center justify-end shrink-0">
+                <header class="h-20 bg-white flex items-center justify-end shrink-0">
                     @livewire('navigation-menu')
                 </header>
 
@@ -37,7 +37,7 @@
 
             </div>
         </div>
-        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-[420px] max-w-[90vw]">
+        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-105 max-w-[90vw]">
             @if (session('status'))
                 <x-alert
                         type="success"
