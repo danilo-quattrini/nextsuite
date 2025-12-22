@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col px-6.25 py-9.5 gap-8">
+<div class="h-full flex flex-col px-6.25 py-9.5 gap-8 overflow-y-auto">
     {{-- Logo --}}
     <div class="flex items-center gap-4">
         <img src="{{ asset('img/nextsuite-logo.png') }}" class="h-8 w-8" alt="NextSuite Logo">
@@ -25,13 +25,31 @@
             Home
         </x-sidebar.sidebar-link>
 
-        {{-- CUSTOMERS --}}
-        <x-sidebar-link :active="request()->routeIs('customer.create')" href="{{ route('customer.create') }}" >
+        {{-- CUSTOMERS DROPDOWN--}}
+        <x-sidebar.dropdown-link :active="request()->routeIs('customer.*')">
             <x-slot:icon>
                 <x-heroicon name="users" size="lg"/>
             </x-slot:icon>
             Customers
-        </x-sidebar-link>
+            <x-slot:elements>
+                <x-sidebar.sidebar-link
+                        href="{{ route('customer.create') }}"
+                        :active="request()->routeIs('customer.create')"
+                >
+                    <x-slot:icon>
+                        <x-heroicon name="user-plus" size="lg"/>
+                    </x-slot:icon>
+                    Add customer
+                </x-sidebar.sidebar-link>
+
+                <x-sidebar.sidebar-link href="">
+                    <x-slot:icon>
+                        <x-heroicon name="list-bullet" size="lg"/>
+                    </x-slot:icon>
+                    Customer list
+                </x-sidebar.sidebar-link>
+            </x-slot:elements>
+        </x-sidebar.dropdown-link>
 
         {{-- DOCUMENTS --}}
         <x-sidebar.sidebar-link href="" >
