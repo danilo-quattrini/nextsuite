@@ -42,7 +42,10 @@
                     Add customer
                 </x-sidebar.sidebar-link>
 
-                <x-sidebar.sidebar-link href="">
+                <x-sidebar.sidebar-link
+                        href="{{ route('customer.list') }}"
+                        :active="request()->routeIs('customer.list')"
+                >
                     <x-slot:icon>
                         <x-heroicon name="list-bullet" size="lg"/>
                     </x-slot:icon>
