@@ -5,7 +5,9 @@
 
 @props(['active'])
 
-<div x-data="{ open: {{ $active ? 'true' : 'false'}} }"  >
+<div x-data="{ open: {{ $active ? 'true' : 'false'}} }"
+     @click.outside="open = false"
+>
     <button
             @click="open = !open"
             {{ $attributes->merge(['class' => $class]) }}
@@ -24,7 +26,8 @@
     </button>
     <div
             x-show="open"
-            x-collapse
+            x-collapse.duration.200ms
+            @click.stop
             class="ml-8 mt-2 space-y-1"
     >
         {{ $elements }}
