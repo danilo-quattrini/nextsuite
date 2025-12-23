@@ -6,6 +6,7 @@ use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
 use App\Models\Skill;
 use App\Services\NationalityService;
+use App\Traits\WithStep;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -14,6 +15,7 @@ use Livewire\WithFileUploads;
 class CreateCustomer extends Component
 {
     use WithFileUploads;
+    use WithStep;
 
     public CustomerForm $form;
 
@@ -45,7 +47,6 @@ class CreateCustomer extends Component
                 ->groupBy(fn ($skill) => $skill->category->name)
                 ->toArray();
         } else {
-            // fallback: global skills
             $this->skillsByCategory = Skill::with('category')
                 ->get()
                 ->groupBy(fn ($skill) => $skill->category->name)
@@ -61,27 +62,6 @@ class CreateCustomer extends Component
         ]);
     }
 
-    public function nextStep(): void
-    {
-        if ($this->step === 1) {
-            $this->validateOnly('customer_photo');
-
-            $this->form->validate(
-                $this->form->rulesForStep(1)
-            );
-        }
-
-        if ($this->step === 2) {
-            $this->form->validate(
-                $this->form->rulesForStep(2)
-            );
-        }
-        $this->step++;
-    }
-    public function previousStep(): void
-    {
-        $this->step--;
-    }
 
     public function submit(): void
     {
