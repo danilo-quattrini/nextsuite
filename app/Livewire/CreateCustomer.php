@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
+use App\Models\Skill;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -59,14 +60,24 @@ class CreateCustomer extends Component
     {
         $company = auth()->user()->company()->firstOrFail();
 
-        $company->load('field.categories.skills');
+        $user = auth()->user();
 
-        $this->skillsByCategory = $company->field
-            ->categories
-            ->flatMap(fn ($category) => $category->skills)
-            ->unique('id')
-            ->groupBy(fn ($skill) => $skill->category->name)
-            ->toArray();
+        if ($user->company) {
+            $user->company->load('field.categories.skills');
+
+            $this->skillsByCategory = $user->company->field
+                ->categories
+                ->flatMap(fn ($category) => $category->skills)
+                ->unique('id')
+                ->groupBy(fn ($skill) => $skill->category->name)
+                ->toArray();
+        } else {
+            // fallback: global skills
+            $this->skillsByCategory = Skill::with('category')
+                ->get()
+                ->groupBy(fn ($skill) => $skill->category->name)
+                ->toArray();
+        }
 
     }
 
@@ -107,9 +118,6 @@ class CreateCustomer extends Component
         $imageName = strtolower(str_replace(' ', '_', $this->form->full_name)) . '.' . $this->customer_photo->extension();
         $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
 
-
-        $company = auth()->user()->company()->firstOrFail();
-
         $customer = Customer::create([
             'profile_photo_url' => $imageName,
             'full_name'  => $this->form->full_name,
@@ -118,7 +126,7 @@ class CreateCustomer extends Component
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
-            'company_id' => $company->id,
+            'company_id' => auth()->user()->company?->id,
             'user_id' => auth()->id()
         ]);
 
@@ -133,7 +141,9 @@ class CreateCustomer extends Component
             }
         }
 
-        $customer->skills()->sync($skillsToAttach);
+        if(!empty($skillsToAttach)) {
+            $customer->skills()->sync($skillsToAttach);
+        }
 
         $this->redirect('/customer/list');
     }

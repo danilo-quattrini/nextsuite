@@ -19,7 +19,9 @@ return new class extends Migration {
             $table->string('gender');
             $table->string('nationality');
             $table->foreignIdFor(Company::class, 'company_id')
+                ->nullable()
                 ->constrained('companies')
+                ->nullOnDelete()
                 ->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'user_id')
                 ->constrained('users')
