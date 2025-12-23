@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PDFController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ Route::middleware([
        ->name('document.show');
 });
 
+/* COMPANY ROUTES */
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -33,13 +35,23 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
-        $customers = Customer::with('skills')
-            ->paginate(5);
-        return view('dashboard', compact('customers'));
+        return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/onboarding/customer/create', function () {
-        return view('create-customer');
-    })->name('customer.create');
+});
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(CustomerController::class)->group(function () {
+
+    Route::get('customer/create', 'index')
+        ->name('customer.create');
+
+    Route::get('customer/list', 'show')
+        ->name('customer.list');
 });

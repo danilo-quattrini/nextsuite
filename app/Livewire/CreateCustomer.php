@@ -135,6 +135,6 @@ class CreateCustomer extends Component
 
         $customer->skills()->sync($skillsToAttach);
 
-        $this->redirect('/dashboard');
+        $this->redirect('/customer/list');
     }
 }
