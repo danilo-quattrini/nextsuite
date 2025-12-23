@@ -28,6 +28,9 @@ Route::middleware([
 
    Route::get('/onboarding/company/create', 'index')
        ->name('company.create');
+
+   Route::get('/onboarding/company/choice', 'choice')
+       ->name('company.choice');
 });
 
 Route::middleware([
@@ -49,9 +52,9 @@ Route::middleware([
     'verified',
 ])->controller(CustomerController::class)->group(function () {
 
-    Route::get('customer/create', 'index')
+    Route::get('/customer/create', 'index')
         ->name('customer.create');
 
-    Route::get('customer/list', 'show')
+    Route::get('/customer/list', 'show')
         ->name('customer.list');
 });

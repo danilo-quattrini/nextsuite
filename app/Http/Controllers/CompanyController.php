@@ -10,4 +10,9 @@ class CompanyController extends Controller
     {
         return view('auth.register-business');
     }
+
+    public function choice(): View
+    {
+        return view('auth.company-choice');
+    }
 }

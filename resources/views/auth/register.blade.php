@@ -22,6 +22,7 @@
 
                 <input id="profile_photo" name="profile_photo" type="file" class="hidden">
                 <x-input-error for="profile_photo"/>
+
                 <!-- FULL NAME -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Full Name') }}" :required="true"/>
@@ -52,6 +53,7 @@
                 </x-form.input-container>
             </x-form.container>
 
+            {{-- TERM & PRIVACY --}}
             <div class="my-10 flex flex-1 justify-between w-full">
                 <x-radio-container>
                     <x-slot:element>
@@ -75,6 +77,7 @@
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
                 </a>
             </div>
+
             <!-- SIGN UP BUTTON -->
             <div class="w-117.5 flex items-center justify-center mb-10">
                 <x-button size="large" type="submit">
