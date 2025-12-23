@@ -26,16 +26,12 @@ class CustomerForm extends Form
     #[Validate(['required', 'string'])]
     public string $nationality = '';
 
-    #[Validate([
-        'skills.*.selected' => ['boolean'],
-        'skills.*.level' => ['nullable', 'integer', 'min:1', 'max:5', 'required_with:skills.*.selected'],
-        'skills.*.years' => ['nullable', 'integer', 'min:0', 'required_with:skills.*.selected']
-    ])]
+
     public array $skills = [];
 
-    public function rulesForStep(int $step): array
+    public function rulesForStep(): array
     {
-        return match ($step) {
+        return  [
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
                 'email' => ['required', 'email'],
@@ -46,20 +42,7 @@ class CustomerForm extends Form
                 'phone' => ['required'],
                 'dob' => ['required', 'date'],
                 'gender' => ['required'],
-
-                'skills' => ['array'],
-                'skills.*.selected' => ['boolean'],
-                'skills.*.level' => [
-                    'nullable', 'integer', 'min:1', 'max:5',
-                    'required_with:skills.*.selected',
-                ],
-                'skills.*.years' => [
-                    'nullable', 'integer', 'min:0',
-                    'required_with:skills.*.selected',
-                ],
-            ],
-
-            default => [],
-        };
+            ]
+        ];
     }
 }
