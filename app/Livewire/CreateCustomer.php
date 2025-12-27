@@ -6,6 +6,7 @@ use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
 use App\Models\Skill;
 use App\Services\NationalityService;
+use App\Traits\WithSkill;
 use App\Traits\WithStep;
 use Illuminate\View\View;
 use Livewire\Attributes\Validate;
@@ -16,7 +17,7 @@ class CreateCustomer extends Component
 {
     use WithFileUploads;
     use WithStep;
-
+    use WithSkill;
     public CustomerForm $form;
 
     #[Validate('required', message: 'Customer profile photo it\'s required.')]
@@ -24,13 +25,6 @@ class CreateCustomer extends Component
     #[Validate('image', message: 'The file must be an image.')]
     #[Validate('max:2048', message: 'Profile image it\'s too large.')]
     public $customer_photo;
-
-    public bool $showSkillModal = false;
-    public ?int $selectedSkillId = null;
-    public ?int $skillLevel = null;
-    public ?int $skillYears = null;
-
-    public array $skillsByCategory = [];
 
     public array $nationalities = [];
 
@@ -109,26 +103,4 @@ class CreateCustomer extends Component
         return $this->form->rulesForStep();
     }
 
-    public function addSkill(): void
-    {
-        $this->validate([
-            'selectedSkillId' => ['required', 'exists:skills,id'],
-            'skillLevel' => ['required', 'integer', 'min:1', 'max:5'],
-            'skillYears' => ['required', 'integer', 'min:0'],
-        ]);
-
-        $this->form->skills[$this->selectedSkillId] = [
-            'selected' => true,
-            'level' => $this->skillLevel,
-            'years' => $this->skillYears,
-        ];
-
-        // reset modal state
-        $this->reset([
-            'selectedSkillId',
-            'skillLevel',
-            'skillYears',
-            'showSkillModal',
-        ]);
-    }
 }
