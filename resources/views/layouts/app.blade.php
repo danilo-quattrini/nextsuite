@@ -15,7 +15,7 @@
         @fluxAppearance
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen flex bg-gray-100 dark:bg-gray-900">
+        <div class="min-h-screen flex bg-white text-black">
 
             {{-- SIDEBAR --}}
             <aside class="w-70 bg-white shrink-0 text-black border-r border-r-outline-grey">
@@ -26,7 +26,7 @@
             <div class="flex-1 flex flex-col">
 
                 {{-- NAVBAR --}}
-                <header class="h-20 bg-white flex items-center justify-end shrink-0">
+                <header class="h-20 flex items-center justify-end shrink-0 border-b border-b-outline-grey">
                     @livewire('navigation-menu')
                 </header>
 
