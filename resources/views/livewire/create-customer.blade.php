@@ -151,9 +151,10 @@
                         <div class="flex justify-between items-center border rounded p-4">
                             <div>
                                 <strong>
-                                    {{ collect($skillsByCategory)
-                                        ->flatten()
-                                        ->firstWhere('id', $skillId)['name'] ?? 'Skill' }}
+                                    {{ data_get(collect($skillsByCategory)
+                                                ->collapse()
+                                                ->firstWhere('id', (int) $skillId), 'name', 'Skill')
+                                    }}
                                 </strong>
                                 <div class="text-sm text-primary-grey">
                                     Level: {{ $data['level'] }} —
