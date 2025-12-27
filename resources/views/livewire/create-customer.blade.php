@@ -165,7 +165,7 @@
                             <x-button
                                     type="button"
                                     variant="error"
-                                    wire:click="unset(form.skills.{{ $skillId }})"
+                                    wire:click="removeSkill({{ (int) $skillId }})"
                             >
                                 Remove
                             </x-button>
@@ -202,13 +202,14 @@
                         </x-slot:message>
 
                         <x-form.input-container>
-                            <x-form.select-wrapper>
-                                <x-form.select-element wire:model="selectedSkillId">
+                            <x-form.label-container label="Skill" :required="true"/>
+
+                            <x-form.select-wrapper :error="$errors->has('selectedSkillId')">
+                                <x-form.select-element model="selectedSkillId">
                                     <x-slot:options>
-                                        <option value="" disabled selected>
+                                        <option disabled selected hidden value="">
                                             Select a skill
                                         </option>
-
                                         @foreach ($skillsByCategory as $category => $skills)
                                             <optgroup label="{{ $category }}">
                                                 @foreach ($skills as $skill)
@@ -221,18 +222,25 @@
                                     </x-slot:options>
                                 </x-form.select-element>
                             </x-form.select-wrapper>
+
+                            <x-input-error for="selectedSkillId"/>
                         </x-form.input-container>
 
                         {{-- Level --}}
                         <div class="flex justify-between items-center gap-6 my-6">
+
                             <x-form.input-container size="medium">
-                                <x-input type="number" min="1" max="5" wire:model="skillLevel" placeholder="Level" right-icon="star"/>
+                                <x-form.label-container label="Level" :required="true"/>
+
+                                <x-input type="number" min="1" max="5" wire:model="skillLevel" placeholder="Level" right-icon="star" :error="$errors->has('skillLevel')"/>
                                 <x-input-error for="skillLevel"/>
                             </x-form.input-container>
 
                             {{-- Years --}}
                             <x-form.input-container size="medium">
-                                <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"/>
+                                <x-form.label-container label="Years" :required="true"/>
+
+                                <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
                                 <x-input-error for="skillYears"/>
                             </x-form.input-container>
                         </div>
