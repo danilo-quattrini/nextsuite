@@ -34,7 +34,7 @@ class CustomerForm extends Form
         return  [
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
-                'email' => ['required', 'email'],
+                'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
                 'nationality' => ['required', 'string'],
             ],
 
