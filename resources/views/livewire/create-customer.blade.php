@@ -263,7 +263,10 @@
         @endif
     </x-form.container>
     @if($step === 2)
-        <div class="flex justify-center mt-10">
+        <div class="flex justify-between mt-10">
+            <x-button variant="rest" size="large" wire:click="previousStep">
+                Back
+            </x-button>
             <x-button size="large" type="submit">
                 Create
             </x-button>
