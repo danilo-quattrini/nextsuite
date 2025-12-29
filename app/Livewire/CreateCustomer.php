@@ -20,7 +20,7 @@ class CreateCustomer extends Component
     use WithSkill;
     public CustomerForm $form;
 
-    #[Validate('required', message: 'Customer profile photo it\'s required.')]
+//    #[Validate('required', message: 'Customer profile photo it\'s required.')]
     #[Validate('mimes:jpeg,png,jpg,gif', message: 'Customer profile photo should be  one of this formats: jpeg,png,jpg,gif.')]
     #[Validate('image', message: 'The file must be an image.')]
     #[Validate('max:2048', message: 'Profile image it\'s too large.')]
@@ -65,11 +65,14 @@ class CreateCustomer extends Component
 
         $this->form->validate();
 
-        $imageName = strtolower(str_replace(' ', '_', $this->form->full_name)) . '.' . $this->customer_photo->extension();
-        $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
+        if($this->customer_photo != null) {
+            $imageName = strtolower(str_replace(' ', '_',
+                    $this->form->full_name)).'.'.$this->customer_photo->extension();
+            $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
+        }
 
         $customer = Customer::create([
-            'profile_photo_url' => $imageName,
+            'profile_photo_url' => $imageName ?? null,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'nationality' => $this->form->nationality,
