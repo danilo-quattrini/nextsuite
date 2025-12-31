@@ -15,23 +15,23 @@
         @fluxAppearance
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen flex bg-white text-black">
+        <div class="h-screen flex bg-white text-black overflow-hidden">
 
             {{-- SIDEBAR --}}
-            <aside class="w-70 bg-white shrink-0 text-black border-r border-r-outline-grey">
+            <aside class="sidebar-container">
                 @livewire('sidebar-menu')
             </aside>
 
             {{-- RIGHT AREA --}}
-            <div class="flex-1 flex flex-col">
+            <div class="flex-1 flex flex-col h-full overflow-hidden">
 
                 {{-- NAVBAR --}}
-                <header class="h-20 flex items-center justify-end shrink-0 border-b border-b-outline-grey">
+                <header class="h-20 flex items-center justify-end shrink-0 border-b border-b-outline-grey sticky top-0 z-20 bg-white">
                     @livewire('navigation-menu')
                 </header>
 
                 {{-- PAGE CONTENT --}}
-                <main class="flex-1 p-6">
+                <main class="flex-1 p-6 overflow-y-auto">
                     {{ $slot }}
                 </main>
 
