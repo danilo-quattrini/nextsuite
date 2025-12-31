@@ -1,4 +1,4 @@
-<div class="h-full flex flex-col px-6.25 py-9.5 gap-8 overflow-y-auto">
+<div class="sidebar">
     {{-- Logo --}}
     <div class="flex items-center gap-4">
         <img src="{{ asset('img/nextsuite-logo.png') }}" class="h-8 w-8" alt="NextSuite Logo">
@@ -13,9 +13,9 @@
 
 
     {{-- OVERVIEW --}}
-    <nav class="space-y-[8px]">
+    <nav>
 
-        <p class="text-base text-primary-grey font-medium mb-6.25">OVERVIEW</p>
+        <p class="subheading" >OVERVIEW</p>
 
         {{-- DASHBOARD --}}
         <x-sidebar.sidebar-link :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}" >
@@ -73,11 +73,20 @@
     </nav>
 
     {{-- MANAGEMENT --}}
-    <nav class="space-y-[8px]">
+    <nav>
 
-    <p class="text-base text-primary-grey font-medium">MANAGEMENT</p>
+    <p class="subheading" >MANAGEMENT</p>
 
-        {{-- DASHBOARD --}}
+        {{-- SERVICES --}}
+        <x-sidebar.sidebar-link href="" >
+            <x-slot:icon>
+                <x-heroicon name="building-office" size="lg"/>
+            </x-slot:icon>
+            Company
+        </x-sidebar.sidebar-link>
+
+
+        {{-- SERVICES --}}
         <x-sidebar.sidebar-link href="" >
             <x-slot:icon>
                 <x-heroicon name="briefcase" size="lg"/>
@@ -95,9 +104,9 @@
     </nav>
 
     {{-- TOOLS --}}
-    <nav class="space-y-[8px]">
+    <nav>
 
-        <p class="text-base text-primary-grey font-medium">TOOLS</p>
+        <p class="subheading" >TOOLS</p>
 
         {{-- TEMPLATES --}}
         <x-sidebar.sidebar-link href="" >
@@ -110,9 +119,9 @@
     </nav>
 
     {{-- RESOURCES --}}
-    <nav class="space-y-[8px]">
+    <nav>
 
-        <p class="text-base text-primary-grey font-medium">RESOURCES</p>
+        <p class="subheading" >RESOURCES</p>
 
         {{-- BASE KNOWLEDGE --}}
         <x-sidebar.sidebar-link href="" >

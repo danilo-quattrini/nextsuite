@@ -5,6 +5,7 @@
 @import "./design-system/components/buttons.css";
 @import "./design-system/components/input.css";
 @import "./design-system/components/select.css";
+@import "./design-system/components/sidebar.css";
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";

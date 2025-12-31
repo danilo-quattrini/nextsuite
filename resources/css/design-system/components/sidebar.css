@@ -1,0 +1,23 @@
+.sidebar-container{
+    @apply w-70 bg-white shrink-0 text-black border-r border-r-outline-grey;
+    height: 100%;
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.sidebar {
+    @apply h-full flex flex-col px-6.25 py-9.5 gap-8 overflow-y-auto fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+}
+
+.sidebar .subheading{
+    @apply text-base text-primary-grey;
+    margin-bottom: 26px;
+    font-weight: var(--font-weight-medium);
+}
+
+.sidebar nav{
+    @apply space-y-[8px];
+}
