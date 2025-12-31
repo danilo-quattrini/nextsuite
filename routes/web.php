@@ -31,6 +31,9 @@ Route::middleware([
 
    Route::get('/onboarding/company/choice', 'choice')
        ->name('company.choice');
+
+   Route::get('/company', 'show')
+       ->name('company.show');
 });
 
 Route::middleware([

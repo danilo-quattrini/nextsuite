@@ -77,14 +77,24 @@
 
     <p class="subheading" >MANAGEMENT</p>
 
-        {{-- SERVICES --}}
-        <x-sidebar.sidebar-link href="" >
+        {{-- COMPANY DROPDOWN --}}
+        <x-sidebar.dropdown-link :active="request()->routeIs('company.*')">
             <x-slot:icon>
                 <x-heroicon name="building-office" size="lg"/>
             </x-slot:icon>
             Company
-        </x-sidebar.sidebar-link>
-
+            <x-slot:elements>
+                <x-sidebar.sidebar-link
+                        href="{{ route('company.show') }}"
+                        :active="request()->routeIs('company.show')"
+                >
+                    <x-slot:icon>
+                        <x-heroicon name="information-circle" size="lg"/>
+                    </x-slot:icon>
+                    Details
+                </x-sidebar.sidebar-link>
+            </x-slot:elements>
+        </x-sidebar.dropdown-link>
 
         {{-- SERVICES --}}
         <x-sidebar.sidebar-link href="" >
