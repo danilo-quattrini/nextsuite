@@ -25,4 +25,10 @@ class Category extends Model
     {
         return $this->hasMany(Skill::class);
     }
+
+    public function attributes(): HasMany
+    {
+        return $this->hasMany(Attribute::class);
+    }
+
 }
