@@ -145,37 +145,11 @@
             </x-form.input-container>
 
             {{-- SKILL VIEW --}}
-            @if (!empty($form->skills))
-                <div class="mt-6 space-y-4">
-                    @foreach ($form->skills as $skillId => $data)
-                        <div class="flex justify-between items-center border rounded p-4">
-                            <div>
-                                <strong>
-                                    {{ data_get(collect($skillsByCategory)
-                                                ->collapse()
-                                                ->firstWhere('id', (int) $skillId), 'name', 'Skill')
-                                    }}
-                                </strong>
-                                <div class="text-sm text-primary-grey">
-                                    Level: {{ $data['level'] }} —
-                                    Years: {{ $data['years'] }}
-                                </div>
-                            </div>
+            <x-form.label-container label="Skill" :required="true"/>
 
-                            <x-button
-                                    type="button"
-                                    variant="error"
-                                    wire:click="removeSkill({{ (int) $skillId }})"
-                            >
-                                Remove
-                            </x-button>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
+            <x-skill.skill-card-view :skills="$form->skills" :categories="$skillsByCategory"/>
 
             <x-form.input-container>
-                <x-form.label-container label="Skill" :required="true"/>
 
                 <x-button
                         size="large"

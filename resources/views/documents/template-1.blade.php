@@ -9,7 +9,7 @@
     <body class="page">
         @php
             $src = ' ';
-            if(file_exists('storage/customers-profile-photos/' . $customer->profile_photo_url)){
+            if(is_file('storage/customers-profile-photos/' . $customer->profile_photo_url)){
                 $path = public_path('storage/customers-profile-photos/' . $customer->profile_photo_url);
                 $type = pathinfo($path, PATHINFO_EXTENSION);
                 $base64 = base64_encode(file_get_contents($path));
