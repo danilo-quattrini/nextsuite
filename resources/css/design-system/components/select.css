@@ -1,6 +1,6 @@
 /* Select variants */
 .select{
-    width: 100%;
+    @apply flex w-full h-full;
     font-size: var(--text-base) ;
     font-weight: var(--font-weight-medium);
     background-color: var(--color-white);
@@ -20,7 +20,7 @@
 
 
 .select-border {
-    @apply w-full relative flex items-center rounded-md bg-white;
+    @apply w-full h-full relative flex items-center rounded-md bg-white;
     cursor: pointer;
     gap: var(--spacing-sm);
     padding: 16px 24px;

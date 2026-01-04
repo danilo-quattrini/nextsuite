@@ -1,0 +1,82 @@
+<?php
+
+namespace App\Livewire\Attribute;
+
+
+use App\Enums\AttributeType;
+use App\Models\Attribute;
+use App\Models\Category;
+use Illuminate\Support\Collection;
+use Livewire\Component;
+
+class AttributeModal extends Component
+{
+    public bool $showAttributeModal = false;
+    public ?int $selectedAttributeId = null;
+    public ?int $selectedCategoryId = null;
+
+    public Collection $categories;
+    public Collection $customerAttributes;
+    public ?Attribute $attribute = null;
+    public mixed $value = null;
+
+    public function mount(): void
+    {
+        $this->categories = Category::with('attributes')->get();
+    }
+
+    public function render()
+    {
+        return view('livewire.attribute.attribute-modal');
+    }
+
+    public function updatedSelectedCategoryId($categoryId): void
+    {
+        $this->customerAttributes = Attribute::where('category_id', $categoryId)->get();
+        $this->selectedAttributeId = null;
+    }
+
+    public function updatedSelectedAttributeId($attributeId): void
+    {
+        $this->attribute = Attribute::findOrFail($attributeId);
+        $this->value = null; // reset value when attribute changes
+    }
+
+    public function attributeInputConfig(): array
+    {
+        if (! $this->attribute) {
+            return [];
+        }
+
+        return match ($this->attribute->type) {
+            AttributeType::STRING => [
+                'component' => 'input',
+                'type' => 'text',
+            ],
+
+            AttributeType::NUMBER => [
+                'component' => 'input',
+                'type' => 'number',
+            ],
+
+            AttributeType::DATE => [
+                'component' => 'input',
+                'type' => 'date',
+            ],
+
+            AttributeType::BOOLEAN => [
+                'component' => 'select',
+                'options' => [
+                    1 => 'Yes',
+                    0 => 'No',
+                ],
+            ],
+
+            AttributeType::SELECT => [
+                'component' => 'select',
+                'options' => $this->attribute->options,
+            ],
+        };
+    }
+
+}

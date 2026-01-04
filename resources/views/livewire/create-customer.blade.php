@@ -80,6 +80,12 @@
                 <x-input-error for="form.nationality"/>
             </x-form.input-container>
 
+            {{-- ATTRIBUTES --}}
+            <x-form.input-container>
+                <x-form.label-container label="Attribute" :required="true"/>
+
+                @livewire('attribute.attribute-modal')
+            </x-form.input-container>
             <x-button size="large" wire:click="nextStep">
                 Next
             </x-button>
