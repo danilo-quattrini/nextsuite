@@ -13,9 +13,25 @@ class AttributeSeeder extends Seeder
     {
         $attributeByCategory = [
             'Health' => [
-                ['name' => 'weight', 'type' => AttributeType::NUMBER, 'slug' => null],
-                ['name' => 'height', 'type' => AttributeType::NUMBER, 'slug' => null],
-                ['name' => 'age', 'type' => AttributeType::NUMBER, 'slug' => null],
+                [
+                    'name' => 'weight',
+                    'type' => AttributeType::NUMBER,
+                ],
+                [
+                    'name' => 'height',
+                    'type' => AttributeType::NUMBER,
+                ],
+                [
+                    'name' => 'eyes color',
+                    'type' => AttributeType::STRING,
+                    'slug' => 'eyes-color'
+                ],
+                [
+                    'name' => 'blood type',
+                    'type' => AttributeType::SELECT,
+                    'slug' => 'blood-type',
+                    'options' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
+                ],
             ]
         ];
         foreach ($attributeByCategory as $category => $attributes) {
@@ -25,7 +41,8 @@ class AttributeSeeder extends Seeder
                 Attribute::create([
                     'name' => $attribute['name'],
                     'type' => $attribute['type'],
-                    'slug' => $attribute['slug'],
+                    'slug' => $attribute['slug'] ?? null,
+                    'options' => $attribute['options'] ?? null,
                     'category_id' => $category->id
                 ]);
             }
