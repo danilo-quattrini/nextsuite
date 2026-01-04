@@ -207,7 +207,7 @@
                             <x-form.select-wrapper :error="$errors->has('selectedSkillId')">
                                 <x-form.select-element model="selectedSkillId">
                                     <x-slot:options>
-                                        <option disabled selected hidden value="">
+                                        <option value="" hidden>
                                             Select a skill
                                         </option>
                                         @foreach ($skillsByCategory as $category => $skills)
