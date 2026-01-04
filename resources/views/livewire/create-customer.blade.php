@@ -63,7 +63,7 @@
                 <x-form.label-container label="Nationality" :required="true"/>
 
                 <x-form.select-wrapper :error="$errors->has('form.nationality')">
-                    <x-form.select-element name="nationality" id="nationality" model="form.nationality">
+                    <x-form.select-element name="nationality" id="nationality" wire:model.defer="form.nationality">
                         <x-slot:options>
                             <option value="" disabled selected hidden>
                                 Select nationality
@@ -205,7 +205,7 @@
                             <x-form.label-container label="Skill" :required="true"/>
 
                             <x-form.select-wrapper :error="$errors->has('selectedSkillId')">
-                                <x-form.select-element model="selectedSkillId">
+                                <x-form.select-element wire:model.defer="selectedSkillId">
                                     <x-slot:options>
                                         <option value="" hidden>
                                             Select a skill
