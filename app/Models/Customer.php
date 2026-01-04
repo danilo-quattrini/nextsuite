@@ -30,6 +30,11 @@ class   Customer extends Model
             ->withPivot(['years', 'level']);
     }
 
+    public function attributes(): BelongsToMany
+    {
+        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id');
+    }
+
     protected function casts(): array
     {
         return [

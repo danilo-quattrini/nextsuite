@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Attribute;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -18,8 +19,10 @@ class DatabaseSeeder extends Seeder
             FieldSeeder::class,
             FieldCategorySeeder::class,
             SkillSeeder::class,
+            AttributeSeeder::class,
             CustomerSeeder::class,
-            SkillCustomerSeeder::class
+            SkillCustomerSeeder::class,
+            AttributeCustomerSeeder::class
         ]);
     }
 }
