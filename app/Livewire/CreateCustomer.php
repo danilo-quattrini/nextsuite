@@ -3,12 +3,14 @@
 namespace App\Livewire;
 
 use App\Livewire\Forms\CustomerForm;
+use App\Models\Attribute;
 use App\Models\Customer;
 use App\Models\Skill;
 use App\Services\NationalityService;
 use App\Traits\WithSkill;
 use App\Traits\WithStep;
 use Illuminate\View\View;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -59,6 +61,11 @@ class CreateCustomer extends Component
         ]);
     }
 
+    #[On('attribute-selected')]
+    public function attributeSelected(Attribute $attribute, mixed $value): void
+    {
+        $this->form->addAttribute($attribute, $value);
+    }
 
     public function submit(): void
     {

@@ -115,7 +115,7 @@
                 <x-button
                         type="button"
                         size="large"
-                        wire:click=""
+                        wire:click="addAttribute"
                 >
                     New Attribute
                 </x-button>

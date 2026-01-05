@@ -79,4 +79,25 @@ class AttributeModal extends Component
         };
     }
 
+    public function addAttribute(): void
+    {
+        $this->validate([
+            'selectedAttributeId' => ['required', 'exists:attributes,id'],
+            'selectedCategoryId' => ['required', 'exists:categories,id'],
+            'attribute' => ['required'],
+            'value' => ['required']
+        ]);
+        
+        $this->dispatch('attribute-selected', attribute: $this->attribute, value: $this->value);
+        
+        $this->reset([
+            'showAttributeModal',
+            'selectedAttributeId',
+            'selectedCategoryId',
+            'attribute',
+            'value',
+        ]);
+
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Attribute;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -29,6 +30,8 @@ class CustomerForm extends Form
 
     public array $skills = [];
 
+    public array $attributes = [];
+
     public function rulesForStep(): array
     {
         return  [
@@ -44,5 +47,10 @@ class CustomerForm extends Form
                 'gender' => ['required'],
             ]
         ];
+    }
+
+    public function addAttribute(Attribute $attribute, mixed $value): void
+    {
+        $this->attributes[$attribute->id] = compact('attribute', 'value');
     }
 }
