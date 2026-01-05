@@ -22,7 +22,7 @@ class AttributeCustomerSeeder extends Seeder
 
               foreach($healthAttribute as $attribute){
                   $customer->attributes()->attach($attribute->id,[
-                      'value' => json_encode(rand(50, 99))
+                      'value' => rand(50, 99)
                   ]);
               }
             }

@@ -10,7 +10,7 @@
                     </strong>
 
                     <div class="text-sm text-primary-grey">
-                        Value: {{ $data['value'] }}
+                        Value: {{ ucfirst($data['value']) }}
                     </div>
                 </div>
 

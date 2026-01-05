@@ -65,11 +65,8 @@ class AttributeModal extends Component
             ],
 
             AttributeType::BOOLEAN => [
-                'component' => 'select',
-                'options' => [
-                    1 => 'Yes',
-                    0 => 'No',
-                ],
+                'component' => 'radio',
+                'options' => $this->attribute->options,
             ],
 
             AttributeType::SELECT => [

@@ -6,45 +6,28 @@ use App\Enums\AttributeType;
 use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class AttributeSeeder extends Seeder
 {
     public function run(): void
     {
-        $attributeByCategory = [
-            'Health' => [
-                [
-                    'name' => 'weight',
-                    'type' => AttributeType::NUMBER,
-                ],
-                [
-                    'name' => 'height',
-                    'type' => AttributeType::NUMBER,
-                ],
-                [
-                    'name' => 'eyes color',
-                    'type' => AttributeType::STRING,
-                    'slug' => 'eyes-color'
-                ],
-                [
-                    'name' => 'blood type',
-                    'type' => AttributeType::SELECT,
-                    'slug' => 'blood-type',
-                    'options' => ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']
-                ],
-            ]
-        ];
-        foreach ($attributeByCategory as $category => $attributes) {
-            $category = Category::where('name', '=', $category)->first();
-
+        $data = json_decode(
+            File::get(database_path('data/attributes/customer_attributes.json')),
+            true
+        );
+        foreach ($data as $categoryType => $attributes) {
+            $category = Category::where('name', $categoryType)->first();
             foreach ($attributes as $attribute) {
-                Attribute::create([
-                    'name' => $attribute['name'],
-                    'type' => $attribute['type'],
-                    'slug' => $attribute['slug'] ?? null,
-                    'options' => $attribute['options'] ?? null,
-                    'category_id' => $category->id
-                ]);
+                Attribute::firstOrCreate(
+                    ['slug' => $attribute['slug']],
+                    [
+                        'name' => $attribute['name'],
+                        'type' => AttributeType::from($attribute['type']),
+                        'options' => $attribute['options'] ?? null,
+                        'category_id' => $category->id
+                    ]
+                );
             }
         }
     }
