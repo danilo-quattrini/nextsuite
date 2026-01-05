@@ -81,9 +81,11 @@
             </x-form.input-container>
 
             {{-- ATTRIBUTES --}}
-            <x-form.input-container>
-                <x-form.label-container label="Attribute" :required="true"/>
+            <x-form.label-container label="Attribute" :required="true"/>
 
+            <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
+
+            <x-form.input-container>
                 @livewire('attribute.attribute-modal')
             </x-form.input-container>
             <x-button size="large" wire:click="nextStep">
