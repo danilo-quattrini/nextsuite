@@ -93,6 +93,7 @@ class CreateCustomer extends Component
         ]);
 
         $skillsToAttach = [];
+        $attributesToAttach = [];
 
         foreach ($this->form->skills as $skillId => $data) {
             if (!empty($data['selected'])) {
@@ -103,8 +104,15 @@ class CreateCustomer extends Component
             }
         }
 
-        if(!empty($skillsToAttach)) {
+        foreach ($this->form->attributes as $attributeId => $data){
+            $attributesToAttach[$attributeId] = [
+              'value' => $data['value']
+            ];
+        }
+
+        if(!empty($skillsToAttach) || !empty($attributesToAttach)) {
             $customer->skills()->sync($skillsToAttach);
+            $customer->attributes()->sync($attributesToAttach);
         }
 
         $this->redirect('/customer/list');
