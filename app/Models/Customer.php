@@ -32,7 +32,10 @@ class   Customer extends Model
 
     public function attributes(): BelongsToMany
     {
-        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id');
+        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id')
+            ->using(CustomerAttribute::class)
+            ->withPivot('value')
+            ->withTimestamps();
     }
 
     protected function casts(): array

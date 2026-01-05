@@ -30,7 +30,7 @@ class Attribute extends Model
     {
         return $this->belongsToMany(Customer::class, 'customer_attribute', 'attribute_id', 'customer_id')
             ->using(CustomerAttribute::class)
-            ->withPivot(['value'])
+            ->withPivot('value')
             ->withTimestamps();
     }
 
