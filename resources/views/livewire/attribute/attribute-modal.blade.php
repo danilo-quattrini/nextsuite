@@ -88,8 +88,8 @@
                                     <x-slot:options>
                                         <option value="" hidden>Select</option>
 
-                                        @foreach ($config['options'] as $key => $label)
-                                            <option value="{{ is_int($key) ? $key : $label }}">
+                                        @foreach ($config['options'] as $value => $label)
+                                            <option value="{{ $value }}">
                                                 {{ $label }}
                                             </option>
                                         @endforeach
@@ -97,6 +97,25 @@
                                     </x-slot:options>
                                 </x-form.select-element>
                             </x-form.select-wrapper>
+                        @elseif($config['component'] === 'radio')
+                            <div class="flex gap-6">
+                                @foreach($config['options'] as $value => $label)
+                                    <x-radio-container>
+                                        <x-slot:element>
+                                            <input
+                                                    type="radio"
+                                                    value="{{ $value}}"
+                                                    wire:model.defer="value"
+                                                    class="ds-radio-input"
+                                            />
+                                        </x-slot:element>
+                                        <x-slot:span>
+                                            <span class="ds-radio-mark"></span>
+                                        </x-slot:span>
+                                        {{ __($label) }}
+                                    </x-radio-container>
+                                @endforeach
+                            </div>
                         @endif
                     </x-form.input-container>
                 @endif
