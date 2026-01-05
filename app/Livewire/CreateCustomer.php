@@ -7,6 +7,7 @@ use App\Models\Attribute;
 use App\Models\Customer;
 use App\Models\Skill;
 use App\Services\NationalityService;
+use App\Traits\ArrayOperation;
 use App\Traits\WithSkill;
 use App\Traits\WithStep;
 use Illuminate\View\View;
@@ -20,6 +21,7 @@ class CreateCustomer extends Component
     use WithFileUploads;
     use WithStep;
     use WithSkill;
+    use ArrayOperation;
     public CustomerForm $form;
 
 //    #[Validate('required', message: 'Customer profile photo it\'s required.')]

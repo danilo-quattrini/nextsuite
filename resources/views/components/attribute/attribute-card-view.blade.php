@@ -17,7 +17,7 @@
                 <x-button
                         type="button"
                         variant="error"
-                        wire:click="removeAttribute({{ (int) $attributeId }})"
+                        wire:click="removeItem('attributes', {{ (int) $attributeId }})"
                 >
                     Remove
                 </x-button>

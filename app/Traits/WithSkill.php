@@ -12,7 +12,6 @@ trait WithSkill
 
     public array $skillsByCategory = [];
 
-
     public function addSkill(): void
     {
         $this->validate([
@@ -34,14 +33,5 @@ trait WithSkill
             'skillYears',
             'showSkillModal',
         ]);
-    }
-
-    public  function removeSkill(int $skillId): void
-    {
-        $skills = $this->form->skills ?? null;
-
-        if(!empty($skills) && array_key_exists($skillId, $skills)){
-            unset($this->form->skills[$skillId]);
-        }
     }
 }

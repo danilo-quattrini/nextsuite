@@ -20,7 +20,7 @@
                 <x-button
                         type="button"
                         variant="error"
-                        wire:click="removeSkill({{ (int) $skillId }})"
+                        wire:click="removeItem('skills', {{ (int) $skillId }})"
                 >
                     Remove
                 </x-button>
