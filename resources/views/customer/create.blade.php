@@ -15,7 +15,7 @@
 
             {{--  Form  --}}
             <x-form.container>
-                @livewire('create-customer')
+                @livewire('customer.create-customer')
             </x-form.container>
         </div>
 

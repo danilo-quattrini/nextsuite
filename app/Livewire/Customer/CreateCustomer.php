@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Customer;
 
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Attribute;
@@ -58,7 +58,7 @@ class CreateCustomer extends Component
 
     public function render(): View
     {
-        return view('livewire.create-customer', [
+        return view('livewire.customer.create-customer', [
                 'nationalities' => $this->nationalities,
         ]);
     }
