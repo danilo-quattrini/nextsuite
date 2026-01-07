@@ -14,6 +14,17 @@
                 $type = pathinfo($path, PATHINFO_EXTENSION);
                 $base64 = base64_encode(file_get_contents($path));
                 $src = "data:image/{$type};base64,{$base64}";
+            }else{
+                $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440';
+                try {
+                    $imageData = file_get_contents($avatarUrl);
+                    if ($imageData) {
+                        $base64 = base64_encode($imageData);
+                        $src = "data:image/png;base64,{$base64}";
+                    }
+                } catch (Exception $e) {
+                    $src = '';
+                }
             }
         @endphp
 
