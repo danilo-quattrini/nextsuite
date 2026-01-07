@@ -5,84 +5,95 @@
             <div>
                 <h2 class="text-2xl font-semibold leading-tight">Customers</h2>
             </div>
-            <div class="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+            <div class="mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
                 <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
                     <table class="min-w-full leading-normal">
                         <thead>
                         <tr>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 User
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 Email
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 Phone
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 DOB
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 Gender
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    class="table-head">
                                 Nationality
                             </th>
                             <th
-                                    class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                Report
+                                    class="table-head">
+                                Actions
                             </th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($customers as $customer)
                             <tr>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <div class="flex items-center">
+                                <td class="p-6 bg-white text-sm">
+                                    <div class="flex items-center gap-6">
                                         <div class="shrink-0 w-10 h-10">
                                             <img class="w-full h-full rounded-full"
                                                  src="{{ $customer->profile_photo_url ? asset('storage/customers-profile-photos/' . $customer->profile_photo_url) : 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440' }}"
                                                  alt="profile-picture" />
                                         </div>
-                                        <div class="ml-3">
-                                            <p class="text-gray-900 whitespace-no-wrap">
+                                        <div>
+                                            <p class="table-text">
                                                 {{ $customer->full_name }}
                                             </p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $customer->email}}</p>
+                                <td class="p-6 bg-white text-sm">
+                                    <p class="table-text">{{ $customer->email}}</p>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $customer->phone}}</p>
+                                <td class="p-6 bg-white text-sm">
+                                    <p class="table-text">{{ $customer->phone}}</p>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ date_format($customer->dob, 'd-m-Y')}}</p>
+                                <td class="p-6 bg-white text-sm">
+                                    <p class="table-text">{{ date_format($customer->dob, 'd-m-Y')}}</p>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $customer->gender  }}</p>
+                                <td class="p-6 bg-white text-sm">
+                                    <p class="table-text">{{ $customer->gender  }}</p>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <p class="text-gray-900 whitespace-no-wrap">{{ $customer->nationality  }}</p>
+                                <td class="p-6 bg-white text-sm">
+                                    <p class="table-text">{{ $customer->nationality  }}</p>
                                 </td>
-                                <td class="px-5 py-5 bg-white text-sm">
-                                    <x-button variant="rest" href="/generate/ {{ $customer->id }}">
-                                        <x-heroicon name="document-arrow-down"/>
-                                    </x-button>
+                                <td class="p-6 bg-white text-sm">
+                                    <div class="flex items-center columns-1 gap-5">
+                                        <a href="/generate/{{ $customer->id }}">
+                                            <x-heroicon name="document-arrow-down"/>
+                                        </a>
+                                        <a href="#">
+                                            <x-heroicon class="text-primary" name="information-circle"/>
+                                        </a>
+                                        <a href="#">
+                                            <x-heroicon class="text-secondary-error" name="trash"/>
+                                        </a>
+                                        <a href="/generate/{{ $customer->id }}">
+                                            <x-heroicon class="text-primary-grey" name="pencil-square"/>
+                                        </a>
+                                    </div>
                                 </td>
                             </tr>
 
                         @endforeach
                         </tbody>
                     </table>
-                    <div class="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                    <div class="p-6 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
                         {{ $customers->links() }}
                     </div>
                 </div>

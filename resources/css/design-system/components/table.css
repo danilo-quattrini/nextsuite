@@ -1,0 +1,11 @@
+.table-head{
+    @apply p-4 border-b-2 border-gray-200 bg-gray-100 text-left text-base font-medium text-primary-grey tracking-wider;
+}
+
+.table-text{
+    @apply text-base font-medium text-black;
+}
+
+.table-row{
+    @apply p-5 bg-white text-sm;
+}
