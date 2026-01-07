@@ -42,16 +42,35 @@
         </div>
 
         <div class="section">
-            <h2>Skills</h2>
-            <ul>
-                @foreach($skills as $skill)
-                    <li>
-                        <b>{{ $skill['name'] }}</b><br>
-                        {{ $skill['description'] }}<br>
-                        <b>Years:</b> {{ $skill['years'] }}
-                    </li>
-                @endforeach
-            </ul>
+            @if(!empty($skills))
+                <h2>Skills</h2>
+                <ul>
+                    @foreach($skills as $skill)
+                        <li>
+                            <b>{{ $skill['name'] }}</b><br>
+                            {{ $skill['description'] }}<br>
+                            <b>Years:</b> {{ $skill['years'] }}
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <h2>No Skills</h2>
+            @endif
+        </div>
+
+        <div class="section">
+            @if(!empty($attributes))
+                <h2>Attributes</h2>
+                <ul>
+                    @foreach($attributes as $attribute)
+                        <li>
+                            <p> <strong>{{ $attribute['name'] }}</strong> : {{ $attribute['value'] }}</p>
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+
+            @endif
         </div>
 
         <div>

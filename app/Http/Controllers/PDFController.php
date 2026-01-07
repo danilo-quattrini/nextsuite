@@ -12,7 +12,7 @@ class PDFController extends Controller
     public function show(Customer $customer, OpenAIService $openAIService)
     {
 
-        list($customer, $skills) = $this->customer_info($customer);
+        list($customer, $skills, $attributes) = $this->customer_info($customer);
 
         $skill_names = $skills->pluck('name')->all();
         $skillSeparated = implode(', ', $skill_names);
@@ -23,7 +23,7 @@ class PDFController extends Controller
             'skills' => $skillSeparated
         ]);
 
-        $pdf = Pdf::loadView('documents.template-1', compact('customer', 'skills', 'summary'));
+        $pdf = Pdf::loadView('documents.template-1', compact('customer', 'skills', 'attributes', 'summary'));
 
         return $pdf->stream('document-example.pdf');
     }
@@ -40,6 +40,14 @@ class PDFController extends Controller
                 'level' => $skill->pivot->level ?? null,
             ];
         });
-        return array($customer, $skills);
+
+        $attributes = $customer->attributes->map(function ($attribute){
+            return [
+                'id' => $attribute->id,
+                'name' => $attribute->name,
+                'value' => $attribute->pivot->value ?? null
+            ];
+        });
+        return array($customer, $skills, $attributes);
     }
 }
