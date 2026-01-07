@@ -26,7 +26,7 @@
             <div class="flex-1 flex flex-col h-full overflow-hidden">
 
                 {{-- NAVBAR --}}
-                <header class="h-20 flex items-center justify-end shrink-0 border-b border-b-outline-grey sticky top-0 z-20 bg-white">
+                <header class="navbar-container">
                     @livewire('navigation-menu')
                 </header>
 
