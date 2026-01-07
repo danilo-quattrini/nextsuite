@@ -13,7 +13,7 @@ class AttributeSeeder extends Seeder
     public function run(): void
     {
         $data = json_decode(
-            File::get(database_path('data/attributes/customer_attributes.json')),
+            File::get(database_path('data/attributes/attributes.json')),
             true
         );
         foreach ($data as $categoryType => $attributes) {

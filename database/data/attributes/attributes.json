@@ -1,0 +1,142 @@
+{
+  "Health": [
+    {
+      "name": "Weight",
+      "slug": "weight",
+      "type": "number"
+    },
+    {
+      "name": "Height",
+      "slug": "height",
+      "type": "number"
+    },
+    {
+      "name": "Blood type",
+      "slug": "blood-type",
+      "type": "select",
+      "options": {
+        "a+": "A+", "a-": "A-", "b+": "B+", "b-": "B-",
+        "ab+": "AB+", "ab-": "AB-", "o+": "O+", "o-": "O-"
+      }
+    },
+    {
+      "name": "Physical Activity Level",
+      "slug": "physical-activity",
+      "type": "boolean",
+      "options": {
+        "sedentary": "Sedentary",
+        "moderate": "Moderate",
+        "active": "Very Active"
+      }
+    },
+    {
+      "name": "Vision Status",
+      "slug": "vision-status",
+      "type": "select",
+      "options": {
+        "normal": "Normal",
+        "glasses": "Corrective Lenses",
+        "impaired": "Visually Impaired"
+      }
+    }
+  ],
+  "Technology": [
+    {
+      "name": "Digital literacy",
+      "slug": "digital-literacy",
+      "type": "boolean",
+      "options": {
+        "basic": "Basic",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      }
+    },
+    {
+      "name": "Primary OS Preference",
+      "slug": "os-preference",
+      "type": "select",
+      "options": {
+        "windows": "Windows",
+        "macos": "macOS",
+        "linux": "Linux"
+      }
+    },
+    {
+      "name": "Remote Work Ready",
+      "slug": "remote-ready",
+      "type": "boolean",
+      "options": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    {
+      "name": "Internet Reliability",
+      "slug": "internet-reliability",
+      "type": "boolean",
+      "options": {
+        "low": "Unstable",
+        "high": "Stable/High-speed"
+      }
+    }
+  ],
+  "Business": [
+    {
+      "name": "Years of Experience",
+      "slug": "years-experience",
+      "type": "number"
+    },
+    {
+      "name": "Leadership Level",
+      "slug": "leadership-level",
+      "type": "boolean",
+      "options": {
+        "none": "Individual Contributor",
+        "mid": "Team Lead/Manager",
+        "executive": "Executive"
+      }
+    },
+    {
+      "name": "Employment Status",
+      "slug": "employment-status",
+      "type": "select",
+      "options": {
+        "full-time": "Full Time",
+        "freelance": "Freelance",
+        "unemployed": "Not Currently Employed"
+      }
+    },
+    {
+      "name": "Willingness to Travel",
+      "slug": "travel-willingness",
+      "type": "boolean",
+      "options": {
+        "0": "No travel",
+        "50": "Up to 50%",
+        "100": "Frequent travel"
+      }
+    }
+  ],
+  "Languages": [
+    {
+      "name": "Native Language",
+      "slug": "native-language",
+      "type": "string"
+    },
+    {
+      "name": "Total Languages Spoken",
+      "slug": "language-count",
+      "type": "number"
+    },
+    {
+      "name": "Global Mobility",
+      "slug": "global-mobility",
+      "type": "boolean",
+      "options": {
+        "low": "Local only",
+        "medium": "Regional",
+        "high": "International"
+      }
+    }
+  ]
+}
