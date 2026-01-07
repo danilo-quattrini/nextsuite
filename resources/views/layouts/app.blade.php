@@ -14,8 +14,8 @@
         @livewireStyles
         @fluxAppearance
     </head>
-    <body class="font-sans antialiased">
-        <div class="h-screen flex bg-white text-black overflow-hidden">
+    <body class="font-sans antialiased overflow-hidden">
+        <div class="h-screen flex bg-white text-black">
 
             {{-- SIDEBAR --}}
             <aside class="sidebar-container">
