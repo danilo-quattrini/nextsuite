@@ -17,10 +17,15 @@ class CompanyController extends Controller
         return view('auth.company-choice');
     }
 
+    public function create(): View
+    {
+        return view('company.create');
+    }
+
     public function show(): View
     {
         $company = Auth::user()->company;
 
-        return view('auth.company-show', compact('company'));
+        return view('company.show', compact('company'));
     }
 }

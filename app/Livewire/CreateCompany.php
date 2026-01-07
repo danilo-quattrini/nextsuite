@@ -19,7 +19,7 @@ class CreateCompany extends Component
     public ?int $field = null;
     public ?int $owner_id = null;
 
-    public function mount()
+    public function mount(): void
     {
         $this->fields = Field::all(); // assign values
     }
@@ -41,7 +41,7 @@ class CreateCompany extends Component
         ];
     }
 
-    public function submit()
+    public function submit(): void
     {
         $validated = $this->validate();
 
@@ -59,6 +59,10 @@ class CreateCompany extends Component
             'owner_id' => $userId,
         ]);
 
-        $this->redirect('/');
+        if(auth()->check()) {
+            $this->redirect(route('company.show'));
+        }else{
+            $this->redirect(route('login'));
+        }
     }
 }

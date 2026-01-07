@@ -19,7 +19,7 @@
                 {{__('Skip for now')}}
             </x-button>
 
-            <x-button size="large" href="{{ route('company.create') }}">
+            <x-button size="large" href="{{ route('auth.company.create') }}">
                 {{__('Create a company')}}
             </x-button>
         </div>

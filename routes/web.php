@@ -27,10 +27,13 @@ Route::middleware([
 ])->controller(CompanyController::class)->group(function () {
 
    Route::get('/onboarding/company/create', 'index')
-       ->name('company.create');
+       ->name('auth.company.create');
 
    Route::get('/onboarding/company/choice', 'choice')
        ->name('company.choice');
+
+    Route::get('/company/create', 'create')
+        ->name('company.create');
 
    Route::get('/company', 'show')
        ->name('company.show');

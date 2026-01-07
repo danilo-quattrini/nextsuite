@@ -6,18 +6,17 @@
 
             {{--  Page Header  --}}
             <h1 class="text-2xl font-bold text-black">
-                {{ __('New Customer') }}
+                {{ __('New Company') }}
             </h1>
 
             <p class="text-sm text-primary-grey">
-                {{__('Add a new customer!')}}
+                {{__('Create your first company!')}}
             </p>
 
             {{--  Form  --}}
             <x-form.container>
-                @livewire('create-customer')
+                @livewire('create-company')
             </x-form.container>
         </div>
-
     </div>
 </x-app-layout>
