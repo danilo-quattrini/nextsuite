@@ -8,7 +8,9 @@
     {{-- Company --}}
     <div class="space-y-2">
         <p class="text-base text-primary-grey font-medium">Welcome</p>
-        <p class="text-3xl font-bold">{{ Auth::user()->company->name ?? Auth::user()->full_name }}</p>
+        <p class="text-3xl font-bold line-clamp-2 h-full">
+            {{ Auth::user()->company->name ?? Auth::user()->full_name }}
+        </p>
     </div>
 
 
