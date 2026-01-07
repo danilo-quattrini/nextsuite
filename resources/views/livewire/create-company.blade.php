@@ -45,13 +45,13 @@
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Select Company:') }}" :required="true"/>
                 <x-form.select-wrapper :error="$errors->has('field')">
-                        <x-form.select-element name="field" id="field">
+                        <x-form.select-element wire:model.defer="field" id="field">
                             <x-slot:options>
                                 {{-- explicit placeholder so first real option triggers change when selected --}}
-                                <option value="0" disabled hidden>Select an option</option>
+                                <option value="" disabled hidden>Select an option</option>
 
                                 @foreach ($fields as $value => $label)
-                                    <option value="{{ $value + 1}}">
+                                    <option value="{{ $value }}">
                                         {{ $label->name }}
                                     </option>
                                 @endforeach
