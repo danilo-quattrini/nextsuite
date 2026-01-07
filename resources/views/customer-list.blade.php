@@ -1,3 +1,3 @@
 <x-app-layout>
-    <x-table :customers="$customers"/>
+    @livewire('customer.customer-table')
 </x-app-layout>

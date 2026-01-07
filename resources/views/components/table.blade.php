@@ -80,7 +80,7 @@
                                         <a href="#">
                                             <x-heroicon class="text-primary" name="information-circle"/>
                                         </a>
-                                        <a href="#">
+                                        <a href="#" wire:click="confirmDelete({{ $customer->id }})">
                                             <x-heroicon class="text-secondary-error" name="trash"/>
                                         </a>
                                         <a href="/generate/{{ $customer->id }}">

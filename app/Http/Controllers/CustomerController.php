@@ -9,12 +9,11 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        return view('create-customer');
+        return view('customer.create');
     }
 
     public function show()
     {
-        $customers = Customer::with('skills')->paginate(5);
-        return view('customer-list', compact('customers'));
+        return view('customer-list');
     }
 }
