@@ -47,7 +47,7 @@
                                     <div class="flex items-center">
                                         <div class="shrink-0 w-10 h-10">
                                             <img class="w-full h-full rounded-full"
-                                                 src="{{ asset('storage/customers-profile-photos/' . $customer->profile_photo_url) }}"
+                                                 src="{{ $customer->profile_photo_url ? asset('storage/customers-profile-photos/' . $customer->profile_photo_url) : 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440' }}"
                                                  alt="profile-picture" />
                                         </div>
                                         <div class="ml-3">
