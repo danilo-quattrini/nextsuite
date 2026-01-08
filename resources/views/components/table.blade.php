@@ -83,8 +83,18 @@
                                         <a href="#" wire:click="confirmDelete({{ $customer->id }})">
                                             <x-heroicon class="text-secondary-error" name="trash"/>
                                         </a>
-                                        <a href="/generate/{{ $customer->id }}">
+                                        <a href="#">
                                             <x-heroicon class="text-primary-grey" name="pencil-square"/>
+                                        </a>
+                                        <a
+                                                href="#"
+                                                wire:click.prevent="
+                                                    $dispatch('review-user', {
+                                                        id: {{ $customer->id }},
+                                                        type: 'customer'
+                                                    })"
+                                        >
+                                            <x-heroicon class="text-secondary-warning" name="star" />
                                         </a>
                                     </div>
                                 </td>
