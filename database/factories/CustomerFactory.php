@@ -21,7 +21,7 @@ class CustomerFactory extends Factory
             'phone' => $this->faker->phoneNumber(),
             'dob' => Carbon::now(),
             'nationality' => $this->faker->country(),
-            'gender' => $this->faker->word(),
+            'gender' => $this->faker->randomElement(['man', 'woman', 'other']),
             'company_id' => Company::factory(),
             'user_id' => User::factory(),
             'created_at' => Carbon::now(),
