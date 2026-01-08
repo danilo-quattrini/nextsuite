@@ -8,6 +8,7 @@
 @import "./design-system/components/sidebar.css";
 @import "./design-system/components/navbar.css";
 @import "./design-system/components/table.css";
+@import "./design-system/components/textbox.css";
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";
