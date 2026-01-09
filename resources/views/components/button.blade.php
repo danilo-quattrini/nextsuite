@@ -1,6 +1,6 @@
 @props([
     'variant' => 'primary',
-    'size' => ' default',
+    'size' => 'default',
     'type' => 'button',
     'href' => null,
 ])
@@ -8,24 +8,31 @@
 @php
     $base = 'btn';
 
-    // Style variants
     $variants = [
         'primary' => 'btn-primary',
         'rest' => 'btn-rest',
         'disable' => 'btn-disable',
         'error' => 'btn-error',
         'warning' => 'btn-warning',
-        'outline-primary' => ' btn-outline-primary',
-        'outline-disable' => ' btn-outline-disable',
-        'outline-error' => ' btn-outline-error',
-        'outline-warning' => ' btn-outline-warning',
-        ];
-    $sizes = [
-        'default' => ' w-[72px] h-[38px]',
-        'large' => ' w-[150px] h-[38px]',
+        'outline-primary' => 'btn-outline-primary',
+        'outline-disable' => 'btn-outline-disable',
+        'outline-error' => 'btn-outline-error',
+        'outline-warning' => 'btn-outline-warning',
+        'outline-dashed' => 'btn-outline-disable-dashed'
     ];
 
-    $classes = $base . ' ' . ($variants[$variant] ?? $variants['primary']) . ' ' . ($sizes[$size] ?? $sizes['default']);
+    $sizes = [
+        'default' => 'w-[72px] h-[38px]',
+        'large' => 'w-[150px] h-[38px]',
+        'auto' => 'px-4 py-2 h-[38px]',
+        'full' => 'w-full h-[38px]'
+    ];
+
+    $classes = trim(implode(' ', [
+        $base,
+        $variants[$variant] ?? $variants['primary'],
+        $sizes[$size] ?? $sizes['default'],
+    ]));
 @endphp
 
 @if($href)
