@@ -4,20 +4,40 @@ namespace App\Livewire;
 
 use App\Models\Company;
 use App\Models\Field;
+use App\Traits\ArrayOperation;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class CreateCompany extends Component
 {
     use WithFileUploads;
+    use ArrayOperation;
+
+    public bool $showFieldDropdown = false;
 
     public string $name;
     public ?int $employees = null;
     public string $phone =  '';
     public $business_photo;
     public $fields;
-    public ?int $field = null;
+    public array $selectedFields = [];
     public ?int $owner_id = null;
+
+    public function toggleFieldDropdown(): void
+    {
+        $this->showFieldDropdown = ! $this->showFieldDropdown;
+    }
+
+    public function selectField(int $fieldId): void
+    {
+        $this->toggleItem(
+            targetProperty: 'selectedFields',
+            key: $fieldId,
+            sourceProperty: 'fields'
+        );
+
+        $this->showFieldDropdown = false;
+    }
 
     public function mount(): void
     {
@@ -36,7 +56,7 @@ class CreateCompany extends Component
             'employees' => 'required|integer',
             'phone' => 'required|string',
             'business_photo' => 'required|image|max:2048',
-            'field' => 'required|exists:fields,id',
+            'selectedFields' => 'required|min:1',
             'owner_id' => 'nullable|exists:users,id',
         ];
     }
@@ -50,14 +70,17 @@ class CreateCompany extends Component
 
         $userId = $validated['owner_id'] ?? auth()->id();
 
-        Company::create([
+        $company = Company::create([
             'name' => $validated['name'],
             'employees' => $validated['employees'],
             'phone' => $validated['phone'],
             'business_photo' => $imageName,
-            'field_id' => $validated['field'],
             'owner_id' => $userId,
         ]);
+
+        $company->fields()->sync(
+            array_keys($this->selectedFields)
+        );
 
         if(auth()->check()) {
             $this->redirect(route('company.show'));
