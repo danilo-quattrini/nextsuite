@@ -39,10 +39,10 @@ class CreateCustomer extends Component
         $user = auth()->user();
 
         if ($user->company) {
-            $user->company->load('field.categories.skills');
+            $user->company->load('fields.categories.skills');
 
-            $this->skillsByCategory = $user->company->field
-                ->categories
+            $this->skillsByCategory = $user->company->fields
+                ->flatMap(fn ($field) => $field->categories)
                 ->flatMap(fn ($category) => $category->skills)
                 ->unique('id')
                 ->groupBy(fn ($skill) => $skill->category->name)
