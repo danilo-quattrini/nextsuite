@@ -74,8 +74,11 @@
                                 </td>
                                 <td class="p-6 bg-white text-sm">
                                     <div class="flex items-center columns-1 gap-5">
-                                        <a href="/generate/{{ $customer->id }}">
+                                        <a href="{{ route('document.create', $customer) }}">
                                             <x-heroicon name="document-arrow-down"/>
+                                        </a>
+                                        <a href="{{ route('document.show', $customer) }}">
+                                            <x-heroicon name="document-magnifying-glass"/>
                                         </a>
                                         <a href="#">
                                             <x-heroicon class="text-primary" name="information-circle"/>

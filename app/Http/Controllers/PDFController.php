@@ -2,52 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\GenerateCustomerDocument;
 use App\Models\Customer;
-use App\Services\OpenAIService;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 
 class PDFController extends Controller
 {
-    public function show(Customer $customer, OpenAIService $openAIService)
+    public function create(Customer $customer)
     {
+        GenerateCustomerDocument::dispatch($customer, 'curriculum');
 
-        list($customer, $skills, $attributes) = $this->customer_info($customer);
-
-        $skill_names = $skills->pluck('name')->all();
-        $skillSeparated = implode(', ', $skill_names);
-
-        $summary = $openAIService->generateCustomerSummary([
-            'full_name' => $customer->full_name,
-            'years' => 5,
-            'skills' => $skillSeparated
+        return response()->json([
+            'message' => 'Document generation started. You will be notified when ready.',
         ]);
-
-        $pdf = Pdf::loadView('documents.template-1', compact('customer', 'skills', 'attributes', 'summary'));
-
-        return $pdf->stream('document-example.pdf');
     }
 
-
-    public function customer_info(Customer $customer): array
+    public function show(Customer $customer)
     {
-        $skills = $customer->skills->map(function ($skill) {
-            return [
-                'id' => $skill->id,
-                'name' => $skill->name,
-                'description' => $skill->description,
-                'years' => $skill->pivot->years ?? 0,
-                'level' => $skill->pivot->level ?? null,
-            ];
-        });
+        $path = $customer->document_path;
 
-        $attributes = $customer->attributes->map(function ($attribute){
-            return [
-                'id' => $attribute->id,
-                'name' => $attribute->name,
-                'value' => $attribute->pivot->value ?? null
-            ];
-        });
-        return array($customer, $skills, $attributes);
+        if (!$path || !Storage::exists($path)) {
+            abort(404, 'Document not found or doesn\'t exists for this customer.');
+        }
+
+        return Storage::response($path);
+
     }
+
 }

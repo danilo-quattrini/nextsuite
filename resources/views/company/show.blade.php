@@ -1,14 +1,16 @@
 <x-app-layout>
-    <div class="max-w-5xl mx-auto space-y-6">
+    <div class="max-w-6xl mx-auto space-y-8">
 
         {{-- Page header --}}
-        <div>
-            <h1 class="text-2xl font-bold text-black">
-                Company
-            </h1>
-            <p class="text-sm text-primary-grey">
-                Manage and view your company information
-            </p>
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-semibold text-black">
+                    Company overview
+                </h1>
+                <p class="text-sm text-primary-grey mt-1">
+                    General information and structure of your organization
+                </p>
+            </div>
         </div>
 
         {{-- NO COMPANY --}}
@@ -39,19 +41,62 @@
                 {{-- Header --}}
                 <div class="p-6 flex items-center justify-between">
                     <div>
-                        <div>
-                            <img class=" border border-primary-grey rounded-full h-24 w-24" src="{{ asset('storage/business-profile-photos/' . $company->business_photo) }}" alt="company profile photo"/>
+                        <div class="p-6 flex items-start gap-6">
+                            <img
+                                    class="border border-outline-grey rounded-full h-24 w-24 object-cover"
+                                    src="{{ asset('storage/business-profile-photos/' . $company->business_photo) }}"
+                                    alt="company profile photo"
+                            />
+                            <div class="flex-1 space-y-2">
+                                <h2 class="text-xl font-semibold text-black">
+                                    {{ $company->name }}
+                                </h2>
+
+                                <p class="text-sm text-primary-grey">
+                                    Company details
+                                </p>
+
+                            <div class="flex flex-wrap gap-6 text-sm text-black mt-3">
+                                <div class="flex items-center gap-2">
+                                    <x-heroicon name="phone" class="h-4 w-4 text-primary-grey"/>
+                                    <span>{{ $company->phone }}</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <x-heroicon name="identification" class="h-4 w-4 text-primary-grey"/>
+                                    <span>P.IVA: —</span>
+                                </div>
+                            </div>
                         </div>
-                        <h2 class="text-xl font-semibold">
-                            {{ $company->name }}
-                        </h2>
-                        <p class="text-sm text-primary-grey">
-                            Company details
-                        </p>
+                    </div>
+                </div>
+
+                {{-- Body --}}
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                        <div class="rounded-md border border-outline-grey p-5">
+                            <p class="text-sm text-primary-grey">
+                                Employees
+                            </p>
+                            <p class="text-2xl font-semibold text-black mt-1">
+                                {{ $company->employees }}
+                            </p>
+                        </div>
+
+                        <div class="md:col-span-2 rounded-md border border-outline-grey p-5">
+                            <p class="text-sm text-primary-grey mb-3">
+                                Business fields
+                            </p>
+
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($company->fields as $fields)
+                                    <x-tag variant="white" size="auto">
+                                        {{ $fields->name }}
+                                    </x-tag>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         @endif
-    </div>
 </x-app-layout>

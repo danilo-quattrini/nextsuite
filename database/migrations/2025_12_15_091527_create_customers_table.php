@@ -29,6 +29,8 @@ return new class extends Migration {
                 ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
+            $table->string('document_path')->nullable();
+            $table->timestamp('document_generated_at')->nullable();
         });
     }
 

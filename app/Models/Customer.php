@@ -22,7 +22,9 @@ class   Customer extends Model
         'gender',
         'nationality',
         'company_id',
-        'user_id'
+        'user_id',
+        'document_generated_at',
+        'document_path'
     ];
 
     public function skills(): BelongsToMany
@@ -57,9 +59,7 @@ class   Customer extends Model
     }
 
     /**
-
      * Get all the customer's reviews.
-
      */
     public function reviews(): MorphMany
     {
