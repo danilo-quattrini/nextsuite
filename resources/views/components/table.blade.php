@@ -6,7 +6,7 @@
                 <h2 class="text-2xl font-semibold leading-tight">Customers</h2>
             </div>
             <div class="mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                <div class="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                <div class="inline-block min-w-full shadow rounded-md overflow-hidden">
                     <table class="min-w-full leading-normal">
                         <thead>
                         <tr>
@@ -74,12 +74,6 @@
                                 </td>
                                 <td class="p-6 bg-white text-sm">
                                     <div class="flex items-center columns-1 gap-5">
-                                        <a href="{{ route('document.create', $customer) }}">
-                                            <x-heroicon name="document-arrow-down"/>
-                                        </a>
-                                        <a href="{{ route('document.show', $customer) }}">
-                                            <x-heroicon name="document-magnifying-glass"/>
-                                        </a>
                                         <a href="#">
                                             <x-heroicon class="text-primary" name="information-circle"/>
                                         </a>

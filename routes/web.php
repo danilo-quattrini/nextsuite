@@ -20,7 +20,8 @@ Route::middleware([
         ->name('document.index');
 
     Route::get('/document/create/{customer}', 'create')
-       ->name('document.create');
+        ->name('document.create');
+
     Route::get('/document/{customer}', 'show')
         ->name('document.show');
 });
