@@ -15,6 +15,10 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->controller(PDFController::class)->group(function(){
+
+    Route::get('/document/', 'index')
+        ->name('document.index');
+
     Route::get('/document/create/{customer}', 'create')
        ->name('document.create');
     Route::get('/document/{customer}', 'show')

@@ -56,13 +56,34 @@
             </x-slot:elements>
         </x-sidebar.dropdown-link>
 
-        {{-- DOCUMENTS --}}
-        <x-sidebar.sidebar-link href="" >
+        {{-- DOCUMENTS DROPDOWN --}}
+        <x-sidebar.dropdown-link :active="request()->routeIs('document.*')" >
             <x-slot:icon>
                 <x-heroicon name="document" size="lg"/>
             </x-slot:icon>
             Documents
-        </x-sidebar.sidebar-link>
+
+            <x-slot:elements>
+
+                <x-sidebar.sidebar-link
+                        href="{{ route('document.index') }}"
+                        :active="request()->routeIs('document.index')"
+                >
+                    <x-slot:icon>
+                        <x-heroicon name="document-plus" size="lg"/>
+                    </x-slot:icon>
+                    Generate
+                </x-sidebar.sidebar-link>
+
+                <x-sidebar.sidebar-link href="" >
+                    <x-slot:icon>
+                        <x-heroicon name="clipboard-document" size="lg"/>
+                    </x-slot:icon>
+                    Templates
+                </x-sidebar.sidebar-link>
+            </x-slot:elements>
+
+        </x-sidebar.dropdown-link>
 
         {{-- REPORTS --}}
         <x-sidebar.sidebar-link href="" >
@@ -113,21 +134,6 @@
             </x-slot:icon>
             Employees
         </x-sidebar.sidebar-link>
-    </nav>
-
-    {{-- TOOLS --}}
-    <nav>
-
-        <p class="subheading" >TOOLS</p>
-
-        {{-- TEMPLATES --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="clipboard-document" size="lg"/>
-            </x-slot:icon>
-            Templates
-        </x-sidebar.sidebar-link>
-
     </nav>
 
     {{-- RESOURCES --}}

@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class PDFController extends Controller
 {
+    public function index()
+    {
+        $customers = Customer::with('skills')
+                        ->paginate(10);
+        return view('documents.index', compact('customers'));
+    }
+
     public function create(Customer $customer)
     {
         GenerateCustomerDocument::dispatch($customer, 'curriculum');
