@@ -8,6 +8,7 @@ use http\Exception\InvalidArgumentException;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
+use PhpParser\Node\Expr\Cast\Double;
 
 class CustomerTable extends Component
 {
@@ -15,7 +16,6 @@ class CustomerTable extends Component
     use WithReview;
     public bool $showDeleteModal = false;
     public ?int $customerToDelete = null;
-
 
     protected string $paginationTheme = 'tailwind';
 
@@ -45,10 +45,14 @@ class CustomerTable extends Component
 
         session()->flash('success', 'Customer deleted successfully.');
     }
+
     public function render()
     {
         return view('livewire.customer.customer-table', [
-            'customers' => Customer::with('skills')->paginate(10)
+            'customers' => Customer::with('skills')
+                ->withCount('reviews')
+                ->withAvg('reviews', 'rating')
+                ->paginate(5)
         ]);
     }
 }
