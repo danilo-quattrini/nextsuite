@@ -70,4 +70,7 @@ Route::middleware([
 
     Route::get('/customer/list', 'show')
         ->name('customer.list');
+
+    Route::get('/customer/{customer}', 'info')
+        ->name('customer.show');
 });

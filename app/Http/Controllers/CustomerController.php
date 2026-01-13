@@ -16,4 +16,10 @@ class CustomerController extends Controller
     {
         return view('customer-list');
     }
+
+    public function info(Customer $customer)
+    {
+        return view('customer.show', compact('customer'));
+    }
+
 }
