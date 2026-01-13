@@ -41,12 +41,40 @@
                     </div>
 
                     <div class="mt-6 flex gap-3">
-                        <x-button href="{{ route('document.show', $customer->id) }}" size="full" variant="rest" >
-                            <x-heroicon name="document-magnifying-glass" />
-                            View
-                        </x-button>
 
-                        <x-button href="{{ route('document.create', ['customer' => $customer->id]) }}" size="full">
+                        <x-form.dropdown-button>
+                            <x-slot:trigger>
+                                <x-button size="auto" variant="rest">
+                                    <x-heroicon name="document-magnifying-glass"/>
+                                    Documents
+                                    <x-heroicon
+                                            name="chevron-down"
+                                            size="md"
+                                            class="transition-transform"
+                                            x-bind:class="open ? 'rotate-180' : ''"
+                                    />
+                                </x-button>
+                            </x-slot:trigger>
+
+                            <x-slot:content>
+                                <div class="flex flex-col gap-2">
+                                    @foreach($documents->where('customer_id', $customer->id) as $document)
+                                        <a href="{{ route('document.show', $customer->id) }}">
+                                            <div class="flex px-4 py-2 rounded-md text-sm font-medium border border-outline-grey hover:bg-outline-grey">
+                                                <x-heroicon name="document-text"/>
+                                                {{ ucfirst($document->type) . ' ' . ' ' . $customer->full_name ?? 'Document' }}
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </x-slot:content>
+                        </x-form.dropdown-button>
+
+                        <x-button
+                                onclick="{{$showDocumentGenerationModal = false}}"
+                                href="{{ route('document.create', ['customer' => $customer->id]) }}"
+                                size="full"
+                        >
                             <x-heroicon name="document-plus"/>
                             New Document
                         </x-button>

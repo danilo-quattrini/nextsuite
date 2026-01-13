@@ -1,8 +1,8 @@
 @props([
     'modal' => null
 ])
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-    <div class="flex flex-col justify-center items-center gap-6 bg-white rounded-md px-10 py-12 w-full max-w-fit"
+<div class="popup-overlay">
+    <div class="popup-card"
          @click.outside="$wire.set('{{ $modal }}', false)"
     >
         <div class=" text-black">

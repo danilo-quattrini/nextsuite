@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\GenerateCustomerDocument;
 use App\Models\Customer;
+use App\Models\DocumentRequest;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -13,15 +14,23 @@ class PDFController extends Controller
     {
         $customers = Customer::with('skills')
                         ->paginate(10);
-        return view('documents.index', compact('customers'));
+        $documents = DocumentRequest::with('customer')
+            ->paginate(5);
+        return view('documents.index', compact('customers', 'documents'));
     }
 
     public function create(Customer $customer)
     {
-        GenerateCustomerDocument::dispatch($customer, 'curriculum');
+        $documentRequest = DocumentRequest::create([
+            'customer_id' => $customer->id,
+            'status' => 'processing',
+            'type' => 'curriculum'
+        ]);
+        GenerateCustomerDocument::dispatch($customer, $documentRequest->type, $documentRequest->id);
 
-        return response()->json([
-            'message' => 'Document generation started. You will be notified when ready.',
+        return view('documents.generation',[
+            'requestId' => $documentRequest->id,
+            'customer' => $documentRequest->customer
         ]);
     }
 
