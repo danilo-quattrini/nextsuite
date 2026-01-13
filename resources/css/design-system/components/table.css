@@ -1,5 +1,5 @@
 .table-head{
-    @apply p-4 border-b-2 border-gray-200 bg-gray-100 text-left text-base font-medium text-primary-grey tracking-wider;
+    @apply p-4 border-b border-b-outline-grey text-left text-base font-medium text-black tracking-wider;
 }
 
 .table-text{
@@ -7,5 +7,5 @@
 }
 
 .table-row{
-    @apply p-5 bg-white text-sm;
+    @apply p-5 bg-white border-black;
 }
