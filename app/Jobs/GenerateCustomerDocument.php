@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Customer;
+use App\Models\DocumentRequest;
 use App\Services\OpenAIService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -19,14 +20,16 @@ class GenerateCustomerDocument implements ShouldQueue
 
     protected Customer $customer;
     protected string $documentType;
+    protected int $requestId;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(Customer $customer, string $documentType)
+    public function __construct(Customer $customer, string $documentType, int $requestId)
     {
         $this->customer = $customer;
         $this->documentType = $documentType;
+        $this->requestId = $requestId;
     }
 
     /**
@@ -34,26 +37,41 @@ class GenerateCustomerDocument implements ShouldQueue
      */
     public function handle(OpenAIService $openAIService): void
     {
-        list($customer, $skills, $attributes) = $this->customer_info($this->customer);
+        $documentRequest = DocumentRequest::find($this->requestId);
 
-        $skill_names = $skills->pluck('name')->all();
-        $skillSeparated = implode(', ', $skill_names);
+        try {
+            list($customer, $skills, $attributes) = $this->customer_info($this->customer);
+            $skill_names = $skills->pluck('name')->all();
+            $skillSeparated = implode(', ', $skill_names);
+            $summary = $openAIService->generateCustomerSummary([
+                'full_name' => $this->customer->full_name,
+                'years' => 5,
+                'skills' => $skillSeparated
+            ]);
 
-        $summary = $openAIService->generateCustomerSummary([
-            'full_name' => $this->customer->full_name,
-            'years' => 5,
-            'skills' => $skillSeparated
-        ]);
+            $pdf = Pdf::loadView('documents.template-1', compact('customer', 'skills', 'attributes', 'summary'));
+            $filename = "documents/{$this->customer->id}_{$this->documentType}_".time().".pdf";
+            Storage::put($filename, $pdf->output());
 
-        $pdf = Pdf::loadView('documents.template-1', compact('customer', 'skills', 'attributes', 'summary'));
+            $this->customer->update([
+                'document_path' => $filename,
+                'document_generated_at' => now()
+            ]);
 
-        $filename = "documents/{$this->customer->id}_{$this->documentType}_". time() . ".pdf";
-        Storage::put($filename, $pdf->output());
+            $documentRequest->update([
+                'status' => 'completed',
+                'document_url' => Storage::url($filename),
+                'completed_at' => now(),
+            ]);
 
-        $this->customer->update([
-            'document_path' => $filename,
-            'document_generated_at' => now()
-        ]);
+        } catch (\Exception $e) {
+            $documentRequest->update([
+                'status' => 'failed',
+                'error_message' => $e->getMessage(),
+            ]);
+
+            throw $e;
+        }
     }
 
     public function customer_info(Customer $customer): array
@@ -80,10 +98,9 @@ class GenerateCustomerDocument implements ShouldQueue
 
     public function failed(\Throwable $exception): void
     {
-        // Handle job failure - log it, notify admin, etc.
-        \Log::error('Document generation failed', [
-            'customer_id' => $this->customer->id,
-            'error' => $exception->getMessage(),
+        DocumentRequest::find($this->requestId)->update([
+            'status' => 'failed',
+            'error_message' => $exception->getMessage(),
         ]);
     }
 }
