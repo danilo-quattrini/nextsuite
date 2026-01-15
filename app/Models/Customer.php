@@ -23,8 +23,6 @@ class   Customer extends Model
         'nationality',
         'company_id',
         'user_id',
-        'document_generated_at',
-        'document_path'
     ];
 
     public function skills(): BelongsToMany
@@ -64,5 +62,13 @@ class   Customer extends Model
     public function reviews(): MorphMany
     {
         return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    /**
+     * Get all the customer's documents.
+     */
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 }
