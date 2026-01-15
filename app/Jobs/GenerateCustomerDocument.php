@@ -43,6 +43,7 @@ class GenerateCustomerDocument implements ShouldQueue
             list($customer, $skills, $attributes) = $this->customer_info($this->customer);
             $skill_names = $skills->pluck('name')->all();
             $skillSeparated = implode(', ', $skill_names);
+
             $summary = $openAIService->generateCustomerSummary([
                 'full_name' => $this->customer->full_name,
                 'years' => 5,
@@ -53,15 +54,22 @@ class GenerateCustomerDocument implements ShouldQueue
             $filename = "documents/{$this->customer->id}_{$this->documentType}_".time().".pdf";
             Storage::put($filename, $pdf->output());
 
-            $this->customer->update([
-                'document_path' => $filename,
-                'document_generated_at' => now()
-            ]);
-
             $documentRequest->update([
                 'status' => 'completed',
                 'document_url' => Storage::url($filename),
                 'completed_at' => now(),
+            ]);
+
+            $model = $this->getModel($customer);
+
+            $model->documents()->create([
+                'name' =>  "{$this->customer->id}_{$this->documentType}_".time().".pdf",
+                'type' => $documentRequest->type,
+                'document_path' =>  $filename
+            ]);
+
+            $documentRequest->update([
+                'document_id' => $model->id,
             ]);
 
         } catch (\Exception $e) {
@@ -94,6 +102,12 @@ class GenerateCustomerDocument implements ShouldQueue
             ];
         });
         return array($customer, $skills, $attributes);
+    }
+
+    public function getModel($model)
+    {
+        $class = get_class($model);
+        return $class::findOrFail($model->id);
     }
 
     public function failed(\Throwable $exception): void
