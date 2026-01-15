@@ -9,7 +9,7 @@ use App\Models\DocumentRequest;
 use Illuminate\Support\Facades\Storage;
 
 
-class PDFController extends Controller
+class DocumentController extends Controller
 {
     public function index()
     {
