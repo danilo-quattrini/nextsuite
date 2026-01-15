@@ -22,7 +22,7 @@ Route::middleware([
     Route::get('/document/create/{customer}', 'create')
         ->name('document.create');
 
-    Route::get('/document/{customer}', 'show')
+    Route::get('/document/{document}', 'show')
         ->name('document.show');
 });
 

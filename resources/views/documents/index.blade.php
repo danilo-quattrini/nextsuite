@@ -2,10 +2,10 @@
     <div class="container mx-auto px-4 sm:px-8">
         <div class="py-8">
             <h2 class="text-3xl font-semibold text-black">
-                Customers
+                Document Generation
             </h2>
             <p class="text-sm text-primary-grey mt-1">
-                Select a customer to view details or generate documents
+                Select a customer to generate documents
             </p>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -58,8 +58,9 @@
 
                             <x-slot:content>
                                 <div class="flex flex-col gap-2">
-                                    @foreach($documents->where('customer_id', $customer->id) as $document)
-                                        <a href="{{ route('document.show', $customer->id) }}">
+
+                                    @foreach($customer->documents as $document)
+                                        <a href="{{ route('document.show', $document->id) }}">
                                             <div class="flex px-4 py-2 rounded-md text-sm font-medium border border-outline-grey hover:bg-outline-grey">
                                                 <x-heroicon name="document-text"/>
                                                 {{ ucfirst($document->type) . ' ' . ' ' . $customer->full_name ?? 'Document' }}

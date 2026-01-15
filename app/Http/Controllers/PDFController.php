@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\GenerateCustomerDocument;
 use App\Models\Customer;
+use App\Models\Document;
 use App\Models\DocumentRequest;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,18 +15,18 @@ class PDFController extends Controller
     {
         $customers = Customer::with('skills')
                         ->paginate(10);
-        $documents = DocumentRequest::with('customer')
-            ->paginate(5);
-        return view('documents.index', compact('customers', 'documents'));
+        return view('documents.index', compact('customers'));
     }
 
     public function create(Customer $customer)
     {
         $documentRequest = DocumentRequest::create([
-            'customer_id' => $customer->id,
+            'requested_by_id' => $customer->id,
+            'requested_by_type' => get_class($customer),
             'status' => 'processing',
             'type' => 'curriculum'
         ]);
+
         GenerateCustomerDocument::dispatch($customer, $documentRequest->type, $documentRequest->id);
 
         return view('documents.generation',[
@@ -34,15 +35,13 @@ class PDFController extends Controller
         ]);
     }
 
-    public function show(Customer $customer)
+    public function show(Document $document)
     {
-        $path = $customer->document_path;
-
-        if (!$path || !Storage::exists($path)) {
+        if (!$document->document_path || !Storage::exists($document->document_path)) {
             abort(404, 'Document not found or doesn\'t exists for this customer.');
         }
 
-        return Storage::response($path);
+        return Storage::response($document->document_path);
 
     }
 
