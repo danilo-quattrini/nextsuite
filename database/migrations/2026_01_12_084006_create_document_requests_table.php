@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Customer;
+use App\Models\Document;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,12 +15,22 @@ return new class extends Migration
     {
         Schema::create('document_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Customer::class)->constrained();
             $table->string('type');
-            $table->enum('status', ['pending', 'processing', 'completed', 'failed'])->default('pending');
+
+            $table->enum('status', ['pending', 'processing', 'completed', 'failed'])
+                ->default('pending');
+
             $table->string('document_url')->nullable();
             $table->text('error_message')->nullable();
             $table->timestamp('completed_at')->nullable();
+
+            $table->nullableMorphs('requested_by');
+
+            $table->foreignIdFor(Document::class)
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+
             $table->timestamps();
         });
     }
