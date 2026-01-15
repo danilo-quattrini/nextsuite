@@ -29,6 +29,16 @@ Route::middleware([
         ->name('document.show');
 });
 
+/* TEMPLATE ROUTES */
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(TemplateController::class)->group(function(){
+    Route::get('/template/', 'index')
+        ->name('template.index');
+
+});
 /* COMPANY ROUTES */
 Route::middleware([
     'auth:sanctum',

@@ -57,7 +57,7 @@
         </x-sidebar.dropdown-link>
 
         {{-- DOCUMENTS DROPDOWN --}}
-        <x-sidebar.dropdown-link :active="request()->routeIs('document.*')" >
+        <x-sidebar.dropdown-link :active="request()->routeIs(['document.*', 'template.*'])" >
             <x-slot:icon>
                 <x-heroicon name="document" size="lg"/>
             </x-slot:icon>
@@ -75,7 +75,11 @@
                     Generate
                 </x-sidebar.sidebar-link>
 
-                <x-sidebar.sidebar-link href="" >
+                <x-sidebar.sidebar-link
+                        href="{{ route('template.index') }}"
+                        :active="request()->routeIs('template.index')"
+
+                >
                     <x-slot:icon>
                         <x-heroicon name="clipboard-document" size="lg"/>
                     </x-slot:icon>
