@@ -115,7 +115,7 @@ class CreateCustomer extends Component
             $customer->attributes()->sync($attributesToAttach);
         }
 
-        $this->redirect('/customer/list');
+        $this->redirect('/customer');
     }
 
     protected function stepRules(): array

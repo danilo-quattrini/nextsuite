@@ -68,7 +68,7 @@ Route::middleware([
     Route::get('/customer/create', 'index')
         ->name('customer.create');
 
-    Route::get('/customer/list', 'show')
+    Route::get('/customer', 'show')
         ->name('customer.list');
 
     Route::get('/customer/{customer}', 'info')
