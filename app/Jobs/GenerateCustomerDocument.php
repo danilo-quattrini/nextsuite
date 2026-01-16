@@ -65,7 +65,7 @@ class GenerateCustomerDocument implements ShouldQueue
             $model->documents()->create([
                 'name' =>  "{$this->customer->id}_{$this->documentType}_".time().".pdf",
                 'type' => $documentRequest->type,
-                'document_path' =>  $filename
+                'file_path' =>  $filename
             ]);
 
             $documentRequest->update([

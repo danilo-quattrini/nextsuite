@@ -37,11 +37,11 @@ class DocumentController extends Controller
 
     public function show(Document $document)
     {
-        if (!$document->document_path || !Storage::exists($document->document_path)) {
+        if (!$document->file_path || !Storage::exists($document->file_path)) {
             abort(404, 'Document not found or doesn\'t exists for this customer.');
         }
 
-        return Storage::response($document->document_path);
+        return Storage::response($document->file_path);
 
     }
 

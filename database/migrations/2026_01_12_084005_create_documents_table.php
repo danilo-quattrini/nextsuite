@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Template;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,7 +17,12 @@ return new class extends Migration {
 
             $table->string('name');
             $table->string('type');
-            $table->string('document_path');
+            $table->string('file_path');
+            $table->json('metadata')->nullable();
+
+            $table->foreignIdFor(Template::class)
+                ->nullable()
+                ->constrained('templates');
 
             $table->timestamps();
             $table->softDeletes();
