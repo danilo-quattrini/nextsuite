@@ -18,7 +18,7 @@ class Template extends Model
         'type',
         'category',
         'structure',
-        'layout_config',
+        'settings',
         'blade_template',
         'is_active',
     ];
@@ -28,7 +28,7 @@ class Template extends Model
         return [
             'type' => DocumentType::class,
             'structure' => 'array',
-            'layout_config' => 'array',
+            'settings' => 'array',
             'is_active' => 'boolean',
         ];
     }
