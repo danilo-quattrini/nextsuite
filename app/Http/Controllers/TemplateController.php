@@ -10,4 +10,8 @@ class TemplateController extends Controller
     {
         return view('documents.templates.index');
     }
+    public function create()
+    {
+        return view('documents.templates.create');
+    }
 }

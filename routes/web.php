@@ -38,6 +38,8 @@ Route::middleware([
     Route::get('/template/', 'index')
         ->name('template.index');
 
+    Route::get('/template/create', 'create')
+        ->name('template.create');
 });
 /* COMPANY ROUTES */
 Route::middleware([
