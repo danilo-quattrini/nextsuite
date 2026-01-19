@@ -1,13 +1,23 @@
 <x-app-layout>
-    <div class="container mx-auto px-6 py-8 space-y-8">
-        <div class="py-8">
-            <h2 class="text-3xl font-semibold text-black">
-                New Template
-            </h2>
-            <p class="text-sm text-primary-grey mt-1">
-                Create a new Template for your documents
+    <div class="flex w-full mx-auto justify-center items-center">
+
+        {{--  Content  --}}
+        <div class="flex-col space-y-6">
+
+            {{--  Page Header  --}}
+            <h1 class="text-2xl font-bold text-black">
+                {{ __('New Template') }}
+            </h1>
+
+            <p class="text-sm text-primary-grey">
+                {{__('Create a new Template!')}}
             </p>
+
+            {{--  Form  --}}
+            <x-form.container>
+                @livewire('template.create-template')
+            </x-form.container>
         </div>
-        @livewire('template.create-template')
+
     </div>
 </x-app-layout>
