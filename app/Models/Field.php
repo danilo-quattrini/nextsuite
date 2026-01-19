@@ -14,9 +14,9 @@ class Field extends Model
 
     protected $fillable = ['name'];
 
-    public function companies(): HasMany
+    public function companies(): BelongsToMany
     {
-        return $this->hasMany(Company::class);
+        return $this->belongsToMany(Company::class, 'company_field', 'field_id', 'company_id');
     }
 
     public function categories(): BelongsToMany

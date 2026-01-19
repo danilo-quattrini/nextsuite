@@ -1,0 +1,27 @@
+<?php
+
+use App\Models\Category;
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('attributes', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('slug')->unique()->nullable();
+            $table->string('type');
+            $table->foreignIdFor(Category::class)->constrained('categories')->cascadeOnDelete();
+            $table->json('options')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('attributes');
+    }
+};

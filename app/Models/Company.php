@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Company extends Model
@@ -12,12 +13,12 @@ class Company extends Model
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
     protected $fillable = [
-        'business_photo', 'name', 'employees', 'phone', 'field_id', 'owner_id'
+        'business_photo', 'name', 'employees', 'phone', 'owner_id'
     ];
 
-    public function field(): BelongsTo
+    public function fields(): BelongsToMany
     {
-        return $this->belongsTo(Field::class);
+        return $this->belongsToMany(Field::class, 'company_field', 'company_id', 'field_id');
     }
 
     public function users(): BelongsTo

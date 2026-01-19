@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class   Customer extends Model
@@ -21,13 +22,21 @@ class   Customer extends Model
         'gender',
         'nationality',
         'company_id',
-        'user_id'
+        'user_id',
     ];
 
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customer', 'customer_id', 'skill_id')
             ->withPivot(['years', 'level']);
+    }
+
+    public function attributes(): BelongsToMany
+    {
+        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id')
+            ->using(CustomerAttribute::class)
+            ->withPivot('value')
+            ->withTimestamps();
     }
 
     protected function casts(): array
@@ -45,5 +54,21 @@ class   Customer extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get all the customer's reviews.
+     */
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    /**
+     * Get all the customer's documents.
+     */
+    public function documents(): MorphMany
+    {
+        return $this->morphMany(Document::class, 'documentable');
     }
 }

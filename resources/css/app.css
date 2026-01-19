@@ -5,6 +5,13 @@
 @import "./design-system/components/buttons.css";
 @import "./design-system/components/input.css";
 @import "./design-system/components/select.css";
+@import "./design-system/components/sidebar.css";
+@import "./design-system/components/navbar.css";
+@import "./design-system/components/table.css";
+@import "./design-system/components/textbox.css";
+@import "./design-system/components/tag.css";
+@import "./design-system/components/progess-bar.css";
+@import "./design-system/components/pop-up.css";
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";

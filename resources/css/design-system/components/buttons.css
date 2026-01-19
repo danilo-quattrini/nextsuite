@@ -114,3 +114,9 @@
     border: 2px solid var(--color-secondary-warning);
     color: var(--color-secondary-warning);
 }
+
+.btn-outline-disable-dashed{
+    background-color: transparent;
+    border: 2px dashed var(--color-primary-grey);
+    color: var(--color-primary-grey);
+}

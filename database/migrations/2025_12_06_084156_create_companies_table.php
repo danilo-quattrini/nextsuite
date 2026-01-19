@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('business_photo');
             $table->integer('employees');
             $table->string('phone');
-            $table->foreignIdFor(Field::class, 'field_id')
-                ->constrained('fields');
             $table->foreignIdFor(User::class, 'owner_id')
                 ->constrained('users');
             $table->timestamps();

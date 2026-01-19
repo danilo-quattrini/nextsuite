@@ -1,0 +1,111 @@
+{
+  "Health": [
+    {
+      "name": "Clinical Nursing",
+      "description": "Providing direct patient care, administering medications, and monitoring vital signs in a clinical setting."
+    },
+    {
+      "name": "Physical Therapy",
+      "description": "Developing rehabilitation programs to improve mobility and reduce pain after injury or surgery."
+    },
+    {
+      "name": "Medical Coding & Billing",
+      "description": "Translating healthcare services into standardized codes for insurance claims and records."
+    },
+    {
+      "name": "Nutrition & Dietetics",
+      "description": "Designing meal plans and providing dietary advice to manage diseases and promote wellness."
+    },
+    {
+      "name": "Pharmacology",
+      "description": "Understanding drug interactions, dosages, and the effects of medications on the human body."
+    },
+    {
+      "name": "Mental Health Counseling",
+      "description": "Providing psychological support and therapy to individuals or groups facing emotional challenges."
+    },
+    {
+      "name": "Radiology",
+      "description": "Operating imaging equipment like X-rays and MRIs to diagnose medical conditions."
+    }
+  ],
+  "Technology": [
+    {
+      "name": "PHP",
+      "description": "Server-side scripting language designed for web development."
+    },
+    {
+      "name": "Laravel",
+      "description": "A PHP web framework following the model–view–controller architectural pattern."
+    },
+    {
+      "name": "MySQL",
+      "description": "An open-source relational database management system."
+    },
+    {
+      "name": "React.js",
+      "description": "A JavaScript library for building user interfaces, particularly single-page applications."
+    },
+    {
+      "name": "Python",
+      "description": "High-level programming language used for data science, automation, and backend development."
+    },
+    {
+      "name": "Cloud Architecture (AWS/Azure)",
+      "description": "Designing and managing scalable computing services and infrastructure in the cloud."
+    },
+    {
+      "name": "Cybersecurity",
+      "description": "Protecting systems, networks, and programs from digital attacks and unauthorized access."
+    },
+    {
+      "name": "DevOps",
+      "description": "Integrating software development and IT operations to shorten the systems development life cycle."
+    },
+    {
+      "name": "Mobile Development (Swift/Kotlin)",
+      "description": "Building native applications for iOS and Android platforms."
+    }
+  ],
+  "Business": [
+    {
+      "name": "Project Management",
+      "description": "Planning, executing and closing projects, managing timelines, scope and stakeholder communication."
+    },
+    {
+      "name": "Financial Analysis",
+      "description": "Analyzing financial data to inform budgeting, forecasting and investment decisions."
+    },
+    {
+      "name": "Marketing Strategy",
+      "description": "Developing go-to-market plans, positioning, and campaigns to drive demand and brand growth."
+    },
+    {
+      "name": "Agile Methodology",
+      "description": "Implementing iterative development and project management frameworks like Scrum or Kanban."
+    },
+    {
+      "name": "Supply Chain Management",
+      "description": "Managing the flow of goods and services from raw materials to final product delivery."
+    },
+    {
+      "name": "Strategic Planning",
+      "description": "Setting long-term goals and determining the actions and resources needed to achieve them."
+    },
+    {
+      "name": "Business Intelligence",
+      "description": "Using data mining and visualization tools to provide actionable insights for business growth."
+    }
+  ],
+  "Languages": [
+    { "name": "English" },
+    { "name": "Spanish" },
+    { "name": "French" },
+    { "name": "German" },
+    { "name": "Mandarin Chinese" },
+    { "name": "Japanese" },
+    { "name": "Portuguese" },
+    { "name": "Arabic" },
+    { "name": "Russian" }
+  ]
+}

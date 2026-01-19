@@ -14,16 +14,30 @@
         @livewireStyles
         @fluxAppearance
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @livewire('navigation-menu')
+    <body class="font-sans antialiased overflow-hidden">
+        <div class="h-screen flex bg-white text-black">
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+            {{-- SIDEBAR --}}
+            <aside class="sidebar-container">
+                @livewire('sidebar-menu')
+            </aside>
+
+            {{-- RIGHT AREA --}}
+            <div class="flex-1 flex flex-col h-full overflow-hidden">
+
+                {{-- NAVBAR --}}
+                <header class="navbar-container">
+                    @livewire('navigation-menu')
+                </header>
+
+                {{-- PAGE CONTENT --}}
+                <main class="flex-1 p-6 overflow-y-auto">
+                    {{ $slot }}
+                </main>
+
+            </div>
         </div>
-        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-[420px] max-w-[90vw]">
+        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-105 max-w-[90vw]">
             @if (session('status'))
                 <x-alert
                         type="success"

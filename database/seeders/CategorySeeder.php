@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\CategoryType;
 use App\Models\Category;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 
 class CategorySeeder extends Seeder
 {
@@ -16,48 +17,15 @@ class CategorySeeder extends Seeder
         /**
          * @var array<string, array<CategoryType::*>>
          */
-        $fieldWithCategory = [
-            [
-                'name' => 'Health',
-                'type' => CategoryType::HEALTH,
-                'fields' => [
-                    'Gym',
-                    'Nutrition',
-                    'Healthcare',
-                    'Hospitality',
-                ],
-            ],
-            [
-                'name' => 'Technology',
-                'type' => CategoryType::TECHNOLOGY,
-                'fields' => [
-                    'Artificial Intelligence',
-                    'Software',
-                ],
-            ],
-            [
-                'name' => 'Business',
-                'type' => CategoryType::BUSINESS,
-                'fields' => [
-                    'Finance',
-                    'Marketing',
-                    'Human Resources',
-                    'Hospitality',
-                ],
-            ],
-            [
-                'name' => 'Languages',
-                'type' => CategoryType::PROFESSIONAL_SERVICES,
-                'fields' => [
-                    'Education',
-                ],
-            ],
-        ];
+        $fieldWithCategory = json_decode(
+            File::get(database_path('data/category/categories.json')),
+            true
+        );
 
         foreach ($fieldWithCategory as $category) {
             Category::firstOrCreate(
                 ['name' => $category['name']],
-                ['type' => $category['type']->value]
+                ['type' => $category['type']]
             );
         }
     }

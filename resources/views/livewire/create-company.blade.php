@@ -43,25 +43,67 @@
 
             <!-- COMPANY SECTOR -->
             <x-form.input-container>
-                <x-form.label-container label="{{ __('Select Company:') }}" :required="true"/>
-                <x-form.select-wrapper :error="$errors->has('field')">
-                        <x-form.select-element name="field" id="field">
-                            <x-slot:options>
-                                {{-- explicit placeholder so first real option triggers change when selected --}}
-                                <option value="0" disabled hidden>Select an option</option>
+                <x-form.label-container label="{{ __('Select Field:') }}" :required="true"/>
 
-                                @foreach ($fields as $value => $label)
-                                    <option value="{{ $value + 1}}">
-                                        {{ $label->name }}
-                                    </option>
+                {{-- FIELD SHOW --}}
+                @if($selectedFields)
+                    <div class="grid grid-cols-5 gap-2">
+                        @foreach($selectedFields as $fieldId => $field)
+                                <x-tag size="auto" variant="white">
+
+                                    <x-slot:trailing>
+                                        <button
+                                                type="button"
+                                                wire:click="removeArrayItem('selectedFields', {{ $fieldId }})"
+                                                class="text-primary-grey hover:text-secondary-error transition cursor-pointer"
+                                        >
+                                            <x-heroicon name="x-circle" size="sm"/>
+                                        </button>
+                                    </x-slot:trailing>
+
+                                    {{ $fields->firstWhere('id', $fieldId)?->name }}
+
+                                </x-tag>
+                        @endforeach
+                    </div>
+                @endif
+
+                <x-button variant="outline-dashed" size="auto" wire:click="toggleFieldDropdown">
+                    <x-heroicon name="plus"/>
+                    New Field
+                </x-button>
+
+                {{-- DROPDOWN --}}
+                <div class="relative mt-1">
+                    @if($showFieldDropdown)
+                        <div
+                                class="absolute z-20 mt-1 w-72 rounded-md border border-outline-grey bg-white shadow-lg p-4"
+                        >
+                            <div class="flex flex-wrap gap-2">
+                                @foreach($fields as $item)
+                                    @php
+                                        $isSelected = array_key_exists($item->id, $selectedFields);
+                                    @endphp
+
+                                    <button
+                                            type="button"
+                                            wire:click="selectField({{ $item->id }})"
+                                            class="px-3 py-1.5 cursor-pointer rounded-md text-sm font-medium border transition
+                                            {{ $isSelected
+                                                ? 'bg-primary text-white border-primary'
+                                                : 'bg-white text-black border-outline-grey hover:bg-gray-100'
+                                            }}"
+                                    >
+                                        {{ $item->name }}
+                                    </button>
                                 @endforeach
-                            </x-slot:options>
-                        </x-form.select-element>
-                </x-form.select-wrapper>
-                <x-input-error for="field"/>
+                            </div>
+                        </div>
+                    @endif
+                </div>
+                <x-input-error for="selectedFields"/>
             </x-form.input-container>
 
-            <!-- BUSINESS SELECTOR -->
         </x-form.container>
         <!-- CREATE COMPANY BUTTON -->
         <div class="w-117.5 flex items-center justify-center my-10">

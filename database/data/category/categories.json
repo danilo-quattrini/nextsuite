@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Health",
+    "type": "health",
+    "fields": [
+      "Gym",
+      "Nutrition",
+      "Healthcare",
+      "Hospitality"
+    ]
+  },
+  {
+    "name": "Technology",
+    "type": "technology",
+    "fields": [
+      "Artificial Intelligence",
+      "Software"
+    ]
+  },
+  {
+    "name": "Business",
+    "type": "business",
+    "fields": [
+      "Finance",
+      "Marketing",
+      "Human Resources",
+      "Hospitality"
+    ]
+  },
+  {
+    "name": "Languages",
+    "type": "professional_services",
+    "fields": [
+      "Education"
+    ]
+  }
+]

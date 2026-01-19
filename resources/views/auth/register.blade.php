@@ -22,10 +22,11 @@
 
                 <input id="profile_photo" name="profile_photo" type="file" class="hidden">
                 <x-input-error for="profile_photo"/>
+
                 <!-- FULL NAME -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Full Name') }}" :required="true"/>
-                    <x-input id="full_name" name="full_name" :value="old('full_name')" autofocus autocomplete="name" type="text" right-icon="user" placeholder="Jon Doe" :error="$errors->has('full_name')"></x-input>
+                    <x-input id="full_name" name="full_name" :value="old('full_name')" autofocus autocomplete="name" type="text" right-icon="user" placeholder="Jon Doe" :error="$errors->has('full_name')" />
                     <x-input-error for="full_name"/>
                 </x-form.input-container>
 
@@ -33,25 +34,26 @@
                 <!-- EMAIL -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Email') }}" :required="true"/>
-                    <x-input id="email" name="email" :value="old('email')" autocomplete="email" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')"></x-input>
+                    <x-input id="email" name="email" :value="old('email')" autocomplete="email" type="email" right-icon="envelope" placeholder="Email" :error="$errors->has('email')" />
                     <x-input-error for="email"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD -->
                 <x-form.input-container>
                     <x-form.label-container label="Password" :required="true"/>
-                    <x-input id="password" name="password" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')"></x-input>
+                    <x-input id="password" name="password" type="password" right-icon="eye" placeholder="Password" :error="$errors->has('password')" />
                     <x-input-error for="password"/>
                 </x-form.input-container>
 
                 <!-- PASSWORD CONFIRMATION -->
                 <x-form.input-container>
                     <x-form.label-container label="{{ __('Confirm Password') }}" :required="true"/>
-                    <x-input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" :error="$errors->has('password_confirmation')"></x-input>
+                    <x-input id="password_confirmation" name="password_confirmation" type="password" placeholder="Confirm Password" :error="$errors->has('password_confirmation')" />
                     <x-input-error for="password_confirmation"/>
                 </x-form.input-container>
             </x-form.container>
 
+            {{-- TERM & PRIVACY --}}
             <div class="my-10 flex flex-1 justify-between w-full">
                 <x-radio-container>
                     <x-slot:element>
@@ -75,8 +77,9 @@
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
                 </a>
             </div>
+
             <!-- SIGN UP BUTTON -->
-            <div class="w-[470px] flex items-center justify-center mb-10">
+            <div class="w-117.5 flex items-center justify-center mb-10">
                 <x-button size="large" type="submit">
                     {{ __('Next') }}
                 </x-button>

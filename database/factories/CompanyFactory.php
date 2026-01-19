@@ -22,7 +22,6 @@ class CompanyFactory extends Factory
             'name' => $this->faker->name(),
             'employees' => $this->faker->numberBetween(1, 9999),
             'phone' => $this->faker->phoneNumber(),
-            'field_id' => Field::factory(),
             'owner_id' => User::factory(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),

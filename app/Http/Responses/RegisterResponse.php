@@ -5,7 +5,7 @@ use Illuminate\Http\RedirectResponse;
 use Laravel\Fortify\Contracts\RegisterResponse as RegisterResponseContract;
 
 /**
- * Redirect newly registered users to the company creation page.
+ * Redirect newly registered to the choice of create or no a new company.
  */
 class RegisterResponse implements RegisterResponseContract
 {
@@ -17,7 +17,7 @@ class RegisterResponse implements RegisterResponseContract
      */
     public function toResponse($request): RedirectResponse
     {
-        return redirect()->route('company.create');
+        return redirect()->route('company.choice');
     }
 }
 

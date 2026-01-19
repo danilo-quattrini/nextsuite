@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\CreateCustomer;
+use App\Livewire\Customer\CreateCustomer;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\User;

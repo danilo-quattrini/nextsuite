@@ -11,7 +11,8 @@ return new class extends Migration {
     {
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
-            $table->string('profile_photo_url');
+            $table->string('profile_photo_url')
+            ->nullable();
             $table->string('full_name');
             $table->string('email');
             $table->string('phone');
@@ -19,7 +20,9 @@ return new class extends Migration {
             $table->string('gender');
             $table->string('nationality');
             $table->foreignIdFor(Company::class, 'company_id')
+                ->nullable()
                 ->constrained('companies')
+                ->nullOnDelete()
                 ->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'user_id')
                 ->constrained('users')

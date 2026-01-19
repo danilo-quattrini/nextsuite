@@ -31,7 +31,7 @@ class User extends Authenticatable
         'full_name',
         'email',
         'password',
-        'profile_photo_url'
+        'profile_photo_path'
     ];
 
     /**
@@ -52,7 +52,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_url',
+        'profile_photo_path',
     ];
 
     /**

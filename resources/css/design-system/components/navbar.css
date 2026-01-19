@@ -1,0 +1,3 @@
+.navbar-container{
+    @apply h-20 shrink-0 sticky flex top-0 z-20  items-center justify-end border-b border-b-outline-grey bg-white;
+}

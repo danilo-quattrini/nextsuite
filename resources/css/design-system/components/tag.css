@@ -1,0 +1,35 @@
+/* TAG BASE CLASS*/
+.tag{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-xs);
+    gap: var(--spacing-xs);
+    border-radius: var(--radius-md);
+    font-size: var(--text-xs) ;
+    font-weight: var(--font-weight-semibold);
+    letter-spacing: var(--tracking-button);
+    line-height: var(--line-height-none);
+    transition: all var(--transition-slow);
+    border: none;
+    text-decoration: none;
+
+}
+/* TAG VARIANTS */
+.tag-primary{
+    background-color: var(--color-primary);
+    color: var(--color-white);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-button-hover);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--color-primary);
+    }
+}
+.tag-white{
+    background-color: var(--color-white);
+    border: 1px solid var(--color-outline-grey);
+    color: var(--color-black);
+}

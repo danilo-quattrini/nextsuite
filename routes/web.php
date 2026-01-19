@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\PDFController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\TemplateController;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
@@ -9,15 +11,37 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('home');
 
+
+/* DOCUMENT ROUTES */
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->controller(PDFController::class)->group(function(){
-    Route::get('/generate/{customer}', 'show')
-       ->name('document.show');
+])->controller(DocumentController::class)->group(function(){
+
+    Route::get('/document/', 'index')
+        ->name('document.index');
+
+    Route::get('/document/create/{customer}', 'create')
+        ->name('document.create');
+
+    Route::get('/document/{document}', 'show')
+        ->name('document.show');
 });
 
+/* TEMPLATE ROUTES */
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(TemplateController::class)->group(function(){
+    Route::get('/template/', 'index')
+        ->name('template.index');
+
+    Route::get('/template/create', 'create')
+        ->name('template.create');
+});
+/* COMPANY ROUTES */
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -25,7 +49,16 @@ Route::middleware([
 ])->controller(CompanyController::class)->group(function () {
 
    Route::get('/onboarding/company/create', 'index')
-       ->name('company.create');
+       ->name('auth.company.create');
+
+   Route::get('/onboarding/company/choice', 'choice')
+       ->name('company.choice');
+
+    Route::get('/company/create', 'create')
+        ->name('company.create');
+
+   Route::get('/company', 'show')
+       ->name('company.show');
 });
 
 Route::middleware([
@@ -33,13 +66,26 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
+
     Route::get('/dashboard', function () {
-        $customers = Customer::with('skills')
-            ->paginate(5);
-        return view('dashboard', compact('customers'));
+        return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/onboarding/customer/create', function () {
-        return view('create-customer');
-    })->name('customer.create');
+});
+
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(CustomerController::class)->group(function () {
+
+    Route::get('/customer/create', 'index')
+        ->name('customer.create');
+
+    Route::get('/customer', 'show')
+        ->name('customer.list');
+
+    Route::get('/customer/{customer}', 'info')
+        ->name('customer.show');
 });

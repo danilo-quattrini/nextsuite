@@ -3,8 +3,12 @@
     margin: 2cm;
 }
 .avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 128px;
     height: 128px;
+    border-radius: 100%;
 }
 body {
     font-family: "Inter", sans-serif;

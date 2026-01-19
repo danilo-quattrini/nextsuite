@@ -1,0 +1,24 @@
+.textarea-container{
+    @apply px-4 py-5 my-5
+    bg-white
+    rounded-md
+    border
+    border-outline-grey
+    resize-none
+    focus:outline-none;
+}
+
+.textarea-container.has-error {
+    outline: 1px solid var(--color-secondary-error) !important;
+    border-color: var(--color-secondary-error) !important;
+}
+.textarea-container:focus:not(.has-error){
+    @apply transition-colors duration-300 ease-in-out;
+    outline: 1px var(--color-primary);
+    border-color: var(--color-primary);
+}
+.textarea-container:not(:focus):not(.has-error):not(:placeholder-shown) {
+    @apply transition-colors duration-300 ease-in-out;
+    outline: 1px var(--color-black);
+    border-color: var(--color-black);
+}

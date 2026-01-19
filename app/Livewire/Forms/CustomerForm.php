@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Forms;
 
+use App\Models\Attribute;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -23,43 +24,33 @@ class CustomerForm extends Form
     #[Validate('required')]
     public string $gender = '';
 
-    #[Validate(['required', 'string', 'size:2'])]
+    #[Validate(['required', 'string'])]
     public string $nationality = '';
 
-    #[Validate([
-        'skills.*.selected' => ['boolean'],
-        'skills.*.level' => ['nullable', 'integer', 'min:1', 'max:5', 'required_with:skills.*.selected'],
-        'skills.*.years' => ['nullable', 'integer', 'min:0', 'required_with:skills.*.selected']
-    ])]
+
     public array $skills = [];
 
-    public function rulesForStep(int $step): array
+    public array $attributes = [];
+
+    public function rulesForStep(): array
     {
-        return match ($step) {
+        return  [
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
-                'email' => ['required', 'email'],
-                'nationality' => ['required', 'string', 'size:2'],
+                'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
+                'nationality' => ['required', 'string'],
             ],
 
             2 => [
                 'phone' => ['required'],
                 'dob' => ['required', 'date'],
                 'gender' => ['required'],
+            ]
+        ];
+    }
 
-                'skills' => ['array'],
-                'skills.*.selected' => ['boolean'],
-                'skills.*.level' => [
-                    'nullable', 'integer', 'min:1', 'max:5',
-                    'required_with:skills.*.selected',
-                ],
-                'skills.*.years' => [
-                    'nullable', 'integer', 'min:0',
-                    'required_with:skills.*.selected',
-                ],
-            ],
-
-            default => [],
-        };
+    public function addAttribute(Attribute $attribute, mixed $value): void
+    {
+        $this->attributes[$attribute->id] = compact('attribute', 'value');
     }
 }

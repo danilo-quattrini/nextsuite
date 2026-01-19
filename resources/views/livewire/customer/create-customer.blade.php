@@ -37,6 +37,7 @@
                         placeholder="John Doe"
                         right-icon="user"
                         :error="$errors->has('form.full_name')"
+                        value="{{ old('form.full_name') }}"
                 />
 
                 <x-input-error for="form.full_name"/>
@@ -51,6 +52,7 @@
                         placeholder="johndoe@gmail.com"
                         right-icon="envelope"
                         :error="$errors->has('form.email')"
+                        value="{{ old('form.email') }}"
                 />
 
                 <x-input-error for="form.email"/>
@@ -61,13 +63,13 @@
                 <x-form.label-container label="Nationality" :required="true"/>
 
                 <x-form.select-wrapper :error="$errors->has('form.nationality')">
-                    <x-form.select-element name="nationality" id="nationality" model="form.nationality">
+                    <x-form.select-element name="nationality" id="nationality" wire:model.defer="form.nationality">
                         <x-slot:options>
                             <option value="" disabled selected hidden>
                                 Select nationality
                             </option>
                             @foreach ($nationalities as $nation)
-                                <option value="{{ $nation['code'] }}">
+                                <option value="{{ $nation['name'] }}">
                                     {{ $nation['flag'] }} {{ $nation['name'] }}
                                 </option>
                             @endforeach
@@ -76,6 +78,15 @@
                 </x-form.select-wrapper>
 
                 <x-input-error for="form.nationality"/>
+            </x-form.input-container>
+
+            {{-- ATTRIBUTES --}}
+            <x-form.label-container label="Attribute" :required="true"/>
+
+            <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
+
+            <x-form.input-container>
+                @livewire('attribute.attribute-modal')
             </x-form.input-container>
             <x-button size="large" wire:click="nextStep">
                 Next
@@ -95,6 +106,7 @@
                         placeholder="+123 123456789"
                         right-icon="phone"
                         :error="$errors->has('form.phone')"
+                        value="{{ old('form.phone') }}"
                 />
 
                 <x-input-error for="form.phone"/>
@@ -108,6 +120,7 @@
                         wire:model.defer="form.dob"
                         type="date"
                         :error="$errors->has('form.dob')"
+                        value="{{ old('form.dob') }}"
                 />
 
                 <x-input-error for="form.dob"/>
@@ -124,7 +137,7 @@
                                 <input
                                         type="radio"
                                         value="{{ $value }}"
-                                        wire:model="form.gender"
+                                        wire:model.defer="form.gender"
                                         class="ds-radio-input"
                                 />
                             </x-slot:element>
@@ -138,58 +151,112 @@
 
                 <x-input-error for="form.gender"/>
             </x-form.input-container>
+
+            {{-- SKILL VIEW --}}
+            <x-form.label-container label="Skill" :required="true"/>
+
+            <x-skill.skill-card-view :skills="$form->skills" :categories="$skillsByCategory"/>
+
             <x-form.input-container>
-                <x-form.label-container label="Skill" :required="true"/>
-                @foreach ($skillsByCategory as $category => $skills)
-                    <div>
-                        @foreach ($skills as $skill)
-                            <div class="flex flex-col items-start gap-4 my-3">
 
-                                {{-- Select skill --}}
-                                <div>
-                                    <x-toggle-container>
-                                        <x-slot:element>
-                                            <x-checkbox id="{{$skill['id']}}" name="{{strtolower($skill['name'])}}"   wire:model="form.skills.{{ $skill['id'] }}.selected" />
-                                        </x-slot:element>
+                <x-button
+                        size="large"
+                        wire:click="$set('showSkillModal', true)"
+                >
+                    <x-heroicon name="plus" />
+                    New Skill
+                </x-button>
 
-                                        <x-slot:span>
-                                            <span class="ds-checkbox-mark"></span>
-                                        </x-slot:span>
-                                        {{ $skill['name'] }}
-                                    </x-toggle-container>
-                                    <x-input-error for="form.skills.*.selected"/>
-                                </div>
-                                <div class="flex space-x-5">
-                                    {{-- Level --}}
-                                    <x-input
-                                            type="number"
-                                            min="1"
-                                            max="5"
-                                            wire:model="form.skills.{{ $skill['id'] }}.level"
-                                            placeholder="Level"
+                {{-- POP UP FOR NEW SKILL --}}
+                @if ($showSkillModal)
+                    <x-popup-box modal="showSkillModal">
 
-                                    />
+                        <x-slot:header>
+                            <x-authentication-card-logo/>
+                        </x-slot:header>
 
-                                    {{-- Years --}}
-                                    <x-input
-                                            type="number"
-                                            min="1"
-                                            wire:model="form.skills.{{ $skill['id'] }}.years"
-                                            placeholder="Years"
-                                    />
-                                </div>
-                                <x-input-error for="form.skills.*.years"/>
-                                <x-input-error for="form.skills.*.level"/>
-                            </div>
-                        @endforeach
-                    </div>
-                @endforeach
+                        <x-slot:subheader>
+                            {{ __('Add a new Skill') }}
+                        </x-slot:subheader>
+
+                        <x-slot:message>
+                            {{ __('Here you can add a new skill for the customer in base of your choice') }}
+                        </x-slot:message>
+
+                        <x-form.input-container>
+                            <x-form.label-container label="Skill" :required="true"/>
+
+                            <x-form.select-wrapper :error="$errors->has('selectedSkillId')">
+                                <x-form.select-element wire:model.defer="selectedSkillId">
+                                    <x-slot:options>
+                                        <option value="" hidden>
+                                            Select a skill
+                                        </option>
+                                        @foreach ($skillsByCategory as $category => $skills)
+                                            <optgroup label="{{ $category }}">
+                                                @foreach ($skills as $skill)
+                                                    <option value="{{ $skill['id'] }}">
+                                                        {{ $skill['name'] }}
+                                                    </option>
+                                                @endforeach
+                                            </optgroup>
+                                        @endforeach
+                                    </x-slot:options>
+                                </x-form.select-element>
+                            </x-form.select-wrapper>
+
+                            <x-input-error for="selectedSkillId"/>
+                        </x-form.input-container>
+
+                        {{-- Level --}}
+                        <div class="flex justify-between items-center gap-6 my-6">
+
+                            <x-form.input-container size="medium">
+                                <x-form.label-container label="Level" :required="true"/>
+
+                                <x-input type="number" min="1" max="5" wire:model="skillLevel" placeholder="Level" right-icon="star" :error="$errors->has('skillLevel')"/>
+                                <x-input-error for="skillLevel"/>
+                            </x-form.input-container>
+
+                            {{-- Years --}}
+                            <x-form.input-container size="medium">
+                                <x-form.label-container label="Years" :required="true"/>
+
+                                <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
+                                <x-input-error for="skillYears"/>
+                            </x-form.input-container>
+                        </div>
+                        {{-- Actions --}}
+                        <div class="flex justify-between gap-4 mt-6">
+                            <x-button
+                                    type="button"
+                                    size="large"
+                                    variant="rest"
+                                    wire:click="$set('showSkillModal', false)"
+                            >
+                                Cancel
+                            </x-button>
+
+                            <x-button
+                                    type="button"
+                                    size="large"
+                                    wire:click="addSkill"
+                            >
+                                Add Skill
+                            </x-button>
+                        </div>
+
+                    </x-popup-box>
+                @endif
             </x-form.input-container>
 
         @endif
     </x-form.container>
     @if($step === 2)
-        <div class="flex justify-center mt-10">
+        <div class="flex justify-between mt-10">
+            <x-button variant="rest" size="large" wire:click="previousStep">
+                Back
+            </x-button>
             <x-button size="large" type="submit">
                 Create
             </x-button>

@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class TemplateSection extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $fillable = [
+        'name',
+        'order',
+        'is_required',
+        'template_id',
+        'data_source',
+        'formatting_rules',
+        'section_type',
+        'config'
+    ];
+
+    /**
+     * Get all the templates related to the section
+     **/
+    public function template(): BelongsTo
+    {
+        return $this->belongsTo(Template::class);
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'config' => 'array',
+            'is_required' => 'boolean',
+            'formatting_rules' => 'array',
+        ];
+    }
+}
