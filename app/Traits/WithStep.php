@@ -16,7 +16,11 @@ trait WithStep
             $resolvedRules = value($rules);
 
             if (!empty($resolvedRules)) {
-                $this->form->validate($resolvedRules);
+                if (property_exists($this, 'form')) {
+                    $this->form->validate($resolvedRules);
+                } else {
+                    $this->validate($resolvedRules);
+                }
             }
         }
 
