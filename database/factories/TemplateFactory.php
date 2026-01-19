@@ -22,7 +22,13 @@ class TemplateFactory extends Factory
             'type' => DocumentType::PDF,
             'category' => fake()->randomElement(['curriculum', 'report', 'blank']),
             'structure' => json_encode(['field' => 'value']),
-            'settings' => json_encode(['settings' => 'value']),
+            'settings' => json_encode([
+                'settings' =>
+                    [
+                        'page_size' => 'A4',
+                        'orientation' => 'portrait'
+                    ]
+            ]),
             'blade_template' => null,
             'is_active' => true,
         ];

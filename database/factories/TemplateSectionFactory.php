@@ -19,24 +19,24 @@ class TemplateSectionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => 'personal_info',
-            'section_type' => 'user_info',
+            'name' => 'user_info',
+            'section_type' => 'personal_info',
             'order' => 1,
             'is_required' => true,
             'data_source' => str(Customer::class),
             'template_id' => Template::factory(),
             'formatting_rules' => json_encode(['key' => 'value']),
-            'config' => json_encode([
+            'config' => [
                 'fields' => [
-                    ['key' => 'profile_picture', 'label' => 'Profile Picture', 'required' => false],
-                    ['key' => 'name', 'label' => 'Full Name', 'required' => true],
+                    ['key' => 'full_name', 'label' => 'Full Name', 'required' => true],
                     ['key' => 'email', 'label' => 'Email', 'required' => true],
                     ['key' => 'phone', 'label' => 'Phone', 'required' => false],
                     ['key' => 'dob', 'label' => 'Date of Birthday', 'required' => false],
+                    ['key' => 'gender', 'label' => 'Gender', 'required' => false],
                     ['key' => 'nationality', 'label' => 'Nationality', 'required' => false],
                 ],
                 'layout' => 'two_column'
-            ])
+            ]
         ];
     }
 }

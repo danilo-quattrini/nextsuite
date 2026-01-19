@@ -18,7 +18,8 @@ class TemplateSection extends Model
         'template_id',
         'data_source',
         'formatting_rules',
-        'section_type'
+        'section_type',
+        'config'
     ];
 
     /**
@@ -32,6 +33,7 @@ class TemplateSection extends Model
     protected function casts(): array
     {
         return [
+            'config' => 'array',
             'is_required' => 'boolean',
             'formatting_rules' => 'array',
         ];
