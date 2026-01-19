@@ -77,7 +77,7 @@
     </div>
 
     {{-- FIELD COMPETENCE --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
             <div class="flex items-center justify-between">
                 <h3 class="font-semibold text-lg">Suggested Field</h3>
@@ -88,7 +88,16 @@
                 </div>
             </div>
         </div>
+
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4" >
+            <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Documents</h3>
+
+            </div>
+        </div>
+
     </div>
+
     {{-- REVIEWS --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
         <div class="flex items-center justify-between">

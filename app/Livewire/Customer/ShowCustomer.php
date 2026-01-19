@@ -40,7 +40,7 @@ class ShowCustomer extends Component
             ->name("ExampleDiagram")
             ->livewire()
             ->model("datasets")
-            ->type("polarArea");
+            ->type("pie");
     }
     public function getData()
     {
@@ -56,6 +56,7 @@ class ShowCustomer extends Component
         $this->datasets = [
             'datasets' => [
                 [
+                    'backgroundColor' => ['#5E81F4', '#5E81F440'],
                     "label" => "Skill Level",
                     "data" => $data
 
