@@ -8,6 +8,6 @@
                 Create a new Template for your documents
             </p>
         </div>
-        @livewire('template.create-template')
+        @livewire('template.show-templates')
     </div>
 </x-app-layout>
