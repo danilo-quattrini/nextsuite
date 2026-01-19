@@ -36,7 +36,7 @@
                         </h3>
 
                         <p class="text-sm text-primary-grey line-clamp-3">
-                            {{ $template->description ?? 'No description provided.' }}
+                            {{ $template->type ?? 'No description provided.' }}
                         </p>
                     </div>
 
@@ -55,14 +55,14 @@
                     {{-- ACTIONS --}}
                     <div class="flex items-center justify-between mt-6 pt-4 border-t">
 
-                        <a
-                                href="{{ route('document-templates.show', $template) }}"
-                                class="text-primary text-sm font-medium"
+                        <x-button
+                                href="#"
+                                size="large"
                         >
                             View
-                        </a>
+                        </x-button>
 
-                        <x-form.dropdown-button align="right">
+                        <x-form.dropdown-button align="left">
                             <x-slot:trigger>
                                 <button
                                         type="button"
@@ -79,7 +79,7 @@
                                 <div class="flex flex-col space-y-2 min-w-40">
 
                                     <a
-                                            href="{{ route('document-templates.edit', $template) }}"
+                                            href="#"
                                             class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
                                     >
                                         <x-heroicon name="pencil-square" />
@@ -101,13 +101,28 @@
 
                 </div>
             @endforeach
+            <div class="flex justify-center items-center border border-dashed border-primary-grey rounded-md p-10
+                        cursor-pointer hover:bg-white-base/35 hover:border-black transition duration-300 ease-in-out group"
+                 onclick="window.location=''"
+            >
+                <div class="flex-col space-y-2">
+                    <x-heroicon
+                            name="document-plus"
+                            class="mx-auto text-primary-grey group-hover:text-black transition duration-300 ease-in-out"
+                            size="xxl"
+                    />
 
+                    <h4 class="text-primary-grey group-hover:text-black transition duration-300 ease-in-out">
+                        New Template
+                    </h4>
+                </div>
+            </div>
         </div>
 
-        {{-- PAGINATION --}}
-        <div class="mt-6">
-            {{ $templates->links() }}
-        </div>
+{{--        --}}{{-- PAGINATION --}}
+{{--        <div class="mt-6">--}}
+{{--            {{ $templates->links() }}--}}
+{{--        </div>--}}
 
     @endif
 
