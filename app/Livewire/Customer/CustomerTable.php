@@ -3,17 +3,17 @@
 namespace App\Livewire\Customer;
 
 use App\Models\Customer;
+use App\Traits\DeleteModal;
 use App\Traits\WithReview;
-use http\Exception\InvalidArgumentException;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-use PhpParser\Node\Expr\Cast\Double;
 
 class CustomerTable extends Component
 {
     use WithPagination;
     use WithReview;
+    use DeleteModal;
     public bool $showDeleteModal = false;
     public ?int $customerToDelete = null;
 
@@ -29,21 +29,6 @@ class CustomerTable extends Component
         };
 
         $this->review($model);
-    }
-
-    public function confirmDelete(int $customerId): void
-    {
-        $this->customerToDelete = $customerId;
-        $this->showDeleteModal = true;
-    }
-
-    public function deleteCustomer(): void
-    {
-        Customer::find($this->customerToDelete)->delete();
-
-        $this->reset(['showDeleteModal', 'customerToDelete']);
-
-        session()->flash('success', 'Customer deleted successfully.');
     }
 
     public function render()
