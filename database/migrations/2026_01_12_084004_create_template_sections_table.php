@@ -11,7 +11,7 @@ return new class extends Migration {
         Schema::create('template_sections', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('section_type');
+            $table->string('type');
             $table->integer('order')->default(0);
             $table->boolean('is_required')->default(false);
             $table->foreignIdFor(Template::class)->constrained('templates')->onDelete('cascade');

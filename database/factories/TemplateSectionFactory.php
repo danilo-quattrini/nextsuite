@@ -20,7 +20,7 @@ class TemplateSectionFactory extends Factory
     {
         return [
             'name' => 'user_info',
-            'section_type' => 'personal_info',
+            'type' => 'personal_info',
             'order' => 1,
             'is_required' => true,
             'data_source' => str(Customer::class),

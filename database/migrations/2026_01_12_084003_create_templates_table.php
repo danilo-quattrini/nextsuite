@@ -12,7 +12,7 @@ return new class extends Migration {
             $table->string('name');
             $table->string('type')->index();
             $table->string('category')->nullable();
-            $table->json('structure'); // define which section to include inside the template
+            $table->json('structure')->nullable(); // define which section to include inside the template
             $table->json('settings')->nullable(); // define the document format, like font, margin, more...
             $table->string('blade_template')->nullable();
             $table->boolean('is_active')->default(true);

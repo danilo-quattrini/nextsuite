@@ -25,9 +25,8 @@ class CreateTemplate extends Component
     public array $settings = [];
     public array $paperSizes = [];
 
-    #[Validate('required|string|nullable')]
     public ?string $bladeTemplate = null;
-    #[Validate('required|array')]
+
     public array $structure = [];
 
     public array $templateCategory;
@@ -67,24 +66,27 @@ class CreateTemplate extends Component
             2 => [
                 'category' => ['required'],
                 'settings' => ['required', 'array'],
-                'settings.*' => ['required'],
+                'settings.*' => ['required', 'string'],
             ]
         ];
     }
 
-    public function submit(): void
+    public function send(): void
     {
-        $this->validate();
+        if($this->step === 2) {
+            $this->validate();
 
-        Template::create([
-            'name' => $this->name,
-            'type' => $this->type,
-            'category' => $this->category,
-            'structure' => json_encode($this->structure),
-            'settings' => json_encode($this->settings),
-            'blade_template' => $this->bladeTemplate,
-        ]);
+            $template = Template::create([
+                'name' => $this->name,
+                'type' => $this->type,
+                'category' => $this->category,
+                'structure' => $this->structure,
+                'settings' => $this->settings,
+                'blade_template' => $this->bladeTemplate,
+                'is_active' => false
+            ]);
 
-        $this->redirect(route('template.index'));
+            $this->redirectRoute('template.layout', $template);
+        }
     }
 }

@@ -18,11 +18,7 @@ enum DocumentCategory: string
     {
         return match ($this) {
             self::INVOICE => [
-                'structure' => [
-                    'customer' => [],
-                    'items' => [],
-                    'totals' => [],
-                ],
+                'structure' => [],
                 'settings' => [
                     'page_size' => 'A4',
                     'orientation' => 'portrait',
@@ -31,10 +27,7 @@ enum DocumentCategory: string
             ],
 
             self::CONTRACT => [
-                'structure' => [
-                    'parties' => [],
-                    'clauses' => [],
-                ],
+                'structure' => [],
                 'settings' => [
                     'page_size' => 'A4',
                     'orientation' => 'portrait',
@@ -43,11 +36,7 @@ enum DocumentCategory: string
             ],
 
             self::CURRICULUM => [
-                'structure' => [
-                    'user_info' => [],
-                    'skills' => [],
-                    'attributes' => [],
-                ],
+                'structure' => [],
                 'settings' => [
                     'page_size' => 'A4',
                     'orientation' => 'portrait',

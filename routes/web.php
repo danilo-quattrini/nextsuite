@@ -4,6 +4,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Template\LayoutEditor;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +41,9 @@ Route::middleware([
 
     Route::get('/template/create', 'create')
         ->name('template.create');
+
+    Route::get('/template/{template}/layout', 'layout')
+        ->name('template.layout');
 });
 /* COMPANY ROUTES */
 Route::middleware([

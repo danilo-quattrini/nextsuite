@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit">
+<form>
     <x-form.container>
         @if($step === 1)
 
@@ -94,7 +94,7 @@
                         Back
                     </x-button>
 
-                    <x-button size="large" wire:click="submit">
+                    <x-button size="large" wire:click="send">
                         Create
                     </x-button>
                 </div>
