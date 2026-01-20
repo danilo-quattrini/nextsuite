@@ -4,18 +4,30 @@ namespace App\Livewire\Template;
 
 use App\Enums\DocumentCategory;
 use App\Enums\DocumentType;
+use App\Models\Template;
 use App\Traits\WithStep;
+use Dompdf\Adapter\CPDF;
+use Dompdf\Dompdf;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class CreateTemplate extends Component
 {
     use WithStep;
 
+    #[Validate('required|min:5')]
     public string $name = '';
+    #[Validate('required|string')]
     public string $type = '';
+    #[Validate('required|string')]
     public string $category = '';
+    #[Validate('required|array')]
     public array $settings = [];
+    public array $paperSizes = [];
+
+    #[Validate('required|string|nullable')]
     public ?string $bladeTemplate = null;
+    #[Validate('required|array')]
     public array $structure = [];
 
     public array $templateCategory;
@@ -25,6 +37,8 @@ class CreateTemplate extends Component
     {
         $this->templateType = DocumentType::toArray();
         $this->templateCategory = DocumentCategory::toArray();
+        $this->paperSizes = CPDF::$PAPER_SIZES;
+
     }
 
     public function render()
@@ -56,5 +70,21 @@ class CreateTemplate extends Component
                 'settings.*' => ['required'],
             ]
         ];
+    }
+
+    public function submit(): void
+    {
+        $this->validate();
+
+        Template::create([
+            'name' => $this->name,
+            'type' => $this->type,
+            'category' => $this->category,
+            'structure' => json_encode($this->structure),
+            'settings' => json_encode($this->settings),
+            'blade_template' => $this->bladeTemplate,
+        ]);
+
+        $this->redirect(route('template.index'));
     }
 }
