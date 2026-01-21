@@ -33,5 +33,26 @@
     "fields": [
       "Education"
     ]
+  },
+  {
+    "name": "Abilities",
+    "type": "soft_skill",
+    "fields": [
+      "Gym",
+      "Nutrition",
+      "Human Resources",
+      "Artificial Intelligence",
+      "Software",
+      "Healthcare",
+      "Legal",
+      "Education",
+      "Logistics",
+      "Finance",
+      "Marketing",
+      "Construction",
+      "Agriculture",
+      "Retail",
+      "Hospitality"
+    ]
   }
 ]
