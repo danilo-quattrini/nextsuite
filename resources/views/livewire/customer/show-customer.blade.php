@@ -41,7 +41,7 @@
 
         {{-- Personal Info --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Personal Information</h3>
+            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Personal Information</h3>
 
             <p><strong>Email:</strong> {{ $customer->email }}</p>
             <p><strong>Phone:</strong> {{ $customer->phone }}</p>
@@ -52,7 +52,7 @@
 
         {{-- Attributes --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Attributes</h3>
+            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Attributes</h3>
 
             <ul class="space-y-2 text-sm text-primary-grey">
                 @foreach($customerAttributes as $attribute )
@@ -60,28 +60,12 @@
                 @endforeach
             </ul>
         </div>
-
-        {{-- Skills / Preferences --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Skills & Preferences</h3>
-
-            <div class="flex flex-wrap gap-2">
-                @foreach($customerSkills as $skill)
-                    <span class="px-3 py-1 rounded-full bg-outline-grey text-sm">
-                        {{ $skill->name }}
-                    </span>
-                @endforeach
-            </div>
-        </div>
-
     </div>
 
     {{-- FIELD COMPETENCE --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="font-semibold text-lg">Suggested Field</h3>
-            </div>
+            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Soft Skills</h3>
             <div class="flex justify-center items-center">
                 <div>
                     {!! $this->chart->render() !!}
@@ -89,13 +73,23 @@
             </div>
         </div>
 
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4" >
-            <div class="flex items-center justify-between">
-                <h3 class="font-semibold text-lg">Documents</h3>
+        {{-- Category Skills --}}
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
+            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Field Skills</h3>
 
+            <div class="flex flex-wrap">
+                <div class="flex-col space-y-3">
+                    <p class="text-sm text-primary-grey"> Technical</p>
+                    @foreach($customerSkills as $skill)
+                        @if($skill->category->name != "Abilities")
+                            <span class="px-3 py-1 rounded-full bg-outline-grey text-sm mr-2">
+                                    {{ $skill->name }}
+                                </span>
+                        @endif
+                    @endforeach
+                </div>
             </div>
         </div>
-
     </div>
 
     {{-- REVIEWS --}}

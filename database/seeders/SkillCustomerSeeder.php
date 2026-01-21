@@ -19,8 +19,8 @@ class SkillCustomerSeeder extends Seeder
         foreach ($customers as $customer) {
             // Example: assign 2 technical skills
             if (isset($skillsByCategory['Technology']) || isset($skillsByCategory['Abilities'])) {
-                $technicalSkills = $skillsByCategory['Technology']->random(2);
-                $softSkill = $skillsByCategory['Abilities']->random(3);
+                $technicalSkills = $skillsByCategory['Technology']->random(5);
+                $softSkill = $skillsByCategory['Abilities']->random(10);
 
                 foreach ($technicalSkills as $skill) {
                     $customer->skills()->attach($skill->id, [

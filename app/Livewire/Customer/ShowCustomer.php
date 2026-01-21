@@ -37,27 +37,42 @@ class ShowCustomer extends Component
     public function chart(): Builder
     {
         return Chartjs::build()
-            ->name("ExampleDiagram")
+            ->name("Soft-Skill-Diagram")
             ->livewire()
             ->model("datasets")
-            ->type("pie");
+            ->type("polarArea")
+            ->size(["width" => 600, "height" => 500])
+            ->options([
+                'scales' => [
+                    'r' => [
+                        'min' => 0,
+                        'max' => 5,
+                        'ticks' => [
+                            'stepSize' => 1
+                        ]
+                    ]
+                ]
+            ]);
     }
     public function getData()
     {
         $data = []; // your data here
         $labels = [];
-        foreach ($this->fields as $field) {
-            $labels[] = $field->name;
+        foreach ($this->customerSkills as $skill) {
+            if($skill->category->name == 'Abilities') {
+                $labels[] = $skill->name;
+            }
         }
         foreach ($this->customerSkills as $skill){
-            $data[] = $skill->pivot->level;
+            if($skill->category->name == 'Abilities') {
+                $data[] = $skill->pivot->level;
+            }
         }
 
         $this->datasets = [
             'datasets' => [
                 [
-                    'backgroundColor' => ['#5E81F4', '#5E81F440'],
-                    "label" => "Skill Level",
+                    "label" => "Level",
                     "data" => $data
 
                 ]
