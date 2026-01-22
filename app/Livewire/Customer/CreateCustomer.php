@@ -20,7 +20,6 @@ class CreateCustomer extends Component
 {
     use WithFileUploads;
     use WithStep;
-    use WithSkill;
     use ArrayOperation;
     public CustomerForm $form;
 
@@ -35,25 +34,6 @@ class CreateCustomer extends Component
     public function mount(NationalityService $nationalityService): void
     {
         $this->nationalities = $nationalityService->all();
-
-        $user = auth()->user();
-
-        if ($user->company) {
-            $user->company->load('fields.categories.skills');
-
-            $this->skillsByCategory = $user->company->fields
-                ->flatMap(fn ($field) => $field->categories)
-                ->flatMap(fn ($category) => $category->skills)
-                ->unique('id')
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
-        } else {
-            $this->skillsByCategory = Skill::with('category')
-                ->get()
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
-        }
-
     }
 
     public function render(): View
@@ -67,6 +47,12 @@ class CreateCustomer extends Component
     public function attributeSelected(Attribute $attribute, mixed $value): void
     {
         $this->form->addAttribute($attribute, $value);
+    }
+
+    #[On('skill-selected')]
+    public function skillSelected(int $skillId, int $skillLevel, int $skillYears): void
+    {
+        $this->form->addSkill($skillId, $skillLevel, $skillYears);
     }
 
     public function submit(): void
