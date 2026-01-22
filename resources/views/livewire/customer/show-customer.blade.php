@@ -19,7 +19,7 @@
                 </h1>
 
                 <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
-                    <x-heroicon name="star" class="text-secondary-warning" />
+                    <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
                     <span class="font-medium">
                         {{ number_format($customer->reviews_avg_rating ?? 0, 1) }}
                     </span>
@@ -60,6 +60,37 @@
                 @endforeach
             </ul>
         </div>
+
+        {{-- REVIEWS --}}
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
+            <div class="flex items-center justify-between">
+                <h3 class="font-semibold text-lg">Reviews</h3>
+            </div>
+
+            @forelse($customer->reviews as $review)
+                <div class="border-t border-outline-grey pt-4">
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-center items-center gap-2 ">
+                            <img class="size-8 rounded-full object-cover" src="{{ $review->author->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
+                            <span class="font-medium"> {{ $review->author->full_name }}</span>
+                        </div>
+                        <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
+                            <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
+                            <span class="font-medium">{{ $review->rating }}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-primary-grey">
+                        {{ $review->comment }}
+                    </p>
+                </div>
+            @empty
+                <p class="text-sm text-primary-grey">
+                    No reviews yet.
+                </p>
+            @endforelse
+        </div>
     </div>
 
     {{-- FIELD COMPETENCE --}}
@@ -90,36 +121,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    {{-- REVIEWS --}}
-    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-        <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-lg">Reviews</h3>
-
-            <x-button
-                    size="auto"
-                    wire:click="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
-            >
-                Add review
-            </x-button>
-        </div>
-
-        @forelse($customer->reviews as $review)
-            <div class="border-t border-outline-grey pt-4">
-                <div class="flex items-center gap-2 mb-1">
-                    <x-heroicon name="star" class="text-secondary-warning" />
-                    <span class="font-medium">{{ $review->rating }}/5</span>
-                </div>
-                <p class="text-sm text-primary-grey">
-                    {{ $review->comment }}
-                </p>
-            </div>
-        @empty
-            <p class="text-sm text-primary-grey">
-                No reviews yet.
-            </p>
-        @endforelse
     </div>
 
 </div>
