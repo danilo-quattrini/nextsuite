@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Customer;
 
+use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Attribute;
 use App\Models\Customer;
-use App\Models\Skill;
 use App\Services\NationalityService;
 use App\Traits\ArrayOperation;
-use App\Traits\WithSkill;
 use App\Traits\WithStep;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -78,30 +77,24 @@ class CreateCustomer extends Component
             'user_id' => auth()->id()
         ]);
 
-        $skillsToAttach = [];
+        app(SkillAssignmentService::class)->assignMany($customer, $this->form->skills);
+        $this->saveAttribute($customer);
+
+        $this->redirect('/customer');
+    }
+
+    protected function saveAttribute(Customer $customer):void
+    {
         $attributesToAttach = [];
-
-        foreach ($this->form->skills as $skillId => $data) {
-            if (!empty($data['selected'])) {
-                $skillsToAttach[$skillId] = [
-                    'level' => $data['level'],
-                    'years' => $data['years'],
-                ];
-            }
-        }
-
         foreach ($this->form->attributes as $attributeId => $data){
             $attributesToAttach[$attributeId] = [
-              'value' => $data['value']
+                'value' => $data['value']
             ];
         }
 
-        if(!empty($skillsToAttach) || !empty($attributesToAttach)) {
-            $customer->skills()->sync($skillsToAttach);
+        if(!empty($attributesToAttach)){
             $customer->attributes()->sync($attributesToAttach);
         }
-
-        $this->redirect('/customer');
     }
 
     protected function stepRules(): array
