@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class   Customer extends Model
+class   Customer extends Model implements SkillAssignable
 {
     use HasFactory, SoftDeletes;
 
@@ -70,5 +71,18 @@ class   Customer extends Model
     public function documents(): MorphMany
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    /**
+     * Add a skill to a customer, syncWithoutDetaching = remove already existing record and add new ones.
+     */
+    public function addSkill(int $id, int $level, int $years): void
+    {
+        $this->skills()->attach([
+            $id => [
+                'level' => $level,
+                'years' => $years
+            ]
+        ]);
     }
 }
