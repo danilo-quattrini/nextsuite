@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use App\Enums\AttributeType;
+use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Attribute extends Model
@@ -26,12 +27,28 @@ class Attribute extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function customers(): BelongsToMany
+    /**
+     * Get all customers that have this attribute.
+     */
+    public function customers(): MorphToMany
     {
-        return $this->belongsToMany(Customer::class, 'customer_attribute', 'attribute_id', 'customer_id')
-            ->using(CustomerAttribute::class)
+        return $this->morphToMany(Customer::class, 'attributable', 'attribute_users', 'attribute_id', 'attributable_id')
+            ->using(AttributeAssignment::class)
             ->withPivot('value')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
+    }
+
+    /**
+     * Get all users that have this attribute.
+     */
+    public function users(): MorphToMany
+    {
+        return $this->morphToMany(User::class, 'attributable', 'attribute_users', 'attribute_id', 'attributable_id')
+            ->using(AttributeAssignment::class)
+            ->withPivot('value')
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
     }
 
     protected function casts(): array

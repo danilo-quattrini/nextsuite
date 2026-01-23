@@ -154,7 +154,7 @@
 
                                                         <button
                                                                 type="button"
-                                                                wire:click="confirmDelete({{ $customer->id }})"
+                                                                wire:click.prevent="$dispatch('delete-element', { id: {{ $customer->id }}, type: 'customer' })"
                                                                 class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
                                                         >
                                                             <x-heroicon name="trash" />
@@ -245,7 +245,7 @@
 
                                                 <button
                                                         type="button"
-                                                        wire:click="confirmDelete({{ $customer->id }})"
+                                                        wire:click.prevent="$dispatch('delete-element', { id: {{ $customer->id }}, type: 'customer' })"
                                                         class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
                                                 >
                                                     <x-heroicon name="trash" />

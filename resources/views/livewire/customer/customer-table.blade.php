@@ -28,7 +28,7 @@
                 <x-button
                         variant="error"
                         size="large"
-                        wire:click="deleteCustomer"
+                        wire:click="deleteModelElement"
                 >
                     Delete
                 </x-button>

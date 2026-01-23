@@ -32,7 +32,7 @@
                     {{-- HEADER --}}
                     <div class="space-y-2">
                         <h3 class="font-semibold text-lg">
-                            {{ $template->name ?? 'Example name' }}
+                            {{ ucfirst($template->name) ?? 'Example name' }}
                         </h3>
 
                         <p class="text-sm text-primary-grey line-clamp-3">
@@ -53,7 +53,7 @@
                     </div>
 
                     {{-- ACTIONS --}}
-                    <div class="flex items-center justify-between mt-6 pt-4 border-t">
+                    <div class="flex items-center justify-between mt-6 pt-4 border-t border-outline-grey">
 
                         <x-button
                                 href="#"
@@ -87,7 +87,7 @@
                                     </a>
 
                                     <button
-                                            wire:click="confirmDelete({{ $template->id }})"
+                                            wire:click="$dispatch('delete-element', { id: {{ $template->id }}, type: 'template' })"
                                             class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 transition"
                                     >
                                         <x-heroicon name="trash" />
@@ -126,4 +126,39 @@
 
     @endif
 
+    @if($showDeleteModal)
+        {{-- WARNING POP --}}
+        <x-popup-box modal="showDeleteModal">
+            <x-slot:header>
+                <div class="w-16 h-16 flex justify-center items-center bg-secondary-error-100 rounded-full border border-secondary-error">
+                    <x-heroicon size="lg"  class="text-secondary-error" name="exclamation-triangle" variant="solid" />
+                </div>
+            </x-slot:header>
+            <x-slot:subheader>
+                Are you sure?
+            </x-slot:subheader>
+
+            <x-slot:message>
+                This action cannot be undone.
+            </x-slot:message>
+
+            <div class="flex gap-4">
+                <x-button
+                        variant="disable"
+                        size="large"
+                        wire:click="$set('showDeleteModal', false)"
+                >
+                    Cancel
+                </x-button>
+
+                <x-button
+                        variant="error"
+                        size="large"
+                        wire:click="deleteModelElement"
+                >
+                    Delete
+                </x-button>
+            </div>
+        </x-popup-box>
+    @endif
 </div>

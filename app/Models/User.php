@@ -3,9 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -76,5 +78,17 @@ class User extends Authenticatable
     public function customer(): HasMany
     {
         return $this->hasMany(Customer::class);
+    }
+
+    /**
+     * Get the attribute polymorph model.
+     */
+    public function attributes(): MorphToMany
+    {
+        return $this->morphToMany(Attribute::class, 'attributable', 'attribute_users', 'attributable_id', 'attribute_id')
+            ->using(AttributeAssignment::class)
+            ->withPivot('value')
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
     }
 }

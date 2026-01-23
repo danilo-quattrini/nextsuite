@@ -19,7 +19,7 @@
                 </h1>
 
                 <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
-                    <x-heroicon name="star" class="text-secondary-warning" />
+                    <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
                     <span class="font-medium">
                         {{ number_format($customer->reviews_avg_rating ?? 0, 1) }}
                     </span>
@@ -41,7 +41,7 @@
 
         {{-- Personal Info --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Personal Information</h3>
+            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Personal Information</h3>
 
             <p><strong>Email:</strong> {{ $customer->email }}</p>
             <p><strong>Phone:</strong> {{ $customer->phone }}</p>
@@ -50,37 +50,64 @@
             <p><strong>Nationality:</strong> {{ $customer->nationality }}</p>
         </div>
 
-        {{-- Attributes --}}
+        {{-- ATTRIBUTES --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Attributes</h3>
+            <div class="flex items-center justify-between border-b border-b-outline-grey pb-2">
+                <h3>Attributes</h3>
+                {{-- BUTTON TO ADD AN ATTRIBUTE --}}
+                @livewire('attribute.attribute-modal')
+            </div>
 
             <ul class="space-y-2 text-sm text-primary-grey">
-                @foreach($customerAttributes as $attribute )
-                    <li> {{ $attribute->name . ': ' . $attribute->pivot->value }}</li>
-                @endforeach
+                @forelse($customerAttributes as $attribute)
+                    <li> {{ $attribute->name . ': ' . $attribute->pivot?->value }}</li>
+                @empty
+                    <p class="text-sm text-primary-grey">
+                        No attributes yet.
+                    </p>
+                @endforelse
             </ul>
         </div>
 
-        {{-- Skills / Preferences --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg">Skills & Preferences</h3>
-
-            <div class="flex flex-wrap gap-2">
-                @foreach($customerSkills as $skill)
-                    <span class="px-3 py-1 rounded-full bg-outline-grey text-sm">
-                        {{ $skill->name }}
-                    </span>
-                @endforeach
+        {{-- REVIEWS --}}
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-b-outline-grey">
+                <h3> Reviews</h3>
             </div>
-        </div>
 
+            @forelse($customer->reviews as $review)
+                <div class="border-t border-outline-grey pt-4">
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-center items-center gap-2 ">
+                            <img class="size-8 rounded-full object-cover" src="{{ $review->author->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
+                            <span class="font-medium"> {{ $review->author->full_name }}</span>
+                        </div>
+                        <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
+                            <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
+                            <span class="font-medium">{{ $review->rating }}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-primary-grey">
+                        {{ $review->comment }}
+                    </p>
+                </div>
+            @empty
+                <p class="text-sm text-primary-grey">
+                    No reviews yet.
+                </p>
+            @endforelse
+        </div>
     </div>
 
     {{-- FIELD COMPETENCE --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="font-semibold text-lg">Suggested Field</h3>
+            <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
+                <h3>Soft Skills</h3>
+                {{-- BUTTON TO ADD A NEW SKILL  --}}
+                @livewire('skill-modal')
             </div>
             <div class="flex justify-center items-center">
                 <div>
@@ -89,43 +116,25 @@
             </div>
         </div>
 
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4" >
-            <div class="flex items-center justify-between">
-                <h3 class="font-semibold text-lg">Documents</h3>
+        {{-- Category Skills --}}
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
+            <h3 class="border-b border-b-outline-grey">Field Skills</h3>
 
-            </div>
-        </div>
-
-    </div>
-
-    {{-- REVIEWS --}}
-    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-        <div class="flex items-center justify-between">
-            <h3 class="font-semibold text-lg">Reviews</h3>
-
-            <x-button
-                    size="auto"
-                    wire:click="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
-            >
-                Add review
-            </x-button>
-        </div>
-
-        @forelse($customer->reviews as $review)
-            <div class="border-t border-outline-grey pt-4">
-                <div class="flex items-center gap-2 mb-1">
-                    <x-heroicon name="star" class="text-secondary-warning" />
-                    <span class="font-medium">{{ $review->rating }}/5</span>
+            <div class="flex flex-wrap">
+                <div class="flex-col space-y-3">
+                    <p class="text-primary-grey"> Technical</p>
+                    <div class="grid grid-cols-4 justify-center items-center gap-4">
+                        @foreach($customerSkills as $skill)
+                            @if($skill->category->name != "Abilities")
+                                <span class="px-3 py-2 text-center rounded-full bg-outline-grey truncate">
+                                        {{ $skill->name }}
+                                </span>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
-                <p class="text-sm text-primary-grey">
-                    {{ $review->comment }}
-                </p>
             </div>
-        @empty
-            <p class="text-sm text-primary-grey">
-                No reviews yet.
-            </p>
-        @endforelse
+        </div>
     </div>
 
 </div>

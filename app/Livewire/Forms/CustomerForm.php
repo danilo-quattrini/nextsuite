@@ -38,12 +38,12 @@ class CustomerForm extends Form
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
                 'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
-                'nationality' => ['required', 'string'],
+                'dob' => ['required', 'date'],
             ],
 
             2 => [
+                'nationality' => ['required', 'string'],
                 'phone' => ['required'],
-                'dob' => ['required', 'date'],
                 'gender' => ['required'],
             ]
         ];
@@ -52,5 +52,14 @@ class CustomerForm extends Form
     public function addAttribute(Attribute $attribute, mixed $value): void
     {
         $this->attributes[$attribute->id] = compact('attribute', 'value');
+    }
+
+    public function addSkill(int $skillId, int $skillLevel, int $skillYears): void
+    {
+        $this->skills[$skillId] = [
+            'selected' => true,
+            'level' => $skillLevel,
+            'years' => $skillYears,
+        ];
     }
 }

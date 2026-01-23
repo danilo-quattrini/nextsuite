@@ -2,13 +2,12 @@
 
 namespace App\Livewire\Customer;
 
+use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Attribute;
 use App\Models\Customer;
-use App\Models\Skill;
 use App\Services\NationalityService;
 use App\Traits\ArrayOperation;
-use App\Traits\WithSkill;
 use App\Traits\WithStep;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
@@ -20,7 +19,6 @@ class CreateCustomer extends Component
 {
     use WithFileUploads;
     use WithStep;
-    use WithSkill;
     use ArrayOperation;
     public CustomerForm $form;
 
@@ -35,25 +33,6 @@ class CreateCustomer extends Component
     public function mount(NationalityService $nationalityService): void
     {
         $this->nationalities = $nationalityService->all();
-
-        $user = auth()->user();
-
-        if ($user->company) {
-            $user->company->load('fields.categories.skills');
-
-            $this->skillsByCategory = $user->company->fields
-                ->flatMap(fn ($field) => $field->categories)
-                ->flatMap(fn ($category) => $category->skills)
-                ->unique('id')
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
-        } else {
-            $this->skillsByCategory = Skill::with('category')
-                ->get()
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
-        }
-
     }
 
     public function render(): View
@@ -67,6 +46,12 @@ class CreateCustomer extends Component
     public function attributeSelected(Attribute $attribute, mixed $value): void
     {
         $this->form->addAttribute($attribute, $value);
+    }
+
+    #[On('skill-selected')]
+    public function skillSelected(int $skillId, int $skillLevel, int $skillYears): void
+    {
+        $this->form->addSkill($skillId, $skillLevel, $skillYears);
     }
 
     public function submit(): void
@@ -92,30 +77,24 @@ class CreateCustomer extends Component
             'user_id' => auth()->id()
         ]);
 
-        $skillsToAttach = [];
+        app(SkillAssignmentService::class)->assignMany($customer, $this->form->skills);
+        $this->saveAttribute($customer);
+
+        $this->redirect('/customer');
+    }
+
+    protected function saveAttribute(Customer $customer):void
+    {
         $attributesToAttach = [];
-
-        foreach ($this->form->skills as $skillId => $data) {
-            if (!empty($data['selected'])) {
-                $skillsToAttach[$skillId] = [
-                    'level' => $data['level'],
-                    'years' => $data['years'],
-                ];
-            }
-        }
-
         foreach ($this->form->attributes as $attributeId => $data){
             $attributesToAttach[$attributeId] = [
-              'value' => $data['value']
+                'value' => $data['value']
             ];
         }
 
-        if(!empty($skillsToAttach) || !empty($attributesToAttach)) {
-            $customer->skills()->sync($skillsToAttach);
+        if(!empty($attributesToAttach)){
             $customer->attributes()->sync($attributesToAttach);
         }
-
-        $this->redirect('/customer');
     }
 
     protected function stepRules(): array

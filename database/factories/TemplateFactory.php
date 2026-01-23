@@ -21,14 +21,14 @@ class TemplateFactory extends Factory
             'name' => fake()->words(3, true),
             'type' => DocumentType::PDF,
             'category' => fake()->randomElement(['curriculum', 'report', 'blank']),
-            'structure' => json_encode(['field' => 'value']),
-            'settings' => json_encode([
+            'structure' => ['field' => 'value'],
+            'settings' => [
                 'settings' =>
                     [
                         'page_size' => 'A4',
                         'orientation' => 'portrait'
                     ]
-            ]),
+            ],
             'blade_template' => null,
             'is_active' => true,
         ];

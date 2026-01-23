@@ -58,36 +58,27 @@
                 <x-input-error for="form.email"/>
             </x-form.input-container>
 
-            {{-- NATIONALITY --}}
+            {{-- DOB --}}
             <x-form.input-container>
-                <x-form.label-container label="Nationality" :required="true"/>
+                <x-form.label-container label="Date of Birth" :required="true"/>
 
-                <x-form.select-wrapper :error="$errors->has('form.nationality')">
-                    <x-form.select-element name="nationality" id="nationality" wire:model.defer="form.nationality">
-                        <x-slot:options>
-                            <option value="" disabled selected hidden>
-                                Select nationality
-                            </option>
-                            @foreach ($nationalities as $nation)
-                                <option value="{{ $nation['name'] }}">
-                                    {{ $nation['flag'] }} {{ $nation['name'] }}
-                                </option>
-                            @endforeach
-                        </x-slot:options>
-                    </x-form.select-element>
-                </x-form.select-wrapper>
-
-                <x-input-error for="form.nationality"/>
+                <x-input
+                        wire:model.defer="form.dob"
+                        type="date"
+                        :error="$errors->has('form.dob')"
+                        value="{{ old('form.dob') }}"
+                />
             </x-form.input-container>
 
             {{-- ATTRIBUTES --}}
-            <x-form.label-container label="Attribute" :required="true"/>
+            <x-form.label-container label="Attributes"/>
 
             <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
 
             <x-form.input-container>
                 @livewire('attribute.attribute-modal')
             </x-form.input-container>
+
             <x-button size="large" wire:click="nextStep">
                 Next
             </x-button>
@@ -112,18 +103,26 @@
                 <x-input-error for="form.phone"/>
             </x-form.input-container>
 
-            {{-- DOB --}}
+            {{-- NATIONALITY --}}
             <x-form.input-container>
-                <x-form.label-container label="Date of Birth" :required="true"/>
+                <x-form.label-container label="Nationality" :required="true"/>
 
-                <x-input
-                        wire:model.defer="form.dob"
-                        type="date"
-                        :error="$errors->has('form.dob')"
-                        value="{{ old('form.dob') }}"
-                />
+                <x-form.select-wrapper :error="$errors->has('form.nationality')">
+                    <x-form.select-element name="nationality" id="nationality" wire:model.defer="form.nationality">
+                        <x-slot:options>
+                            <option value="" disabled selected hidden>
+                                Select nationality
+                            </option>
+                            @foreach ($nationalities as $nation)
+                                <option value="{{ $nation['name'] }}">
+                                    {{ $nation['flag'] }} {{ $nation['name'] }}
+                                </option>
+                            @endforeach
+                        </x-slot:options>
+                    </x-form.select-element>
+                </x-form.select-wrapper>
 
-                <x-input-error for="form.dob"/>
+                <x-input-error for="form.nationality"/>
             </x-form.input-container>
 
             {{-- GENDER --}}
@@ -152,102 +151,13 @@
                 <x-input-error for="form.gender"/>
             </x-form.input-container>
 
-            {{-- SKILL VIEW --}}
-            <x-form.label-container label="Skill" :required="true"/>
+            {{-- SKILLS --}}
+            <x-form.label-container label="Skills"/>
 
-            <x-skill.skill-card-view :skills="$form->skills" :categories="$skillsByCategory"/>
+            <x-skill.skill-card-view :skills="$form->skills" />
 
             <x-form.input-container>
-
-                <x-button
-                        size="large"
-                        wire:click="$set('showSkillModal', true)"
-                >
-                    <x-heroicon name="plus" />
-                    New Skill
-                </x-button>
-
-                {{-- POP UP FOR NEW SKILL --}}
-                @if ($showSkillModal)
-                    <x-popup-box modal="showSkillModal">
-
-                        <x-slot:header>
-                            <x-authentication-card-logo/>
-                        </x-slot:header>
-
-                        <x-slot:subheader>
-                            {{ __('Add a new Skill') }}
-                        </x-slot:subheader>
-
-                        <x-slot:message>
-                            {{ __('Here you can add a new skill for the customer in base of your choice') }}
-                        </x-slot:message>
-
-                        <x-form.input-container>
-                            <x-form.label-container label="Skill" :required="true"/>
-
-                            <x-form.select-wrapper :error="$errors->has('selectedSkillId')">
-                                <x-form.select-element wire:model.defer="selectedSkillId">
-                                    <x-slot:options>
-                                        <option value="" hidden>
-                                            Select a skill
-                                        </option>
-                                        @foreach ($skillsByCategory as $category => $skills)
-                                            <optgroup label="{{ $category }}">
-                                                @foreach ($skills as $skill)
-                                                    <option value="{{ $skill['id'] }}">
-                                                        {{ $skill['name'] }}
-                                                    </option>
-                                                @endforeach
-                                            </optgroup>
-                                        @endforeach
-                                    </x-slot:options>
-                                </x-form.select-element>
-                            </x-form.select-wrapper>
-
-                            <x-input-error for="selectedSkillId"/>
-                        </x-form.input-container>
-
-                        {{-- Level --}}
-                        <div class="flex justify-between items-center gap-6 my-6">
-
-                            <x-form.input-container size="medium">
-                                <x-form.label-container label="Level" :required="true"/>
-
-                                <x-input type="number" min="1" max="5" wire:model="skillLevel" placeholder="Level" right-icon="star" :error="$errors->has('skillLevel')"/>
-                                <x-input-error for="skillLevel"/>
-                            </x-form.input-container>
-
-                            {{-- Years --}}
-                            <x-form.input-container size="medium">
-                                <x-form.label-container label="Years" :required="true"/>
-
-                                <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
-                                <x-input-error for="skillYears"/>
-                            </x-form.input-container>
-                        </div>
-                        {{-- Actions --}}
-                        <div class="flex justify-between gap-4 mt-6">
-                            <x-button
-                                    type="button"
-                                    size="large"
-                                    variant="rest"
-                                    wire:click="$set('showSkillModal', false)"
-                            >
-                                Cancel
-                            </x-button>
-
-                            <x-button
-                                    type="button"
-                                    size="large"
-                                    wire:click="addSkill"
-                            >
-                                Add Skill
-                            </x-button>
-                        </div>
-
-                    </x-popup-box>
-                @endif
+                @livewire('skill-modal')
             </x-form.input-container>
 
         @endif

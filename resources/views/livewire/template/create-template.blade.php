@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit">
+<form>
     <x-form.container>
         @if($step === 1)
 
@@ -78,7 +78,7 @@
 
                     <x-input
                             wire:model.defer="settings.{{ $key }}"
-                            placeholder="Enter the . {{ Str::headline($key) }}"
+                            placeholder="Enter the {{ Str::headline($key) }}"
                             right-icon="document-text"
                             :error="$errors->has('settings'. $key)"
                             value="{{ $value }}"
@@ -88,6 +88,17 @@
                 </x-form.input-container>
             @endforeach
 
+            @if(!empty($category))
+                <div class="flex justify-between items-center">
+                    <x-button size="large" variant="disable" wire:click="previousStep">
+                        Back
+                    </x-button>
+
+                    <x-button size="large" wire:click="send">
+                        Create
+                    </x-button>
+                </div>
+            @endif
         @endif
     </x-form.container>
 </form>

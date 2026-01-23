@@ -2,14 +2,18 @@
 
 namespace App\Models;
 
+use App\Domain\Attribute\Contracts\AttributeAssignable;
+use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class   Customer extends Model
+class   Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes;
 
@@ -31,12 +35,16 @@ class   Customer extends Model
             ->withPivot(['years', 'level']);
     }
 
-    public function attributes(): BelongsToMany
+    /**
+     * Get the attribute polymorph model.
+     */
+    public function attributes(): MorphToMany
     {
-        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id')
-            ->using(CustomerAttribute::class)
+        return $this->morphToMany(Attribute::class, 'attributable', 'attribute_users', 'attributable_id', 'attribute_id')
+            ->using(AttributeAssignment::class)
             ->withPivot('value')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
     }
 
     protected function casts(): array
@@ -70,5 +78,27 @@ class   Customer extends Model
     public function documents(): MorphMany
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+    /**
+     * Add a skill to a customer, syncWithoutDetaching = remove already existing record and add new ones.
+     */
+    public function addSkill(int $id, int $level, int $years): void
+    {
+        $this->skills()->attach([
+            $id => [
+                'level' => $level,
+                'years' => $years
+            ]
+        ]);
+    }
+
+    public function addAttribute(Attribute $attribute, mixed $value): void
+    {
+        $this->attributes()->syncWithoutDetaching([
+            $attribute->id => [
+                'value' => $value
+            ]
+        ]);
     }
 }

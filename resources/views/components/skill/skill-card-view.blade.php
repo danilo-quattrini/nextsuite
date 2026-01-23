@@ -1,4 +1,4 @@
-@props(['skills' => [], 'categories' => []])
+@props(['skills' => []])
 
 @if (!empty($skills))
     <div class="mt-6 space-y-4">
@@ -6,10 +6,7 @@
             <div class="flex justify-between items-center border rounded p-4">
                 <div>
                     <strong>
-                        {{ data_get(collect($categories)
-                                    ->collapse()
-                                    ->firstWhere('id', (int) $skillId), 'name', 'Skill')
-                        }}
+                        Skill
                     </strong>
                     <div class="text-sm text-primary-grey">
                         Level: {{ $data['level'] }} —

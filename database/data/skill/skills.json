@@ -107,5 +107,88 @@
     { "name": "Portuguese" },
     { "name": "Arabic" },
     { "name": "Russian" }
+  ],
+
+  "Abilities": [
+    {
+      "name": "Communication",
+      "description": "Clearly conveying ideas and information through verbal, written, and non-verbal means."
+    },
+    {
+      "name": "Active Listening",
+      "description": "Fully concentrating, understanding, and responding thoughtfully to what others are saying."
+    },
+    {
+      "name": "Emotional Intelligence",
+      "description": "Recognizing, understanding, and managing one’s own emotions and those of others."
+    },
+    {
+      "name": "Teamwork",
+      "description": "Collaborating effectively with others to achieve shared goals."
+    },
+    {
+      "name": "Conflict Resolution",
+      "description": "Managing and resolving disagreements in a constructive and respectful manner."
+    },
+    {
+      "name": "Adaptability",
+      "description": "Adjusting effectively to new conditions, challenges, and changes in the environment."
+    },
+    {
+      "name": "Problem Solving",
+      "description": "Identifying issues, analyzing options, and implementing effective solutions."
+    },
+    {
+      "name": "Critical Thinking",
+      "description": "Analyzing information objectively to make reasoned judgments and decisions."
+    },
+    {
+      "name": "Time Management",
+      "description": "Organizing and prioritizing tasks to use time efficiently and meet deadlines."
+    },
+    {
+      "name": "Leadership",
+      "description": "Guiding, motivating, and influencing others toward achieving objectives."
+    },
+    {
+      "name": "Decision Making",
+      "description": "Evaluating information and choosing the most appropriate course of action."
+    },
+    {
+      "name": "Stress Management",
+      "description": "Maintaining performance and emotional balance under pressure."
+    },
+    {
+      "name": "Empathy",
+      "description": "Understanding and sharing the feelings and perspectives of others."
+    },
+    {
+      "name": "Accountability",
+      "description": "Taking responsibility for actions, decisions, and outcomes."
+    },
+    {
+      "name": "Work Ethic",
+      "description": "Demonstrating reliability, dedication, and professionalism in one’s work."
+    },
+    {
+      "name": "Creativity",
+      "description": "Generating innovative ideas and approaching problems with originality."
+    },
+    {
+      "name": "Resilience",
+      "description": "Recovering quickly from setbacks and maintaining focus despite challenges."
+    },
+    {
+      "name": "Negotiation",
+      "description": "Reaching agreements through discussion, compromise, and mutual understanding."
+    },
+    {
+      "name": "Self-Motivation",
+      "description": "Maintaining initiative and drive without needing external encouragement."
+    },
+    {
+      "name": "Ethical Judgment",
+      "description": "Making decisions that align with moral principles and professional standards."
+    }
   ]
 }

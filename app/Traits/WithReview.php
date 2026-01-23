@@ -3,6 +3,8 @@
 namespace App\Traits;
 
 
+use App\Models\Customer;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 
 trait WithReview
@@ -17,6 +19,17 @@ trait WithReview
     #[Validate('required|integer|min:1|max:5')]
     public int $rating = 1;
 
+
+    #[On('review-user')]
+    public function openReviewModal(int $id, string $type): void
+    {
+        $model = match ($type) {
+            'customer' => Customer::findOrFail($id),
+            default => throw new \InvalidArgumentException('Invalid reviewable type'),
+        };
+
+        $this->review($model);
+    }
 
     public function review($model): void
     {

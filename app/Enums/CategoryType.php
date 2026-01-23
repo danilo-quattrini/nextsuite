@@ -15,6 +15,7 @@ enum CategoryType: string
     case LOGISTICS = 'logistics';
     case FOOD = 'food';
     case BEAUTY = 'beauty';
+    case SOFT_SKILL = 'soft_skill';
 
 
     public static function toArray(): array

@@ -10,23 +10,24 @@ trait WithSkill
     public ?int $skillLevel = null;
     public ?int $skillYears = null;
 
+
     public array $skillsByCategory = [];
 
     public function addSkill(): void
     {
         $this->validate([
             'selectedSkillId' => ['required', 'exists:skills,id'],
-            'skillLevel' => ['required', 'integer', 'min:1', 'max:5'],
-            'skillYears' => ['required', 'integer', 'min:0'],
+            'skillLevel' => ['required', 'integer', 'min:1', 'max:100'],
+            'skillYears' => ['integer', 'min:0', 'max:30'],
         ]);
 
-        $this->form->skills[$this->selectedSkillId] = [
-            'selected' => true,
-            'level' => $this->skillLevel,
-            'years' => $this->skillYears,
-        ];
+        $this->dispatch(
+            'skill-selected',
+            skillId: $this->selectedSkillId,
+            skillLevel: $this->skillLevel,
+            skillYears: $this->skillYears
+        );
 
-        // reset modal state
         $this->reset([
             'selectedSkillId',
             'skillLevel',
