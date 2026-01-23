@@ -50,21 +50,29 @@
             <p><strong>Nationality:</strong> {{ $customer->nationality }}</p>
         </div>
 
-        {{-- Attributes --}}
+        {{-- ATTRIBUTES --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Attributes</h3>
+            <div class="flex items-center justify-between border-b border-b-outline-grey pb-2">
+                <h3>Attributes</h3>
+                {{-- BUTTON TO ADD AN ATTRIBUTE --}}
+                @livewire('attribute.attribute-modal')
+            </div>
 
             <ul class="space-y-2 text-sm text-primary-grey">
-                @foreach($customerAttributes as $attribute )
-                    <li> {{ $attribute->name . ': ' . $attribute->pivot->value }}</li>
-                @endforeach
+                @forelse($customerAttributes as $attribute)
+                    <li> {{ $attribute->name . ': ' . $attribute->pivot?->value }}</li>
+                @empty
+                    <p class="text-sm text-primary-grey">
+                        No attributes yet.
+                    </p>
+                @endforelse
             </ul>
         </div>
 
         {{-- REVIEWS --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex items-center justify-between">
-                <h3 class="font-semibold text-lg">Reviews</h3>
+            <div class="flex items-center justify-between border-b border-b-outline-grey">
+                <h3> Reviews</h3>
             </div>
 
             @forelse($customer->reviews as $review)
@@ -96,7 +104,11 @@
     {{-- FIELD COMPETENCE --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Soft Skills</h3>
+            <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
+                <h3>Soft Skills</h3>
+                {{-- BUTTON TO ADD A NEW SKILL  --}}
+                @livewire('skill-modal')
+            </div>
             <div class="flex justify-center items-center">
                 <div>
                     {!! $this->chart->render() !!}
@@ -106,18 +118,20 @@
 
         {{-- Category Skills --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Field Skills</h3>
+            <h3 class="border-b border-b-outline-grey">Field Skills</h3>
 
             <div class="flex flex-wrap">
                 <div class="flex-col space-y-3">
-                    <p class="text-sm text-primary-grey"> Technical</p>
-                    @foreach($customerSkills as $skill)
-                        @if($skill->category->name != "Abilities")
-                            <span class="px-3 py-1 rounded-full bg-outline-grey text-sm mr-2">
-                                    {{ $skill->name }}
+                    <p class="text-primary-grey"> Technical</p>
+                    <div class="grid grid-cols-4 justify-center items-center gap-4">
+                        @foreach($customerSkills as $skill)
+                            @if($skill->category->name != "Abilities")
+                                <span class="px-3 py-2 text-center rounded-full bg-outline-grey truncate">
+                                        {{ $skill->name }}
                                 </span>
-                        @endif
-                    @endforeach
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>

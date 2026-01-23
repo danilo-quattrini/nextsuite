@@ -2,7 +2,7 @@
 
     {{-- BUTTON TO ADD A NEW SKILL  --}}
     <x-button
-            size="large"
+            size="auto"
             wire:click="$set('showSkillModal', true)"
     >
         <x-heroicon name="plus" />
@@ -55,14 +55,14 @@
                     {{-- Level --}}
                     <x-form.input-container size="auto">
                         <x-form.label-container label="Level" :required="true"/>
-                        <input class="slider" type="range" min="1" max="100"  step="5" wire:model.live="skillLevel" :error="$errors->has('skillLevel')"/>
+                        <input class="slider" type="range" min="0" max="100" value="1" wire:model.live="skillLevel" :error="$errors->has('skillLevel')"/>
                         <x-input-error for="skillLevel"/>
                     </x-form.input-container>
 
                     {{-- Years --}}
                     <x-form.input-container size="medium">
                         <x-form.label-container label="Years" :required="true"/>
-                        <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
+                        <x-input type="number" min="0" wire:model.live="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
                         <x-input-error for="skillYears"/>
                     </x-form.input-container>
                 </div>

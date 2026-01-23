@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Domain\Attribute\Contracts\AttributeAssignable;
 use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class   Customer extends Model implements SkillAssignable
+class   Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes;
 
@@ -87,6 +89,15 @@ class   Customer extends Model implements SkillAssignable
             $id => [
                 'level' => $level,
                 'years' => $years
+            ]
+        ]);
+    }
+
+    public function addAttribute(Attribute $attribute, mixed $value): void
+    {
+        $this->attributes()->syncWithoutDetaching([
+            $attribute->id => [
+                'value' => $value
             ]
         ]);
     }
