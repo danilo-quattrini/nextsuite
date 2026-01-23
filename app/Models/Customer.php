@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class   Customer extends Model implements SkillAssignable
@@ -32,12 +33,16 @@ class   Customer extends Model implements SkillAssignable
             ->withPivot(['years', 'level']);
     }
 
-    public function attributes(): BelongsToMany
+    /**
+     * Get the attribute polymorph model.
+     */
+    public function attributes(): MorphToMany
     {
-        return $this->belongsToMany(Attribute::class, 'customer_attribute', 'customer_id', 'attribute_id')
-            ->using(CustomerAttribute::class)
+        return $this->morphToMany(Attribute::class, 'attributable', 'attribute_users', 'attributable_id', 'attribute_id')
+            ->using(AttributeAssignment::class)
             ->withPivot('value')
-            ->withTimestamps();
+            ->withTimestamps()
+            ->wherePivotNull('deleted_at');
     }
 
     protected function casts(): array
