@@ -12,15 +12,16 @@ class SkillCustomerSeeder extends Seeder
     {
         $customers = Customer::all();
 
-        $skillsByCategory = Skill::with('category')->get()->groupBy(
-            fn ($skill) => $skill->category->name
+        $skillsByType = Skill::with('category')->get()->groupBy(
+            fn ($skill) => $skill->category->type
         );
 
         foreach ($customers as $customer) {
             // Example: assign 2 technical skills
-            if (isset($skillsByCategory['Technology']) || isset($skillsByCategory['Abilities'])) {
-                $technicalSkills = $skillsByCategory['Technology']->random(5);
-                $softSkill = $skillsByCategory['Abilities']->random(5);
+            if (isset($skillsByType['technology']) || isset($skillsByType['soft_skill'])) {
+                $technicalSkills = $skillsByType['technology']->random(5);
+
+                $softSkill = $skillsByType['soft_skill']->random(5);
 
                 foreach ($technicalSkills as $skill) {
                     $customer->skills()->attach($skill->id, [

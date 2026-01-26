@@ -19,17 +19,35 @@ class SkillSeeder extends Seeder
         foreach ($skillsByCategory as $categoryName => $skills) {
             $category = Category::where('name', $categoryName)->first();
 
+
             if (! $category) {
                 continue;
             }
 
             foreach ($skills as $skillData) {
-                Skill::firstOrCreate([
-                    'name' => $skillData['name'],
-                    'category_id' => $category->id,
-                ], [
-                    'description' => $skillData['description'] ?? null,
-                ]);
+
+                if(isset($skillData['subcategory'])){
+                    $subcategory = Category::firstOrCreate([
+                        'name' => $skillData['subcategory'],
+                        'type' => $skillData['type'],
+                    ]);
+
+                    foreach ($skillData['skills'] as $subCategorySkills){
+                        Skill::firstOrCreate([
+                            'name' => $subCategorySkills['name'],
+                            'category_id' => $subcategory->id,
+                        ], [
+                            'description' => $subCategorySkills['description'] ?? null,
+                        ]);
+                    }
+                }else{
+                    Skill::firstOrCreate([
+                        'name' => $skillData['name'],
+                        'category_id' => $category->id,
+                    ], [
+                        'description' => $skillData['description'] ?? null,
+                    ]);
+                }
             }
         }
     }
