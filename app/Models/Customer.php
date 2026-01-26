@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class   Customer extends Model implements SkillAssignable, AttributeAssignable
+class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes;
 

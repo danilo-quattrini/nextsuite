@@ -9,7 +9,7 @@ use App\Domain\Skill\Services\SkillAssignmentService;
 use IcehouseVentures\LaravelChartjs\Builder;
 use IcehouseVentures\LaravelChartjs\Facades\Chartjs;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -19,8 +19,9 @@ class ShowCustomer extends Component
 
     public ?Collection $customerAttributes = null;
     public ?Collection $customerSkills = null;
+    public ?Collection $softSkills = null;
     public ?Collection $fields = null;
-    public $datasets;
+    public ?float $softSkillsAverage = null;
 
     public function mount(Customer $customer): void
     {
@@ -35,7 +36,7 @@ class ShowCustomer extends Component
             ->unique('id')
             ->values();
 
-        $this->getData();
+        $this->getSoftSkills($customer);
     }
 
     #[On('skill-selected')]
@@ -55,7 +56,7 @@ class ShowCustomer extends Component
             ->unique('id')
             ->values();
 
-        $this->getData();
+        $this->getSoftSkills($this->customer);
     }
 
     #[On('attribute-selected')]
@@ -69,53 +70,77 @@ class ShowCustomer extends Component
 
         $this->customerAttributes = $this->customer->attributes;
     }
-    #[Computed]
-    public function chart(): Builder
+
+    public function buildSoftSkillChart(string $categoryName, array $labels, array $data): Builder
     {
+        $chartId = 'softSkill' . Str::studly(Str::slug($categoryName, '_'));
+
         return Chartjs::build()
-            ->name("Soft-Skill-Diagram")
-            ->livewire()
-            ->model("datasets")
+            ->name($chartId)
             ->type("polarArea")
-            ->size(["width" => 600, "height" => 500])
+            ->size(["width" => 150, "height" => 150])
+            ->labels($labels)
+            ->datasets([
+                [
+                    "label" => "Level",
+                    "data" => $data,
+                ],
+            ])
             ->options([
+                'responsive' => true,
                 'scales' => [
                     'r' => [
                         'min' => 0,
                         'max' => 100,
                         'ticks' => [
-                            'stepSize' => 10
-                        ]
+                            'stepSize' => 10,
+                        ],
+                    ],
+                ],
+                'plugins' => [
+                    'legend' => [
+                        'position' => 'bottom'
                     ]
                 ]
+
             ]);
     }
-    public function getData(): void
+
+    public function getSoftSkills(Customer $customer): void
     {
-        $data = []; // your data here
-        $labels = [];
-        foreach ($this->customerSkills as $skill) {
-            if($skill->category->name == 'Abilities') {
-                $labels[] = $skill->name;
-            }
-        }
-        foreach ($this->customerSkills as $skill){
-            if($skill->category->name == 'Abilities') {
-                $data[] = $skill->pivot->level;
-            }
-        }
+        $skillsByCategory = $customer
+            ->load('skills.category')
+            ->skills
+            ->filter(fn ($skill) => $skill->category?->type?->value === 'soft_skill')
+            ->groupBy(fn ($skill) => $skill->category?->name ?? 'Uncategorized')
+            ->map(function ($skills) {
+                $skillsList = $skills->map(function ($skill) {
+                    return [
+                        'name' => $skill->name,
+                        'level' => $skill->pivot?->level,
+                    ];
+                })->values();
+                $average = $skillsList
+                    ->pluck('level')
+                    ->filter(fn ($level) => is_numeric($level))
+                    ->avg();
 
-        $this->datasets = [
-            'datasets' => [
-                [
-                    "label" => "Level",
-                    "data" => $data
+                return [
+                    'skills' => $skillsList,
+                    'average' => $average,
+                ];
+            })
+            ->sortKeys();
 
-                ]
-            ],
-            'labels' => $labels
-        ];
+        $this->softSkills = $skillsByCategory;
+
+        $allLevels = $skillsByCategory
+            ->flatMap(fn ($group) => collect($group['skills'])->pluck('level'))
+            ->filter(fn ($level) => is_numeric($level));
+
+        $this->softSkillsAverage = $allLevels->isEmpty() ? null : $allLevels->avg();
     }
+
     public function render()
     {
         return view('livewire.customer.show-customer');

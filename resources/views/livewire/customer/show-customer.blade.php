@@ -14,10 +14,14 @@
 
 
             <div>
-                <h1 class="text-2xl font-semibold">
-                    {{ $customer->full_name }}
-                </h1>
-
+                <div class="flex justify-start items-center gap-4 ">
+                    <h1 class="text-2xl font-semibold">
+                        {{ $customer->full_name }}
+                    </h1>
+                    <span class="text-xl font-semibold border border-outline-grey px-4 py-2 rounded-md">
+                        {{ is_null($softSkillsAverage) ? '—' : number_format($softSkillsAverage) }}
+                    </span>
+                </div>
                 <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
                     <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
                     <span class="font-medium">
@@ -105,15 +109,43 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
             <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
-                <h3>Soft Skills</h3>
+                <h3 class="truncate">Soft Skills</h3>
                 {{-- BUTTON TO ADD A NEW SKILL  --}}
                 @livewire('skill-modal')
             </div>
-            <div class="flex justify-center items-center">
-                <div>
-                    {!! $this->chart->render() !!}
+
+            @if($softSkills && $softSkills->isNotEmpty())
+                <div class="relative">
+                    {{--   BUTTONS --}}
+                    <button type="button" class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center border border-outline-grey rounded-full p-3 cursor-pointer bg-white">
+                        <x-heroicon name="chevron-left" size="sm"/>
+                    </button>
+                    <button type="button" class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center border border-outline-grey rounded-full p-3 cursor-pointer bg-white">
+                        <x-heroicon name="chevron-right" size="sm"/>
+                    </button>
+
+                    <div id="soft-skill-carousel" class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 px-12">
+                        @foreach($softSkills as $categoryName => $group)
+                            @php
+                                $labels = collect($group['skills'])->pluck('name')->all();
+                                $data = collect($group['skills'])->pluck('level')->map(fn ($level) => $level ?? 0)->all();
+                                $average = is_null($group['average']) ? '—' : number_format($group['average'], 1);
+                            @endphp
+                            <div class="min-w-full w-full shrink-0 snap-start border border-outline-grey rounded-md p-4 space-y-2 bg-white">
+                                <div class="flex items-center justify-between">
+                                    <h4 class="font-semibold">{{ $categoryName }}</h4>
+                                    <x-tag size="auto">{{ $average }}</x-tag>
+                                </div>
+                                <div class="flex justify-center items-center">
+                                    {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @else
+                <p class="text-primary-grey">No soft skills yet.</p>
+            @endif
         </div>
 
         {{-- Category Skills --}}
@@ -138,3 +170,26 @@
     </div>
 
 </div>
+
+<script>
+    (function () {
+        const carousel = document.getElementById('soft-skill-carousel');
+        if (!carousel) return;
+
+        const prev = carousel.parentElement.querySelector('.carousel-prev');
+        const next = carousel.parentElement.querySelector('.carousel-next');
+
+        const scrollByCard = () => {
+            const card = carousel.querySelector('[class*="min-w-"]');
+            return card ? card.getBoundingClientRect().width + 24 : 320;
+        };
+
+        prev?.addEventListener('click', () => {
+            carousel.scrollBy({ left: -scrollByCard(), behavior: 'smooth' });
+        });
+
+        next?.addEventListener('click', () => {
+            carousel.scrollBy({ left: scrollByCard(), behavior: 'smooth' });
+        });
+    })();
+</script>
