@@ -1,6 +1,6 @@
 @props([
     'variant' => 'primary',
-    'size' => 'default',
+    'size' => 'tag-size-default',
     'type' => 'tag',
     'href' => null,
 ])
@@ -10,21 +10,23 @@
 
     $variants = [
         'primary' => 'tag-primary',
+        'green' => 'tag-success',
+        'yellow' => 'tag-warning',
+        'red' => 'tag-error',
         'white' => 'tag-white',
     ];
 
     $sizes = [
-        'default' => 'h-[38px] px-3',
-        'large'   => 'h-[38px] px-4',
-        'auto'    => 'h-[38px] px-4',
-        'full'    => 'w-full h-[38px] px-4',
+        'default' => 'tag-size-default',
+        'large'   => 'tag-size-large',
+        'auto'    => 'tag-size-auto',
+        'full'    => 'tag-size-full',
     ];
 
     $classes = trim(implode(' ', [
         $base,
         $variants[$variant] ?? $variants['primary'],
         $sizes[$size] ?? $sizes['default'],
-        'inline-flex items-center gap-2 leading-none',
     ]));
 @endphp
 

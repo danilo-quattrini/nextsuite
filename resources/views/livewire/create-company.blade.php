@@ -49,7 +49,7 @@
                 @if($selectedFields)
                     <div class="grid grid-cols-5 gap-2">
                         @foreach($selectedFields as $fieldId => $field)
-                                <x-tag size="auto" variant="white">
+                                <x-tag size="default" variant="white">
 
                                     <x-slot:trailing>
                                         <button

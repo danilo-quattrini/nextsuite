@@ -3,10 +3,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xs);
+    padding: var(--tag-padding-y, var(--spacing-xs)) var(--tag-padding-x, var(--spacing-xs));
+    height: var(--tag-height, auto);
     gap: var(--spacing-xs);
     border-radius: var(--radius-md);
-    font-size: var(--text-xs) ;
+    font-size: var(--tag-font-size, var(--text-xs));
     font-weight: var(--font-weight-semibold);
     letter-spacing: var(--tracking-button);
     line-height: var(--line-height-none);
@@ -15,14 +16,39 @@
     text-decoration: none;
 
 }
+/* TAG SIZES */
+.tag-size-default{
+    --tag-height: 38px;
+    --tag-padding-y: var(--spacing-xxs);
+    --tag-padding-x: calc(var(--spacing-xxs) * 3);
+    --tag-font-size: var(--text-base);
+}
+
+.tag-size-large{
+    --tag-height: 44px;
+    --tag-padding-y: var(--spacing-xxs);
+    --tag-padding-x: calc(var(--spacing-xxs) * 4);
+    --tag-font-size: var(--text-lg);
+}
+
+.tag-size-auto{
+    --tag-height: auto;
+    --tag-padding-y: var(--spacing-xxs);
+    --tag-padding-x: calc(var(--spacing-xxs) * 4);
+    --tag-font-size: var(--text-base);
+}
+
+.tag-size-full{
+    width: 100%;
+    --tag-height: 38px;
+    --tag-padding-y: var(--spacing-xxs);
+    --tag-padding-x: calc(var(--spacing-xxs) * 4);
+    --tag-font-size: var(--text-base);
+}
 /* TAG VARIANTS */
 .tag-primary{
     background-color: var(--color-primary);
     color: var(--color-white);
-
-    &:hover:not(:disabled) {
-        background-color: var(--color-button-hover);
-    }
 
     &:focus-visible {
         box-shadow: 0 0 0 4px var(--color-primary);
@@ -32,4 +58,22 @@
     background-color: var(--color-white);
     border: 1px solid var(--color-outline-grey);
     color: var(--color-black);
+}
+
+.tag-success{
+    background-color: var(--color-secondary-success-100);
+    outline: 1px solid var(--color-secondary-success);
+    color: var(--color-secondary-success);
+}
+
+.tag-error{
+    background-color: var(--color-secondary-error-100);
+    border: 1px solid var(--color-secondary-error);
+    color: var(--color-secondary-error);
+}
+
+.tag-warning{
+    background-color: var(--color-secondary-warning-100);
+    border: 1px solid var(--color-secondary-warning);
+    color: var(--color-secondary-warning);
 }
