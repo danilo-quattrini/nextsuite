@@ -18,13 +18,11 @@
                     <h1 class="text-2xl font-semibold">
                         {{ $customer->full_name }}
                     </h1>
-                    <span class="text-xl font-semibold border border-outline-grey px-4 py-2 rounded-md">
-                        {{ is_null($softSkillsAverage) ? '—' : number_format($softSkillsAverage) }}
-                    </span>
+                    <x-average-tag :value="$softSkillsAverage" />
                 </div>
                 <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
                     <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
-                    <span class="font-medium">
+                    <span>
                         {{ number_format($customer->reviews_avg_rating ?? 0, 1) }}
                     </span>
                     <span>
@@ -41,7 +39,7 @@
     </div>
 
     {{-- INFO GRID --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
 
         {{-- Personal Info --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
@@ -73,123 +71,90 @@
             </ul>
         </div>
 
-        {{-- REVIEWS --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-b-outline-grey">
-                <h3> Reviews</h3>
-            </div>
+    </div>
 
-            @forelse($customer->reviews as $review)
-                <div class="border-t border-outline-grey pt-4">
+    {{-- Category Skills --}}
+    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
+        <h3 class="border-b border-b-outline-grey">Field Skills</h3>
 
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex justify-center items-center gap-2 ">
-                            <img class="size-8 rounded-full object-cover" src="{{ $review->author->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
-                            <span class="font-medium"> {{ $review->author->full_name }}</span>
-                        </div>
-                        <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
-                            <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
-                            <span class="font-medium">{{ $review->rating }}</span>
-                        </div>
-                    </div>
-
-                    <p class="text-sm text-primary-grey">
-                        {{ $review->comment }}
-                    </p>
+        <div class="flex flex-wrap">
+            <div class="flex-col space-y-3">
+                <p class="text-primary-grey">Technical</p>
+                <div class="grid grid-cols-4 justify-center items-center gap-4">
+                    @foreach($customerSkills as $skill)
+                        @if($skill->category->type->value != 'soft_skill')
+                            <span class="px-3 py-2 text-center rounded-full bg-outline-grey truncate">
+                                    {{ $skill->name }}
+                            </span>
+                        @endif
+                    @endforeach
                 </div>
-            @empty
-                <p class="text-sm text-primary-grey">
-                    No reviews yet.
-                </p>
-            @endforelse
+            </div>
         </div>
     </div>
 
     {{-- FIELD COMPETENCE --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
-                <h3 class="truncate">Soft Skills</h3>
-                {{-- BUTTON TO ADD A NEW SKILL  --}}
-                @livewire('skill-modal')
-            </div>
-
-            @if($softSkills && $softSkills->isNotEmpty())
-                <div class="relative">
-                    {{--   BUTTONS --}}
-                    <button type="button" class="carousel-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center border border-outline-grey rounded-full p-3 cursor-pointer bg-white">
-                        <x-heroicon name="chevron-left" size="sm"/>
-                    </button>
-                    <button type="button" class="carousel-next absolute right-0 top-1/2 -translate-y-1/2 z-10 flex justify-center items-center border border-outline-grey rounded-full p-3 cursor-pointer bg-white">
-                        <x-heroicon name="chevron-right" size="sm"/>
-                    </button>
-
-                    <div id="soft-skill-carousel" class="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-4 px-12">
-                        @foreach($softSkills as $categoryName => $group)
-                            @php
-                                $labels = collect($group['skills'])->pluck('name')->all();
-                                $data = collect($group['skills'])->pluck('level')->map(fn ($level) => $level ?? 0)->all();
-                                $average = is_null($group['average']) ? '—' : number_format($group['average'], 1);
-                            @endphp
-                            <div class="min-w-full w-full shrink-0 snap-start border border-outline-grey rounded-md p-4 space-y-2 bg-white">
-                                <div class="flex items-center justify-between">
-                                    <h4 class="font-semibold">{{ $categoryName }}</h4>
-                                    <x-tag size="auto">{{ $average }}</x-tag>
-                                </div>
-                                <div class="flex justify-center items-center">
-                                    {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            @else
-                <p class="text-primary-grey">No soft skills yet.</p>
-            @endif
+    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
+        <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
+            <h3 class="truncate">Soft Skills</h3>
+            {{-- BUTTON TO ADD A NEW SKILL  --}}
+            @livewire('skill-modal')
         </div>
 
-        {{-- Category Skills --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="border-b border-b-outline-grey">Field Skills</h3>
+        @if($softSkills && $softSkills->isNotEmpty())
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                @foreach($softSkills as $categoryName => $group)
+                    @php
+                        $labels = collect($group['skills'])->pluck('name')->all();
+                        $data = collect($group['skills'])->pluck('level')->map(fn ($level) => $level ?? 0)->all();
+                    @endphp
+                    <div class="border border-outline-grey rounded-md p-4 bg-white">
+                        <div class="flex justify-center mb-2">
+                            <x-average-tag :value="$group['average']" />
+                        </div>
+                        <div class="flex items-start justify-center gap-4">
+                            <h4 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h4>
+                        </div>
+                        <div class="flex justify-center items-center mt-2">
+                            {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        @elseif(empty($softSkills))
+            <p class="text-primary-grey">No soft skills yet.</p>
+        @endif
+    </div>
 
-            <div class="flex flex-wrap">
-                <div class="flex-col space-y-3">
-                    <p class="text-primary-grey"> Technical</p>
-                    <div class="grid grid-cols-4 justify-center items-center gap-4">
-                        @foreach($customerSkills as $skill)
-                            @if($skill->category->name != "Abilities")
-                                <span class="px-3 py-2 text-center rounded-full bg-outline-grey truncate">
-                                        {{ $skill->name }}
-                                </span>
-                            @endif
-                        @endforeach
+    {{-- REVIEWS --}}
+    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
+        <div class="flex items-center justify-between border-b border-b-outline-grey">
+            <h3> Reviews</h3>
+        </div>
+
+        @forelse($customer->reviews as $review)
+            <div class="border-b border-outline-grey pb-4">
+
+                <div class="flex justify-between items-center mb-4">
+                    <div class="flex justify-center items-center gap-2 ">
+                        <img class="size-8 rounded-full object-cover" src="{{ $review->author->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
+                        <span class="font-medium"> {{ $review->author->full_name }}</span>
+                    </div>
+                    <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
+                        <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
+                        <span class="font-medium">{{ $review->rating }}</span>
                     </div>
                 </div>
+
+                <p class="text-sm text-primary-grey">
+                    {{ $review->comment }}
+                </p>
             </div>
-        </div>
+        @empty
+            <p class="text-sm text-primary-grey">
+                No reviews yet.
+            </p>
+        @endforelse
     </div>
 
 </div>
-
-<script>
-    (function () {
-        const carousel = document.getElementById('soft-skill-carousel');
-        if (!carousel) return;
-
-        const prev = carousel.parentElement.querySelector('.carousel-prev');
-        const next = carousel.parentElement.querySelector('.carousel-next');
-
-        const scrollByCard = () => {
-            const card = carousel.querySelector('[class*="min-w-"]');
-            return card ? card.getBoundingClientRect().width + 24 : 320;
-        };
-
-        prev?.addEventListener('click', () => {
-            carousel.scrollBy({ left: -scrollByCard(), behavior: 'smooth' });
-        });
-
-        next?.addEventListener('click', () => {
-            carousel.scrollBy({ left: scrollByCard(), behavior: 'smooth' });
-        });
-    })();
-</script>

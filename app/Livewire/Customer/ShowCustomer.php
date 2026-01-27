@@ -74,36 +74,78 @@ class ShowCustomer extends Component
     public function buildSoftSkillChart(string $categoryName, array $labels, array $data): Builder
     {
         $chartId = 'softSkill' . Str::studly(Str::slug($categoryName, '_'));
+        $barColors = $this->mapChartColors($data);
 
         return Chartjs::build()
             ->name($chartId)
-            ->type("polarArea")
+            ->type("bar")
             ->size(["width" => 150, "height" => 150])
             ->labels($labels)
             ->datasets([
                 [
+                    "barThickness" => 30,
+                    "minBarLength" => 1,
                     "label" => "Level",
                     "data" => $data,
+                    "backgroundColor" => $barColors,
+                    "borderColor" => $barColors,
+                    "categoryPercentage" => 0.6,
+                    "barPercentage" => 0.9,
                 ],
             ])
-            ->options([
-                'responsive' => true,
-                'scales' => [
-                    'r' => [
-                        'min' => 0,
-                        'max' => 100,
-                        'ticks' => [
-                            'stepSize' => 10,
-                        ],
+            ->options($this->softSkillChartOptions());
+    }
+
+    private function mapChartColors(array $data): array
+    {
+        $palette = [
+            '#5E81F450',
+            'rgba(255, 75, 90, 0.50)',
+            'rgba(244, 190, 94, 0.50)',
+            'rgba(124, 231, 172, 0.50)',
+            '#8181a5',
+            '#4c5fae',
+        ];
+
+        return collect($data)
+            ->values()
+            ->map(fn ($_, $index) => $palette[$index % count($palette)])
+            ->all();
+    }
+
+    private function softSkillChartOptions(): array
+    {
+        return [
+            'indexAxis' => 'y',
+            'responsive' => true,
+            'elements' => [
+                'bar' => [
+                    'borderWidth' => 1,
+                ],
+            ],
+            'scales' => [
+                'y' => [
+                    'min' => 0,
+                    'max' => 100,
+                    'ticks' => [
+                        'stepSize' => 10,
+                    ],
+                    'grid' => [
+                        'display' => false,
                     ],
                 ],
-                'plugins' => [
-                    'legend' => [
-                        'position' => 'bottom'
-                    ]
-                ]
-
-            ]);
+                'x' => [
+                    'grid' => [
+                        'display' => false,
+                    ],
+                ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'display' => false,
+                ],
+            ],
+        ];
     }
 
     public function getSoftSkills(Customer $customer): void
