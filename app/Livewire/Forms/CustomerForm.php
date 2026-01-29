@@ -16,10 +16,10 @@ class CustomerForm extends Form
     public string $email = '';
 
     #[Validate('required')]
-    public string $phone = '';
+    public ?string $phone;
 
     #[Validate(['required', 'date'])]
-    public string $dob = '';
+    public ?string $dob = null;
 
     #[Validate('required')]
     public string $gender = '';
