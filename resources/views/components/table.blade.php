@@ -38,42 +38,66 @@
                             <tr>
                                 <th
                                         class="table-head">
-                                    User
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="user" size="sm" class="text-black" />
+                                        <span>User</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Email
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="envelope" size="sm" class="text-black" />
+                                        <span>Email</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Phone
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="phone" size="sm" class="text-black" />
+                                        <span>Phone</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    DOB
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="calendar-days" size="sm" class="text-black" />
+                                        <span>DOB</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Gender
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="user-circle" size="sm" class="text-black" />
+                                        <span>Gender</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Nationality
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="globe-europe-africa" size="sm" class="text-black" />
+                                        <span>Nationality</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Reviews
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="star" size="sm" class="text-black" />
+                                        <span>Reviews</span>
+                                    </div>
                                 </th>
                                 <th
                                         class="table-head">
-                                    Actions
+                                    <div class="flex items-center gap-2">
+                                        <x-heroicon name="ellipsis-horizontal" size="sm" class="text-black" />
+                                        <span>Actions</span>
+                                    </div>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody class="divide-y divide-outline-grey">
                             @foreach($customers as $customer)
                                 <tr
-                                        class="hover:bg-outline-grey transition"
+                                        class="bg-white hover:bg-outline-grey/60 transition"
                                 >
                                     <td class="p-6 bg-white text-sm">
                                         <div class="flex items-center gap-6">
@@ -179,9 +203,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    <div class="p-6 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between">
-                        {{ $customers->links() }}
-                    </div>
                 </div>
             </div>
 
@@ -257,7 +278,7 @@
                                                         wire:click.prevent="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
                                                         class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-warning hover:bg-secondary-warning-100 cursor-pointer transition"
                                                 >
-                                                    <x-heroicon name="star" />
+                                                    <x-heroicon name="star"/>
                                                     <span>Review</span>
                                                 </button>
                                             </div>
@@ -296,6 +317,9 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div class="p-6 bg-white flex flex-col xs:flex-row items-center xs:justify-between">
+                {{ $customers->links('components.pagination') }}
             </div>
         </div>
     </div>
