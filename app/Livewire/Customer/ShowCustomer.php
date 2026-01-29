@@ -40,7 +40,7 @@ class ShowCustomer extends Component
     }
 
     #[On('skill-selected')]
-    public function addSkillToCustomer(int $skillId, int $skillLevel, int $skillYears): void
+    public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
         app(SkillAssignmentService::class)->assign(
             $this->customer,
@@ -83,14 +83,14 @@ class ShowCustomer extends Component
             ->labels($labels)
             ->datasets([
                 [
-                    "barThickness" => 30,
-                    "minBarLength" => 1,
+                    "barThickness" => 30    ,
+                    "minBarLength" => 0,
                     "label" => "Level",
                     "data" => $data,
                     "backgroundColor" => $barColors,
                     "borderColor" => $barColors,
-                    "categoryPercentage" => 0.6,
-                    "barPercentage" => 0.9,
+                    "categoryPercentage" => 0.9,
+                    "barPercentage" => 1.0,
                 ],
             ])
             ->options($this->softSkillChartOptions());
@@ -118,9 +118,15 @@ class ShowCustomer extends Component
         return [
             'indexAxis' => 'y',
             'responsive' => true,
+            'layout' => [
+                'padding' => [
+                    'top' => 15,
+                    'bottom' => 15,
+                ],
+            ],
             'elements' => [
                 'bar' => [
-                    'borderWidth' => 1,
+                    'borderWidth' => 0.5,
                 ],
             ],
             'scales' => [
@@ -128,19 +134,35 @@ class ShowCustomer extends Component
                     'min' => 0,
                     'max' => 100,
                     'ticks' => [
-                        'stepSize' => 10,
+                        'stepSize' => 1,
+                        'display' => false,
                     ],
                     'grid' => [
                         'display' => false,
                     ],
+                    'border' => [
+                        'display' => false,
+                    ],
                 ],
                 'x' => [
+                    'ticks' => [
+                        'display' => false,
+                    ],
                     'grid' => [
+                        'display' => false,
+                    ],
+                    'border' => [
                         'display' => false,
                     ],
                 ],
             ],
             'plugins' => [
+                'softSkillBarLabels' => [
+                    'labelColor' => '#8181a5',
+                    'valueColor' => '#1c1d21',
+                    'fontSize' => 16,
+                    'valueFontSize' => 24,
+                ],
                 'legend' => [
                     'display' => false,
                 ],

@@ -13,7 +13,7 @@ class SkillAssignmentService
         SkillAssignable $model,
         int $skillId,
         int $skillLevel,
-        int $skillYears
+        int | null $skillYears
     ): void {
         $model->addSkill($skillId, $skillLevel, $skillYears);
     }

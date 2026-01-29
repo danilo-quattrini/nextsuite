@@ -83,7 +83,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     /**
      * Add a skill to a customer, syncWithoutDetaching = remove already existing record and add new ones.
      */
-    public function addSkill(int $id, int $level, int $years): void
+    public function addSkill(int $id, int $level, int | null $years): void
     {
         $this->skills()->attach([
             $id => [
