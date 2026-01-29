@@ -11,6 +11,7 @@ class SkillModal extends Component
     use WithSkill;
     public ?int $selectedCategoryId = null;
     public bool $showSkillModal = false;
+    public bool $showYearsInput = true;
 
     public function mount(): void
     {
@@ -33,9 +34,16 @@ class SkillModal extends Component
         };
     }
 
+    public function toggleYearsInput($skillId): bool
+    {
+        $categoryType = Skill::findOrFail($skillId)->category->type->value;
+        return $categoryType !== 'soft_skill';
+    }
+
     public function updatedSelectedSkillId($skillId): void
     {
         $this->selectedSkillId = $skillId;
+        $this->showYearsInput = $this->toggleYearsInput($skillId);
     }
 
     public function render()

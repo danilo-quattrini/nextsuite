@@ -12,9 +12,9 @@
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    border-radius: var(--radius-md);
     background: var(--color-primary);
     cursor: pointer;
 }

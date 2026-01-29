@@ -102,20 +102,20 @@
         </div>
 
         @if($softSkills && $softSkills->isNotEmpty())
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            <div class="flex gap-8 overflow-x-auto w-full pb-2">
                 @foreach($softSkills as $categoryName => $group)
                     @php
                         $labels = collect($group['skills'])->pluck('name')->all();
                         $data = collect($group['skills'])->pluck('level')->map(fn ($level) => $level ?? 0)->all();
                     @endphp
-                    <div class="border border-outline-grey rounded-md p-4 bg-white">
-                        <div class="flex justify-center mb-2">
+                    <div class="border border-outline-grey rounded-md p-4 bg-white min-w-125 shrink-0">
+                        <div class="flex justify-center my-6">
                             <x-average-tag :value="$group['average']" />
                         </div>
-                        <div class="flex items-start justify-center gap-4">
-                            <h4 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h4>
+                        <div class="flex items-start justify-center">
+                            <h3 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h3>
                         </div>
-                        <div class="flex justify-center items-center mt-2">
+                        <div class="flex justify-center items-center">
                             {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}
                         </div>
                     </div>

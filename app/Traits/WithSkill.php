@@ -7,7 +7,7 @@ trait WithSkill
 
     public bool $showSkillModal = false;
     public ?int $selectedSkillId = null;
-    public ?int $skillLevel = null;
+    public ?int $skillLevel = 1;
     public ?int $skillYears = null;
 
 
@@ -18,7 +18,7 @@ trait WithSkill
         $this->validate([
             'selectedSkillId' => ['required', 'exists:skills,id'],
             'skillLevel' => ['required', 'integer', 'min:1', 'max:100'],
-            'skillYears' => ['integer', 'min:0', 'max:30'],
+            'skillYears' => ['nullable', 'integer', 'min:0', 'max:30'],
         ]);
 
         $this->dispatch(
