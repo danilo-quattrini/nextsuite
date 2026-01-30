@@ -22,6 +22,7 @@ class ShowCustomer extends Component
     public ?Collection $softSkills = null;
     public ?Collection $fields = null;
     public ?float $softSkillsAverage = null;
+    public array $softSkillChartData = [];
 
     public function mount(Customer $customer): void
     {
@@ -75,15 +76,11 @@ class ShowCustomer extends Component
     {
         $chartId = 'softSkill' . Str::studly(Str::slug($categoryName, '_'));
         $barColors = $this->mapChartColors($data);
-
-        return Chartjs::build()
-            ->name($chartId)
-            ->type("bar")
-            ->size(["width" => 150, "height" => 150])
-            ->labels($labels)
-            ->datasets([
+        $dataset = [
+            'labels' => $labels,
+            'datasets' => [
                 [
-                    "barThickness" => 30    ,
+                    "barThickness" => 30,
                     "minBarLength" => 0,
                     "label" => "Level",
                     "data" => $data,
@@ -92,7 +89,18 @@ class ShowCustomer extends Component
                     "categoryPercentage" => 0.9,
                     "barPercentage" => 1.0,
                 ],
-            ])
+            ],
+        ];
+        $this->softSkillChartData = $dataset;
+
+        return Chartjs::build()
+            ->name($chartId)
+            ->type("bar")
+            ->size(["width" => 500, "height" => 500])
+            ->labels($labels)
+            ->datasets($dataset['datasets'])
+            ->livewire()
+            ->model('softSkillChartData')
             ->options($this->softSkillChartOptions());
     }
 

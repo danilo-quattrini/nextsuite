@@ -18,7 +18,7 @@
                     <h1 class="text-2xl font-semibold">
                         {{ $customer->full_name }}
                     </h1>
-                    <x-average-tag :value="$softSkillsAverage" />
+                    <x-average-tag size="large" :value="$softSkillsAverage" />
                 </div>
                 <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
                     <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
@@ -75,7 +75,12 @@
 
     {{-- Category Skills --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-        <h3 class="border-b border-b-outline-grey">Field Skills</h3>
+        <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
+            <h3 class="border-b border-b-outline-grey">Field Skills</h3>
+            {{-- BUTTON TO ADD A NEW SKILL  --}}
+            @livewire('skill-modal')
+        </div>
+
 
         <div class="flex flex-wrap">
             <div class="flex-col space-y-3">
@@ -110,7 +115,7 @@
                     @endphp
                     <div class="border border-outline-grey rounded-md p-4 bg-white min-w-125 shrink-0">
                         <div class="flex justify-center my-6">
-                            <x-average-tag :value="$group['average']" />
+                            <x-average-tag size="large" :value="$group['average']" />
                         </div>
                         <div class="flex items-start justify-center">
                             <h3 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h3>

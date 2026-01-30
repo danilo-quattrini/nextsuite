@@ -18,14 +18,14 @@
 }
 /* TAG SIZES */
 .tag-size-default{
-    --tag-height: 38px;
+    --tag-height: 32px;
     --tag-padding-y: var(--spacing-xxs);
-    --tag-padding-x: calc(var(--spacing-xxs) * 3);
+    --tag-padding-x: calc(var(--spacing-xxs) * 2);
     --tag-font-size: var(--text-base);
 }
 
 .tag-size-large{
-    --tag-height: 44px;
+    --tag-height: 40px;
     --tag-padding-y: var(--spacing-xxs);
     --tag-padding-x: calc(var(--spacing-xxs) * 4);
     --tag-font-size: var(--text-lg);
@@ -34,13 +34,13 @@
 .tag-size-auto{
     --tag-height: auto;
     --tag-padding-y: var(--spacing-xxs);
-    --tag-padding-x: calc(var(--spacing-xxs) * 4);
+    --tag-padding-x: calc(var(--spacing-xxs) * 6);
     --tag-font-size: var(--text-base);
 }
 
 .tag-size-full{
     width: 100%;
-    --tag-height: 38px;
+    --tag-height: 32px;
     --tag-padding-y: var(--spacing-xxs);
     --tag-padding-x: calc(var(--spacing-xxs) * 4);
     --tag-font-size: var(--text-base);
