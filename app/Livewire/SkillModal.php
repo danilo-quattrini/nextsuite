@@ -12,6 +12,7 @@ class SkillModal extends Component
     public ?int $selectedCategoryId = null;
     public bool $showSkillModal = false;
     public bool $showYearsInput = true;
+    public bool $hideSoftSkills = false;
 
     public function mount(): void
     {
@@ -19,19 +20,23 @@ class SkillModal extends Component
 
         if ($user->company) {
             $user->company->load('fields.categories.skills');
-
-            $this->skillsByCategory = $user->company->fields
+            $skills = $user->company->fields
                 ->flatMap(fn ($field) => $field->categories)
                 ->flatMap(fn ($category) => $category->skills)
-                ->unique('id')
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
+                ->unique('id');
         } else {
-            $this->skillsByCategory = Skill::with('category')
-                ->get()
-                ->groupBy(fn ($skill) => $skill->category->name)
-                ->toArray();
-        };
+            $skills = Skill::with('category')->get();
+        }
+
+        if ($this->hideSoftSkills) {
+            $skills = $skills->reject(
+                fn ($skill) => $skill->category?->type?->value === 'soft_skill'
+            );
+        }
+
+        $this->skillsByCategory = $skills
+            ->groupBy(fn ($skill) => $skill->category->name)
+            ->toArray();
     }
 
     public function toggleYearsInput($skillId): bool

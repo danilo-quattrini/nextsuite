@@ -11,7 +11,7 @@ return new class extends Migration {
     {
         Schema::create('skill_customer', function (Blueprint $table) {
             $table->id();
-            $table->integer('level');
+            $table->integer('level')->default(0);
             $table->integer('years')->nullable();
             $table->string('notes')->nullable();
             $table->foreignIdFor(Skill::class)->constrained('skills');

@@ -178,10 +178,10 @@
                     <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
                         <x-form.label-container label="Skills"/>
 
-                        <x-skill.skill-card-view :skills="$form->skills" />
+                        <x-skill.skill-card-view :skills="$form->skills" :hide-soft-skills="true" />
 
                         <x-form.input-container>
-                            @livewire('skill-modal')
+                            @livewire('skill-modal', ['hideSoftSkills' => true])
                         </x-form.input-container>
                     </div>
 

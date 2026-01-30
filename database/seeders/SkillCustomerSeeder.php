@@ -21,7 +21,7 @@ class SkillCustomerSeeder extends Seeder
             if (isset($skillsByType['technology']) || isset($skillsByType['soft_skill'])) {
                 $technicalSkills = $skillsByType['technology']->random(5);
 
-                $softSkill = $skillsByType['soft_skill']->random(5);
+                $softSkill = $skillsByType['soft_skill']->all();
 
                 foreach ($technicalSkills as $skill) {
                     $customer->skills()->attach($skill->id, [
