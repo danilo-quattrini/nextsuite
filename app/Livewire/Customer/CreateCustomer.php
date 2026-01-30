@@ -49,7 +49,7 @@ class CreateCustomer extends Component
     }
 
     #[On('skill-selected')]
-    public function skillSelected(int $skillId, int $skillLevel, int $skillYears): void
+    public function skillSelected(int $skillId, int $skillLevel, int | null $skillYears): void
     {
         $this->form->addSkill($skillId, $skillLevel, $skillYears);
     }

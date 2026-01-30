@@ -54,7 +54,7 @@ class CustomerForm extends Form
         $this->attributes[$attribute->id] = compact('attribute', 'value');
     }
 
-    public function addSkill(int $skillId, int $skillLevel, int $skillYears): void
+    public function addSkill(int $skillId, int $skillLevel, int | null $skillYears): void
     {
         $this->skills[$skillId] = [
             'selected' => true,
