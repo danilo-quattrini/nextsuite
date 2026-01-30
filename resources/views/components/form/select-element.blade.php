@@ -1,6 +1,7 @@
 @props([
     'name' => null,
-    'id' => null
+    'id' => null,
+    'options' => null
 ])
 <select
         name="{{ $name }}"
@@ -16,5 +17,5 @@
         $dispatch('select-changed', { label: selected ? selected.text : 'Select an option' });
     "
 >
-    {{  $options }}
+    {{ $options ?? $slot }}
 </select>
