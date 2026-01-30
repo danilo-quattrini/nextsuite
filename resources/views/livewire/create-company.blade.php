@@ -16,6 +16,7 @@
                 <input id="business_photo" name="business_photo" wire:model="business_photo" type="file" class="hidden" />
             </label>
             <x-input-error for="business_photo"/>
+
             <!-- COMPANY NAME -->
             <x-form.input-container>
                 <x-form.label-container label="{{ __('Company Name') }}" :required="true"/>

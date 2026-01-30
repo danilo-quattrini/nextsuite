@@ -47,10 +47,18 @@ function initIntlTelInput() {
         hidden.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
-    display.addEventListener('countrychange', syncToHidden);
-    display.addEventListener('blur', syncToHidden);
-    display.addEventListener('change', syncToHidden);
-    display.addEventListener('keyup', syncToHidden);
+    if (display.value && !hidden.value) {
+        syncToHidden();
+    }
+
+    if (display.dataset.itiBound !== 'true') {
+        display.addEventListener('input', syncToHidden);
+        display.addEventListener('countrychange', syncToHidden);
+        display.addEventListener('blur', syncToHidden);
+        display.addEventListener('change', syncToHidden);
+        display.addEventListener('keyup', syncToHidden);
+        display.dataset.itiBound = 'true';
+    }
 }
 
 // auto-init on Livewire + DOM lifecycle
