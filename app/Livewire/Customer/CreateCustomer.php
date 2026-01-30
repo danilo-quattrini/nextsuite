@@ -32,6 +32,7 @@ class CreateCustomer extends Component
 
     public function mount(NationalityService $nationalityService): void
     {
+        $this->form->defaultSkills();
         $this->nationalities = $nationalityService->all();
     }
 
@@ -77,7 +78,12 @@ class CreateCustomer extends Component
             'user_id' => auth()->id()
         ]);
 
-        app(SkillAssignmentService::class)->assignMany($customer, $this->form->skills);
+        foreach ($this->form->skills as $key => $value){
+            if($value['selected']){
+                app(SkillAssignmentService::class)->assign($customer, $key, $value['level'], $value['years']);
+            }
+        }
+
         $this->saveAttribute($customer);
 
         $this->redirect('/customer');

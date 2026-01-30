@@ -3,6 +3,7 @@
 namespace App\Livewire\Forms;
 
 use App\Models\Attribute;
+use App\Models\Skill;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -48,6 +49,28 @@ class CustomerForm extends Form
             ]
         ];
     }
+    public function defaultSkills(): void
+    {
+        $skillsByCategory = Skill::with('category')
+            ->get()
+            ->map(function (Skill $skill) {
+                    return [
+                        'id' => $skill->id,
+                        'name' => $skill->name,
+                        'type' => $skill->category->type->value
+                    ];
+            } );
+
+        foreach ($skillsByCategory as $value) {
+            $skillId = $value['id'];
+            $this->skills[$skillId] = [
+                'skill' => $value,
+                'selected' => $value['type'] === 'soft_skill',
+                'level' => 0,
+                'years' => null,
+            ];
+        }
+    }
 
     public function addAttribute(Attribute $attribute, mixed $value): void
     {
@@ -57,6 +80,7 @@ class CustomerForm extends Form
     public function addSkill(int $skillId, int $skillLevel, int | null $skillYears): void
     {
         $this->skills[$skillId] = [
+            'skill' => $this->skills[$skillId]['skill'],
             'selected' => true,
             'level' => $skillLevel,
             'years' => $skillYears,
