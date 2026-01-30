@@ -111,106 +111,90 @@
 
   "Abilities": [
     {
-      "subcategory": "Social Skills",
+      "subcategory": "Social",
       "type": "soft_skill",
       "skills": [
         {
-          "name": "Communication",
-          "description": "Clearly conveying ideas and information through verbal, written, and non-verbal means."
+          "name": "Clear Communication",
+          "description": "Share ideas in a direct and easy-to-follow way."
         },
         {
-          "name": "Active Listening",
-          "description": "Fully concentrating, understanding, and responding thoughtfully to what others are saying."
+          "name": "Listening",
+          "description": "Focus on others, understand their point, and respond thoughtfully."
         },
         {
           "name": "Empathy",
-          "description": "Understanding and sharing the feelings and perspectives of others."
-        },
-        {
-          "name": "Emotional Intelligence",
-          "description": "Recognizing, understanding, and managing one’s own emotions and those of others."
+          "description": "Understand how others feel and see situations."
         },
         {
           "name": "Teamwork",
-          "description": "Collaborating effectively with others to achieve shared goals."
-        },
-        {
-          "name": "Conflict Resolution",
-          "description": "Managing and resolving disagreements in a constructive and respectful manner."
-        },
-        {
-          "name": "Negotiation",
-          "description": "Reaching agreements through discussion, compromise, and mutual understanding."
-        },
-        {
-          "name": "Leadership",
-          "description": "Guiding, motivating, and influencing others toward achieving objectives."
+          "description": "Work well with others to reach shared goals."
         }
       ]
     },
     {
-      "subcategory": "Analytical Skills",
+      "subcategory": "Analysis",
       "type": "soft_skill",
       "skills": [
         {
           "name": "Problem Solving",
-          "description": "Identifying issues, analyzing options, and implementing effective solutions."
+          "description": "Find the issue, compare options, and choose a fix."
         },
         {
           "name": "Critical Thinking",
-          "description": "Analyzing information objectively to make reasoned judgments and decisions."
+          "description": "Review information carefully and judge it fairly."
         },
         {
           "name": "Decision Making",
-          "description": "Evaluating information and choosing the most appropriate course of action."
+          "description": "Use facts to pick the best next step."
         },
         {
           "name": "Creativity",
-          "description": "Generating innovative ideas and approaching problems with originality."
+          "description": "Think of new approaches and useful ideas."
         }
       ]
     },
     {
-      "subcategory": "Self-Management Skills",
+      "subcategory": "Self-Management",
       "type": "soft_skill",
       "skills": [
         {
           "name": "Time Management",
-          "description": "Organizing and prioritizing tasks to use time efficiently and meet deadlines."
+          "description": "Plan tasks well and meet deadlines."
         },
         {
           "name": "Adaptability",
-          "description": "Adjusting effectively to new conditions, challenges, and changes in the environment."
+          "description": "Adjust quickly when plans or conditions change."
         },
         {
           "name": "Stress Management",
-          "description": "Maintaining performance and emotional balance under pressure."
-        },
-        {
-          "name": "Resilience",
-          "description": "Recovering quickly from setbacks and maintaining focus despite challenges."
+          "description": "Stay steady and effective under pressure."
         },
         {
           "name": "Self-Motivation",
-          "description": "Maintaining initiative and drive without needing external encouragement."
-        },
-        {
-          "name": "Accountability",
-          "description": "Taking responsibility for actions, decisions, and outcomes."
-        },
-        {
-          "name": "Work Ethic",
-          "description": "Demonstrating reliability, dedication, and professionalism in one’s work."
+          "description": "Keep momentum without needing extra push."
         }
       ]
     },
     {
-      "subcategory": "Ethics Skills",
+      "subcategory": "Ethics",
       "type": "soft_skill",
       "skills": [
         {
           "name": "Ethical Judgment",
-          "description": "Making decisions that align with moral principles and professional standards."
+          "description": "Choose actions that match values and standards."
+        },
+        {
+          "name": "Conflict Resolution",
+          "description": "Resolve disagreements in a fair, calm way."
+        },
+        {
+          "name": "Negotiation",
+          "description": "Reach agreement through discussion and compromise."
+        },
+        {
+          "name": "Leadership",
+          "description": "Guide and support others toward a goal."
         }
       ]
     }
