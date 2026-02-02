@@ -9,6 +9,7 @@ use App\Domain\Skill\Services\SkillAssignmentService;
 use IcehouseVentures\LaravelChartjs\Builder;
 use IcehouseVentures\LaravelChartjs\Facades\Chartjs;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -43,8 +44,11 @@ class ShowCustomer extends Component
     #[On('skill-selected')]
     public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
+        $user = Auth::user();
+
         app(SkillAssignmentService::class)->assign(
             $this->customer,
+            $user,
             $skillId,
             $skillLevel,
             $skillYears

@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Services\NationalityService;
 use App\Traits\ArrayOperation;
 use App\Traits\WithStep;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -52,11 +53,14 @@ class CreateCustomer extends Component
     #[On('skill-selected')]
     public function skillSelected(int $skillId, int $skillLevel, int | null $skillYears): void
     {
-        $this->form->addSkill($skillId, $skillLevel, $skillYears);
+        $user = Auth::user();
+
+        $this->form->addSkill($user, $skillId, $skillLevel, $skillYears);
     }
 
     public function submit(): void
     {
+        $user = Auth::user();
 
         $this->form->validate();
 
@@ -80,7 +84,7 @@ class CreateCustomer extends Component
 
         foreach ($this->form->skills as $key => $value){
             if($value['selected']){
-                app(SkillAssignmentService::class)->assign($customer, $key, $value['level'], $value['years']);
+                app(SkillAssignmentService::class)->assign($customer, $user, $key, $value['level'], $value['years']);
             }
         }
 

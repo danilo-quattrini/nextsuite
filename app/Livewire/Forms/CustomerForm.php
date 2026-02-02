@@ -4,6 +4,7 @@ namespace App\Livewire\Forms;
 
 use App\Models\Attribute;
 use App\Models\Skill;
+use App\Models\User;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 
@@ -77,13 +78,19 @@ class CustomerForm extends Form
         $this->attributes[$attribute->id] = compact('attribute', 'value');
     }
 
-    public function addSkill(int $skillId, int $skillLevel, int | null $skillYears): void
-    {
+    public function addSkill(
+        User $user,
+        int $skillId,
+        int $skillLevel,
+        int | null $skillYears
+    ): void {
+
         $this->skills[$skillId] = [
             'skill' => $this->skills[$skillId]['skill'],
             'selected' => true,
             'level' => $skillLevel,
             'years' => $skillYears,
+            'user_id' => $user
         ];
     }
 }
