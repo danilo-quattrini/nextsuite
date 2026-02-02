@@ -31,7 +31,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
-            ->withPivot(['years', 'level']);
+            ->using(SkillCustomers::class)
+            ->withPivot(['years', 'level'])
+            ->withTimestamps();
     }
 
     /**
@@ -80,7 +82,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
-     * Add a skill to a customer, syncWithoutDetaching = remove already existing record and add new ones.
+     * Add a skill to a customer
      */
     public function addSkill(int $id, int $level, int | null $years): void
     {
@@ -92,6 +94,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         ]);
     }
 
+    /**
+     * Add an attribute to a customer, syncWithoutDetaching = remove already existing record and add new ones.
+     */
     public function addAttribute(Attribute $attribute, mixed $value): void
     {
         $this->attributes()->syncWithoutDetaching([

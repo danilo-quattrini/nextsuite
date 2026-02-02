@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamp('evaluated_at');
             $table->timestamps();
-
         });
     }
 
