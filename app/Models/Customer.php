@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Domain\Attribute\Contracts\AttributeAssignable;
 use App\Domain\Skill\Contracts\SkillAssignable;
-use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,7 +30,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     public function skills(): BelongsToMany
     {
-        return $this->belongsToMany(Skill::class, 'skill_customer', 'customer_id', 'skill_id')
+        return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
             ->withPivot(['years', 'level']);
     }
 

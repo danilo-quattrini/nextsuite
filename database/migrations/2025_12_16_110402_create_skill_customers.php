@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('skill_customer', function (Blueprint $table) {
+        Schema::create('skill_customers', function (Blueprint $table) {
             $table->id();
             $table->integer('level')->default(0);
             $table->integer('years')->nullable();
@@ -24,6 +24,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('skill_customer');
+        Schema::dropIfExists('skill_customers');
     }
 };

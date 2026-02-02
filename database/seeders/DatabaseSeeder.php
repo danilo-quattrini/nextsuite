@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
             SkillSeeder::class,
             AttributeSeeder::class,
             CustomerSeeder::class,
-            SkillCustomerSeeder::class,
+            SkillCustomersSeeder::class,
             AttributeCustomerSeeder::class,
             TemplateSeeder::class
         ]);

@@ -25,7 +25,7 @@ class Skill extends Model
 
     public function customers(): BelongsToMany
     {
-        return $this->belongsToMany(Customer::class, 'skill_customer', 'skill_id', 'customer_id')
+        return $this->belongsToMany(Customer::class, 'skill_customers', 'skill_id', 'customer_id')
             ->withPivot(['years', 'level']);
     }
 }
