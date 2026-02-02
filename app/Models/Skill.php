@@ -27,7 +27,7 @@ class Skill extends Model
     {
         return $this->belongsToMany(Customer::class, 'skill_customers', 'skill_id', 'customer_id')
             ->using(SkillCustomers::class)
-            ->withPivot(['years', 'level'])
+            ->withPivot(['years', 'level', 'notes', 'user_id'])
             ->withTimestamps();
     }
 }

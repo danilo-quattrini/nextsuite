@@ -18,6 +18,7 @@ class SkillCustomers extends Pivot
         'notes',
         'skill_id',
         'customer_id',
+        'user_id',
         'created_at',
         'updated_at'
     ];

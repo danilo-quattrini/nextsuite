@@ -6,7 +6,7 @@ use App\Models\Customer;
 use App\Models\Skill;
 use Illuminate\Database\Seeder;
 
-class SkillCustomerSeeder extends Seeder
+class SkillCustomersSeeder extends Seeder
 {
     public function run(): void
     {
@@ -27,11 +27,13 @@ class SkillCustomerSeeder extends Seeder
                     $customer->skills()->attach($skill->id, [
                         'level' => rand(1, 5),
                         'years' => rand(0, 10),
+                        'user_id' => $customer->user_id
                     ]);
                 }
                 foreach ($softSkill as $skill) {
                     $customer->skills()->attach($skill->id, [
                         'level' => rand(1, 100),
+                        'user_id' => $customer->user_id
                     ]);
                 }
             }
