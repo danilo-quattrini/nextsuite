@@ -49,14 +49,13 @@ class SkillCustomers extends Pivot
         return $this->hasMany(SkillEvaluations::class, 'skill_customer_id');
     }
 
-    public static function findOrCreateSkill(Skill $skill, Customer $customer, User $evaluator)
+    public static function findOrCreateSkill(Skill $skill, Customer $customer)
     {
 
         return static::firstOrCreate(
             [
                 'customer_id' => $customer->id,
-                'skill_id' => $skill->id,
-                'user_id' => $evaluator->id
+                'skill_id' => $skill->id
             ],
             [
                 'level' => 0,

@@ -98,7 +98,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         $skill = Skill::findOrFail($id);
 
         if ($skill->isSoftSkill()) {
-            $skillCustomer = SkillCustomers::findOrCreateSkill($skill, $this, $user);
+            $skillCustomer = SkillCustomers::findOrCreateSkill($skill, $this);
             $skillCustomer->addEvaluation($user, $level);
         }else
         {

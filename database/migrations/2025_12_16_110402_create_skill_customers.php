@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('notes')->nullable();
             $table->foreignIdFor(Skill::class)->constrained('skills');
             $table->foreignIdFor(Customer::class)->constrained('customers');
-            $table->foreignIdFor(User::class)->constrained('users');
+            $table->foreignIdFor(User::class)->nullable()->constrained('users');
             $table->timestamps();
             $table->softDeletes();
 
