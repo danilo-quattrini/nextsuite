@@ -95,13 +95,21 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         int|null $years
     ): void {
 
-        $this->skills()->syncWithoutDetaching([
-            $id => [
-                'level' => $level,
-                'years' => $years,
-                'user_id' => $user->id,
-            ]
-        ]);
+        $skill = Skill::findOrFail($id);
+
+        if ($skill->isSoftSkill()) {
+            $skillCustomer = SkillCustomers::findOrCreateSkill($skill, $this, $user);
+            $skillCustomer->addEvaluation($user, $level);
+        }else
+        {
+            $this->skills()->syncWithoutDetaching([
+                $id => [
+                    'level' => $level,
+                    'years' => $years,
+                    'user_id' => $user->id,
+                ]
+            ]);
+        }
     }
 
     /**
