@@ -30,4 +30,9 @@ class Skill extends Model
             ->withPivot(['years', 'level', 'notes', 'user_id'])
             ->withTimestamps();
     }
+
+    public function isSoftSkill(): bool
+    {
+        return $this->category->type->value === 'soft_skill';
+    }
 }

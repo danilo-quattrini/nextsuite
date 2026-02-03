@@ -67,7 +67,7 @@ class CustomerForm extends Form
             $this->skills[$skillId] = [
                 'skill' => $value,
                 'selected' => $value['type'] === 'soft_skill',
-                'level' => 0,
+                'level' => 40,
                 'years' => null,
             ];
         }

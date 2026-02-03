@@ -25,7 +25,7 @@ class SkillAssignmentService
      **/
     public function assignMany(
         SkillAssignable $model,
-        $evaluator,
+        User $evaluator,
         array $skills)
     : void {
         foreach ($skills as $id => $value) {
