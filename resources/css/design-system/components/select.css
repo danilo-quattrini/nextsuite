@@ -31,15 +31,20 @@
     outline-offset: -2px;
 }
 .select-border.has-error {
-    outline: 1px solid var(--color-secondary-error) !important;
-    border-color: var(--color-secondary-error) !important;
+    outline: thin solid var(--color-secondary-error) !important;
+}
+
+.select-border.has-value,
+.select-border.has-value:focus,
+.select-border.has-value:focus-within,
+.select-border.has-value:hover {
+    outline: thin solid var(--color-black);
 }
 
 .select-border:focus,
 .select-border:focus-within,
 .select-border:hover{
-    outline: 1px solid var(--color-primary);
-    border-color: var(--color-primary);
+    outline: thin solid var(--color-primary);
 }
 
 /* chevron rotation when open or focused */

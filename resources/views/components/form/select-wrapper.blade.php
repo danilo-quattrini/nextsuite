@@ -6,12 +6,16 @@
 {{-- WRAPPER --}}
 {{-- ========================================================= --}}
 <div
-     x-data="{ open: false }"
-     x-on:focusin="open = true"
-     x-on:blur="open = false"
-     x-on:change="open = false"
-     :class="{ 'open': open }"
+     x-data="searchableSelect()"
+     x-init="init()"
+     x-on:focusin="handleFocusIn()"
+     x-on:blur="handleBlur()"
+     x-on:change="handleChange()"
+     x-on:click="focusSelect()"
+     x-on:keydown="handleTypeSearch($event)"
+     :class="{ 'open': open, 'has-value': hasValue }"
      class="{{ $base }} {{ $error ? 'has-error' : '' }}"
+     tabindex="0"
 >
 
 
