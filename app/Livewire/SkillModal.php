@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Skill;
 use App\Traits\WithSkill;
+use Illuminate\Support\Collection;
 use Livewire\Component;
 
 class SkillModal extends Component
@@ -13,6 +14,7 @@ class SkillModal extends Component
     public bool $showSkillModal = false;
     public bool $showYearsInput = true;
     public bool $hideSoftSkills = false;
+    public bool $hideFieldSkills = false;
 
     public function mount(): void
     {
@@ -28,11 +30,7 @@ class SkillModal extends Component
             $skills = Skill::with('category')->get();
         }
 
-        if ($this->hideSoftSkills) {
-            $skills = $skills->reject(
-                fn ($skill) => $skill->category?->type?->value === 'soft_skill'
-            );
-        }
+        $skills = $this->hideSkill($skills);
 
         $this->skillsByCategory = $skills
             ->groupBy(fn ($skill) => $skill->category->name)
@@ -49,6 +47,18 @@ class SkillModal extends Component
     {
         $this->selectedSkillId = $skillId;
         $this->showYearsInput = $this->toggleYearsInput($skillId);
+    }
+
+    public function hideSkill(Collection $skills): Collection
+    {
+        return match (true){
+            $this->hideFieldSkills =>  $skills->reject(
+                fn ($skill) => $skill->category?->type?->value !== 'soft_skill'
+            ),
+            $this->hideSoftSkills => $skills->reject(
+                fn ($skill) => $skill->category?->type?->value === 'soft_skill'
+            )
+        };
     }
 
     public function render()

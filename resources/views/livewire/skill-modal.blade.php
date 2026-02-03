@@ -54,7 +54,7 @@
                          {{-- Years --}}
                         <x-form.input-container size="auto">
                             <x-form.label-container label="Years" :required="true"/>
-                            <x-input type="number" min="0" wire:model.live="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
+                            <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
                             <x-input-error for="skillYears"/>
                         </x-form.input-container>
                     @endif
@@ -75,9 +75,9 @@
                                     type="range"
                                     min="0"
                                     max="100"
-                                    value="1"
+                                    value="0"
                                     x-model="level"
-                                    wire:model.live="skillLevel"
+                                    wire:model="skillLevel"
                                     :error="$errors->has('skillLevel')"
                                 />
                             </div>
