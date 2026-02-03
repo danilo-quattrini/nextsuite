@@ -76,21 +76,43 @@
     {{-- Category Skills --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
         <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
-            <h3 class="border-b border-b-outline-grey">Field Skills</h3>
+            <h3>Field Skills</h3>
             {{-- BUTTON TO ADD A NEW SKILL  --}}
-            @livewire('skill-modal')
+            @livewire('skill-modal', ['hideSoftSkills' => true])
         </div>
 
 
         <div class="flex flex-wrap">
-            <div class="flex-col space-y-3">
-                <p class="text-primary-grey">Technical</p>
-                <div class="grid grid-cols-4 justify-center items-center gap-4">
+            <div class="flex-col space-y-3 w-full">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                     @foreach($customerSkills as $skill)
                         @if($skill->category->type->value != 'soft_skill')
-                            <span class="px-3 py-2 text-center rounded-full bg-outline-grey truncate">
-                                    {{ $skill->name }}
-                            </span>
+                            <div class="border border-outline-grey rounded-md p-4 bg-white">
+                                <h4> {{ $skill->name }} </h4>
+                                <div class="my-2">
+                                    <span
+                                            class="px-3 py-1.5 rounded-md text-xs font-medium border transition"
+                                    >
+                                        {{ $skill->category?->name ?: 'Uncategorized' }}
+                                    </span>
+                                </div>
+                                <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                    <div class="space-y-2">
+                                        <div class="space-y-2">
+                                            <h6> Experience: </h6>
+                                            <p class="text-base">{{ $skill->pivot?->years . ' years' ?? 'N.A' }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <h6> Knowledge Level:</h6>
+                                        <x-average-tag
+                                                size="auto"
+                                                :value="$skill->pivot?->level"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         @endif
                     @endforeach
                 </div>
@@ -103,7 +125,7 @@
         <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
             <h3 class="truncate">Soft Skills</h3>
             {{-- BUTTON TO ADD A NEW SKILL  --}}
-            @livewire('skill-modal')
+            @livewire('skill-modal', ['hideFieldSkills' => true])
         </div>
 
         @if($softSkills && $softSkills->isNotEmpty())

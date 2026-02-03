@@ -25,8 +25,8 @@ class SkillCustomersSeeder extends Seeder
 
                 foreach ($technicalSkills as $skill) {
                     $customer->skills()->attach($skill->id, [
-                        'level' => rand(1, 5),
-                        'years' => rand(0, 10),
+                        'level' => rand(20, 100),
+                        'years' => rand(1, 30),
                         'user_id' => $customer->user_id
                     ]);
                 }
