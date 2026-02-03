@@ -5,7 +5,7 @@
         <div class="flex-col space-y-6">
 
             {{--  Page Header  --}}
-            <h1 class="text-2xl font-bold text-black">
+            <h1>
                 {{ __('Create Customer') }}
             </h1>
 

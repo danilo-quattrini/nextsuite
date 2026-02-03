@@ -10,6 +10,7 @@
 
     $variants = [
         'primary' => 'btn-primary',
+        'white' => 'btn-white',
         'rest' => 'btn-rest',
         'disable' => 'btn-disable',
         'error' => 'btn-error',

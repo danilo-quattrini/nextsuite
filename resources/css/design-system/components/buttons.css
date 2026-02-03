@@ -30,6 +30,20 @@
     }
 }
 
+.btn-white {
+    background-color: var(--color-white);
+    color: var(--color-primary-grey);
+    outline: thin solid var(--color-outline-grey);
+
+    &:hover:not(:disabled) {
+        background-color: var(--color-outline-grey);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0 0 4px var(--color-outline-grey);
+    }
+}
+
 .btn-rest {
     background-color: var(--color-secondary);
     color: var(--color-primary);

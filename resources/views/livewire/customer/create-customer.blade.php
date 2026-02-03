@@ -53,6 +53,7 @@
                                         right-icon="user"
                                         :error="$errors->has('form.full_name')"
                                         value="{{ old('form.full_name') }}"
+                                        autocomplete="name"
                                 />
 
                                 <x-input-error for="form.full_name"/>
@@ -68,6 +69,7 @@
                                         right-icon="envelope"
                                         :error="$errors->has('form.email')"
                                         value="{{ old('form.email') }}"
+                                        autocomplete="email"
                                 />
 
                                 <x-input-error for="form.email"/>
@@ -82,7 +84,10 @@
                                         type="date"
                                         :error="$errors->has('form.dob')"
                                         value="{{ old('form.dob') }}"
+                                        autocomplete="bday"
                                 />
+
+                                <x-input-error for="form.dob"/>
                             </x-form.input-container>
                         </div>
                     </div>
@@ -121,6 +126,7 @@
                                 autocomplete="tel"
                                 wire:model.defer="form.phone"
                                 value="{{ old('form.phone') }}"
+                                autocomplete="tel"
                             />
 
                             <x-input-error for="form.phone"/>

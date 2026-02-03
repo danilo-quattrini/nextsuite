@@ -20,7 +20,7 @@ class CustomerForm extends Form
     #[Validate('required')]
     public ?string $phone;
 
-    #[Validate(['required', 'date'])]
+    #[Validate(['required', 'date', 'before: -10 years'])]
     public ?string $dob = null;
 
     #[Validate('required')]
@@ -40,7 +40,7 @@ class CustomerForm extends Form
             1 => [
                 'full_name' => ['required', 'string', 'min:5'],
                 'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
-                'dob' => ['required', 'date'],
+                'dob' => ['required', 'date', 'before: -10 years'],
             ],
 
             2 => [
