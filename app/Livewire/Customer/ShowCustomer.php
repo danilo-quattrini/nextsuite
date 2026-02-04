@@ -28,7 +28,11 @@ class ShowCustomer extends Component
     public function mount(Customer $customer): void
     {
 
-        $this->customer = $customer->load('skills.category.fields');
+        $this->customer = $customer
+            ->load('skills.category.fields')
+            ->loadCount('reviews')
+            ->loadAvg('reviews', 'rating');
+
         $this->customerAttributes = $this->customer->attributes;
 
         $this->customerSkills = $this->customer->skills;
