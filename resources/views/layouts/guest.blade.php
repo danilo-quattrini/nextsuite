@@ -18,7 +18,7 @@
         <div class="font-sans text-black dark:text-white antialiased">
             {{ $slot }}
         </div>
-        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-[420px] max-w-[90vw]">
+        <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-4 w-105 max-w-[90vw]">
             @if (session('status'))
                 <x-alert
                         type="success"

@@ -1,9 +1,9 @@
 .table-head{
-    @apply p-4 border-b border-b-outline-grey text-left text-base font-medium text-black tracking-wider;
+    @apply p-3 sm:p-4 border-b border-b-outline-grey text-left text-sm sm:text-base font-medium text-black tracking-wider;
 }
 
 .table-text{
-    @apply text-base font-medium text-black;
+    @apply text-sm sm:text-base font-medium text-black;
 }
 
 .table-row{

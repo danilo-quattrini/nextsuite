@@ -17,7 +17,7 @@
     <div
             x-show="open"
             x-transition
-            class="absolute z-20 mt-2 {{ $width }} rounded-md border border-outline-grey bg-white shadow-lg p-4"
+            class="absolute z-50 mt-2 {{ $width }} rounded-md border border-outline-grey bg-white shadow-md p-4"
             :class="{
             'left-0': '{{ $align }}' === 'left',
             'right-0': '{{ $align }}' === 'right'

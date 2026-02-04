@@ -20,7 +20,7 @@
                     </h1>
                     <x-average-tag size="large" :value="$softSkillsAverage" />
                 </div>
-                <div class="flex items-center gap-2 mt-1 text-sm text-primary-grey">
+                <div class="flex items-center gap-2 mt-1 text-base text-primary-grey">
                     <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
                     <span>
                         {{ number_format($customer->reviews_avg_rating ?? 0, 1) }}
@@ -32,9 +32,8 @@
             </div>
         </div>
 
-        <x-button size="auto" href="#">
-            <x-heroicon name="pencil-square"/>
-            Edit customer
+        <x-button variant="outline-primary" size="auto" href="#">
+            <x-heroicon size="xl" name="pencil-square"/>
         </x-button>
     </div>
 
@@ -101,7 +100,7 @@
                                     <div class="space-y-2">
                                         <div class="space-y-2">
                                             <h6> Experience: </h6>
-                                            <p class="text-base">{{ $skill->pivot?->years . ' years' ?? 'N.A' }}</p>
+                                            <p class="text-base">{{ $skill->pivot?->years != null ?  $skill->pivot?->years . ' years'  : 'N.A' }}</p>
                                         </div>
                                     </div>
                                     <div class="space-y-2">

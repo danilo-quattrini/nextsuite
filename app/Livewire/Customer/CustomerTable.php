@@ -24,7 +24,7 @@ class CustomerTable extends Component
             'customers' => Customer::with('skills')
                 ->withCount('reviews')
                 ->withAvg('reviews', 'rating')
-                ->paginate(5)
+                ->paginate(6)
         ]);
     }
 }
