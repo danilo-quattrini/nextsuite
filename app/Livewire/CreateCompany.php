@@ -5,18 +5,26 @@ namespace App\Livewire;
 use App\Models\Company;
 use App\Models\Field;
 use App\Traits\ArrayOperation;
+use App\Traits\WithStep;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class CreateCompany extends Component
 {
     use WithFileUploads;
+    use WithStep;
     use ArrayOperation;
 
     public bool $showFieldDropdown = false;
 
     public string $name;
-    public ?int $employees = null;
+    public ?string $trade_name = null;
+    public ?string $website = null;
+    public ?string $email = null;
+    public ?string $vat_number = null;
+    public ?string $address_line = null;
+    public ?string $city = null;
+    public ?string $postal_code = null;
     public string $phone =  '';
     public $business_photo;
     public $fields;
@@ -49,15 +57,48 @@ class CreateCompany extends Component
         return view('livewire.create-company');
     }
 
-    public function rules(): array
+    protected function rules(): array
     {
         return [
+            // 'business_photo' => 'image|max:2048',
             'name' => 'required|min:5|max:255|unique:companies',
-            'employees' => 'required|integer',
+            'website' => 'nullable|url|max:255',
+            'email' => 'nullable|email|max:255',
+            'vat_number' => 'nullable|string|max:255',
+            'address_line' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'postal_code' => 'nullable|string|max:255',
             'phone' => 'required|string',
-            'business_photo' => 'required|image|max:2048',
+            'fields' => 'required',
             'selectedFields' => 'required|min:1',
             'owner_id' => 'nullable|exists:users,id',
+        ];
+    }
+    protected function stepRules(): array
+    {
+        return $this->rulesForStep();
+    }
+
+    private function rulesForStep(): array
+    {
+
+        return  [
+            1 => [
+                // 'business_photo' => 'image|max:2048',
+                'name' => 'required|min:5|max:255|unique:companies',
+                'website' => 'nullable|url|max:255',
+                'email' => 'nullable|email|max:255',
+                'vat_number' => 'nullable|string|max:255',
+            ],
+
+            2 => [
+                'address_line' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
+                'postal_code' => 'nullable|string|max:255',
+                'phone' => 'required|string',
+                'selectedFields' => 'required|min:1',
+                'owner_id' => 'nullable|exists:users,id',
+            ]
         ];
     }
 
@@ -72,7 +113,13 @@ class CreateCompany extends Component
 
         $company = Company::create([
             'name' => $validated['name'],
-            'employees' => $validated['employees'],
+            'website' => $validated['website'] ?? null,
+            'email' => $validated['email'] ?? null,
+            'vat_number' => $validated['vat_number'] ?? null,
+            'registration_number' => $validated['registration_number'] ?? null,
+            'address_line' => $validated['address_line1'] ?? null,
+            'city' => $validated['city'] ?? null,
+            'postal_code' => $validated['postal_code'] ?? null,
             'phone' => $validated['phone'],
             'business_photo' => $imageName,
             'owner_id' => $userId,
