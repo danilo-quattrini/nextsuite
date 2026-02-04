@@ -52,10 +52,10 @@
                 ],
                 [
                     'type' => 'link',
-                    'label' => 'Reports',
+                    'label' => 'Report',
                     'icon' => 'chart-pie',
-                    'href' => '#',
-                    'active' => false,
+                    'href' => route('report.list'),
+                    'active' => request()->routeIs('report.list'),
                 ],
             ],
         ],
@@ -68,6 +68,12 @@
                     'icon' => 'building-office',
                     'active' => request()->routeIs('company.*'),
                     'children' => [
+                        [
+                            'label' => 'Create Company',
+                            'icon' => 'plus',
+                            'href' => route('company.create'),
+                            'active' => request()->routeIs('company.create'),
+                        ],
                         [
                             'label' => 'Details',
                             'icon' => 'information-circle',

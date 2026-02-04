@@ -3,6 +3,7 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,20 @@ Route::middleware([
 
 });
 
+/* REPORT ROUTES */
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->controller(ReportController::class)->group(function () {
+
+    Route::get('/report', 'index')
+        ->name('report.list');
+
+    Route::get('/report/{customer}', 'show')
+        ->name('report.show');
+
+});
 
 /* CUSTOMER ROUTES */
 Route::middleware([
