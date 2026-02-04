@@ -2,7 +2,7 @@
     <nav class="flex items-center justify-center" role="navigation" aria-label="Pagination">
         <div class="flex items-center gap-8 px-4 py-2">
             @if ($paginator->onFirstPage())
-                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-outline-grey cursor-not-allowed">
+                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white cursor-not-allowed">
                     <x-heroicon name="chevron-left" class="text-primary-grey" />
                     <span>Prev</span>
                 </span>
@@ -10,9 +10,9 @@
                 <a
                     href="{{ $paginator->previousPageUrl() }}"
                     rel="prev"
-                    class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey hover:bg-outline-grey transition"
+                    class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition"
                 >
-                    <x-heroicon name="chevron-left" class="text-primary-grey" />
+                    <x-heroicon name="chevron-left" class="text-black" />
                     <span>Prev</span>
                 </a>
             @endif
@@ -49,13 +49,13 @@
                 <a
                     href="{{ $paginator->nextPageUrl() }}"
                     rel="next"
-                    class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey hover:bg-white-base transition"
+                    class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition"
                 >
                     <span>Next</span>
                     <x-heroicon name="chevron-right" class="text-primary-grey" />
                 </a>
             @else
-                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white-base cursor-not-allowed">
+                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white cursor-not-allowed">
                     <span>Next</span>
                     <x-heroicon name="chevron-right" class="text-primary-grey" />
                 </span>
