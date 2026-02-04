@@ -1,191 +1,204 @@
+@php
+    $sidebarSections = [
+        [
+            'title' => 'Overview',
+            'items' => [
+                [
+                    'type' => 'link',
+                    'label' => 'Home',
+                    'icon' => 'home',
+                    'href' => route('dashboard'),
+                    'active' => request()->routeIs('dashboard'),
+                ],
+                [
+                    'type' => 'dropdown',
+                    'label' => 'Customers',
+                    'icon' => 'users',
+                    'active' => request()->routeIs('customer.*'),
+                    'children' => [
+                        [
+                            'label' => 'Add customer',
+                            'icon' => 'user-plus',
+                            'href' => route('customer.create'),
+                            'active' => request()->routeIs('customer.create'),
+                        ],
+                        [
+                            'label' => 'Customer list',
+                            'icon' => 'list-bullet',
+                            'href' => route('customer.list'),
+                            'active' => request()->routeIs('customer.list'),
+                        ],
+                    ],
+                ],
+                [
+                    'type' => 'dropdown',
+                    'label' => 'Documents',
+                    'icon' => 'document',
+                    'active' => request()->routeIs(['document.*', 'template.*']),
+                    'children' => [
+                        [
+                            'label' => 'Generate',
+                            'icon' => 'document-plus',
+                            'href' => route('document.index'),
+                            'active' => request()->routeIs('document.index'),
+                        ],
+                        [
+                            'label' => 'Templates',
+                            'icon' => 'clipboard-document',
+                            'href' => route('template.index'),
+                            'active' => request()->routeIs('template.index'),
+                        ],
+                    ],
+                ],
+                [
+                    'type' => 'link',
+                    'label' => 'Reports',
+                    'icon' => 'chart-pie',
+                    'href' => '#',
+                    'active' => false,
+                ],
+            ],
+        ],
+        [
+            'title' => 'Management',
+            'items' => [
+                [
+                    'type' => 'dropdown',
+                    'label' => 'Company',
+                    'icon' => 'building-office',
+                    'active' => request()->routeIs('company.*'),
+                    'children' => [
+                        [
+                            'label' => 'Details',
+                            'icon' => 'information-circle',
+                            'href' => route('company.show'),
+                            'active' => request()->routeIs('company.show'),
+                        ],
+                    ],
+                ],
+                [
+                    'type' => 'link',
+                    'label' => 'Service',
+                    'icon' => 'briefcase',
+                    'href' => '#',
+                    'active' => false,
+                ],
+                [
+                    'type' => 'link',
+                    'label' => 'Employees',
+                    'icon' => 'user-group',
+                    'href' => '#',
+                    'active' => false,
+                ],
+            ],
+        ],
+        [
+            'title' => 'Resources',
+            'items' => [
+                [
+                    'type' => 'link',
+                    'label' => 'Base Knowledge',
+                    'icon' => 'information-circle',
+                    'href' => '#',
+                    'active' => false,
+                ],
+                [
+                    'type' => 'link',
+                    'label' => 'Policies',
+                    'icon' => 'lifebuoy',
+                    'href' => '#',
+                    'active' => false,
+                ],
+                [
+                    'type' => 'link',
+                    'label' => 'Support',
+                    'icon' => 'chat-bubble-oval-left-ellipsis',
+                    'href' => '#',
+                    'active' => false,
+                ],
+            ],
+        ],
+    ];
+
+    $sidebarFooter = [
+        [
+            'label' => 'Help',
+            'icon' => 'question-mark-circle',
+            'href' => '#',
+            'active' => false,
+        ],
+        [
+            'label' => 'Changelog',
+            'icon' => 'clock',
+            'href' => '#',
+            'active' => false,
+        ],
+    ];
+@endphp
+
 <div class="sidebar">
-    {{-- Logo --}}
-    <div class="flex items-center gap-4">
-        <img src="{{ asset('img/nextsuite-logo.png') }}" class="h-8 w-8" alt="NextSuite Logo">
-        <span class="text-3xl font-semibold">NextSuite</span>
+    <div class="sidebar__header">
+        <div class="sidebar__brand">
+            <img src="{{ asset('img/nextsuite-logo.png') }}" class="sidebar__logo" alt="NextSuite Logo">
+            <span class="sidebar__brand-name">NextSuite</span>
+        </div>
+
+        <div class="sidebar__company">
+            <p class="sidebar__welcome">Welcome</p>
+            <p class="sidebar__company-name">
+                {{ Auth::user()->company->name ?? Auth::user()->full_name }}
+            </p>
+        </div>
     </div>
 
-    {{-- Company --}}
-    <div class="space-y-2">
-        <p class="text-base text-primary-grey font-medium">Welcome</p>
-        <p class="text-3xl font-bold line-clamp-2 h-full">
-            {{ Auth::user()->company->name ?? Auth::user()->full_name }}
-        </p>
-    </div>
+    @foreach($sidebarSections as $section)
+        <nav class="sidebar__section">
+            <p class="sidebar__section-title">{{ strtoupper($section['title']) }}</p>
 
+            <div class="sidebar__section-items">
+                @foreach($section['items'] as $item)
+                    @if($item['type'] === 'dropdown')
+                        <x-sidebar.dropdown-link :active="$item['active']">
+                            <x-slot:icon>
+                                <x-heroicon :name="$item['icon']" size="lg"/>
+                            </x-slot:icon>
+                            {{ $item['label'] }}
 
-    {{-- OVERVIEW --}}
-    <nav>
+                            <x-slot:elements>
+                                @foreach($item['children'] as $child)
+                                    <x-sidebar.sidebar-link
+                                        href="{{ $child['href'] }}"
+                                        :active="$child['active']"
+                                    >
+                                        <x-slot:icon>
+                                            <x-heroicon :name="$child['icon']" size="lg"/>
+                                        </x-slot:icon>
+                                        {{ $child['label'] }}
+                                    </x-sidebar.sidebar-link>
+                                @endforeach
+                            </x-slot:elements>
+                        </x-sidebar.dropdown-link>
+                    @else
+                        <x-sidebar.sidebar-link href="{{ $item['href'] }}" :active="$item['active']">
+                            <x-slot:icon>
+                                <x-heroicon :name="$item['icon']" size="lg"/>
+                            </x-slot:icon>
+                            {{ $item['label'] }}
+                        </x-sidebar.sidebar-link>
+                    @endif
+                @endforeach
+            </div>
+        </nav>
+    @endforeach
 
-        <p class="subheading" >OVERVIEW</p>
-
-        {{-- DASHBOARD --}}
-        <x-sidebar.sidebar-link :active="request()->routeIs('dashboard')" href="{{ route('dashboard') }}" >
-            <x-slot:icon>
-                <x-heroicon name="home" size="lg"/>
-            </x-slot:icon>
-            Home
-        </x-sidebar.sidebar-link>
-
-        {{-- CUSTOMERS DROPDOWN--}}
-        <x-sidebar.dropdown-link :active="request()->routeIs('customer.*')">
-            <x-slot:icon>
-                <x-heroicon name="users" size="lg"/>
-            </x-slot:icon>
-            Customers
-            <x-slot:elements>
-                <x-sidebar.sidebar-link
-                        href="{{ route('customer.create') }}"
-                        :active="request()->routeIs('customer.create')"
-                >
-                    <x-slot:icon>
-                        <x-heroicon name="user-plus" size="lg"/>
-                    </x-slot:icon>
-                    Add customer
-                </x-sidebar.sidebar-link>
-
-                <x-sidebar.sidebar-link
-                        href="{{ route('customer.list') }}"
-                        :active="request()->routeIs('customer.list')"
-                >
-                    <x-slot:icon>
-                        <x-heroicon name="list-bullet" size="lg"/>
-                    </x-slot:icon>
-                    Customer list
-                </x-sidebar.sidebar-link>
-            </x-slot:elements>
-        </x-sidebar.dropdown-link>
-
-        {{-- DOCUMENTS DROPDOWN --}}
-        <x-sidebar.dropdown-link :active="request()->routeIs(['document.*', 'template.*'])" >
-            <x-slot:icon>
-                <x-heroicon name="document" size="lg"/>
-            </x-slot:icon>
-            Documents
-
-            <x-slot:elements>
-
-                <x-sidebar.sidebar-link
-                        href="{{ route('document.index') }}"
-                        :active="request()->routeIs('document.index')"
-                >
-                    <x-slot:icon>
-                        <x-heroicon name="document-plus" size="lg"/>
-                    </x-slot:icon>
-                    Generate
-                </x-sidebar.sidebar-link>
-
-                <x-sidebar.sidebar-link
-                        href="{{ route('template.index') }}"
-                        :active="request()->routeIs('template.index')"
-
-                >
-                    <x-slot:icon>
-                        <x-heroicon name="clipboard-document" size="lg"/>
-                    </x-slot:icon>
-                    Templates
-                </x-sidebar.sidebar-link>
-            </x-slot:elements>
-
-        </x-sidebar.dropdown-link>
-
-        {{-- REPORTS --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="chart-pie" size="lg"/>
-            </x-slot:icon>
-            Reports
-        </x-sidebar.sidebar-link>
-
-    </nav>
-
-    {{-- MANAGEMENT --}}
-    <nav>
-
-    <p class="subheading" >MANAGEMENT</p>
-
-        {{-- COMPANY DROPDOWN --}}
-        <x-sidebar.dropdown-link :active="request()->routeIs('company.*')">
-            <x-slot:icon>
-                <x-heroicon name="building-office" size="lg"/>
-            </x-slot:icon>
-            Company
-            <x-slot:elements>
-                <x-sidebar.sidebar-link
-                        href="{{ route('company.show') }}"
-                        :active="request()->routeIs('company.show')"
-                >
-                    <x-slot:icon>
-                        <x-heroicon name="information-circle" size="lg"/>
-                    </x-slot:icon>
-                    Details
-                </x-sidebar.sidebar-link>
-            </x-slot:elements>
-        </x-sidebar.dropdown-link>
-
-        {{-- SERVICES --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="briefcase" size="lg"/>
-            </x-slot:icon>
-            Service
-        </x-sidebar.sidebar-link>
-
-        {{-- EMPLOYEES --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="user-group" size="lg"/>
-            </x-slot:icon>
-            Employees
-        </x-sidebar.sidebar-link>
-    </nav>
-
-    {{-- RESOURCES --}}
-    <nav>
-
-        <p class="subheading" >RESOURCES</p>
-
-        {{-- BASE KNOWLEDGE --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="information-circle" size="lg"/>
-            </x-slot:icon>
-            Base Knowledge
-        </x-sidebar.sidebar-link>
-
-        {{-- POLICIES --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="lifebuoy" size="lg"/>
-            </x-slot:icon>
-            Policies
-        </x-sidebar.sidebar-link>
-
-        {{-- SUPPORT --}}
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="chat-bubble-oval-left-ellipsis" size="lg"/>
-            </x-slot:icon>
-            Support
-        </x-sidebar.sidebar-link>
-
-    </nav>
-
-
-    <div class="mt-auto pt-6 border-t">
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="question-mark-circle" size="lg"/>
-            </x-slot:icon>
-            Help
-        </x-sidebar.sidebar-link>
-
-        <x-sidebar.sidebar-link href="" >
-            <x-slot:icon>
-                <x-heroicon name="clock" size="lg"/>
-            </x-slot:icon>
-            Changelog
-        </x-sidebar.sidebar-link>
-
+    <div class="sidebar__footer">
+        @foreach($sidebarFooter as $item)
+            <x-sidebar.sidebar-link href="{{ $item['href'] }}" :active="$item['active']">
+                <x-slot:icon>
+                    <x-heroicon :name="$item['icon']" size="lg"/>
+                </x-slot:icon>
+                {{ $item['label'] }}
+            </x-sidebar.sidebar-link>
+        @endforeach
     </div>
 </div>

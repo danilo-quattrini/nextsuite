@@ -1,5 +1,5 @@
 .sidebar-container{
-    @apply w-70 h-full shrink-0  bg-white text-black border-r border-r-outline-grey;
+    @apply w-70 h-full shrink-0 bg-white text-black border-r border-r-outline-grey;
 }
 
 .sidebar {
@@ -9,12 +9,47 @@
     left: 0;
 }
 
-.sidebar .subheading{
-    @apply text-base text-primary-grey;
-    margin-bottom: 26px;
-    font-weight: var(--font-weight-medium);
+.sidebar__header {
+    @apply flex flex-col gap-6;
 }
 
-.sidebar nav{
+.sidebar__brand {
+    @apply flex items-center gap-4;
+}
+
+.sidebar__logo {
+    @apply h-8 w-8;
+}
+
+.sidebar__brand-name {
+    @apply text-3xl font-semibold;
+}
+
+.sidebar__company {
+    @apply space-y-2;
+}
+
+.sidebar__welcome {
+    @apply text-base text-primary-grey font-medium;
+}
+
+.sidebar__company-name {
+    @apply text-3xl font-bold line-clamp-2 h-full;
+}
+
+.sidebar__section {
+    @apply space-y-3;
+}
+
+.sidebar__section-title {
+    @apply text-base text-primary-grey font-medium;
+    letter-spacing: 0.08em;
+}
+
+.sidebar__section-items {
     @apply space-y-[8px];
+}
+
+.sidebar__footer {
+    @apply mt-auto pt-6 border-t border-outline-grey space-y-[8px];
 }
