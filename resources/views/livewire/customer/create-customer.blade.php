@@ -1,16 +1,13 @@
 <form wire:submit.prevent="submit" enctype="multipart/form-data">
+    @csrf
     <div class="max-w-5xl mx-auto space-y-8">
-        <div class="flex items-center gap-4">
-            <div class="flex items-center gap-3">
-                <span class="flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold {{ $step === 1 ? 'bg-primary text-white' : 'bg-outline-grey text-black' }}">1</span>
-                <span class="text-sm font-medium text-black">Profile</span>
-            </div>
-            <div class="h-px flex-1 bg-outline-grey"></div>
-            <div class="flex items-center gap-3">
-                <span class="flex h-8 w-8 items-center justify-center rounded-md text-sm font-semibold {{ $step === 2 ? 'bg-primary text-white' : 'bg-outline-grey text-black' }}">2</span>
-                <span class="text-sm font-medium text-black">Details</span>
-            </div>
-        </div>
+        <x-form.step-progress-bar
+                :current="$step"
+                :steps="[
+                    ['key' => 1, 'label' => 'Profile'],
+                    ['key' => 2, 'label' => 'Details'],
+                ]"
+        />
 
         <x-form.container>
             {{-- ================= STEP 1 ================= --}}
@@ -92,6 +89,7 @@
                         </div>
                     </div>
 
+                    {{--  CUSTOMER ATTIRBUTE SECTION --}}
                     <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
                         <x-form.label-container label="Attributes"/>
 
