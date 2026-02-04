@@ -3,13 +3,10 @@
     {{-- HEADER --}}
     <div class="flex items-center justify-between">
         <div class="flex-col justify-start items-center space-y-6">
-            <img
-                    class="w-40 h-40 rounded-full"
-                    src="{{ $customer->profile_photo_url
-                    ? asset('storage/customers-profile-photos/' . $customer->profile_photo_url)
-                    : 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440'
-                }}"
-                    alt="user profile picture"
+            <x-profile-image
+                :src="$customer->profile_photo_url"
+                :name="$customer->full_name"
+                directory="customers-profile-photos"
             />
 
 
@@ -163,7 +160,12 @@
 
                 <div class="flex justify-between items-center mb-4">
                     <div class="flex justify-center items-center gap-2 ">
-                        <img class="size-8 rounded-full object-cover" src="{{ $review->author->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
+                        <x-profile-image
+                            :src="$review->author->profile_photo_url"
+                            :name="$review->author->full_name"
+                            size="custom"
+                            class="size-8"
+                        />
                         <span class="font-medium"> {{ $review->author->full_name }}</span>
                     </div>
                     <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">

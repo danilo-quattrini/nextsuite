@@ -42,11 +42,14 @@
                 <div class="p-6 flex items-center justify-between">
                     <div>
                         <div class="p-6 flex items-start gap-6">
-                            <img
-                                    class="border border-outline-grey rounded-full h-24 w-24 object-cover"
-                                    src="{{ asset('storage/business-profile-photos/' . $company->business_photo) }}"
-                                    alt="company profile photo"
+                            <x-profile-image
+                                :src="$company->business_photo"
+                                :name="$company->name"
+                                directory="business-profile-photos"
+                                size="small"
+                                alt="Company logo"
                             />
+
                             <div class="flex-1 space-y-2">
                                 <h2 class="text-xl font-semibold text-black">
                                     {{ $company->name }}
@@ -63,7 +66,7 @@
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <x-heroicon name="identification" class="h-4 w-4 text-primary-grey"/>
-                                    <span>P.IVA: —</span>
+                                    <span>{{ $company->vat_number }}</span>
                                 </div>
                             </div>
                         </div>

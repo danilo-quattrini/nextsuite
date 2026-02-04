@@ -14,17 +14,15 @@
 
                     <div class="space-y-4">
                         <div class="flex items-center gap-4">
-                            @if(empty($customer->profile_photo_url))
-                                <div class="h-12 w-12 rounded-full bg-secondary flex items-center justify-center text-sm font-semibold text-primary">
-                                    {{ strtoupper(substr($customer->full_name, 0, 1)) }}
-                                </div>
-                            @else
-                                <div class="shrink-0 w-12 h-12">
-                                    <img class="w-full h-full rounded-full"
-                                         src="{{ asset('storage/customers-profile-photos/' . $customer->profile_photo_url) }}"
-                                         alt="profile-picture" />
-                                </div>
-                            @endif
+                            <div class="shrink-0">
+                                <x-profile-image
+                                    :src="$customer->profile_photo_url"
+                                    :name="$customer->full_name"
+                                    directory="customers-profile-photos"
+                                    size="custom"
+                                    class="w-12 h-12"
+                                />
+                            </div>
                             <div>
                                 <p class="text-sm font-semibold text-black">
                                     {{ $customer->full_name }}

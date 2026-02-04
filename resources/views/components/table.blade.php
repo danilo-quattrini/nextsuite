@@ -107,9 +107,13 @@
                                 <td class="p-6 bg-white text-sm">
                                     <div class="flex items-center gap-6">
                                         <div class="shrink-0 w-10 h-10">
-                                            <img class="w-full h-full rounded-full"
-                                                 src="{{ $customer->profile_photo_url ? asset('storage/customers-profile-photos/' . $customer->profile_photo_url) : 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440' }}"
-                                                 alt="profile-picture" />
+                                            <x-profile-image
+                                                :src="$customer->profile_photo_url"
+                                                :name="$customer->full_name"
+                                                directory="customers-profile-photos"
+                                                size="custom"
+                                                class="w-10 h-10"
+                                            />
                                         </div>
                                         <div>
                                             <p class="table-text">
@@ -225,15 +229,15 @@
                         onclick="window.location='{{ route('customer.show', $customer) }}'"
                 >
                     {{-- Header --}}
-                    <div class="flex justify-between">
-                        <div class="flex justify-center items-center gap-4">
-                            <img
-                                    class="w-12 h-12 rounded-full"
-                                    src="{{ $customer->profile_photo_url
-                                            ? asset('storage/customers-profile-photos/' . $customer->profile_photo_url)
-                                            : 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440'
-                                    }}"
-                             alt="customer profile picture"/>
+                        <div class="flex justify-between">
+                            <div class="flex justify-center items-center gap-4">
+                                <x-profile-image
+                                    :src="$customer->profile_photo_url"
+                                    :name="$customer->full_name"
+                                    directory="customers-profile-photos"
+                                    size="custom"
+                                    class="w-12 h-12"
+                                />
 
                             <div>
                                 <p class="font-semibold">{{ $customer->full_name }}</p>

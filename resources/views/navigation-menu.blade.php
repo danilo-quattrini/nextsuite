@@ -66,7 +66,12 @@
                                         <span class="text-xs font-medium text-primary-grey">{{ Auth::user()->company->field->name ?? 'Employee' }}</span>
                                     </div>
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                        <img class="size-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->full_name }}" />
+                                        <x-profile-image
+                                            :src="Auth::user()->profile_photo_url"
+                                            :name="Auth::user()->full_name"
+                                            size="custom"
+                                            class="size-12"
+                                        />
                                     </button>
                                 </div>
                             @else
@@ -139,7 +144,12 @@
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="shrink-0 me-3">
-                        <img class="size-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                        <x-profile-image
+                            :src="Auth::user()->profile_photo_url"
+                            :name="Auth::user()->full_name"
+                            size="custom"
+                            class="size-10"
+                        />
                     </div>
                 @endif
 
