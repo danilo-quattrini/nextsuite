@@ -20,7 +20,6 @@ class CompanyFactory extends Factory
         return [
             'business_photo' => $this->faker->name(),
             'name' => $this->faker->name(),
-            'employees' => $this->faker->numberBetween(1, 9999),
             'phone' => $this->faker->phoneNumber(),
             'owner_id' => User::factory(),
             'created_at' => Carbon::now(),

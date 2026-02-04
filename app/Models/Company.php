@@ -13,7 +13,18 @@ class Company extends Model
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
     protected $fillable = [
-        'business_photo', 'name', 'employees', 'phone', 'owner_id'
+        'business_photo',
+        'name',
+        'website',
+        'email',
+        'vat_number',
+        'registration_number',
+        'address_line',
+        'city',
+        'postal_code',
+        'employees',
+        'phone',
+        'owner_id',
     ];
 
     public function fields(): BelongsToMany
