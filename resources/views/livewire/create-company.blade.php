@@ -36,7 +36,7 @@
                                 <!-- COMPANY NAME -->
                                 <x-form.input-container>
                                     <x-form.label-container label="{{ __('Name') }}" :required="true"/>
-                                    <x-input id="name" name="name" wire:model="name" autofocus autocomplete="username" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')" />
+                                    <x-input id="name" name="name" wire:model="name" autofocus autocomplete="name" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')" />
                                     <x-input-error for="name"/>
                                 </x-form.input-container>
 

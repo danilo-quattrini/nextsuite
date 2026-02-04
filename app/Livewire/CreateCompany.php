@@ -60,7 +60,7 @@ class CreateCompany extends Component
     protected function rules(): array
     {
         return [
-            // 'business_photo' => 'image|max:2048',
+            'business_photo' => 'nullable|image|max:2048',
             'name' => 'required|min:5|max:255|unique:companies',
             'website' => 'nullable|url|max:255',
             'email' => 'nullable|email|max:255',
@@ -84,7 +84,7 @@ class CreateCompany extends Component
 
         return  [
             1 => [
-                // 'business_photo' => 'image|max:2048',
+                'business_photo' => 'nullable|image|max:2048',
                 'name' => 'required|min:5|max:255|unique:companies',
                 'website' => 'nullable|url|max:255',
                 'email' => 'nullable|email|max:255',
@@ -106,8 +106,10 @@ class CreateCompany extends Component
     {
         $validated = $this->validate();
 
-        $imageName = strtolower(str_replace(' ', '_', $this->name)) . '.' . $this->business_photo->extension();
-        $this->business_photo->storeAs('business-profile-photos', $imageName, 'public');
+        if($this->business_photo) {
+            $imageName = strtolower(str_replace(' ', '_', $this->name)).'.'.$this->business_photo->extension();
+            $this->business_photo->storeAs('business-profile-photos', $imageName, 'public');
+        }
 
         $userId = $validated['owner_id'] ?? auth()->id();
 
@@ -116,12 +118,11 @@ class CreateCompany extends Component
             'website' => $validated['website'] ?? null,
             'email' => $validated['email'] ?? null,
             'vat_number' => $validated['vat_number'] ?? null,
-            'registration_number' => $validated['registration_number'] ?? null,
             'address_line' => $validated['address_line1'] ?? null,
             'city' => $validated['city'] ?? null,
             'postal_code' => $validated['postal_code'] ?? null,
             'phone' => $validated['phone'],
-            'business_photo' => $imageName,
+            'business_photo' => $imageName ?? null,
             'owner_id' => $userId,
         ]);
 

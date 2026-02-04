@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('address_line')->nullable();
             $table->string('city')->nullable();
             $table->string('postal_code')->nullable();
-            $table->string('business_photo');
+            $table->string('business_photo')->nullable();
             $table->string('phone');
             $table->foreignIdFor(User::class, 'owner_id')
                 ->constrained('users');
