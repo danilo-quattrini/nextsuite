@@ -13,6 +13,7 @@
 @import "./design-system/components/progess-bar.css";
 @import "./design-system/components/pop-up.css";
 @import "./design-system/components/slider.css";
+@import "./design-system/components/user-view.css";
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";

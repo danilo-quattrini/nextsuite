@@ -1,0 +1,186 @@
+.user-view{
+    @apply container mx-auto px-6 py-8 space-y-8 relative;
+}
+
+.user-view__header{
+    @apply flex items-center justify-between gap-6;
+}
+
+.user-view__identity{
+    @apply flex items-center gap-6;
+}
+
+.user-view__avatar{
+    @apply w-28 h-28;
+}
+
+.user-view__meta{
+    @apply space-y-2;
+}
+
+.user-view__title{
+    @apply flex items-center gap-4;
+}
+
+.user-view__name{
+    @apply text-2xl font-semibold;
+}
+
+.user-view__rating{
+    @apply flex items-center gap-2 text-base text-primary-grey;
+}
+
+.user-view__subtitle{
+    @apply text-sm text-primary-grey;
+}
+
+.user-view__actions{
+    @apply flex items-center;
+}
+
+.user-view__stats{
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+.user-view__stat-card{
+    @apply bg-white border border-outline-grey rounded-md p-5 space-y-6 shrink-0 shadow-sm;
+}
+
+.user-view__stat-label{
+    @apply text-sm text-primary-grey;
+}
+
+.user-view__stat-value{
+    @apply text-2xl font-semibold;
+}
+
+.user-view__stat-hint{
+    @apply text-xs text-primary-grey;
+}
+
+.user-view__grid{
+    @apply grid grid-cols-1 lg:grid-cols-3 gap-6;
+}
+
+.user-view__panel{
+    @apply bg-white border border-outline-grey rounded-md p-6 space-y-4 overflow-x-auto shadow-sm;
+}
+
+.user-view__panel--wide{
+    @apply lg:col-span-3;
+}
+
+.user-view__panel-header{
+    @apply flex items-center justify-between;
+}
+
+.user-view__panel-tag{
+    @apply text-xs uppercase tracking-widest text-primary-grey;
+}
+
+.user-view__panel-subtitle{
+    @apply text-xs text-primary-grey;
+}
+
+.user-view__skills-grid{
+    @apply grid gap-4 sm:grid-cols-2 xl:grid-cols-3;
+}
+
+.user-view__skill-card{
+    @apply bg-white border border-outline-grey rounded-md p-5 space-y-4 overflow-hidden min-w-0;
+}
+
+.user-view__skill-card-header{
+    @apply flex items-center justify-between gap-4;
+}
+
+.user-view__skill-card-title{
+    @apply text-sm font-semibold uppercase tracking-wide;
+}
+
+.user-view__skill-card-subtitle{
+    @apply text-xs text-primary-grey;
+}
+
+.user-view__skill-chart{
+    @apply flex justify-center items-center min-h-55 w-full overflow-hidden;
+}
+
+.user-view__skill-chart canvas{
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.user-view__field-summary{
+    @apply flex items-center gap-4 py-2;
+}
+
+.user-view__field-label{
+    @apply text-xs text-primary-grey;
+}
+
+.user-view__field-list{
+    @apply space-y-2;
+}
+
+.user-view__field-item{
+    @apply flex items-center justify-between text-sm border border-outline-grey rounded-md px-3 py-2;
+}
+
+.user-view__field-score{
+    @apply font-semibold;
+}
+
+.user-view__empty{
+    @apply text-sm text-primary-grey;
+}
+
+.user-view__chart{
+    @apply h-48 rounded-lg border border-dashed border-outline-grey p-4 flex flex-col justify-between;
+}
+
+.user-view__chart-line{
+    @apply h-2 rounded-full bg-primary;
+}
+
+.user-view__chart-line.is-muted{
+    @apply bg-outline-grey;
+}
+
+.user-view__donut{
+    @apply h-48 w-48 mx-auto rounded-full border-[10px] border-outline-grey relative flex items-center justify-center;
+    border-top-color: #5E81F4;
+    border-right-color: rgba(94, 129, 244, 0.5);
+}
+
+.user-view__donut-center{
+    @apply text-center;
+}
+
+.user-view__donut-center p{
+    @apply text-2xl font-semibold;
+}
+
+.user-view__donut-center span{
+    @apply text-xs text-primary-grey;
+}
+
+.user-view__timeline{
+    @apply space-y-4;
+}
+
+.user-view__timeline-item{
+    @apply flex items-start gap-3;
+}
+
+.user-view__dot{
+    @apply mt-1 h-2.5 w-2.5 rounded-full bg-primary;
+}
+
+.user-view__timeline-title{
+    @apply font-medium;
+}
+
+.user-view__timeline-meta{
+    @apply text-xs text-primary-grey;
+}
