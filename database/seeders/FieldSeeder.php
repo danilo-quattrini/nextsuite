@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Field;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class FieldSeeder extends Seeder
@@ -13,25 +12,12 @@ class FieldSeeder extends Seeder
      */
     public function run(): void
     {
-        $names = [
-            'Gym',
-            'Nutrition',
-            'Human Resources',
-            'Artificial Intelligence',
-            'Software',
-            'Healthcare',
-            'Legal',
-            'Education',
-            'Logistics',
-            'Finance',
-            'Marketing',
-            'Construction',
-            'Agriculture',
-            'Retail',
-            'Hospitality',
-        ];
+        $fields = json_decode(
+            file_get_contents(database_path('data/field/field.json')),
+            true
+        );
 
-        foreach ($names as $name) {
+        foreach ($fields ?? [] as $name) {
             Field::firstOrCreate(['name' => $name]);
         }
     }

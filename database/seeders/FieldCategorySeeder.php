@@ -31,6 +31,9 @@ class FieldCategorySeeder extends Seeder
                 'Human Resources',
                 'Hospitality',
             ],
+            'Languages' => [
+                'Education'
+            ]
         ];
 
         foreach ($categoryFieldMap as $categoryName => $fieldNames) {
