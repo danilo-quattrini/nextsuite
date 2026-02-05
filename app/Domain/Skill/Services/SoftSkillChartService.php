@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Charts\Skill;
+namespace App\Domain\Skill\Services;
 
 use App\Models\Customer;
 use Illuminate\Support\Collection;
