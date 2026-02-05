@@ -18,18 +18,15 @@ class SkillCustomersSeeder extends Seeder
 
         foreach ($customers as $customer) {
             // Example: assign 2 technical skills
-            if (isset($skillsByType['technology']) || isset($skillsByType['soft_skill'])) {
-                $technicalSkills = $skillsByType['technology']->random(5);
+            if (isset($skillsByType['technology']) || isset($skillsByType['soft_skill']) || isset($skillsByType['business'])) {
 
+                $technicalSkills = $skillsByType['technology']->random(5);
+                $businessSkills = $skillsByType['business']->random(5);
                 $softSkill = $skillsByType['soft_skill']->all();
 
-                foreach ($technicalSkills as $skill) {
-                    $customer->skills()->attach($skill->id, [
-                        'level' => rand(20, 100),
-                        'years' => rand(1, 30),
-                        'user_id' => $customer->user_id
-                    ]);
-                }
+                $this->attachSkill($technicalSkills, $customer);
+                $this->attachSkill($businessSkills, $customer);
+
                 foreach ($softSkill as $skill) {
                     $customer->skills()->attach($skill->id, [
                         'level' => rand(1, 100),
@@ -37,6 +34,17 @@ class SkillCustomersSeeder extends Seeder
                     ]);
                 }
             }
+        }
+    }
+
+    private function attachSkill($skills, $customer): void
+    {
+        foreach ($skills as $skill) {
+            $customer->skills()->attach($skill->id, [
+                'level' => rand(20, 100),
+                'years' => rand(1, 30),
+                'user_id' => $customer->user_id
+            ]);
         }
     }
 }
