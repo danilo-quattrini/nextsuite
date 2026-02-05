@@ -1,3 +1,5 @@
+.github
+.junie
 /.phpunit.cache
 /node_modules
 # DO NOT ignore these (needed for production):
