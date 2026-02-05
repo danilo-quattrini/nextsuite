@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use App\Services\Charts\Skill\SoftSkillChartService;
 
 class ShowCustomer extends Component
 {
@@ -188,37 +189,11 @@ class ShowCustomer extends Component
 
     public function getSoftSkills(Customer $customer): void
     {
-        $skillsByCategory = $customer
-            ->load('skills.category')
-            ->skills
-            ->filter(fn ($skill) => $skill->category?->type?->value === 'soft_skill')
-            ->groupBy(fn ($skill) => $skill->category?->name ?? 'Uncategorized')
-            ->map(function ($skills) {
-                $skillsList = $skills->map(function ($skill) {
-                    return [
-                        'name' => $skill->name,
-                        'level' => $skill->pivot?->level,
-                    ];
-                })->values();
-                $average = $skillsList
-                    ->pluck('level')
-                    ->filter(fn ($level) => is_numeric($level))
-                    ->avg();
-
-                return [
-                    'skills' => $skillsList,
-                    'average' => $average,
-                ];
-            })
-            ->sortKeys();
+        $service = app(SoftSkillChartService::class);
+        $skillsByCategory = $service->buildSoftSkills($customer);
 
         $this->softSkills = $skillsByCategory;
-
-        $allLevels = $skillsByCategory
-            ->flatMap(fn ($group) => collect($group['skills'])->pluck('level'))
-            ->filter(fn ($level) => is_numeric($level));
-
-        $this->softSkillsAverage = $allLevels->isEmpty() ? null : $allLevels->avg();
+        $this->softSkillsAverage = $service->overallAverage($skillsByCategory);
     }
 
     public function render()
