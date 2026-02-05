@@ -12,8 +12,19 @@
   {
     "name": "Technology",
     "type": "technology",
+    "fields": []
+  },
+  {
+    "name": "Artificial Intelligence",
+    "type": "technology",
     "fields": [
-      "Artificial Intelligence",
+      "Artificial Intelligence"
+    ]
+  },
+  {
+    "name": "Software",
+    "type": "technology",
+    "fields": [
       "Software"
     ]
   },

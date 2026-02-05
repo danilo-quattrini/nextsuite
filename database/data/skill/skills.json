@@ -31,40 +31,52 @@
   ],
   "Technology": [
     {
-      "name": "PHP",
-      "description": "Server-side scripting language designed for web development."
+      "subcategory": "Artificial Intelligence",
+      "type": "technology",
+      "skills": [
+        {
+          "name": "Python",
+          "description": "High-level programming language used for data science, automation, and backend development."
+        },
+        {
+          "name": "Cloud Architecture (AWS/Azure)",
+          "description": "Designing and managing scalable computing services and infrastructure in the cloud."
+        },
+        {
+          "name": "DevOps",
+          "description": "Integrating software development and IT operations to shorten the systems development life cycle."
+        }
+      ]
     },
     {
-      "name": "Laravel",
-      "description": "A PHP web framework following the model–view–controller architectural pattern."
-    },
-    {
-      "name": "MySQL",
-      "description": "An open-source relational database management system."
-    },
-    {
-      "name": "React.js",
-      "description": "A JavaScript library for building user interfaces, particularly single-page applications."
-    },
-    {
-      "name": "Python",
-      "description": "High-level programming language used for data science, automation, and backend development."
-    },
-    {
-      "name": "Cloud Architecture (AWS/Azure)",
-      "description": "Designing and managing scalable computing services and infrastructure in the cloud."
-    },
-    {
-      "name": "Cybersecurity",
-      "description": "Protecting systems, networks, and programs from digital attacks and unauthorized access."
-    },
-    {
-      "name": "DevOps",
-      "description": "Integrating software development and IT operations to shorten the systems development life cycle."
-    },
-    {
-      "name": "Mobile Development (Swift/Kotlin)",
-      "description": "Building native applications for iOS and Android platforms."
+      "subcategory": "Software",
+      "type": "technology",
+      "skills": [
+        {
+          "name": "PHP",
+          "description": "Server-side scripting language designed for web development."
+        },
+        {
+          "name": "Laravel",
+          "description": "A PHP web framework following the model–view–controller architectural pattern."
+        },
+        {
+          "name": "MySQL",
+          "description": "An open-source relational database management system."
+        },
+        {
+          "name": "React.js",
+          "description": "A JavaScript library for building user interfaces, particularly single-page applications."
+        },
+        {
+          "name": "Cybersecurity",
+          "description": "Protecting systems, networks, and programs from digital attacks and unauthorized access."
+        },
+        {
+          "name": "Mobile Development (Swift/Kotlin)",
+          "description": "Building native applications for iOS and Android platforms."
+        }
+      ]
     }
   ],
   "Business": [

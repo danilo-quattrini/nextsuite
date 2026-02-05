@@ -21,8 +21,10 @@ class FieldCategorySeeder extends Seeder
                 'Healthcare',
                 'Hospitality',
             ],
-            'Technology' => [
+            'Artificial Intelligence' => [
                 'Artificial Intelligence',
+            ],
+            'Software' => [
                 'Software',
             ],
             'Business' => [
