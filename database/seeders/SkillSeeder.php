@@ -12,7 +12,7 @@ class SkillSeeder extends Seeder
     public function run(): void
     {
         $skillsByCategory = json_decode(
-            File::get(database_path('data/skill/skills.json')),
+            file_get_contents(database_path('data/skill/skills.json')),
             true
         );
 

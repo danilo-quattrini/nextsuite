@@ -1,32 +1,32 @@
 {
   "Health": [
     {
-      "name": "Clinical Nursing",
-      "description": "Providing direct patient care, administering medications, and monitoring vital signs in a clinical setting."
+      "name": "Patient Care",
+      "description": "Provide basic care, give medication, and check vital signs."
     },
     {
-      "name": "Physical Therapy",
-      "description": "Developing rehabilitation programs to improve mobility and reduce pain after injury or surgery."
+      "name": "Rehab Therapy",
+      "description": "Help people move better and reduce pain after injury or surgery."
     },
     {
-      "name": "Medical Coding & Billing",
-      "description": "Translating healthcare services into standardized codes for insurance claims and records."
+      "name": "Medical Billing",
+      "description": "Use standard codes for insurance claims and records."
     },
     {
-      "name": "Nutrition & Dietetics",
-      "description": "Designing meal plans and providing dietary advice to manage diseases and promote wellness."
+      "name": "Nutrition Planning",
+      "description": "Create meal plans and give diet advice for better health."
     },
     {
-      "name": "Pharmacology",
-      "description": "Understanding drug interactions, dosages, and the effects of medications on the human body."
+      "name": "Medication Knowledge",
+      "description": "Understand dosages, effects, and drug interactions."
     },
     {
-      "name": "Mental Health Counseling",
-      "description": "Providing psychological support and therapy to individuals or groups facing emotional challenges."
+      "name": "Mental Health Support",
+      "description": "Provide counseling and support for emotional challenges."
     },
     {
-      "name": "Radiology",
-      "description": "Operating imaging equipment like X-rays and MRIs to diagnose medical conditions."
+      "name": "Medical Imaging",
+      "description": "Use X-rays or MRI scans to help diagnose conditions."
     }
   ],
   "Technology": [
@@ -69,32 +69,32 @@
   ],
   "Business": [
     {
-      "name": "Project Management",
-      "description": "Planning, executing and closing projects, managing timelines, scope and stakeholder communication."
+      "name": "Project Planning",
+      "description": "Plan work, manage timelines, and keep people informed."
     },
     {
-      "name": "Financial Analysis",
-      "description": "Analyzing financial data to inform budgeting, forecasting and investment decisions."
+      "name": "Budgeting",
+      "description": "Review numbers to plan budgets and forecasts."
     },
     {
-      "name": "Marketing Strategy",
-      "description": "Developing go-to-market plans, positioning, and campaigns to drive demand and brand growth."
+      "name": "Marketing Plans",
+      "description": "Plan campaigns and positioning to grow demand."
     },
     {
-      "name": "Agile Methodology",
-      "description": "Implementing iterative development and project management frameworks like Scrum or Kanban."
+      "name": "Agile Basics",
+      "description": "Use Scrum or Kanban to deliver work in small steps."
     },
     {
-      "name": "Supply Chain Management",
-      "description": "Managing the flow of goods and services from raw materials to final product delivery."
+      "name": "Supply Chain",
+      "description": "Manage the flow from raw materials to delivery."
     },
     {
-      "name": "Strategic Planning",
-      "description": "Setting long-term goals and determining the actions and resources needed to achieve them."
+      "name": "Long-Term Planning",
+      "description": "Set goals and decide the steps and resources to reach them."
     },
     {
-      "name": "Business Intelligence",
-      "description": "Using data mining and visualization tools to provide actionable insights for business growth."
+      "name": "Business Insights",
+      "description": "Use data and charts to guide business decisions."
     }
   ],
   "Languages": [
