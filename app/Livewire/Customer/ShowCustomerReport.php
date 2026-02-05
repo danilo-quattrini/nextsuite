@@ -8,7 +8,6 @@ use App\Domain\Skill\Services\SoftSkillChartService;
 use App\Models\Customer;
 use IcehouseVentures\LaravelChartjs\Builder;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Livewire\Component;
 
 class ShowCustomerReport extends Component
@@ -19,7 +18,7 @@ class ShowCustomerReport extends Component
     public ?float $fieldSkillsAverage = null;
     public ?Collection $fieldSkills = null;
     public string $chartType = 'bar';
-    public string $fieldChartType = 'radar';
+    public string $fieldChartType = 'pie';
     public ?array  $chartDataSoft = [];
     public ?array  $chartDataField = [];
 
