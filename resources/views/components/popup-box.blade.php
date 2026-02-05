@@ -4,6 +4,7 @@
 <div class="popup-overlay">
     <div class="popup-card"
          @click.outside="$wire.set('{{ $modal }}', false)"
+         wire:transition
     >
         <div class=" text-black">
             {{ $header }}
