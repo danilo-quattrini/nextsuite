@@ -3,6 +3,7 @@
 namespace App\Domain\Skill\Services;
 
 use App\Models\Customer;
+use App\Enums\CategoryType;
 use Illuminate\Support\Collection;
 
 class FieldSkillChartService
@@ -14,7 +15,12 @@ class FieldSkillChartService
 
     public function buildFieldSkills(Customer $customer): Collection
     {
-        $skills = $customer->load('skills.category.fields')->skills;
+        $skills = $customer->skills()
+            ->whereHas('category', function ($query) {
+                $query->where('type', '!=', CategoryType::SOFT_SKILL->value);
+            })
+            ->with('category.fields')
+            ->get();
 
         return $skills
             ->flatMap(function ($skill) {
