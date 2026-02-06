@@ -33,6 +33,6 @@ class DocumentRequest extends Model
      **/
     public function requestBy(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('requested_by');
     }
 }
