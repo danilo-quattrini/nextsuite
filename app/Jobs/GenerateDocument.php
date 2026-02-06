@@ -45,7 +45,8 @@ class GenerateDocument implements ShouldQueue
         try {
             list($subject, $skills, $attributes) = $this->getSubjectInfo($this->subject);
 
-            $summary = $this->subjectSummary($subject, $skills, $openAIService);
+            $summary = "Random summary";
+            //$this->subjectSummary($subject, $skills, $openAIService);
             $pdf = Pdf::loadView('documents.template-1', compact('subject', 'skills', 'attributes', 'summary'));
 
             $fileName = "documents/{$this->subject->id}_{$this->type}_".time().".pdf";
