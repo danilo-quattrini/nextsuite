@@ -1,0 +1,44 @@
+{
+  "Health": [
+    "Gym",
+    "Nutrition",
+    "Healthcare",
+    "Hospitality"
+  ],
+  "Artificial Intelligence": [
+    "Artificial Intelligence"
+  ],
+  "Software": [
+    "Software"
+  ],
+  "Healthcare": [
+    "Healthcare"
+  ],
+  "Gym": [
+    "Gym"
+  ],
+  "Hospitality": [
+    "Hospitality"
+  ],
+
+  "Nutrition": [
+    "Nutrition"
+  ],
+  "Business": [
+    "Finance",
+    "Marketing",
+    "Human Resources"
+  ],
+  "Finance": [
+    "Finance"
+  ],
+  "Marketing": [
+    "Marketing"
+  ],
+  "Human Resources": [
+    "Human Resources"
+  ],
+  "Languages": [
+    "Education"
+  ]
+}

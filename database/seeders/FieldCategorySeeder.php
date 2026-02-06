@@ -14,29 +14,10 @@ class FieldCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $categoryFieldMap = [
-            'Health' => [
-                'Gym',
-                'Nutrition',
-                'Healthcare',
-                'Hospitality',
-            ],
-            'Artificial Intelligence' => [
-                'Artificial Intelligence',
-            ],
-            'Software' => [
-                'Software',
-            ],
-            'Business' => [
-                'Finance',
-                'Marketing',
-                'Human Resources',
-                'Hospitality',
-            ],
-            'Languages' => [
-                'Education'
-            ]
-        ];
+        $categoryFieldMap = json_decode(
+            file_get_contents(database_path('data/field/field_category.json')),
+            true
+        );;
 
         foreach ($categoryFieldMap as $categoryName => $fieldNames) {
 
