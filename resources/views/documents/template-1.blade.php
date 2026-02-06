@@ -9,13 +9,13 @@
     <body class="page">
         @php
             $src = ' ';
-            if(is_file('storage/customers-profile-photos/' . $customer->profile_photo_url)){
-                $path = public_path('storage/customers-profile-photos/' . $customer->profile_photo_url);
+            if(is_file('storage/customers-profile-photos/' . $subject->profile_photo_url)){
+                $path = public_path('storage/customers-profile-photos/' . $subject->profile_photo_url);
                 $type = pathinfo($path, PATHINFO_EXTENSION);
                 $base64 = base64_encode(file_get_contents($path));
                 $src = "data:image/{$type};base64,{$base64}";
             }else{
-                $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($customer->full_name) . '&color=5E81F4&background=5E81F440';
+                $avatarUrl = 'https://ui-avatars.com/api/?name=' . urlencode($subject->full_name) . '&color=5E81F4&background=5E81F440';
                 try {
                     $imageData = file_get_contents($avatarUrl);
                     if ($imageData) {
@@ -28,54 +28,96 @@
             }
         @endphp
 
-        <div class="section header">
-            <img src="{{ $src }}" class="avatar" alt="customer profile image">
-            <h1>{{ $customer->full_name }}</h1>
-            <p>{{ $customer->email }}</p>
-        </div>
+        <div class="sheet">
+            <header class="header">
+                <img src="{{ $src }}" class="avatar" alt="customer profile image">
+                <div class="identity">
+                    <h1>{{ $subject->full_name }}</h1>
+                    <p class="subtitle">{{ $subject->email }}</p>
+                    <div class="identity-meta">
+                        <span>Gender: {{ $subject->gender }}</span>
+                        <span>Date of Birthday: {{ date_format($subject->dob, 'd-m-Y') }}</span>
+                        <span>Nationality: {{ $subject->nationality }}</span>
+                    </div>
+                </div>
+            </header>
 
-        <div class="section">
-            <h2>Personal Information</h2>
-            <p><b>Gender:</b> {{ $customer->gender }}</p>
-            <p><b>Date of birth:</b> {{ date_format($customer->dob, 'd-m-Y') }}</p>
-            <p><b>Nationality:</b> {{ $customer->nationality }}</p>
-        </div>
+            <div class="layout">
+                <aside class="sidebar">
+                    <section class="section">
+                        <h2 class="section-title">Contact</h2>
+                        <div class="info-row">
+                            <span class="label">Email</span>
+                            <span class="value">{{ $subject->email }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Phone</span>
+                            <span class="value">{{ $subject->phone ?? '—' }}</span>
+                        </div>
+                    </section>
 
-        <div class="section">
-            @if(!empty($skills))
-                <h2>Skills</h2>
-                <ul>
-                    @foreach($skills as $skill)
-                        <li>
-                            <b>{{ $skill['name'] }}</b><br>
-                            {{ $skill['description'] }}<br>
-                            <b>Years:</b> {{ $skill['years'] }}
-                        </li>
-                    @endforeach
-                </ul>
-            @else
-                <h2>No Skills</h2>
-            @endif
-        </div>
+                    <section class="section">
+                        <h2 class="section-title">Personal Details</h2>
+                        <div class="info-row">
+                            <span class="label">Gender</span>
+                            <span class="value">{{ $subject->gender }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Date of birth</span>
+                            <span class="value">{{ date_format($subject->dob, 'd-m-Y') }}</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Nationality</span>
+                            <span class="value">{{ $subject->nationality }}</span>
+                        </div>
+                    </section>
 
-        <div class="section">
-            @if(!empty($attributes))
-                <h2>Attributes</h2>
-                <ul>
-                    @foreach($attributes as $attribute)
-                        <li>
-                            <p> <strong>{{ $attribute['name'] }}</strong> : {{ $attribute['value'] }}</p>
-                        </li>
-                    @endforeach
-                </ul>
-            @else
+                    <section class="section">
+                        <h2 class="section-title">Attributes</h2>
+                        @if(!empty($attributes))
+                            <ul class="pill-list">
+                                @foreach($attributes as $attribute)
+                                    <li class="pill">
+                                        <strong>{{ $attribute['name'] }}</strong>
+                                        <span>{{ $attribute['value'] }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="muted">No attributes added.</p>
+                        @endif
+                    </section>
+                </aside>
 
-            @endif
-        </div>
+                <main class="main">
+                    <section class="section">
+                        <h2 class="section-title">Professional Summary</h2>
+                        <div class="summary">
+                            {{ $summary }}
+                        </div>
+                    </section>
 
-        <div>
-            <h2>Professional Summary</h2>
-            {{ $summary }}
+                    <section class="section">
+                        @if(!empty($skills))
+                            <h2 class="section-title">Skills</h2>
+                            <ul class="skill-list">
+                                @foreach($skills as $skill)
+                                    <li class="skill-card">
+                                        <div class="skill-header">
+                                            <span class="skill-name">{{ $skill['name'] }}</span>
+                                            <span class="skill-years">{{ $skill['years'] }} yrs</span>
+                                        </div>
+                                        <p class="skill-desc">{{ $skill['description'] }}</p>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <h2 class="section-title">Skills</h2>
+                            <p class="muted">No skills added.</p>
+                        @endif
+                    </section>
+                </main>
+            </div>
         </div>
     </body>
 </html>
