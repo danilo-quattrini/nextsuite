@@ -66,11 +66,23 @@ class DocumentGenerationStatus extends Component
     {
         $startedAt = $documentRequest->started_at ?? $documentRequest->created_at;
 
-        $elapsedSeconds = now()->diffInSeconds($startedAt);
+        $elapsedSeconds = max(0, now()->diffInSeconds($startedAt));
 
-        $expectedDuration = 30;
+        $expectedDuration = 20;
 
-        $progress = (int) round(($elapsedSeconds / $expectedDuration) * 80);
+        $timeProgress = (int) round(5 + (90 * (1 - exp(-$elapsedSeconds / $expectedDuration))));
+
+        if ($this->progress < 30) {
+            $minStep = 5;
+        } elseif ($this->progress < 70) {
+            $minStep = 3;
+        } elseif ($this->progress < 85) {
+            $minStep = 2;
+        } else {
+            $minStep = 1;
+        }
+
+        $progress = max($timeProgress, $this->progress + $minStep);
 
         return max(5, min(95, $progress));
     }

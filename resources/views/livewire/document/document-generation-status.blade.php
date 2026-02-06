@@ -1,9 +1,9 @@
 <div
         class="document-generation-container"
-        wire:poll.3s="checkStatus"
+        wire:poll.1s="checkStatus"
         @if(in_array($status, ['completed', 'failed'])) wire:poll.stop @endif
         xmlns:x-slot="http://www.w3.org/1999/html">
-    <x-popup-box modal="showModalDocumentGenerationStatus">
+    <x-popup-box modal="showModalDocumentGenerationStatus" :transition="false">
         @if(in_array($status, ['processing', 'pending']))
            <x-slot:header>
                <div class="popup-icon-header bg-secondary rounded-full border border-primary">
@@ -22,8 +22,12 @@
             <div class="w-full mt-4">
                 <div class="progress-wrapper">
                     <div
-                            class="progress-bar-custom"
+                            class="progress-bar-custom is-active"
                             style="width: {{ $progress }}%;"
+                            role="progressbar"
+                            aria-valuenow="{{ $progress }}"
+                            aria-valuemin="0"
+                            aria-valuemax="100"
                     ></div>
                 </div>
 
