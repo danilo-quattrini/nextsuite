@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\GenerateCustomerDocument;
+use App\Jobs\GenerateDocument;
 use App\Models\Customer;
 use App\Models\Document;
 use App\Models\DocumentRequest;
@@ -14,7 +15,7 @@ class DocumentController extends Controller
     public function index()
     {
         $customers = Customer::with('skills')
-                        ->paginate(10);
+                        ->paginate(6);
         return view('documents.index', compact('customers'));
     }
 
@@ -27,11 +28,11 @@ class DocumentController extends Controller
             'type' => 'curriculum'
         ]);
 
-        GenerateCustomerDocument::dispatch($customer, $documentRequest->type, $documentRequest->id);
+        GenerateDocument::dispatch($customer, $documentRequest->type, $documentRequest->id);
 
         return view('documents.generation',[
             'requestId' => $documentRequest->id,
-            'customer' => $documentRequest->customer
+            'customer' => $documentRequest->requestBy
         ]);
     }
 

@@ -44,7 +44,7 @@ class OpenAIService
                 - Years of experience: {$data['years']}
                 - Main skills: {$data['skills']}
                 
-                The tone must be neutral and suitable for a formal document.
+                The tone must be neutral and suitable for a formal document that will be generated.
                 TEXT;
     }
 }
