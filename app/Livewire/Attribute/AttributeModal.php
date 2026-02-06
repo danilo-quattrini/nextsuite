@@ -22,9 +22,10 @@ class AttributeModal extends Component
 
     public function mount(): void
     {
-        $this->categories = Category::with('attributes')
-            ->get()
-            ->where('type' , '<>', 'soft_skill');
+
+        $this->categories = Category::with('attributes.category.fields')
+            ->where('type' , '<>', 'soft_skill')
+            ->get();
     }
 
     public function render()

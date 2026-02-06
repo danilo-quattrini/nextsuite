@@ -8,7 +8,7 @@
     </x-button>
 
     @if($showAttributeModal)
-        <x-popup-box modal="showAttributeModal">
+        <x-popup-box modal="showAttributeModal" :transition="false">
 
             <x-slot:header>
                 <x-authentication-card-logo/>
