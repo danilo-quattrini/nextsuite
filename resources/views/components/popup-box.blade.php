@@ -1,10 +1,11 @@
 @props([
-    'modal' => null
+    'modal' => null,
+    'transition' => true
 ])
 <div class="popup-overlay">
     <div class="popup-card"
          @click.outside="$wire.set('{{ $modal }}', false)"
-         wire:transition
+         @if($transition) wire:transition @endif
     >
         <div class=" text-black">
             {{ $header }}
