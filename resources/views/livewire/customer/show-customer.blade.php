@@ -69,7 +69,7 @@
 
     </div>
 
-    {{-- Category Skills --}}
+    {{-- FIELD SKILLS --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
         <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
             <h3>Field Skills</h3>
@@ -96,12 +96,12 @@
                                 <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
                                     <div class="space-y-2">
                                         <div class="space-y-2">
-                                            <h6> Experience: </h6>
+                                            <p class="font-semibold text-base"> Experience: </p>
                                             <p class="text-base">{{ $skill->pivot?->years != null ?  $skill->pivot?->years . ' years'  : 'N.A' }}</p>
                                         </div>
                                     </div>
                                     <div class="space-y-2">
-                                        <h6> Knowledge Level:</h6>
+                                        <p class="font-semibold text-base"> Knowledge Level:</p>
                                         <x-average-tag
                                                 size="auto"
                                                 :value="$skill->pivot?->level"

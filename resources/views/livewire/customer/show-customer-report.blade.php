@@ -116,15 +116,21 @@
                 <div class="user-view__skill-chart">
                     {!! $this->buildFieldSkillChart('Field Skills', $fieldLabels, $fieldData)->render() !!}
                 </div>
-                <div class="user-view__field-list">
-                    <div class="user-view__field-summary">
-                        <h3> Technology </h3>
-                        <x-average-tag size="large" :value="$fieldSkillsAverage" />
-                    </div>
+                <div class="user-view__field-lists">
                     @foreach($fieldSkills as $fieldName => $group)
-                        <div class="user-view__field-item">
-                            <span>{{ $fieldName }}</span>
-                            <span class="user-view__field-score">{{ number_format($group['average'] ?? 0, 1) }}</span>
+                        <div class="user-view__field-list">
+                            <div class="user-view__field-summary">
+                                <h3>{{ $fieldName }}</h3>
+                                <x-average-tag size="large" :value="$group['average']" />
+                            </div>
+                            @foreach(collect($group['skills'] ?? []) as $skill)
+                                <div class="user-view__field-item">
+                                    <span>{{ $skill['name'] }}</span>
+                                    <span class="user-view__field-score">
+                                        {{ is_numeric($skill['level'] ?? null) ? number_format($skill['level'], 1) : '0.0' }}
+                                    </span>
+                                </div>
+                            @endforeach
                         </div>
                     @endforeach
                 </div>
@@ -162,7 +168,7 @@
                                 @foreach ($chartTypes as $type)
                                     <button
                                             type="button"
-                                            wire:click.prevent="$set('fieldChartType', '{{ $type }}')"
+                                            wire:click.prevent="$set('chartType', '{{ $type }}')"
                                             class="flex items-center gap-2 px-3 py-2 rounded-md text-sm  hover:bg-outline-grey cursor-pointer transition duration-150"
                                     >
                                         <span>{{ ucfirst($type) }}</span>

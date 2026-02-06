@@ -35,7 +35,7 @@ class ShowCustomer extends Component
 
         $this->customerAttributes = $this->customer->attributes;
 
-        $this->customerSkills = $this->customer->skills;
+        $this->customerSkills = $this->customer->skills->forPage(1, 6);
 
         $this->fields = $this->customerSkills
             ->flatMap(fn ($skills) => $skills->category?->fields ?? collect())
