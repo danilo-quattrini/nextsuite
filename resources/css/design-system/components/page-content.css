@@ -43,7 +43,7 @@
 }
 
 .page-content__body {
-    @apply container mx-auto px-4 sm:px-8 py-8;
+    @apply container mx-auto px-4 sm:px-8 py-8 max-w-full;
 }
 
 .page-content__switch{
@@ -60,7 +60,7 @@
 }
 
 .page-content__card {
-    @apply bg-white border border-outline-grey rounded-md shadow-md p-6 flex flex-col justify-between;
+    @apply bg-white border border-outline-grey rounded-md shadow-md xl:px-10 xl:py-8 flex flex-col justify-between;
 }
 
 .page-content__card-info {
