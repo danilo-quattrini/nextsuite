@@ -1,99 +1,110 @@
 @props(['customers' => null])
-<div x-data="tableView('table')">
-    <div class="mx-auto px-4 sm:px-8">
-
-        <div class="flex-col space-y-4 mb-4">
-            <div>
-                <h1>
-                    {{ __('Customer List') }}
-                </h1>
-
-                <p class=" text-primary-grey">
-                    {{__('These are all the customers you got.')}}
-                </p>
+<div
+        x-data="tableView('table')"
+        class="page-content__container"
+>
+    <div class="page-content__hero">
+        <div class="page-content__hero-inner">
+            <div class="page-content__hero-row">
+                <div class="page-content__hero-copy">
+                    <h2 class="page-content__title">
+                        {{ __('Customer List') }}
+                    </h2>
+                    <p class="page-content__subtitle">
+                        {{__('These are all the customers you got.')}}
+                    </p>
+                </div>
+                <div class="page-content__stats">
+                    <div class="page-content__stat-card">
+                        <p class="page-content__stat-label">Customers</p>
+                        <p class="page-content__stat-value">{{ $customers->total() }}</p>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
 
-        <div class="flex justify-between items-center gap-2 p-1 border-none bg-outline-grey rounded-md max-w-fit">
+    <div class="page-content__body">
+
+        <div class="page-content__switch">
             <button
                     @click="$store.views.set('table')"
-                    :class="$store.views.current === 'table' ? 'bg-white' : ''"
-                    class="p-2 rounded-md"
+                    :class="$store.views.current === 'table' ? 'bg-primary text-white' : ''"
+                    class="page-content__switch-buttons"
             >
                 <x-heroicon name="list-bullet" size="lg"/>
             </button>
             <button
                     @click="$store.views.set('card')"
-                    :class="$store.views.current === 'card' ? 'bg-white' : ''"
-                    class="p-2 rounded-md"
+                    :class="$store.views.current === 'card' ? 'bg-primary text-white' : ''"
+                    class="page-content__switch-buttons"
             >
                 <x-heroicon name="squares-2x2" size="lg"/>
             </button>
         </div>
-
         {{-- TABLE VIEW --}}
         <div
                 x-show="$store.views.current === 'table'"
-                class="relative mx-4 sm:-mx-8 px-4 sm:px-8 py-4"
+                class="table-view"
                 x-transition
         >
-            <div class="inline-block min-w-full align-middle shadow overflow-visible">
+            <div class="table-container">
                 <table class="min-w-full w-full leading-normal">
                     <thead>
                         <tr>
                             <th
-                                    class="table-head">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="user" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="user" size="sm"/>
                                     <span>User</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="envelope" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="envelope" size="sm"/>
                                     <span>Email</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head hidden md:table-cell">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="phone" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="phone" size="sm"/>
                                     <span>Phone</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head hidden md:table-cell">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="calendar-days" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="calendar-days" size="sm"/>
                                     <span>DOB</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head hidden md:table-cell">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="user-circle" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="user-circle" size="sm"/>
                                     <span>Gender</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head hidden md:table-cell">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="globe-europe-africa" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="globe-europe-africa" size="sm"/>
                                     <span>Nationality</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head hidden md:table-cell">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="star" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="star" size="sm"/>
                                     <span>Reviews</span>
                                 </div>
                             </th>
                             <th
-                                    class="table-head">
-                                <div class="flex items-center gap-2">
-                                    <x-heroicon name="ellipsis-horizontal" size="sm" class="text-black" />
+                                    class="table-head__container">
+                                <div class="table-head__content">
+                                    <x-heroicon name="ellipsis-horizontal" size="sm"/>
                                     <span>Actions</span>
                                 </div>
                             </th>
@@ -104,22 +115,18 @@
                             <tr
                                     class="bg-white hover:bg-outline-grey/60 transition"
                             >
-                                <td class="p-6 bg-white text-sm">
+                                <td class="p-6 bg-white">
                                     <div class="flex items-center gap-6">
-                                        <div class="shrink-0 w-10 h-10">
-                                            <x-profile-image
-                                                :src="$customer->profile_photo_url"
-                                                :name="$customer->full_name"
-                                                directory="customers-profile-photos"
-                                                size="custom"
-                                                class="w-10 h-10"
-                                            />
-                                        </div>
-                                        <div>
-                                            <p class="table-text">
-                                                {{ $customer->full_name }}
-                                            </p>
-                                        </div>
+                                        <x-profile-image
+                                            :src="$customer->profile_photo_url"
+                                            :name="$customer->full_name"
+                                            directory="customers-profile-photos"
+                                            size="custom"
+                                            class="w-10 h-10"
+                                        />
+                                        <p class="table-text">
+                                            {{ $customer->full_name }}
+                                        </p>
                                     </div>
                                 </td>
                                 <td class="p-6 bg-white">
@@ -220,28 +227,28 @@
         <div
                 x-show="$store.views.current === 'card'"
                 x-transition
-                class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-6"
+                class="page-content__grid"
         >
             @foreach($customers as $customer)
                 <div
-                        class="bg-white rounded-md border border-outline-grey p-6 flex flex-col gap-4
-                        cursor-pointer hover:shadow-md transition"
+                        class="page-content__card page-content__card-info
+                        cursor-pointer hover:shadow-md hover:-translate-y-2 transition-all"
                         onclick="window.location='{{ route('customer.show', $customer) }}'"
                 >
                     {{-- Header --}}
-                        <div class="flex justify-between">
-                            <div class="flex justify-center items-center gap-4">
+                        <div class="page-content__card-header">
+                            <div class="page-content__profile">
                                 <x-profile-image
                                     :src="$customer->profile_photo_url"
                                     :name="$customer->full_name"
                                     directory="customers-profile-photos"
                                     size="custom"
-                                    class="w-12 h-12"
+                                    class="page-content__avatar-image"
                                 />
 
                             <div>
-                                <p class="font-semibold">{{ $customer->full_name }}</p>
-                                <p class="text-sm text-primary-grey">{{ $customer->email }}</p>
+                                <p class="page-content__name">{{ $customer->full_name }}</p>
+                                <p class="page-content__email">{{ $customer->email }}</p>
                             </div>
                         </div>
                         <div
@@ -299,16 +306,16 @@
                     </div>
 
                     {{-- Main info --}}
-                    <div class="text-sm text-primary-grey space-y-2">
-                        <p><strong>Phone:</strong> {{ $customer->phone }}</p>
-                        <p><strong>DOB:</strong> {{ date_format($customer->dob, 'd-m-Y') }}</p>
-                        <p><strong>Nationality:</strong> {{ $customer->nationality }}</p>
+                    <div class="page-content__meta">
+                        <p><span class="page-content__meta-label">Phone:</span> {{ $customer->phone }}</p>
+                        <p><span class="page-content__meta-label">DOB:</span> {{ date_format($customer->dob, 'd-m-Y') }}</p>
+                        <p><span class="page-content__meta-label">Nationality:</span> {{ $customer->nationality }}</p>
                         <div class="space-y-1">
-                            <p><strong>Review:</strong></p>
+                            <p><span class="page-content__meta-label">Review:</span></p>
                             <div class="flex justify-start items-center">
                                 @if(!empty($customer->reviews_count))
                                     @php $rating = round($customer->reviews_avg_rating) @endphp
-                                        <div class="flex">
+                                        <div class="flex justify-start">
                                             @for($i = 1; $i <= 5; $i++)
                                                 <x-heroicon
                                                         size="md"
@@ -328,8 +335,8 @@
                 </div>
             @endforeach
         </div>
-    </div>
-    <div class="-z-10 p-6 bg-white flex flex-col xs:flex-row items-center xs:justify-between">
-        {{ $customers->links('components.pagination') }}
+        <div class="page-content__pagination">
+            {{ $customers->links('components.pagination') }}
+        </div>
     </div>
 </div>

@@ -1,5 +1,17 @@
-.table-head{
-    @apply p-3 sm:p-4 border-b border-b-outline-grey text-left text-sm sm:text-base font-medium text-black tracking-wider;
+.table-view{
+    @apply relative mx-4 sm:-mx-8 px-4 sm:px-8 py-4;
+}
+
+.table-container{
+    @apply inline-block min-w-full align-middle overflow-visible bg-white rounded-md p-4;
+}
+
+.table-head__container{
+    @apply p-3 sm:p-4 bg-white border-b border-b-outline-grey text-left text-sm sm:text-base font-medium text-black tracking-wider md:table-cell;
+}
+
+.table-head__content{
+    @apply flex items-center gap-2;
 }
 
 .table-text{
