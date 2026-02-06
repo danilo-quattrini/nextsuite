@@ -1,32 +1,50 @@
 {
   "Health": [
     {
-      "name": "Patient Care",
-      "description": "Provide basic care, give medication, and check vital signs."
+      "subcategory": "Healthcare",
+      "type": "health",
+      "skills": [
+        {
+          "name": "Patient Care",
+          "description": "Provide basic care, give medication, and check vital signs."
+        },
+        {
+          "name": "Medical Billing",
+          "description": "Use standard codes for insurance claims and records."
+        },
+        {
+          "name": "Medication Knowledge",
+          "description": "Understand dosages, effects, and drug interactions."
+        },
+        {
+          "name": "Mental Health Support",
+          "description": "Provide counseling and support for emotional challenges."
+        },
+        {
+          "name": "Medical Imaging",
+          "description": "Use X-rays or MRI scans to help diagnose conditions."
+        }
+      ]
     },
     {
-      "name": "Rehab Therapy",
-      "description": "Help people move better and reduce pain after injury or surgery."
+      "subcategory": "Gym",
+      "type": "health",
+      "skills": [
+        {
+          "name": "Rehab Therapy",
+          "description": "Help people move better and reduce pain after injury or surgery."
+        }
+      ]
     },
     {
-      "name": "Medical Billing",
-      "description": "Use standard codes for insurance claims and records."
-    },
-    {
-      "name": "Nutrition Planning",
-      "description": "Create meal plans and give diet advice for better health."
-    },
-    {
-      "name": "Medication Knowledge",
-      "description": "Understand dosages, effects, and drug interactions."
-    },
-    {
-      "name": "Mental Health Support",
-      "description": "Provide counseling and support for emotional challenges."
-    },
-    {
-      "name": "Medical Imaging",
-      "description": "Use X-rays or MRI scans to help diagnose conditions."
+      "subcategory": "Nutrition",
+      "type": "health",
+      "skills": [
+        {
+          "name": "Nutrition Planning",
+          "description": "Create meal plans and give diet advice for better health."
+        }
+      ]
     }
   ],
   "Technology": [
@@ -81,32 +99,56 @@
   ],
   "Business": [
     {
-      "name": "Project Planning",
-      "description": "Plan work, manage timelines, and keep people informed."
+      "subcategory": "Finance",
+      "type": "business",
+      "skills": [
+        {
+          "name": "Budgeting",
+          "description": "Review numbers to plan budgets and forecasts."
+        },
+        {
+          "name": "Business Insights",
+          "description": "Use data and charts to guide business decisions."
+        }
+      ]
     },
     {
-      "name": "Budgeting",
-      "description": "Review numbers to plan budgets and forecasts."
+      "subcategory": "Marketing",
+      "type": "business",
+      "skills": [
+        {
+          "name": "Marketing Plans",
+          "description": "Plan campaigns and positioning to grow demand."
+        }
+      ]
     },
     {
-      "name": "Marketing Plans",
-      "description": "Plan campaigns and positioning to grow demand."
+      "subcategory": "Human Resources",
+      "type": "business",
+      "skills": [
+        {
+          "name": "Project Planning",
+          "description": "Plan work, manage timelines, and keep people informed."
+        },
+        {
+          "name": "Agile Basics",
+          "description": "Use Scrum or Kanban to deliver work in small steps."
+        }
+      ]
     },
     {
-      "name": "Agile Basics",
-      "description": "Use Scrum or Kanban to deliver work in small steps."
-    },
-    {
-      "name": "Supply Chain",
-      "description": "Manage the flow from raw materials to delivery."
-    },
-    {
-      "name": "Long-Term Planning",
-      "description": "Set goals and decide the steps and resources to reach them."
-    },
-    {
-      "name": "Business Insights",
-      "description": "Use data and charts to guide business decisions."
+      "subcategory": "Hospitality",
+      "type": "business",
+      "skills": [
+        {
+          "name": "Supply Chain",
+          "description": "Manage the flow from raw materials to delivery."
+        },
+        {
+          "name": "Long-Term Planning",
+          "description": "Set goals and decide the steps and resources to reach them."
+        }
+      ]
     }
   ],
   "Languages": [

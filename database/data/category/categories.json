@@ -2,11 +2,27 @@
   {
     "name": "Health",
     "type": "health",
+    "fields": []
+  },
+  {
+    "name": "Healthcare",
+    "type": "health",
     "fields": [
-      "Gym",
-      "Nutrition",
-      "Healthcare",
-      "Hospitality"
+      "Healthcare"
+    ]
+  },
+  {
+    "name": "Gym",
+    "type": "health",
+    "fields": [
+      "Gym"
+    ]
+  },
+  {
+    "name": "Nutrition",
+    "type": "health",
+    "fields": [
+      "Nutrition"
     ]
   },
   {
@@ -31,10 +47,33 @@
   {
     "name": "Business",
     "type": "business",
+    "fields": []
+  },
+  {
+    "name": "Finance",
+    "type": "business",
     "fields": [
-      "Finance",
-      "Marketing",
-      "Human Resources",
+      "Finance"
+    ]
+  },
+  {
+    "name": "Marketing",
+    "type": "business",
+    "fields": [
+      "Marketing"
+    ]
+  },
+  {
+    "name": "Human Resources",
+    "type": "business",
+    "fields": [
+      "Human Resources"
+    ]
+  },
+  {
+    "name": "Hospitality",
+    "type": "business",
+    "fields": [
       "Hospitality"
     ]
   },
