@@ -2,7 +2,11 @@
   {
     "name": "Health",
     "type": "health",
-    "fields": []
+    "fields": [
+      "Healthcare",
+      "Gym",
+      "Nutrition"
+    ]
   },
   {
     "name": "Healthcare",

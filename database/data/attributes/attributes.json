@@ -40,6 +40,132 @@
       }
     }
   ],
+  "Gym" : [
+    {
+      "name": "Physical Activity Level",
+      "slug": "physical-activity",
+      "type": "boolean",
+      "options": {
+        "sedentary": "Sedentary",
+        "moderate": "Moderate",
+        "active": "Very Active"
+      }
+    },
+    {
+      "name": "Weight",
+      "slug": "weight",
+      "type": "number"
+    },
+    {
+      "name": "Height",
+      "slug": "height",
+      "type": "number"
+    }
+  ],
+
+  "Nutrition": [
+    {
+      "name": "Diet Type",
+      "slug": "diet-type",
+      "type": "select",
+      "options": {
+        "omnivore": "Omnivore",
+        "vegetarian": "Vegetarian",
+        "vegan": "Vegan",
+        "pescatarian": "Pescatarian",
+        "keto": "Keto"
+      }
+    },
+    {
+      "name": "Daily Water Intake",
+      "slug": "water-intake",
+      "type": "number"
+    },
+    {
+      "name": "Food Allergies",
+      "slug": "food-allergies",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "mild": "Mild",
+        "severe": "Severe"
+      }
+    },
+    {
+      "name": "Meal Regularity",
+      "slug": "meal-regularity",
+      "type": "boolean",
+      "options": {
+        "irregular": "Irregular",
+        "regular": "Regular",
+        "strict": "Strict Schedule"
+      }
+    },
+    {
+      "name": "Supplement Usage",
+      "slug": "supplement-usage",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "occasional": "Occasional",
+        "daily": "Daily"
+      }
+    }
+  ],
+
+  "Healthcare": [
+    {
+      "name": "Chronic Conditions",
+      "slug": "chronic-conditions",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "managed": "Managed",
+        "severe": "Severe"
+      }
+    },
+    {
+      "name": "Health Insurance Coverage",
+      "slug": "insurance-coverage",
+      "type": "boolean",
+      "options": {
+        "none": "Uninsured",
+        "basic": "Basic",
+        "full": "Full Coverage"
+      }
+    },
+    {
+      "name": "Preventive Checkups",
+      "slug": "preventive-checkups",
+      "type": "boolean",
+      "options": {
+        "rare": "Rare",
+        "annual": "Annual",
+        "frequent": "Frequent"
+      }
+    },
+    {
+      "name": "Mental Health Awareness",
+      "slug": "mental-health-awareness",
+      "type": "boolean",
+      "options": {
+        "low": "Low",
+        "medium": "Moderate",
+        "high": "High"
+      }
+    },
+    {
+      "name": "Medication Dependency",
+      "slug": "medication-dependency",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "temporary": "Temporary",
+        "long-term": "Long-term"
+      }
+    }
+  ],
+
   "Technology": [
     {
       "name": "Digital literacy",
@@ -80,6 +206,74 @@
       }
     }
   ],
+
+  "Artificial Intelligence": [
+    {
+      "name": "AI Familiarity Level",
+      "slug": "ai-familiarity",
+      "type": "boolean",
+      "options": {
+        "basic": "Basic",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      }
+    },
+    {
+      "name": "AI Tool Usage",
+      "slug": "ai-tool-usage",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "occasional": "Occasional",
+        "daily": "Daily"
+      }
+    },
+    {
+      "name": "Automation Readiness",
+      "slug": "automation-readiness",
+      "type": "boolean",
+      "options": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    }
+  ],
+
+  "Software": [
+    {
+      "name": "Programming Experience",
+      "slug": "programming-experience",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "junior": "Junior",
+        "senior": "Senior"
+      }
+    },
+    {
+      "name": "Primary Development Role",
+      "slug": "dev-role",
+      "type": "select",
+      "options": {
+        "frontend": "Frontend",
+        "backend": "Backend",
+        "fullstack": "Full Stack",
+        "mobile": "Mobile"
+      }
+    },
+    {
+      "name": "Version Control Usage",
+      "slug": "version-control",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "basic": "Basic",
+        "advanced": "Advanced"
+      }
+    }
+  ],
+
   "Business": [
     {
       "name": "Years of Experience",
@@ -114,6 +308,136 @@
         "0": "No travel",
         "50": "Up to 50%",
         "100": "Frequent travel"
+      }
+    }
+  ],
+
+  "Finance": [
+    {
+      "name": "Financial Literacy",
+      "slug": "financial-literacy",
+      "type": "boolean",
+      "options": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
+    {
+      "name": "Budget Management",
+      "slug": "budget-management",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "basic": "Basic",
+        "advanced": "Advanced"
+      }
+    },
+    {
+      "name": "Investment Experience",
+      "slug": "investment-experience",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "casual": "Casual",
+        "professional": "Professional"
+      }
+    }
+  ],
+  "Marketing": [
+    {
+      "name": "Marketing Channel Expertise",
+      "slug": "marketing-channels",
+      "type": "select",
+      "options": {
+        "digital": "Digital",
+        "offline": "Offline",
+        "mixed": "Mixed"
+      }
+    },
+    {
+      "name": "Data-Driven Marketing",
+      "slug": "data-driven-marketing",
+      "type": "boolean",
+      "options": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
+    {
+      "name": "Brand Strategy Experience",
+      "slug": "brand-strategy",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "basic": "Basic",
+        "advanced": "Advanced"
+      }
+    }
+  ],
+
+  "Human Resources": [
+    {
+      "name": "Recruitment Experience",
+      "slug": "recruitment-experience",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "basic": "Basic",
+        "advanced": "Advanced"
+      }
+    },
+    {
+      "name": "People Management",
+      "slug": "people-management",
+      "type": "boolean",
+      "options": {
+        "none": "None",
+        "team": "Team Level",
+        "department": "Department Level"
+      }
+    },
+    {
+      "name": "Conflict Resolution Skills",
+      "slug": "conflict-resolution",
+      "type": "boolean",
+      "options": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    }
+  ],
+  "Hospitality": [
+    {
+      "name": "Customer Service Level",
+      "slug": "customer-service",
+      "type": "boolean",
+      "options": {
+        "basic": "Basic",
+        "professional": "Professional",
+        "excellent": "Excellent"
+      }
+    },
+    {
+      "name": "Shift Flexibility",
+      "slug": "shift-flexibility",
+      "type": "boolean",
+      "options": {
+        "fixed": "Fixed",
+        "rotating": "Rotating",
+        "on-call": "On Call"
+      }
+    },
+    {
+      "name": "Multilingual Service",
+      "slug": "multilingual-service",
+      "type": "boolean",
+      "options": {
+        "no": "No",
+        "basic": "Basic",
+        "fluent": "Fluent"
       }
     }
   ],
