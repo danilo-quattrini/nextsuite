@@ -13,12 +13,14 @@ abstract class Charts
     public function mapChartColors(array $data): array
     {
         $palette = [
-            '#5E81F450',
-            'rgba(255, 75, 90, 0.50)',
-            'rgba(244, 190, 94, 0.50)',
-            'rgba(124, 231, 172, 0.50)',
-            '#8181a5',
-            '#4c5fae',
+            'rgba(0, 200, 255, 0.65)',
+            'rgba(255, 98, 64, 0.65)',
+            'rgba(255, 196, 0, 0.65)',
+            'rgba(0, 214, 143, 0.65)',
+            'rgba(255, 92, 168, 0.65)',
+            'rgba(122, 92, 255, 0.65)',
+            'rgba(46, 213, 255, 0.65)',
+            'rgba(255, 140, 0, 0.65)',
         ];
 
         return collect($data)
