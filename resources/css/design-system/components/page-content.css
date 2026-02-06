@@ -1,0 +1,116 @@
+.page-content__container {
+    @apply min-h-screen rounded-md bg-outline-grey;
+}
+
+.page-content__hero {
+    @apply relative overflow-hidden border border-outline-grey rounded-t-md bg-white;
+}
+
+.page-content__hero-inner {
+    @apply container mx-auto px-4 sm:px-8 relative z-10 py-10;
+}
+
+.page-content__hero-row {
+    @apply flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between;
+}
+
+.page-content__hero-copy {
+    @apply max-w-full;
+}
+
+.page-content__title {
+    @apply text-3xl sm:text-4xl font-semibold text-black;
+}
+
+.page-content__subtitle {
+    @apply text-sm sm:text-base text-primary-grey mt-2;
+}
+
+.page-content__stats {
+    @apply flex flex-wrap gap-3;
+}
+
+.page-content__stat-card {
+    @apply rounded-xl border border-outline-grey bg-white px-4 py-3 space-y-2;
+}
+
+.page-content__stat-label {
+    @apply text-xs text-primary-grey;
+}
+
+.page-content__stat-value {
+    @apply text-2xl font-semibold text-black;
+}
+
+.page-content__body {
+    @apply container mx-auto px-4 sm:px-8 py-8;
+}
+
+.page-content__switch{
+    @apply flex justify-between items-center gap-2 p-1 my-4 border-none bg-white border  rounded-md max-w-fit transition-all;
+}
+
+.page-content__switch-buttons{
+    @apply p-2 rounded-md cursor-pointer;
+}
+
+
+.page-content__grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
+}
+
+.page-content__card {
+    @apply bg-white border border-outline-grey rounded-md shadow-md p-6 flex flex-col justify-between;
+}
+
+.page-content__card-info {
+    @apply space-y-4;
+}
+
+.page-content__card-header {
+    @apply flex items-start justify-between gap-4;
+}
+
+.page-content__profile {
+    @apply flex items-center gap-4;
+}
+
+.page-content__avatar {
+    @apply shrink-0;
+}
+
+.page-content__avatar-image {
+    @apply w-12 h-12;
+}
+
+.page-content__name {
+    @apply text-sm font-semibold text-black;
+}
+
+.page-content__email {
+    @apply text-xs text-primary-grey;
+}
+
+.page-content__meta {
+    @apply text-sm text-black space-y-2;
+}
+
+.page-content__meta-label {
+    @apply text-primary-grey;
+}
+
+.page-content__actions {
+    @apply mt-6 flex flex-wrap gap-3 border-t border-outline-grey/70 pt-4;
+}
+
+.page-content__dropdown-list {
+    @apply flex flex-col gap-2;
+}
+
+.page-content__dropdown-item {
+    @apply flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-outline-grey hover:bg-outline-grey;
+}
+
+.page-content__pagination {
+    @apply mt-10 p-6 bg-white border border-outline-grey rounded-md flex flex-col sm:flex-row items-center sm:justify-between xl:justify-center shadow-sm;
+}
