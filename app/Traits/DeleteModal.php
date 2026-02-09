@@ -5,6 +5,7 @@ namespace App\Traits;
 use App\Models\Customer;
 use App\Models\Template;
 use Livewire\Attributes\On;
+use Spatie\Activitylog\Models\Activity;
 
 trait DeleteModal
 {
@@ -34,6 +35,8 @@ trait DeleteModal
     public function deleteModelElement(): void
     {
         ($this->modelType)::find($this->id)->delete();
+
+        Activity::all()->last();
 
         $this->reset(['showDeleteModal', 'id']);
 

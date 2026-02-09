@@ -15,6 +15,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Spatie\Activitylog\Models\Activity;
 
 class CreateCustomer extends Component
 {
@@ -89,6 +90,8 @@ class CreateCustomer extends Component
         }
 
         $this->saveAttribute($customer);
+
+        Activity::all()->last();
 
         $this->redirect('/customer');
     }
