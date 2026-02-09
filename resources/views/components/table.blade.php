@@ -230,7 +230,7 @@
                 class="page-content__grid"
         >
             @foreach($customers as $customer)
-                <x-user-card :user="$customer" />
+                <x-user-card :user="$customer" href="customer.show" />
             @endforeach
         </div>
 

@@ -1,7 +1,7 @@
 <div class="page-content__body">
     <div class="page-content__grid">
         @foreach($customers as $customer)
-            <x-user-card :user="$customer" />
+            <x-user-card :user="$customer" href="report.show"/>
         @endforeach
     </div>
 
