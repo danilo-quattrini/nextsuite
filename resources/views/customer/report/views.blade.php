@@ -1,15 +1,17 @@
 <x-app-layout>
-    <div class="mx-auto px-4 sm:px-8">
-
-        <div class="flex-col space-y-4 mb-4">
-            <div>
-                <h1>
-                    {{ __('Reports') }}
-                </h1>
-
-                <p class=" text-primary-grey">
-                    {{__('Select a customer where you can see its report.')}}
-                </p>
+    <div class="page-content__container">
+        <div class="page-content__hero">
+            <div class="page-content__hero-inner">
+                <div class="page-content__hero-row">
+                    <div class="page-content__hero-copy">
+                        <h2 class="page-content__title">
+                            {{ __('Reports') }}
+                        </h2>
+                        <p class="page-content__subtitle">
+                            {{__('Select a customer that you want to see its report')}}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
         @livewire('customer.customer-report')
