@@ -136,8 +136,8 @@
         [
             'label' => 'Changelog',
             'icon' => 'clock',
-            'href' => '#',
-            'active' => false,
+            'href' => route('changelog'),
+            'active' => request()->routeIs('changelog'),
         ],
     ];
 @endphp

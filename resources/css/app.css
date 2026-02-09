@@ -15,6 +15,7 @@
 @import "./design-system/components/slider.css";
 @import "./design-system/components/user-view.css";
 @import "./design-system/components/page-content.css";
+@import "./design-system/components/changelog.css";
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";

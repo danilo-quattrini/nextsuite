@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Sidebar\Changelog;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -107,4 +108,14 @@ Route::middleware([
 
     Route::get('/customer/{customer}', 'info')
         ->name('customer.show');
+});
+
+/* CHANGELOG ROUTE*/
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/changelog', Changelog::class)->name('changelog');
 });
