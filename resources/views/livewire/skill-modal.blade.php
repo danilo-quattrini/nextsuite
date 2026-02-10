@@ -78,7 +78,6 @@
                                     value="0"
                                     x-model="level"
                                     wire:model="skillLevel"
-                                    :error="$errors->has('skillLevel')"
                                 />
                             </div>
                             <x-input-error for="skillLevel"/>
