@@ -12,7 +12,6 @@
 
         <!-- Styles -->
         @livewireStyles
-        @fluxAppearance
     </head>
     <body class="font-sans antialiased overflow-hidden">
         <div class="h-screen flex bg-white text-black">
