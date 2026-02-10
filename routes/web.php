@@ -7,6 +7,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
 use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Sidebar\Changelog;
+use App\Livewire\Skill\CreateSkill;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -122,4 +123,13 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/changelog', Changelog::class)->name('changelog');
+});
+
+/* SKILL ROUTES*/
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/skill/create', CreateSkill::class)->name('skill.create');
 });

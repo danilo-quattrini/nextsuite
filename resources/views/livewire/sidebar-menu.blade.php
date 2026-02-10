@@ -96,6 +96,13 @@
                     'href' => '#',
                     'active' => false,
                 ],
+                [
+                    'type' => 'link',
+                    'label' => 'Skills',
+                    'icon' => 'star',
+                    'href' => route('skill.create'),
+                    'active' => request()->routeIs('skill.create'),
+                ],
             ],
         ],
         [
