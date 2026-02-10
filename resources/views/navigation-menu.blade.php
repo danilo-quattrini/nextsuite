@@ -65,9 +65,8 @@
                                         <span class="text-sm font-medium">{{ Auth::user()->full_name }}</span>
                                         <span class="text-xs font-medium text-primary-grey">{{ Auth::user()->company->field->name ?? 'Employee' }}</span>
                                     </div>
-                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
+                                    <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition">
                                         <x-profile-image
-                                            :src="Auth::user()->profile_photo_url"
                                             :name="Auth::user()->full_name"
                                             size="custom"
                                             class="size-12"
