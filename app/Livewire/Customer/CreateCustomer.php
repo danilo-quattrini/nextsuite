@@ -24,7 +24,7 @@ class CreateCustomer extends Component
     use ArrayOperation;
     public CustomerForm $form;
 
-//    #[Validate('required', message: 'Customer profile photo it\'s required.')]
+
     #[Validate('mimes:jpeg,png,jpg,gif', message: 'Customer profile photo should be  one of this formats: jpeg,png,jpg,gif.')]
     #[Validate('image', message: 'The file must be an image.')]
     #[Validate('max:2048', message: 'Profile image it\'s too large.')]
@@ -112,7 +112,19 @@ class CreateCustomer extends Component
 
     protected function stepRules(): array
     {
-        return $this->form->rulesForStep();
+        return  [
+            1 => [
+                'full_name' => ['required', 'string', 'min:5'],
+                'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
+                'dob' => ['required', 'date', 'before: -10 years'],
+            ],
+
+            2 => [
+                'nationality' => ['required', 'string'],
+                'phone' => ['required'],
+                'gender' => ['required'],
+            ]
+        ];
     }
 
 }
