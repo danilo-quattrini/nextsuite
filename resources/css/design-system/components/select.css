@@ -30,6 +30,12 @@
     outline: var(--color-outline-grey);
     outline-offset: -2px;
 }
+.select-border.is-disable,
+.select-border.is-disable:focus,
+.select:disabled{
+    @apply bg-outline-grey/25 cursor-not-allowed;
+}
+
 .select-border.has-error {
     outline: thin solid var(--color-secondary-error) !important;
 }
@@ -43,6 +49,7 @@
 
 .select-border:focus,
 .select-border:focus-within,
+.select-border:focus-within:not(.is-disable),
 .select-border:hover{
     outline: thin solid var(--color-primary);
 }
