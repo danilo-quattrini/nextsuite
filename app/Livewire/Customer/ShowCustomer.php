@@ -8,6 +8,8 @@ use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Domain\Skill\Services\SoftSkillChartService;
 use App\Models\Attribute;
 use App\Models\Customer;
+use App\Traits\DeleteModal;
+use App\Traits\WithReview;
 use IcehouseVentures\LaravelChartjs\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -16,8 +18,10 @@ use Livewire\Component;
 
 class ShowCustomer extends Component
 {
-    public Customer $customer;
+    use WithReview;
+    use DeleteModal;
 
+    public Customer $customer;
     public ?Collection $customerAttributes = null;
     public ?Collection $customerSkills = null;
     public ?Collection $softSkills = null;

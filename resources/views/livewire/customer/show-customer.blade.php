@@ -29,13 +29,49 @@
             </div>
         </div>
 
-        <x-button variant="outline-primary" size="auto" href="#">
-            <x-heroicon size="xl" name="pencil-square"/>
-        </x-button>
+        <x-form.dropdown-button align="right">
+            <x-slot:trigger>
+                <x-button
+                        type="button"
+                        variant="white"
+                        size="auto"
+                        aria-label="Customer options"
+                >
+                    <x-heroicon
+                            name="cog-8-tooth"
+                            size="xl"
+                    />
+                </x-button>
+            </x-slot:trigger>
+            <x-slot:content>
+                <div class="flex-col items-center space-y-3">
+                    <div class="flex flex-col space-y-2 min-w-40">
+                        <a
+                                href="{{ route('customer.edit', $customer) }}"
+                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
+                        >
+                            <x-heroicon name="pencil-square" class="text-primary-grey" />
+                            <span>Edit customer</span>
+                        </a>
+
+                        <button
+                                type="button"
+                                wire:click.prevent="$dispatch('delete-element', { id: {{ $customer->id }}, type: 'customer' })"
+                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
+                        >
+                            <x-heroicon name="trash" />
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+            </x-slot:content>
+
+        </x-form.dropdown-button>
+
     </div>
 
     {{-- INFO GRID --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
         {{-- Personal Info --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
@@ -65,6 +101,49 @@
                     </p>
                 @endforelse
             </ul>
+        </div>
+
+        {{-- REVIEWS --}}
+        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
+            <div class="flex items-center justify-between border-b border-b-outline-grey">
+                <h3>Reviews</h3>
+                <x-button
+                        type="button"
+                        wire:click.prevent="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
+                        variant="warning"
+                >
+                    Review
+                </x-button>
+            </div>
+
+            @forelse($customer->reviews as $review)
+                <div class="border-b border-outline-grey pb-4">
+
+                    <div class="flex justify-between items-center mb-4">
+                        <div class="flex justify-center items-center gap-2 ">
+                            <x-profile-image
+                                    :src="$review->author->profile_photo_url"
+                                    :name="$review->author->full_name"
+                                    size="custom"
+                                    class="size-8"
+                            />
+                            <span class="font-medium"> {{ $review->author->full_name }}</span>
+                        </div>
+                        <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
+                            <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
+                            <span class="font-medium">{{ $review->rating }}</span>
+                        </div>
+                    </div>
+
+                    <p class="text-sm text-primary-grey">
+                        {{ $review->comment }}
+                    </p>
+                </div>
+            @empty
+                <p class="text-sm text-primary-grey">
+                    No reviews yet.
+                </p>
+            @endforelse
         </div>
 
     </div>
@@ -149,40 +228,6 @@
         @endif
     </div>
 
-    {{-- REVIEWS --}}
-    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-        <div class="flex items-center justify-between border-b border-b-outline-grey">
-            <h3> Reviews</h3>
-        </div>
-
-        @forelse($customer->reviews as $review)
-            <div class="border-b border-outline-grey pb-4">
-
-                <div class="flex justify-between items-center mb-4">
-                    <div class="flex justify-center items-center gap-2 ">
-                        <x-profile-image
-                            :src="$review->author->profile_photo_url"
-                            :name="$review->author->full_name"
-                            size="custom"
-                            class="size-8"
-                        />
-                        <span class="font-medium"> {{ $review->author->full_name }}</span>
-                    </div>
-                    <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
-                        <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
-                        <span class="font-medium">{{ $review->rating }}</span>
-                    </div>
-                </div>
-
-                <p class="text-sm text-primary-grey">
-                    {{ $review->comment }}
-                </p>
-            </div>
-        @empty
-            <p class="text-sm text-primary-grey">
-                No reviews yet.
-            </p>
-        @endforelse
-    </div>
-
+    <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
+    <x-popup.review-popup :show-review-modal="$showReviewModal" :rating="$rating" />
 </div>
