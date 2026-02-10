@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Sidebar\Changelog;
 use Illuminate\Support\Facades\Route;
 
@@ -108,6 +109,9 @@ Route::middleware([
 
     Route::get('/customer/{customer}', 'info')
         ->name('customer.show');
+
+    Route::get('/customer/edit/{customer}', EditCustomer::class)
+        ->name('customer.edit');
 });
 
 /* CHANGELOG ROUTE*/

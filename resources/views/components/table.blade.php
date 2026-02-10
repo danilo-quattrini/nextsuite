@@ -186,7 +186,7 @@
                                                     </a>
 
                                                     <a
-                                                            href="#"
+                                                            href="{{ route('customer.edit', $customer) }}"
                                                             class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
                                                     >
                                                         <x-heroicon name="pencil-square" class="text-primary-grey" />
