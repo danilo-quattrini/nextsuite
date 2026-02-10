@@ -34,7 +34,8 @@ class CreateCustomer extends Component
 
     public function mount(NationalityService $nationalityService): void
     {
-        $this->form->defaultSkills();
+//        Disable function to assign default skill to the customer.
+//        $this->form->defaultSkills();
         $this->nationalities = $nationalityService->all();
     }
 
