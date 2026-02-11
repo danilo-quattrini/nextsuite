@@ -17,7 +17,7 @@
         <div class="h-screen flex bg-white text-black">
 
             {{-- SIDEBAR --}}
-            <aside class="sidebar-container">
+            <aside x-data="sidebarCollapsed()" class="sidebar-container" :class="{ 'sidebar-container--collapsed': collapsed }">
                 @livewire('sidebar-menu')
             </aside>
 
