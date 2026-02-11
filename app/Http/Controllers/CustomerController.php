@@ -12,11 +12,6 @@ class CustomerController extends Controller
         return view('customer.create');
     }
 
-    public function show()
-    {
-        return view('customer.views');
-    }
-
     public function info(Customer $customer)
     {
         return view('customer.show', compact('customer'));

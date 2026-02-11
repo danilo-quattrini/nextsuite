@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Customer\CustomerTable;
 use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Sidebar\Changelog;
 use App\Livewire\Skill\CreateSkill;
@@ -105,7 +106,7 @@ Route::middleware([
     Route::get('/customer/create', 'index')
         ->name('customer.create');
 
-    Route::get('/customer', 'show')
+    Route::get('/customer', CustomerTable::class)
         ->name('customer.list');
 
     Route::get('/customer/{customer}', 'info')
