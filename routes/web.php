@@ -3,10 +3,11 @@
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Customer\CustomerReport;
 use App\Livewire\Customer\CustomerTable;
 use App\Livewire\Customer\EditCustomer;
+use App\Livewire\Customer\ShowCustomerReport;
 use App\Livewire\Sidebar\Changelog;
 use App\Livewire\Skill\CreateSkill;
 use Illuminate\Support\Facades\Route;
@@ -86,12 +87,12 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->controller(ReportController::class)->group(function () {
+])->group(function () {
 
-    Route::get('/report', 'index')
-        ->name('report.list');
+    Route::get('/report', CustomerReport::class)
+        ->name('report.index');
 
-    Route::get('/report/{customer}', 'show')
+    Route::get('/report/{customer}', ShowCustomerReport::class)
         ->name('report.show');
 
 });
