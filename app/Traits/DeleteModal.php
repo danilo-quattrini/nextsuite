@@ -34,13 +34,23 @@ trait DeleteModal
 
     public function deleteModelElement(): void
     {
-        ($this->modelType)::find($this->id)->delete();
+        $model = ($this->modelType)::findOrFail($this->id);
+        $modelName = class_basename($this->modelType);
+
+        $model->delete();
 
         Activity::all()->last();
 
-        $this->reset(['showDeleteModal', 'id']);
+        $this->reset([
+            'showDeleteModal',
+            'id',
+            'modelType'
+        ]);
 
-        session()->flash('success',  ($this->modelType) .' deleted successfully.');
+         session()->flash('info', $modelName . ' delete successfully.');
+
+
+        $this->redirect(route('customer.list'), navigate: true);
     }
 
 

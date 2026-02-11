@@ -94,7 +94,9 @@ class CreateCustomer extends Component
 
         Activity::all()->last();
 
-        $this->redirect('/customer');
+        session()->flash('status', 'Customer' . $customer->full_name . ' create successfully.');
+
+        $this->redirect(route('customer.list'), navigate: true);
     }
 
     protected function saveAttribute(Customer $customer):void

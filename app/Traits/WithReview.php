@@ -42,7 +42,7 @@ trait WithReview
         $this->showReviewModal = true;
     }
 
-    public function saveReview()
+    public function saveReview(): void
     {
         $this->validate();
 
@@ -60,6 +60,8 @@ trait WithReview
             'reviewableType'
         ]);
 
-        return $this->redirect(route('customer.list'));
+        session()->flash('info', 'Left the review for the user: ' .  $model->full_name ?:  'User');
+
+        $this->redirect(route('customer.list'), navigate: true);
     }
 }

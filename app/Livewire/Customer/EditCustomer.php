@@ -55,7 +55,7 @@ class EditCustomer extends Component
             $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
         }
 
-        $this->customer->update([
+        $customer = $this->customer->update([
             'profile_photo_url' => $imageName ?? null,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
@@ -67,7 +67,9 @@ class EditCustomer extends Component
 
         Activity::all()->last();
 
-        $this->redirect('/customer');
+        session()->flash('status', 'Update customer ' . $this->form->full_name . ' successfully.');
+
+        $this->redirect(route('customer.list'), navigate: true);
     }
 
     protected function stepRules(): array
