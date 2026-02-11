@@ -233,9 +233,11 @@
             @endforeach
         </div>
 
-        <div class="page-content__pagination">
-            {{ $customers->links('components.pagination') }}
-        </div>
+        @if(count($customers) != 0)
+            <div class="page-content__pagination">
+                {{ $customers->links('components.pagination') }}
+            </div>
+        @endif
     </div>
 
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
