@@ -154,7 +154,7 @@
     <div class="sidebar__header">
         <div class="sidebar__brand">
             <img src="{{ asset('img/nextsuite-logo.png') }}" class="sidebar__logo" alt="NextSuite Logo">
-            <span class="sidebar__brand-name" x-show="!collapsed" x-transition.opacity.duration.150ms>NextSuite</span>
+            <span class="sidebar__brand-name" x-show="!collapsed" x-transition.opacity.duration.50ms>NextSuite</span>
 
             <button @click="collapsed = !collapsed" class="sidebar__toggle">
                 <x-heroicon name="bars-4" size="md" x-show="!collapsed"/>
@@ -162,7 +162,7 @@
             </button>
         </div>
 
-        <div class="sidebar__company" x-show="!collapsed" x-collapse.duration.200ms>
+        <div class="sidebar__company" x-show="!collapsed" x-collapse.duration.50ms>
             <p class="sidebar__welcome">Welcome</p>
             <p class="sidebar__company-name">
                 {{ Auth::user()->company->name ?? Auth::user()->full_name }}
@@ -172,14 +172,14 @@
 
     @foreach($sidebarSections as $section)
         <nav class="sidebar__section">
-            <p class="sidebar__section-title" x-show="!collapsed" x-transition.opacity.duration.150ms>{{ strtoupper($section['title']) }}</p>
+            <p class="sidebar__section-title" x-show="!collapsed" x-transition.opacity.duration.50ms>{{ strtoupper($section['title']) }}</p>
 
             <div class="sidebar__section-items">
                 @foreach($section['items'] as $item)
                     @if($item['type'] === 'dropdown')
                         <x-sidebar.dropdown-link
                             :active="$item['active']"
-                            x-tooltip="collapsed ? '{{ $item['label'] }}' : ''"
+                            x-tooltip.placement.right="collapsed ? '{{ $item['label'] }}' : ''"
                         >
                             <x-slot:icon>
                                 <x-heroicon :name="$item['icon']" size="md"/>
@@ -200,11 +200,12 @@
                                 @endforeach
                             </x-slot:elements>
                         </x-sidebar.dropdown-link>
+
                     @else
                         <x-sidebar.sidebar-link
                                 href="{{ $item['href'] }}"
                                 :active="$item['active']"
-                                x-tooltip="collapsed ? '{{ $item['label'] }}' : ''"
+                                x-tooltip.placement.right="collapsed ? '{{ $item['label'] }}' : ''"
                         >
                             <x-slot:icon>
                                 <x-heroicon :name="$item['icon']" size="md"/>
@@ -222,7 +223,7 @@
             <x-sidebar.sidebar-link
                 href="{{ $item['href'] }}"
                 :active="$item['active']"
-                x-tooltip="collapsed ? '{{ $item['label'] }}' : ''"
+                x-tooltip.placement.right="collapsed ? '{{ $item['label'] }}' : ''"
             >
                 <x-slot:icon>
                     <x-heroicon :name="$item['icon']" size="md"/>
