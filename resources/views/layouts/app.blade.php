@@ -60,6 +60,14 @@
                         :message="session('error')"
                 />
             @endif
+
+            @if (session('info'))
+                <x-alert
+                        type="info"
+                        title="Info"
+                        :message="session('info')"
+                />
+            @endif
         </div>
         @stack('modals')
 

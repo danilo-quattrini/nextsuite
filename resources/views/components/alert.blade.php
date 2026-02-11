@@ -8,20 +8,18 @@
     $colors = [
         'success' => [
             'icon-bg' => 'bg-secondary-success',
-            'bg' => 'bg-secondary-success-100',
-            'border' => 'border-secondary-success',
             'text' => 'text-secondary-success'
         ],
         'warning' => [
             'icon-bg' => 'bg-secondary-warning',
-            'bg' => 'bg-secondary-warning-100',
-            'border' => 'border-secondary-warning',
             'text' => 'text-secondary-warning'
+        ],
+        'info' => [
+            'icon-bg' => 'bg-primary',
+            'text' => 'text-primary'
         ],
         'error' => [
             'icon-bg' => 'bg-secondary-error',
-            'bg' => 'bg-secondary-error-100',
-            'border' => 'border-secondary-error',
             'text' => 'text-secondary-error'
         ]
     ];
@@ -29,6 +27,7 @@
         'success' => 'check',
         'warning' => 'exclamation-triangle',
         'error' => 'x-circle',
+        'info' => 'information-circle'
     ];
 
 
@@ -40,19 +39,19 @@
         x-data="{ show: true }"
         x-init="setTimeout(() => show = false, 3000)"
         x-show="show"
-        x-transition:enter="transform transition ease-out duration-500"
-        x-transition:enter-start="translate-x-full opacity-0"
-        x-transition:enter-end="translate-x-0 opacity-100"
-        x-transition:leave="transform transition ease-in duration-500"
-        x-transition:leave-start="translate-x-0 opacity-100"
-        x-transition:leave-end="translate-x-full opacity-0"
-        class="w-full px-6 py-6 rounded-md border {{ $style['bg'] }} {{ $style['border'] }} flex gap-4 items-start"
+        x-transition:enter="transition ease-out duration-300"
+        x-transition:enter-start="opacity-0 transform translate-y-2"
+        x-transition:enter-end="opacity-100 transform translate-y-0"
+        x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="flex items-start z-50 w-full  p-6 rounded-md bg-white  border-outline-grey shadow-lg gap-4 "
 >
 
     {{-- ICON BOX --}}
-    <div class="w-9 h-9 flex items-center justify-center rounded-md {{ $style['icon-bg'] }}">
+    <div class="mt-0.5 w-6 h-6 flex items-center justify-center rounded-md {{ $style['icon-bg'] }}">
         <x-heroicon
-                size="md"
+                size="sm"
                 :name="$icon"
                 variant="solid"
                 class="text-white"
@@ -60,12 +59,12 @@
     </div>
 
     {{-- CONTENT --}}
-    <div class="flex flex-col gap-2">
-        <div class="self-stretch text-2xl font-bold {{ $style['text'] }}">
+    <div class="flex flex-col gap-0.5">
+        <span class="self-stretch text-base font-semibold {{ $style['text'] }}">
             {{ $title }}
-        </div>
+        </span>
 
-        <div class="self-stretch text-primary-grey text-lg font-medium leading-6">
+        <div class="self-stretch text-sm leading-5">
             {{ $message }}
         </div>
     </div>
