@@ -13,8 +13,6 @@ class CustomerTable extends Component
     use WithPagination;
     use WithReview;
     use DeleteModal;
-    public bool $showDeleteModal = false;
-    public ?int $customerToDelete = null;
 
     protected string $paginationTheme = 'tailwind';
 
