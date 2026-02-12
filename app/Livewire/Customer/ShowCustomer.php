@@ -25,6 +25,7 @@ class ShowCustomer extends Component
     public ?Collection $customerAttributes = null;
     public ?Collection $customerSkills = null;
     public ?Collection $softSkills = null;
+    public ?Collection $fieldSkills = null;
     public ?Collection $fields = null;
     public ?float $softSkillsAverage = null;
     public array $softSkillChartData = [];
@@ -32,20 +33,17 @@ class ShowCustomer extends Component
     public function mount(Customer $customer): void
     {
 
-        $this->customer = $customer
-            ->load('skills.category.fields')
-            ->loadCount('reviews')
-            ->loadAvg('reviews', 'rating');
+        $this->customer = $this->getReviewAvg($customer);
+
+        $this->customer->load('skills.category.fields', 'attributes');
 
         $this->customerAttributes = $this->customer->attributes;
-
         $this->customerSkills = $this->customer->skills;
 
-        $this->fields = $this->customerSkills
-            ->flatMap(fn ($skills) => $skills->category?->fields ?? collect())
-            ->unique('id')
-            ->values();
+        $this->fieldSkills = $this->getFieldSkills();
 
+
+        $this->fields = $this->getFields();
         $this->getSoftSkills($customer);
     }
 
@@ -64,10 +62,8 @@ class ShowCustomer extends Component
 
         $this->customer->load('skills.category.fields');
         $this->customerSkills = $this->customer->skills;
-        $this->fields = $this->customerSkills
-            ->flatMap(fn ($skills) => $skills->category?->fields ?? collect())
-            ->unique('id')
-            ->values();
+        $this->fields = $this->getFields();
+        $this->fieldSkills = $this->getFieldSkills();
 
         $this->getSoftSkills($this->customer);
     }
@@ -106,5 +102,27 @@ class ShowCustomer extends Component
     public function render()
     {
         return view('livewire.customer.show-customer');
+    }
+
+    public function getReviewAvg(Customer $customer): Customer
+    {
+        return $customer
+            ->loadCount('reviews')
+            ->loadAvg('reviews', 'rating');
+    }
+
+    public function getFields()
+    {
+        return $this->customerSkills
+            ->flatMap(fn($skills) => $skills->category?->fields ?? collect())
+            ->unique('id')
+            ->values();
+    }
+
+    public function getFieldSkills()
+    {
+        return $this->customerSkills
+            ->filter(fn($skill) => $skill->category?->type->value !== 'soft_skill')
+            ->values();
     }
 }

@@ -161,41 +161,39 @@
             <div class="flex-col space-y-3 w-full">
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                    @foreach($customerSkills as $skill)
-                        @if($skill->category->type->value != 'soft_skill')
-                            <div class="border border-outline-grey rounded-md p-4 bg-white">
-                                <h4> {{ $skill->name }} </h4>
-                                <div class="my-2">
-                                    <span
-                                            class="px-3 py-1.5 rounded-md text-xs font-medium border transition"
-                                    >
-                                        {{ $skill->category?->name ?: 'Uncategorized' }}
-                                    </span>
+                    @foreach($fieldSkills as $skill)
+                        <div class="border border-outline-grey rounded-md p-4 bg-white">
+                            <h4> {{ $skill->name }} </h4>
+                            <div class="my-2">
+                                <span
+                                        class="px-3 py-1.5 rounded-md text-xs font-medium border transition"
+                                >
+                                    {{ $skill->category?->name ?: 'Uncategorized' }}
+                                </span>
+                            </div>
+                            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                                <div class="space-y-2">
+                                    <div class="space-y-2">
+                                        <p class="font-semibold text-base"> Experience: </p>
+                                        <p class="text-base">{{ $skill->pivot?->years != null ?  $skill->pivot?->years . ' years'  : 'N.A' }}</p>
+                                    </div>
                                 </div>
-                                <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-                                    <div class="space-y-2">
-                                        <div class="space-y-2">
-                                            <p class="font-semibold text-base"> Experience: </p>
-                                            <p class="text-base">{{ $skill->pivot?->years != null ?  $skill->pivot?->years . ' years'  : 'N.A' }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="space-y-2">
-                                        <p class="font-semibold text-base"> Knowledge Level:</p>
-                                        <x-average-tag
-                                                size="auto"
-                                                :value="$skill->pivot?->level"
-                                        />
-                                    </div>
+                                <div class="space-y-2">
+                                    <p class="font-semibold text-base"> Knowledge Level:</p>
+                                    <x-average-tag
+                                            size="auto"
+                                            :value="$skill->pivot?->level"
+                                    />
                                 </div>
                             </div>
-                        @endif
+                        </div>
                     @endforeach
                 </div>
             </div>
         </div>
     </div>
 
-    {{-- FIELD COMPETENCE --}}
+    {{-- SOFT SKILL COMPETENCE --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
         <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
             <h3 class="truncate">Soft Skills</h3>
@@ -223,8 +221,24 @@
                     </div>
                 @endforeach
             </div>
-        @elseif(empty($softSkills))
-            <p class="text-primary-grey">No soft skills yet.</p>
+        @elseif($softSkills->isEmpty())
+            <x-card border="dashed">
+                <x-heroicon name="star" class="mx-auto h-12 w-12 text-primary-grey" />
+
+                <h2 class="font-semibold text-black">
+                    No soft skill associated
+                </h2>
+
+                <p class="text-primary-grey">
+                    Your customer currently don’t have any soft-skill.
+                </p>
+
+                <div class="flex justify-center">
+                    <x-button href="{{ route('skill.create') }}" size="auto">
+                        Create Skill
+                    </x-button>
+                </div>
+            </x-card>
         @endif
     </div>
 
