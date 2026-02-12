@@ -1,0 +1,16 @@
+.empty-state {
+    @apply flex flex-col items-center justify-center;
+    @apply py-12 px-4 text-center;
+}
+
+.empty-state__icon {
+    @apply w-12 h-12 text-primary-grey/40 mb-3;
+}
+
+.empty-state__message {
+    @apply text-base font-medium text-primary-grey;
+}
+
+.empty-state__description {
+    @apply text-sm text-primary-grey/70 mt-1;
+}
