@@ -88,7 +88,7 @@
 }
 
 .sidebar__link-icon {
-    @apply text-primary-grey shrink-0 ;
+    @apply text-primary-grey/75 shrink-0 ;
 }
 
 
@@ -97,7 +97,7 @@
 }
 
 .sidebar__dropdown-caret {
-    @apply text-primary-grey transition-transform;
+    @apply text-primary-grey/75 transition-transform;
 }
 
 .sidebar__dropdown-items {
