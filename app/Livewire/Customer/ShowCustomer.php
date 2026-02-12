@@ -2,11 +2,9 @@
 
 namespace App\Livewire\Customer;
 
-use App\Domain\Attribute\Services\AttributeAssignableService;
 use App\Domain\Skill\Services\Chart\ChartFactory;
 use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Domain\Skill\Services\SoftSkillChartService;
-use App\Models\Attribute;
 use App\Models\Customer;
 use App\Traits\DeleteModal;
 use App\Traits\WithReview;
@@ -22,7 +20,6 @@ class ShowCustomer extends Component
     use DeleteModal;
 
     public Customer $customer;
-    public ?Collection $customerAttributes = null;
     public ?Collection $customerSkills = null;
     public ?Collection $softSkills = null;
     public ?Collection $fieldSkills = null;
@@ -37,7 +34,6 @@ class ShowCustomer extends Component
 
         $this->customer->load('skills.category.fields', 'attributes');
 
-        $this->customerAttributes = $this->customer->attributes;
         $this->customerSkills = $this->customer->skills;
 
         $this->fieldSkills = $this->getFieldSkills();
@@ -66,18 +62,6 @@ class ShowCustomer extends Component
         $this->fieldSkills = $this->getFieldSkills();
 
         $this->getSoftSkills($this->customer);
-    }
-
-    #[On('attribute-selected')]
-    public function addAttributeToCustomer(Attribute $attribute, mixed $value): void
-    {
-        app(AttributeAssignableService::class)->assign(
-            $this->customer,
-            $attribute,
-            $value
-        );
-
-        $this->customerAttributes = $this->customer->attributes;
     }
 
     public function buildSoftSkillChart(string $categoryName, array $labels, array $data): Builder

@@ -77,23 +77,7 @@
         <livewire:customer.customer-info :customer="$customer"/>
 
         {{-- ATTRIBUTES --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <div class="flex items-center justify-between border-b border-b-outline-grey pb-2">
-                <h3>Attributes</h3>
-                {{-- BUTTON TO ADD AN ATTRIBUTE --}}
-                @livewire('attribute.attribute-modal')
-            </div>
-
-            <ul class="space-y-2 text-sm text-primary-grey">
-                @forelse($customerAttributes as $attribute)
-                    <li> {{ $attribute->name . ': ' . $attribute->pivot?->value }}</li>
-                @empty
-                    <p class="text-sm text-primary-grey">
-                        No attributes yet.
-                    </p>
-                @endforelse
-            </ul>
-        </div>
+        <livewire:customer.customer-attributes :customer="$customer"/>
 
         {{-- REVIEWS --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
