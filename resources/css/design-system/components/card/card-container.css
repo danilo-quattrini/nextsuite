@@ -1,0 +1,7 @@
+.card-container{
+    @apply bg-white border border-outline-grey rounded-md p-6 space-y-3;
+}
+
+.card-head{
+    @apply flex justify-between font-semibold border-b border-b-outline-grey pb-2;
+}
