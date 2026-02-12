@@ -53,7 +53,7 @@
 }
 
 .sidebar__section-title {
-    @apply text-xs text-primary-grey font-semibold tracking-wider;
+    @apply text-xs text-black font-semibold tracking-wider;
 }
 
 .sidebar__section-items {
@@ -66,7 +66,7 @@
 
 .sidebar__link,
 .sidebar__dropdown-toggle {
-    @apply w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-grey/75 transition-colors;
+    @apply w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium text-primary-grey transition-colors;
 }
 
 .sidebar__link:hover,
@@ -88,7 +88,7 @@
 }
 
 .sidebar__link-icon {
-    @apply text-primary-grey/75 shrink-0 ;
+    @apply text-primary-grey shrink-0 ;
 }
 
 
@@ -97,7 +97,7 @@
 }
 
 .sidebar__dropdown-caret {
-    @apply text-primary-grey/75 transition-transform;
+    @apply text-primary-grey transition-transform;
 }
 
 .sidebar__dropdown-items {

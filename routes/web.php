@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Customer\CreateCustomer;
 use App\Livewire\Customer\CustomerReport;
 use App\Livewire\Customer\CustomerTable;
 use App\Livewire\Customer\EditCustomer;
+use App\Livewire\Customer\ShowCustomer;
 use App\Livewire\Customer\ShowCustomerReport;
 use App\Livewire\Sidebar\Changelog;
 use App\Livewire\Skill\CreateSkill;
@@ -102,15 +103,15 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->controller(CustomerController::class)->group(function () {
+])->group(function () {
 
-    Route::get('/customer/create', 'index')
+    Route::get('/customer/create', CreateCustomer::class)
         ->name('customer.create');
 
     Route::get('/customer', CustomerTable::class)
         ->name('customer.list');
 
-    Route::get('/customer/{customer}', 'info')
+    Route::get('/customer/{customer}', ShowCustomer::class)
         ->name('customer.show');
 
     Route::get('/customer/edit/{customer}', EditCustomer::class)

@@ -7,7 +7,7 @@
 }
 
 .page-content__hero-inner {
-    @apply container mx-auto px-4 sm:px-8 relative z-10 py-10;
+    @apply container mx-auto px-2 sm:px-4 relative z-10 py-10;
 }
 
 .page-content__hero-row {
