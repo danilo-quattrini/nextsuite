@@ -12,7 +12,6 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->boolean('state')->nullable();
             $table->foreignIdFor(Category::class)->constrained('categories');
             $table->timestamps();
             $table->softDeletes();

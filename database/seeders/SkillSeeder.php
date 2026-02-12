@@ -24,10 +24,6 @@ class SkillSeeder extends Seeder
         }
     }
 
-    private function shouldActivateSkill(CategoryType $categoryType): bool
-    {
-        return $categoryType->value !== self::SOFT_SKILL_TYPE;
-    }
 
     private function hasSubcategory(array $skillData): bool
     {
@@ -38,7 +34,6 @@ class SkillSeeder extends Seeder
         string $name,
         int $categoryId,
         ?string $description,
-        bool $state
     ): void
     {
         Skill::firstOrCreate([
@@ -46,7 +41,6 @@ class SkillSeeder extends Seeder
             'category_id' => $categoryId,
         ], [
             'description' => $description ?? null,
-            'state' => $state
         ]);
     }
 
@@ -76,8 +70,7 @@ class SkillSeeder extends Seeder
             $this->createSkill(
                 $subCategorySkills['name'],
                 $subcategory->id,
-                $subCategorySkills['description'] ?? null,
-                $this->shouldActivateSkill($subcategory->type)
+                $subCategorySkills['description'] ?? null
             );
         }
     }
@@ -96,8 +89,7 @@ class SkillSeeder extends Seeder
                 $this->createSkill(
                     $skillData['name'],
                     $category->id,
-                    $skillData['description'] ?? null,
-                    $this->shouldActivateSkill($category->type)
+                    $skillData['description'] ?? null
                 );
             }
         }
