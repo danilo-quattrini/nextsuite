@@ -70,11 +70,20 @@ class CustomerForm extends Form
     ): void {
 
         $this->skills[$skillId] = [
-            'skill' => $this->skills[$skillId]['skill'],
+            'skill' => $this->getSkill($skillId),
             'selected' => true,
             'level' => $skillLevel,
             'years' => $skillYears,
             'user_id' => $user
         ];
+    }
+
+    /**
+     * @param  int  $skillId
+     * @return Skill
+     */
+    private function getSkill(int $skillId): Skill
+    {
+        return Skill::findOrFail($skillId);
     }
 }
