@@ -18,6 +18,7 @@
 @import "./design-system/components/changelog.css";
 @import "./design-system/components/empty-state.css";
 @import "./design-system/components/card/card-container.css";
+@import "./design-system/components/card/review-card.css";
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";

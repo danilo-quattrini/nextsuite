@@ -80,47 +80,7 @@
         <livewire:customer.customer-attributes :customer="$customer"/>
 
         {{-- REVIEWS --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-b-outline-grey">
-                <h3>Reviews</h3>
-                <x-button
-                        type="button"
-                        wire:click.prevent="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
-                        variant="warning"
-                >
-                    Review
-                </x-button>
-            </div>
-
-            @forelse($customer->reviews as $review)
-                <div class="border-b border-outline-grey pb-4">
-
-                    <div class="flex justify-between items-center mb-4">
-                        <div class="flex justify-center items-center gap-2 ">
-                            <x-profile-image
-                                    :src="$review->author->profile_photo_url"
-                                    :name="$review->author->full_name"
-                                    size="custom"
-                                    class="size-8"
-                            />
-                            <span class="font-medium"> {{ $review->author->full_name }}</span>
-                        </div>
-                        <div class="flex justify-center items-center gap-1 bg-secondary-warning-100/50 px-2 py-1 rounded-md">
-                            <x-heroicon name="star" variant="solid" class="text-secondary-warning" />
-                            <span class="font-medium">{{ $review->rating }}</span>
-                        </div>
-                    </div>
-
-                    <p class="text-sm text-primary-grey">
-                        {{ $review->comment }}
-                    </p>
-                </div>
-            @empty
-                <p class="text-sm text-primary-grey">
-                    No reviews yet.
-                </p>
-            @endforelse
-        </div>
+        <livewire:customer.customer-reviews :customer="$customer"/>
 
     </div>
 

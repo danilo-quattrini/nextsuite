@@ -29,9 +29,6 @@ class ShowCustomer extends Component
 
     public function mount(Customer $customer): void
     {
-
-        $this->customer = $this->getReviewAvg($customer);
-
         $this->customer->load('skills.category.fields', 'attributes');
 
         $this->customerSkills = $this->customer->skills;
@@ -86,13 +83,6 @@ class ShowCustomer extends Component
     public function render()
     {
         return view('livewire.customer.show-customer');
-    }
-
-    public function getReviewAvg(Customer $customer): Customer
-    {
-        return $customer
-            ->loadCount('reviews')
-            ->loadAvg('reviews', 'rating');
     }
 
     public function getFields()
