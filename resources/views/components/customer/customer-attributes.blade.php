@@ -39,8 +39,10 @@ new class extends Component {
     @forelse($userAttributes as $attribute)
         <p><strong>{{ $attribute->name}}</strong>: {{ $attribute->pivot?->value }}</p>
     @empty
-        <p class="text-sm text-primary-grey">
-            No attributes yet.
-        </p>
+        <x-empty-state
+                icon="adjustments-horizontal"
+                message="No attribute yet"
+                description="Add an attribute to this customer"
+        />
     @endforelse
 </x-card.card-container>
