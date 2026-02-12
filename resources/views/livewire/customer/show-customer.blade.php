@@ -73,16 +73,8 @@
     {{-- INFO GRID --}}
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        {{-- Personal Info --}}
-        <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-            <h3 class="font-semibold text-lg border-b border-b-outline-grey">Personal Information</h3>
-
-            <p><strong>Email:</strong> {{ $customer->email }}</p>
-            <p><strong>Phone:</strong> {{ $customer->phone }}</p>
-            <p><strong>Date of birth:</strong> {{ $customer->dob->format('d M Y') }}</p>
-            <p><strong>Gender:</strong> {{ $customer->gender }}</p>
-            <p><strong>Nationality:</strong> {{ $customer->nationality }}</p>
-        </div>
+        {{-- PERSONAL INFO --}}
+        <livewire:customer.customer-info :customer="$customer"/>
 
         {{-- ATTRIBUTES --}}
         <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
