@@ -15,7 +15,8 @@ class Skill extends Model
     protected $fillable = [
         'name',
         'description',
-        'category_id',
+        'state',
+        'category_id'
     ];
 
     public function category(): BelongsTo
