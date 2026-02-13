@@ -1,25 +1,65 @@
+<?php
+
+use App\Models\Customer;
+use Livewire\Component;
+use App\Models\Category;
+use App\Models\Skill;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+
+new class extends Component {
+    public ?Customer $customer = null;
+    public ?Collection $categories = null;
+    public ?Collection $skills = null;
+
+    public $selectedCategory = null;
+    public ?array $selectedSkill = null;
+
+    public function mount(): void
+    {
+        $this->categories = Category::where('type', 'soft_skill')
+            ->where('name', '<>', 'Abilities')
+            ->get();
+
+        $this->skills = collect();
+    }
+
+    public function updatedSelectedCategory($categoryId): void
+    {
+        if (!empty($categoryId)) {
+            $this->skills = Skill::where('category_id', $categoryId)
+                ->get()
+                ->map(function ($skill) {
+                    return [
+                        'id' => $skill->id,
+                        'value' => strtolower(str_replace(" ", "-", $skill->name)),
+                        'label' => $skill->name
+                    ];
+                });
+        } else {
+            $this->skills = collect();
+        }
+        $this->selectedSkill = [];
+    }
+
+    public function create(): void
+    {
+        $user = Auth::user();
+
+        $user->skillSchema()->syncWithoutDetaching($this->selectedSkill);
+    }
+};
+?>
 @php use Carbon\Carbon; @endphp
-<div class="page-content__container">
+<x-card.content-page-card
+        title="Create Skill"
+        description="Choose the skills you want to define to the customer."
+        :has-counter="false"
+        :has-grid="false"
+>
 
-    {{--  Content  --}}
-    <div class="page-content__hero">
-        <div class="page-content__hero-inner">
-            <div class="page-content__hero-row">
-                <div class="page-content__hero-copy">
-                    <h2 class="page-content__title">
-                        {{ __('Create Skill ') }}
-                    </h2>
-                    <p class="page-content__subtitle">
-                        {{__('Create a new skill to assign to a customer')}}
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="page-content__body">
-        {{--  Form  --}}
-        <div class="page-content__card">
+    {{--  Form  --}}
+    <div class="page-content__card">
             <x-form.container>
                 <form wire:submit.prevent="create" enctype="multipart/form-data">
                     @csrf
@@ -30,7 +70,8 @@
                                 <x-form.label-container label="Category" :required="true"/>
 
                                 <x-form.select-wrapper :error="$errors->has('selectedCategory')">
-                                    <x-form.select-element name="category" id="category" wire:model.live="selectedCategory">
+                                    <x-form.select-element name="category" id="category"
+                                                           wire:model.live="selectedCategory">
                                         <x-slot:options>
                                             <option value="" hidden>
                                                 Select category
@@ -57,9 +98,11 @@
                                             <x-toggle-container wire:key="{{ $skill['id'] }}">
                                                 <x-slot:element>
                                                     <x-checkbox
-                                                            id="skill"
-                                                            name="skill"
-                                                            wire:model.live="selectedSkill"/>
+                                                            id="skill-{{ $skill['id'] }}"
+                                                            name="skill-{{ $skill['label'] }}"
+                                                            value="{{ $skill['id'] }}"
+                                                            wire:model.live="selectedSkill"
+                                                    />
                                                 </x-slot:element>
 
                                                 <x-slot:span>
@@ -75,7 +118,7 @@
                         </div>
 
                         <div class="flex lg:justify-end md:justify-center">
-                            <x-button size="large">
+                            <x-button size="large" type="submit">
                                 Create
                             </x-button>
                         </div>
@@ -84,7 +127,5 @@
                 </form>
             </x-form.container>
         </div>
-    </div>
-
-</div>
+</x-card.content-page-card>
 

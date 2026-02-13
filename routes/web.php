@@ -135,4 +135,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/skill/create', CreateSkill::class)->name('skill.create');
+
+    Route::livewire('skill-schema/create/{customer}', 'pages::skill.schema.create')
+        ->name('skill-schema.create');
 });
