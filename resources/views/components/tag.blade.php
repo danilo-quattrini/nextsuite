@@ -1,8 +1,13 @@
 @props([
     'variant' => 'primary',
-    'size' => 'tag-size-default',
-    'type' => 'tag',
+    'size' => 'default',
+    'outlined' => false,
+    'rounded' => 'default',
+    'clickable' => false,
+    'dismissible' => false,
     'href' => null,
+    'icon' => null,
+    'iconPosition' => 'leading', // 'leading' or 'trailing'
 ])
 
 @php
@@ -10,40 +15,93 @@
 
     $variants = [
         'primary' => 'tag-primary',
-        'green' => 'tag-success',
-        'yellow' => 'tag-warning',
-        'red' => 'tag-error',
+        'secondary' => 'tag-secondary',
+        'success' => 'tag-success',
+        'warning' => 'tag-warning',
+        'error' => 'tag-error',
+        'info' => 'tag-info',
+        'neutral' => 'tag-neutral',
         'white' => 'tag-white',
+        'dark' => 'tag-dark',
     ];
 
     $sizes = [
+        'xs' => 'tag-size-xs',
+        'sm' => 'tag-size-sm',
         'default' => 'tag-size-default',
-        'large'   => 'tag-size-large',
-        'auto'    => 'tag-size-auto',
-        'full'    => 'tag-size-full',
+        'lg' => 'tag-size-lg',
+        'xl' => 'tag-size-xl',
     ];
 
-    $classes = trim(implode(' ', [
+    $roundedOptions = [
+        'none' => 'tag-rounded-none',
+        'sm' => 'tag-rounded-sm',
+        'default' => 'tag-rounded-default',
+        'lg' => 'tag-rounded-lg',
+        'full' => 'tag-rounded-full',
+    ];
+
+    $classes = collect([
         $base,
         $variants[$variant] ?? $variants['primary'],
         $sizes[$size] ?? $sizes['default'],
-    ]));
+        $roundedOptions[$rounded] ?? $roundedOptions['default'],
+        $outlined ? 'tag-outlined' : '',
+        $clickable || $href ? 'tag-clickable' : '',
+        $dismissible ? 'tag-dismissible' : '',
+    ])->filter()->implode(' ');
+
+    $component = $href ? 'a' : 'span';
 @endphp
 
-<span {{ $attributes->merge(['class' => $classes]) }}>
-    @isset($leading)
-        <span class="shrink-0">
-            {{ $leading }}
-        </span>
-    @endisset
+<{{ $component }}
+{{ $attributes->merge([
+    'class' => $classes,
+    'href' => $href,
+    'role' => $clickable ? 'button' : null,
+    'tabindex' => $clickable ? '0' : null,
+]) }}
+>
+{{-- Leading Content --}}
+@if($icon && $iconPosition === 'leading')
+    <span class="tag__icon tag__icon--leading">
+            <x-dynamic-component :component="$icon" class="tag__icon-svg" />
+    </span>
+@endif
 
-    <span class="truncate">
+@isset($leading)
+    <span class="tag__leading">
+            {{ $leading }}
+    </span>
+@endisset
+
+{{-- Main Content --}}
+    <span class="tag__content">
         {{ $slot }}
     </span>
 
-    @isset($trailing)
-        <span class="shrink-0">
+{{-- Trailing Content --}}
+@isset($trailing)
+    <span class="tag__trailing">
             {{ $trailing }}
-        </span>
-    @endisset
-</span>
+    </span>
+@endisset
+
+@if($icon && $iconPosition === 'trailing')
+    <span class="tag__icon tag__icon--trailing">
+            <x-dynamic-component :component="$icon" class="tag__icon-svg" />
+    </span>
+@endif
+
+{{-- Dismiss Button --}}
+@if($dismissible)
+    <button
+            type="button"
+            class="tag__dismiss"
+            wire:click="$parent.$dispatch('tag-dismissed', { value: '{{ $slot }}' })"
+            aria-label="Dismiss"
+    >
+        <x-heroicon name="x-mark" variant="solid" class="tag__dismiss-icon" />
+    </button>
+@endif
+</{{ $component }}>

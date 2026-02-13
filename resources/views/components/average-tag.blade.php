@@ -10,9 +10,9 @@
     $display = is_null($value) ? $empty : number_format((float) $value);
 
     $variant = $variant ?? match (true) {
-        $numeric < 50 => 'red',
-        $numeric >= 50 && $numeric < 70 => 'yellow',
-        $numeric >= 70 => 'green',
+        $numeric < 50 => 'error',
+        $numeric >= 50 && $numeric < 70 => 'warning',
+        $numeric >= 70 => 'success',
         default => 'white',
     };
 @endphp
