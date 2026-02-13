@@ -15,7 +15,7 @@
                     <h1 class="text-2xl font-semibold">
                         {{ $customer->full_name }}
                     </h1>
-                    <x-average-tag size="large" :value="$softSkillsAverage" />
+                    <x-average-tag size="xl" :value="$softSkillsAverage" />
                 </div>
                 <div class="flex items-center gap-2 mt-1 text-base text-primary-grey">
                     <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
@@ -85,49 +85,7 @@
     </div>
 
     {{-- FIELD SKILLS --}}
-    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-3">
-        <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
-            <h3>Field Skills</h3>
-            {{-- BUTTON TO ADD A NEW SKILL  --}}
-            @livewire('skill-modal', ['hideSoftSkills' => true])
-        </div>
-
-
-        <div class="flex flex-wrap">
-            <div class="flex-col space-y-3 w-full">
-
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
-                    @foreach($fieldSkills as $skill)
-                        <div class="border border-outline-grey rounded-md p-4 bg-white">
-                            <h4> {{ $skill->name }} </h4>
-                            <div class="my-2">
-                                <span
-                                        class="px-3 py-1.5 rounded-md text-xs font-medium border transition"
-                                >
-                                    {{ $skill->category?->name ?: 'Uncategorized' }}
-                                </span>
-                            </div>
-                            <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
-                                <div class="space-y-2">
-                                    <div class="space-y-2">
-                                        <p class="font-semibold text-base"> Experience: </p>
-                                        <p class="text-base">{{ $skill->pivot?->years != null ?  $skill->pivot?->years . ' years'  : 'N.A' }}</p>
-                                    </div>
-                                </div>
-                                <div class="space-y-2">
-                                    <p class="font-semibold text-base"> Knowledge Level:</p>
-                                    <x-average-tag
-                                            size="auto"
-                                            :value="$skill->pivot?->level"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
+    <livewire:customer.customer-hard-skills :customer="$customer" />
 
     {{-- SOFT SKILL COMPETENCE --}}
     <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
@@ -146,7 +104,7 @@
                     @endphp
                     <div class="border border-outline-grey rounded-md p-4 bg-white min-w-125 shrink-0">
                         <div class="flex justify-center my-6">
-                            <x-average-tag size="large" :value="$group['average']" />
+                            <x-average-tag size="xl" :value="$group['average']" />
                         </div>
                         <div class="flex items-start justify-center">
                             <h3 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h3>

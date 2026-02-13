@@ -17,6 +17,8 @@
 @import "./design-system/components/page-content.css";
 @import "./design-system/components/changelog.css";
 @import "./design-system/components/empty-state.css";
+@import "./design-system/components/skill-grid.css";
+@import "./design-system/components/card/skill-card.css";
 @import "./design-system/components/card/card-container.css";
 @import "./design-system/components/card/review-card.css";
 @import '../../vendor/livewire/flux/dist/flux.css';
