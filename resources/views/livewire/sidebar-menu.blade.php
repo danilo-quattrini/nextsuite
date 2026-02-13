@@ -98,10 +98,10 @@
                 ],
                 [
                     'type' => 'link',
-                    'label' => 'Skills',
+                    'label' => 'Skill Schema',
                     'icon' => 'star',
-                    'href' => route('skill.create'),
-                    'active' => request()->routeIs('skill.create'),
+                    'href' => route('skill-schema'),
+                    'active' => request()->routeIs('skill-schema'),
                 ],
             ],
         ],

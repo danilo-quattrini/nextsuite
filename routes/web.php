@@ -10,7 +10,6 @@ use App\Livewire\Customer\EditCustomer;
 use App\Livewire\Customer\ShowCustomer;
 use App\Livewire\Customer\ShowCustomerReport;
 use App\Livewire\Sidebar\Changelog;
-use App\Livewire\Skill\CreateSkill;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -134,7 +133,9 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/skill/create', CreateSkill::class)->name('skill.create');
+
+    Route::livewire('skill-schema', 'pages::customer.view' )
+        ->name('skill-schema');
 
     Route::livewire('skill-schema/create/{customer}', 'pages::skill.schema.create')
         ->name('skill-schema.create');
