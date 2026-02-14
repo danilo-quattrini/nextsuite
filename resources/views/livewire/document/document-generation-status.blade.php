@@ -3,7 +3,7 @@
         wire:poll.1s="checkStatus"
         @if(in_array($status, ['completed', 'failed'])) wire:poll.stop @endif
         xmlns:x-slot="http://www.w3.org/1999/html">
-    <x-popup-box modal="showModalDocumentGenerationStatus" :transition="false">
+    <x-popup-box modal="showModalDocumentGenerationStatus">
         @if(in_array($status, ['processing', 'pending']))
            <x-slot:header>
                <div class="popup-icon-header bg-secondary rounded-full border border-primary">
