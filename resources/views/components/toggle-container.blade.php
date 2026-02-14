@@ -1,5 +1,5 @@
-<label class="ds-checkbox-container flex items-center gap-2 cursor-pointer">
+<label class="ds-checkbox-container">
     {{$element}}
     {{$span}}
-    <span>{{$slot}}</span>
+    <span class="ds-checkbox-label">{{$slot}}</span>
 </label>

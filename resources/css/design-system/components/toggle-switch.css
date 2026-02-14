@@ -1,0 +1,112 @@
+/* ============================================
+   TOGGLE SWITCH COMPONENT
+   ============================================ */
+
+.toggle-switch {
+    /* CSS Variables */
+    --toggle-width: 2.75rem;
+    --toggle-height: 1.5rem;
+    --toggle-thumb-size: 1.25rem;
+    --toggle-spacing: 0.75rem;
+
+    /* Tailwind utilities */
+    @apply relative inline-flex cursor-pointer items-center select-none;
+    gap: var(--toggle-spacing);
+}
+
+/* Size Variants */
+.toggle-switch--sm {
+    --toggle-width: 2.25rem;
+    --toggle-height: 1.25rem;
+    --toggle-thumb-size: 1rem;
+    --toggle-spacing: 0.5rem;
+}
+
+.toggle-switch--md {
+    --toggle-width: 2.75rem;
+    --toggle-height: 1.5rem;
+    --toggle-thumb-size: 1.25rem;
+    --toggle-spacing: 0.75rem;
+}
+
+.toggle-switch--lg {
+    --toggle-width: 3.5rem;
+    --toggle-height: 1.75rem;
+    --toggle-thumb-size: 1.5rem;
+    --toggle-spacing: 1rem;
+}
+
+/* Hidden Input */
+.toggle-switch__input {
+    @apply sr-only;
+}
+
+/* Track (Background) */
+.toggle-switch__track {
+    width: var(--toggle-width);
+    height: var(--toggle-height);
+    @apply relative rounded-full transition-colors duration-200 ease-in-out;
+    background-color: var(--color-outline-grey, #e5e7eb);
+    border: 1px solid var(--color-outline-grey, #e5e7eb);
+}
+
+/* Thumb (Circle) */
+.toggle-switch__thumb {
+    width: var(--toggle-thumb-size);
+    height: var(--toggle-thumb-size);
+    @apply absolute rounded-full bg-white shadow-sm;
+    @apply transition-all duration-200 ease-in-out;
+    top: 50%;
+    left: 2px;
+    transform: translateY(-50%);
+    border: 1px solid var(--color-outline-grey, #e5e7eb);
+}
+
+/* Checked State */
+.toggle-switch__input:checked ~ .toggle-switch__track {
+    background-color: var(--color-primary, #3b82f6);
+    border-color: var(--color-primary, #3b82f6);
+}
+
+.toggle-switch__input:checked ~ .toggle-switch__track .toggle-switch__thumb {
+    left: calc(var(--toggle-width) - var(--toggle-thumb-size) - 2px);
+    border-color: white;
+}
+
+/* Focus State */
+.toggle-switch__input:focus-visible ~ .toggle-switch__track {
+    @apply ring-4;
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary, #3b82f6) 25%, transparent);
+}
+
+/* Label & Description Container */
+.toggle-switch__text {
+    @apply flex flex-col gap-0.5;
+}
+
+.toggle-switch__label {
+    @apply text-sm font-medium text-black;
+}
+
+.toggle-switch__description {
+    @apply text-xs text-primary-grey;
+}
+
+/* Disabled State */
+.toggle-switch:has(.toggle-switch__input:disabled) {
+    @apply cursor-not-allowed opacity-50;
+}
+
+.toggle-switch:has(.toggle-switch__input:disabled) .toggle-switch__label,
+.toggle-switch:has(.toggle-switch__input:disabled) .toggle-switch__description {
+    @apply text-primary-grey;
+}
+
+.toggle-switch__input:disabled ~ .toggle-switch__track {
+    background-color: var(--color-outline-grey, #e5e7eb);
+    border-color: var(--color-outline-grey, #e5e7eb);
+}
+
+.toggle-switch__input:disabled:checked ~ .toggle-switch__track {
+    @apply bg-outline-grey;
+}
