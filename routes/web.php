@@ -1,10 +1,15 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TemplateController;
+use App\Livewire\Customer\CreateCustomer;
+use App\Livewire\Customer\CustomerReport;
+use App\Livewire\Customer\CustomerTable;
+use App\Livewire\Customer\EditCustomer;
+use App\Livewire\Customer\ShowCustomer;
+use App\Livewire\Customer\ShowCustomerReport;
+use App\Livewire\Sidebar\Changelog;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -82,12 +87,12 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->controller(ReportController::class)->group(function () {
+])->group(function () {
 
-    Route::get('/report', 'index')
-        ->name('report.list');
+    Route::get('/report', CustomerReport::class)
+        ->name('report.index');
 
-    Route::get('/report/{customer}', 'show')
+    Route::get('/report/{customer}', ShowCustomerReport::class)
         ->name('report.show');
 
 });
@@ -97,14 +102,41 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
-])->controller(CustomerController::class)->group(function () {
+])->group(function () {
 
-    Route::get('/customer/create', 'index')
+    Route::get('/customer/create', CreateCustomer::class)
         ->name('customer.create');
 
-    Route::get('/customer', 'show')
+    Route::get('/customer', CustomerTable::class)
         ->name('customer.list');
 
-    Route::get('/customer/{customer}', 'info')
+    Route::get('/customer/{customer}', ShowCustomer::class)
         ->name('customer.show');
+
+    Route::get('/customer/edit/{customer}', EditCustomer::class)
+        ->name('customer.edit');
+});
+
+/* CHANGELOG ROUTE*/
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/changelog', Changelog::class)->name('changelog');
+});
+
+/* SKILL ROUTES*/
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+
+    Route::livewire('skill-schema', 'pages::customer.view' )
+        ->name('skill-schema');
+
+    Route::livewire('skill-schema/create/{customer}', 'pages::skill.schema.create')
+        ->name('skill-schema.create');
 });

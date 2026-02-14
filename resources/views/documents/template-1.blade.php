@@ -100,14 +100,14 @@
                     <section class="section">
                         @if(!empty($skills))
                             <h2 class="section-title">Skills</h2>
-                            <ul class="skill-list">
+                            <ul class="document-skill-list">
                                 @foreach($skills as $skill)
-                                    <li class="skill-card">
-                                        <div class="skill-header">
-                                            <span class="skill-name">{{ $skill['name'] }}</span>
-                                            <span class="skill-years">{{ $skill['years'] }} yrs</span>
+                                    <li class="document-skill-card">
+                                        <div class="document-skill-header">
+                                            <span class="document-skill-name">{{ $skill['name'] }}</span>
+                                            <span class="document-skill-years">{{ $skill['years'] }} yrs</span>
                                         </div>
-                                        <p class="skill-desc">{{ $skill['description'] }}</p>
+                                        <p class="document-skill-desc">{{ $skill['description'] }}</p>
                                     </li>
                                 @endforeach
                             </ul>

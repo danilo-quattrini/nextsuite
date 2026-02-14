@@ -1,0 +1,68 @@
+
+.changelog__panel{
+    @apply border-l-3;
+}
+
+.changelog__tag{
+    @apply uppercase tracking-widest text-[10px] font-semibold px-2 py-1 rounded-full;
+}
+
+.changelog__panel--create{
+    @apply border-secondary-success;
+}
+
+.changelog__tag--create{
+    @apply bg-secondary-success-100 text-secondary-success;
+}
+
+.changelog__dot--create{
+    @apply bg-emerald-500;
+}
+
+.changelog__panel--update{
+    @apply border-primary;
+}
+
+.changelog__tag--update{
+    @apply bg-secondary text-primary;
+}
+
+.changelog__dot--update{
+    @apply bg-primary;
+}
+
+.changelog__panel--delete{
+    @apply border-secondary-error;
+}
+
+.changelog__tag--delete{
+    @apply bg-secondary-error-100 text-secondary-error;
+}
+
+.changelog__dot--delete{
+    @apply bg-secondary-error;
+}
+
+.changelog__panel--edit{
+    @apply border-secondary-warning;
+}
+
+.changelog__tag--edit{
+    @apply bg-secondary-warning-100 text-secondary;
+}
+
+.changelog__dot--edit{
+    @apply bg-secondary-warning;
+}
+
+.changelog__panel--other{
+    @apply border-slate-300;
+}
+
+.changelog__tag--other{
+    @apply bg-slate-100 text-slate-600;
+}
+
+.changelog__dot--other{
+    @apply bg-slate-400;
+}

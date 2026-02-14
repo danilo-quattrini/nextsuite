@@ -7,7 +7,7 @@
 }
 
 .page-content__hero-inner {
-    @apply container mx-auto px-4 sm:px-8 relative z-10 py-10;
+    @apply container mx-auto px-2 sm:px-4 relative z-10 py-10;
 }
 
 .page-content__hero-row {
@@ -61,6 +61,10 @@
 
 .page-content__card {
     @apply bg-white border border-outline-grey rounded-md shadow-md xl:px-10 xl:py-8 flex flex-col justify-between;
+}
+
+.page-content__card-animated{
+    @apply cursor-pointer hover:shadow-md hover:-translate-y-2 transition-all
 }
 
 .page-content__card-info {

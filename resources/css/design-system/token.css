@@ -6,6 +6,17 @@
     --color-primary: #5E81F4;
     --color-secondary: #5E81F440;
     --color-primary-grey: #8181A5;
+    --color-primary-grey-50: color-mix(in oklab, var(--color-primary-grey) 5%, var(--color-white));
+    --color-primary-grey-100: color-mix(in oklab, var(--color-primary-grey) 15%, var(--color-white));
+    --color-primary-grey-200: color-mix(in oklab, var(--color-primary-grey) 30%, var(--color-white));
+    --color-primary-grey-300: color-mix(in oklab, var(--color-primary-grey) 45%, var(--color-white));
+    --color-primary-grey-400: color-mix(in oklab, var(--color-primary-grey) 60%, var(--color-white));
+    --color-primary-grey-500: var(--color-primary-grey);
+    --color-primary-grey-600: color-mix(in oklab, var(--color-primary-grey) 85%, var(--color-black));
+    --color-primary-grey-700: color-mix(in oklab, var(--color-primary-grey) 70%, var(--color-black));
+    --color-primary-grey-800: color-mix(in oklab, var(--color-primary-grey) 55%, var(--color-black));
+    --color-primary-grey-900: color-mix(in oklab, var(--color-primary-grey) 40%, var(--color-black));
+    --color-primary-grey-950: color-mix(in oklab, var(--color-primary-grey) 25%, var(--color-black));
     --color-button-hover: #4C5FAE;
     --color-secondary-error: #FF4B5A;
     --color-secondary-error-hover: #ff2939;
@@ -93,5 +104,5 @@
     /* ============================================
        RADIUS
        ============================================ */
-    --radius-md: 0.32rem;
+    --radius-md: 0.75rem;
 }

@@ -7,18 +7,19 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link rel="icon" href="{{asset('img/nextsuite-logo.png')}}" type="image/png">
+        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <!-- Styles -->
         @livewireStyles
-        @fluxAppearance
     </head>
     <body class="font-sans antialiased overflow-hidden">
         <div class="h-screen flex bg-white text-black">
 
             {{-- SIDEBAR --}}
-            <aside class="sidebar-container">
+            <aside x-data="sidebarCollapsed()" class="sidebar-container" :class="{ 'sidebar-container--collapsed': collapsed }">
                 @livewire('sidebar-menu')
             </aside>
 
@@ -59,6 +60,14 @@
                         type="error"
                         title="Error"
                         :message="session('error')"
+                />
+            @endif
+
+            @if (session('info'))
+                <x-alert
+                        type="info"
+                        title="Info"
+                        :message="session('info')"
                 />
             @endif
         </div>

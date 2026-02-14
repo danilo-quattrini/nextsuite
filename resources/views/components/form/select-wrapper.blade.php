@@ -1,6 +1,7 @@
 @props([
     'error' => false,
-    'base' => 'select-border'
+    'base' => 'select-border',
+    'disable' => false,
 ])
 {{-- ========================================================= --}}
 {{-- WRAPPER --}}
@@ -14,7 +15,7 @@
      x-on:click="focusSelect()"
      x-on:keydown="handleTypeSearch($event)"
      :class="{ 'open': open, 'has-value': hasValue }"
-     class="{{ $base }} {{ $error ? 'has-error' : '' }}"
+     class="{{ $base }} {{ $error ? 'has-error' : '' }} {{ $disable ? 'is-disable' : '' }}"
      tabindex="0"
 >
 

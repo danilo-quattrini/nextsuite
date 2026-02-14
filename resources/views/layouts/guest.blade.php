@@ -7,6 +7,8 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
         <link rel="icon" href="{{asset('img/nextsuite-logo.png')}}" type="image/png">
+        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css" />
+        <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/themes/light.css" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

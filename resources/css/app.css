@@ -15,9 +15,44 @@
 @import "./design-system/components/slider.css";
 @import "./design-system/components/user-view.css";
 @import "./design-system/components/page-content.css";
+@import "./design-system/components/changelog.css";
+@import "./design-system/components/empty-state.css";
+@import "./design-system/components/skill-grid.css";
+@import "./design-system/components/card/skill-card.css";
+@import "./design-system/components/card/card-container.css";
+@import "./design-system/components/card/review-card.css";
+@import '../../vendor/livewire/flux/dist/flux.css';
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";
 @source "../../vendor/laravel/jetstream";
 
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --color-zinc-50: var(--color-primary-grey-50);
+    --color-zinc-100: var(--color-primary-grey-100);
+    --color-zinc-200: var(--color-primary-grey-200);
+    --color-zinc-300: var(--color-primary-grey-300);
+    --color-zinc-400: var(--color-primary-grey-400);
+    --color-zinc-500: var(--color-primary-grey-500);
+    --color-zinc-600: var(--color-primary-grey-600);
+    --color-zinc-700: var(--color-primary-grey-700);
+    --color-zinc-800: var(--color-primary-grey-800);
+    --color-zinc-900: var(--color-primary-grey-900);
+    --color-zinc-950: var(--color-primary-grey-950);
+}
+
+@theme {
+    --color-accent: var(--color-primary);
+    --color-accent-content: var(--color-button-hover);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-button-hover);
+        --color-accent-content: var(--color-primary);
+        --color-accent-foreground: var(--color-white);
+    }
+}

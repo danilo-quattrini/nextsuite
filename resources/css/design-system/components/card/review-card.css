@@ -1,0 +1,35 @@
+/* Review Card Container */
+.review-card {
+    @apply bg-white border border-outline-grey rounded-lg p-4 space-y-3;
+    @apply transition-shadow hover:shadow-sm;
+}
+
+/* Header Section */
+.review-card__header {
+    @apply flex justify-between items-start gap-4;
+}
+
+.review-card__author {
+    @apply flex items-center gap-3;
+}
+
+/* Comment Section */
+.review-card__comment {
+    @apply text-sm text-primary-grey leading-relaxed;
+    @apply line-clamp-3; /* Limit to 3 lines, add "Read more" if needed */
+}
+
+/* Rating Badge */
+.rating-badge {
+    @apply flex items-center gap-1.5;
+    @apply bg-secondary-warning-100/50 px-3 py-1.5 rounded-md;
+    @apply whitespace-nowrap;
+}
+
+.rating-badge__icon {
+    @apply w-4 h-4 text-secondary-warning;
+}
+
+.rating-badge__value {
+    @apply font-medium text-sm;
+}

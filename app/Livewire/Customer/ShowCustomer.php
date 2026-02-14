@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Customer;
 
-use App\Domain\Attribute\Services\AttributeAssignableService;
 use App\Domain\Skill\Services\Chart\ChartFactory;
 use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Domain\Skill\Services\SoftSkillChartService;
-use App\Models\Attribute;
 use App\Models\Customer;
+use App\Traits\DeleteModal;
+use App\Traits\WithReview;
 use IcehouseVentures\LaravelChartjs\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -16,32 +16,27 @@ use Livewire\Component;
 
 class ShowCustomer extends Component
 {
-    public Customer $customer;
+    use WithReview;
+    use DeleteModal;
 
-    public ?Collection $customerAttributes = null;
+    public Customer $customer;
     public ?Collection $customerSkills = null;
     public ?Collection $softSkills = null;
+    public ?Collection $fieldSkills = null;
     public ?Collection $fields = null;
     public ?float $softSkillsAverage = null;
     public array $softSkillChartData = [];
 
     public function mount(Customer $customer): void
     {
-
-        $this->customer = $customer
-            ->load('skills.category.fields')
-            ->loadCount('reviews')
-            ->loadAvg('reviews', 'rating');
-
-        $this->customerAttributes = $this->customer->attributes;
+        $this->customer->load('skills.category.fields', 'attributes');
 
         $this->customerSkills = $this->customer->skills;
 
-        $this->fields = $this->customerSkills
-            ->flatMap(fn ($skills) => $skills->category?->fields ?? collect())
-            ->unique('id')
-            ->values();
+        $this->fieldSkills = $this->getFieldSkills();
 
+
+        $this->fields = $this->getFields();
         $this->getSoftSkills($customer);
     }
 
@@ -60,24 +55,10 @@ class ShowCustomer extends Component
 
         $this->customer->load('skills.category.fields');
         $this->customerSkills = $this->customer->skills;
-        $this->fields = $this->customerSkills
-            ->flatMap(fn ($skills) => $skills->category?->fields ?? collect())
-            ->unique('id')
-            ->values();
+        $this->fields = $this->getFields();
+        $this->fieldSkills = $this->getFieldSkills();
 
         $this->getSoftSkills($this->customer);
-    }
-
-    #[On('attribute-selected')]
-    public function addAttributeToCustomer(Attribute $attribute, mixed $value): void
-    {
-        app(AttributeAssignableService::class)->assign(
-            $this->customer,
-            $attribute,
-            $value
-        );
-
-        $this->customerAttributes = $this->customer->attributes;
     }
 
     public function buildSoftSkillChart(string $categoryName, array $labels, array $data): Builder
@@ -102,5 +83,20 @@ class ShowCustomer extends Component
     public function render()
     {
         return view('livewire.customer.show-customer');
+    }
+
+    public function getFields()
+    {
+        return $this->customerSkills
+            ->flatMap(fn($skills) => $skills->category?->fields ?? collect())
+            ->unique('id')
+            ->values();
+    }
+
+    public function getFieldSkills()
+    {
+        return $this->customerSkills
+            ->filter(fn($skill) => $skill->category?->type->value !== 'soft_skill')
+            ->values();
     }
 }

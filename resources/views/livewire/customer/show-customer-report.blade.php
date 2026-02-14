@@ -25,10 +25,6 @@
                 <p class="user-view__subtitle">Customer performance report</p>
             </div>
         </div>
-
-        <div class="user-view__actions">
-
-        </div>
     </div>
 
     {{-- QUICK STATS --}}
@@ -196,7 +192,6 @@
                                     <p class="user-view__skill-card-title">{{ $categoryName }}</p>
                                     <p class="user-view__skill-card-subtitle">Soft skill category</p>
                                 </div>
-                                <x-average-tag size="large" :value="$group['average']" />
                             </div>
                             <div class="user-view__skill-chart">
                                 {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}

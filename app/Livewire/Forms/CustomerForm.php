@@ -14,7 +14,7 @@ class CustomerForm extends Form
     #[Validate(['required', 'string', 'max:255', 'min:5'])]
     public string $full_name = '';
 
-    #[Validate(['required', 'string', 'email', 'max:255', 'unique:customers', 'unique:users'])]
+    #[Validate(['required', 'string', 'email', 'max:255'])]
     public string $email = '';
 
     #[Validate('required')]
@@ -34,44 +34,28 @@ class CustomerForm extends Form
 
     public array $attributes = [];
 
-    public function rulesForStep(): array
-    {
-        return  [
-            1 => [
-                'full_name' => ['required', 'string', 'min:5'],
-                'email' => ['required', 'email', 'max:255', 'unique:customers', 'unique:users'],
-                'dob' => ['required', 'date', 'before: -10 years'],
-            ],
-
-            2 => [
-                'nationality' => ['required', 'string'],
-                'phone' => ['required'],
-                'gender' => ['required'],
-            ]
-        ];
-    }
-    public function defaultSkills(): void
-    {
-        $skillsByCategory = Skill::with('category')
-            ->get()
-            ->map(function (Skill $skill) {
-                    return [
-                        'id' => $skill->id,
-                        'name' => $skill->name,
-                        'type' => $skill->category->type->value
-                    ];
-            } );
-
-        foreach ($skillsByCategory as $value) {
-            $skillId = $value['id'];
-            $this->skills[$skillId] = [
-                'skill' => $value,
-                'selected' => $value['type'] === 'soft_skill',
-                'level' => 20,
-                'years' => null,
-            ];
-        }
-    }
+//    public function defaultSkills(): void
+//    {
+//        $skillsByCategory = Skill::with('category')
+//            ->get()
+//            ->map(function (Skill $skill) {
+//                    return [
+//                        'id' => $skill->id,
+//                        'name' => $skill->name,
+//                        'type' => $skill->category->type->value
+//                    ];
+//            } );
+//
+//        foreach ($skillsByCategory as $value) {
+//            $skillId = $value['id'];
+//            $this->skills[$skillId] = [
+//                'skill' => $value,
+//                'selected' => $value['type'] === 'soft_skill',
+//                'level' => 20,
+//                'years' => null,
+//            ];
+//        }
+//    }
 
     public function addAttribute(Attribute $attribute, mixed $value): void
     {
@@ -86,11 +70,20 @@ class CustomerForm extends Form
     ): void {
 
         $this->skills[$skillId] = [
-            'skill' => $this->skills[$skillId]['skill'],
+            'skill' => $this->getSkill($skillId),
             'selected' => true,
             'level' => $skillLevel,
             'years' => $skillYears,
             'user_id' => $user
         ];
+    }
+
+    /**
+     * @param  int  $skillId
+     * @return Skill
+     */
+    private function getSkill(int $skillId): Skill
+    {
+        return Skill::findOrFail($skillId);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -90,5 +91,16 @@ class User extends Authenticatable
             ->withPivot('value')
             ->withTimestamps()
             ->wherePivotNull('deleted_at');
+    }
+
+    /**
+     * Get the skill schema create by the user.
+     */
+    public function skillSchema(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'user_skill_schema')
+            ->using(UserSkillSchema::class)
+            ->withPivot(['default_level'])
+            ->withTimestamps();
     }
 }

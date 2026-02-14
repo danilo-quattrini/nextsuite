@@ -1,34 +1,44 @@
+@props(['active' => false])
+
 @php
-    $class = ' w-full flex justify-between items-center gap-2 px-4 py-2 rounded-md cursor-pointer';
-    $text  = ' font-medium text-base flex-1 ';
+    $class = 'sidebar__dropdown-toggle';
+
+    if ($active) {
+        $class .= ' sidebar__link--active';
+    }
 @endphp
 
-@props(['active'])
-
-<div x-data="{ open: {{ $active ? 'true' : 'false'}} }"
-     @click.outside="open = false"
+<div
+    x-data="{ open: {{ $active ? 'true' : 'false'}} }"
+    @click.outside="open = false"
 >
     <button
-            @click="open = !open"
+            type="button"
+            @click="if ($store.sidebar.current) { $store.sidebar.set(false); open = true } else { open = !open }"
+            x-bind:aria-expanded="open && !$store.sidebar.current"
             {{ $attributes->merge(['class' => $class]) }}
     >
-        <div class="flex items-center gap-2">
+        <span class="sidebar__link-icon">
             {{ $icon }}
-            <span class="{{ $text }}">{{ $slot }}</span>
-        </div>
+        </span>
+        <span class="sidebar__link-label">
+            {{ $slot }}
+        </span>
 
         <x-heroicon
                 name="chevron-down"
                 size="md"
-                class="transition-transform"
+                class="sidebar__dropdown-caret"
                 x-bind:class="open ? 'rotate-180' : ''"
+                x-show="!$store.sidebar.current"
         />
     </button>
     <div
-            x-show="open"
+            x-cloak
+            x-show="open && !$store.sidebar.current"
             x-collapse.duration.200ms
             @click.stop
-            class="ml-8 mt-2 space-y-1"
+            class="sidebar__dropdown-items"
     >
         {{ $elements }}
     </div>
