@@ -25,10 +25,6 @@
                 <p class="user-view__subtitle">Customer performance report</p>
             </div>
         </div>
-
-        <div class="user-view__actions">
-
-        </div>
     </div>
 
     {{-- QUICK STATS --}}

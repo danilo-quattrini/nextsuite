@@ -3,5 +3,5 @@
 }
 
 .card-head{
-    @apply flex justify-between font-semibold border-b border-b-outline-grey pb-2;
+    @apply flex justify-between items-center font-semibold border-b border-b-outline-grey pb-2;
 }
