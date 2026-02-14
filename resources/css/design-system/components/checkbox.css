@@ -1,4 +1,146 @@
-.ds-checkbox-container, .ds-radio-container {
+/* ============================================
+   CHECKBOX
+   ============================================ */
+
+.ds-checkbox,
+.ds-checkbox-container {
+    --checkbox-size: 1.5rem;
+    --checkbox-icon-width: 0.875rem;
+    --checkbox-icon-height: 0.75rem;
+    --checkbox-radius: 0.3125rem;
+    --checkbox-gap: var(--spacing-xs);
+    --checkbox-bg: var(--color-white);
+    --checkbox-hover-bg: var(--color-light);
+    --checkbox-border: var(--color-outline-grey);
+    --checkbox-checked-bg: var(--color-primary);
+    --checkbox-checked-border: var(--color-primary);
+    --checkbox-focus-ring: var(--color-primary);
+
+    @apply inline-flex items-center cursor-pointer select-none;
+    gap: var(--checkbox-gap);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-snug);
+}
+
+.ds-checkbox--sm {
+    --checkbox-size: 1.25rem;
+    --checkbox-icon-width: 0.625rem;
+    --checkbox-icon-height: 0.5rem;
+}
+
+.ds-checkbox--md {
+    --checkbox-size: 1.5rem;
+    --checkbox-icon-width: 0.875rem;
+    --checkbox-icon-height: 0.75rem;
+}
+
+.ds-checkbox--lg {
+    --checkbox-size: 1.75rem;
+    --checkbox-icon-width: 1rem;
+    --checkbox-icon-height: 0.875rem;
+}
+
+/* Hide browser checkbox when using the custom wrapper */
+.ds-checkbox .ds-checkbox-input,
+.ds-checkbox-container .ds-checkbox-input {
+    @apply sr-only;
+}
+
+/* Size overrides when only the input is rendered */
+.ds-checkbox-input--sm + .ds-checkbox-mark {
+    --checkbox-size: 1.25rem;
+    --checkbox-icon-width: 0.625rem;
+    --checkbox-icon-height: 0.5rem;
+}
+
+.ds-checkbox-input--md + .ds-checkbox-mark {
+    --checkbox-size: 1.5rem;
+    --checkbox-icon-width: 0.875rem;
+    --checkbox-icon-height: 0.75rem;
+}
+
+.ds-checkbox-input--lg + .ds-checkbox-mark {
+    --checkbox-size: 1.75rem;
+    --checkbox-icon-width: 1rem;
+    --checkbox-icon-height: 0.875rem;
+}
+
+/* Custom Box */
+.ds-checkbox-mark {
+    @apply inline-flex items-center justify-center shrink-0;
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+    border-radius: var(--checkbox-radius);
+    background-color: var(--checkbox-bg);
+    border: 1px solid var(--checkbox-border);
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+    position: relative;
+}
+
+/* Hover effect */
+.ds-checkbox:hover .ds-checkbox-mark,
+.ds-checkbox-container:hover .ds-checkbox-mark {
+    background-color: var(--checkbox-hover-bg);
+}
+
+/* Checked */
+.ds-checkbox-input:checked + .ds-checkbox-mark {
+    background-color: var(--checkbox-checked-bg);
+    border-color: var(--checkbox-checked-border);
+}
+
+/* Focus */
+.ds-checkbox-input:focus-visible + .ds-checkbox-mark {
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--checkbox-focus-ring) 35%, transparent);
+}
+
+/* Checkmark (hidden by default) */
+.ds-checkbox-mark::after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: var(--checkbox-icon-width);
+    height: var(--checkbox-icon-height);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8' fill='none'><path d='M3.53553 4.94975L1.41421 2.82843L0 4.24264L3.53553 7.77817L9.8995 1.41421L8.48528 0L3.53553 4.94975Z' fill='white'/></svg>");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+/* Show checkmark */
+.ds-checkbox-input:checked + .ds-checkbox-mark::after {
+    display: block;
+}
+
+/* Disabled */
+.ds-checkbox:has(.ds-checkbox-input:disabled),
+.ds-checkbox-container:has(.ds-checkbox-input:disabled) {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.ds-checkbox-input:disabled + .ds-checkbox-mark {
+    background-color: var(--color-outline-grey);
+    border-color: var(--color-outline-grey);
+}
+
+.ds-checkbox-label {
+    color: var(--color-black);
+}
+
+.ds-checkbox:has(.ds-checkbox-input:disabled) .ds-checkbox-label,
+.ds-checkbox-container:has(.ds-checkbox-input:disabled) .ds-checkbox-label {
+    color: var(--color-primary-grey);
+}
+
+/* ============================================
+   RADIO BUTTON
+   ============================================ */
+
+.ds-radio-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,59 +154,13 @@
     position: relative;
 }
 
-/* Hide browser checkbox and radio */
-.ds-checkbox-input, .ds-radio-input {
+/* Hide browser radio */
+.ds-radio-input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-}
-
-/* Custom Box */
-.ds-checkbox-mark {
-    display: inline-block;
-    height: 1.5rem;
-    width: 1.5rem;
-    border-radius: 0.3125rem;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-outline-grey);
-    transition: all 150ms ease-in-out;
-    position: relative;
-}
-
-/* Hover effect */
-.ds-checkbox-container:hover .ds-checkbox-mark {
-    background-color: var(--color-light);
-}
-
-/* Checked */
-.ds-checkbox-input:checked ~ .ds-checkbox-mark {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-}
-
-/* Checkmark (hidden by default) */
-.ds-checkbox-mark::after {
-    content: "";
-    position: absolute;
-    display: none;
-
-    /* Centering trick */
-    top: 52.5%;
-    left: 52.5%;
-    transform: translate(-50%, -50%);
-
-    width: 14px;
-    height: 12px;
-
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='8' viewBox='0 0 10 8' fill='none'><path d='M3.53553 4.94975L1.41421 2.82843L0 4.24264L3.53553 7.77817L9.8995 1.41421L8.48528 0L3.53553 4.94975Z' fill='white'/></svg>");
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-/* Show checkmark */
-.ds-checkbox-input:checked ~ .ds-checkbox-mark::after {
-    display: block;
 }
 
 /* Radio Button */
