@@ -12,8 +12,8 @@ new class extends Component {
     public ?Customer $customer = null;
     public ?Collection $categories = null;
 
-    public ?array $selectedCategory = [];
-    public ?array $selectedSkill = [];
+    public array $selectedCategory = [];
+    public array $selectedSkill = [];
 
     public function mount(): void
     {
@@ -27,19 +27,10 @@ new class extends Component {
         $user->skillSchema()->syncWithoutDetaching($this->selectedSkill);
     }
 
-    #[Computed]
-    public function computeSkills($categoryId): array
-    {
-        return Skill::where('category_id', $categoryId)
-            ->get()
-            ->map(function ($skill) {
-                return [
-                    'id' => $skill->id,
-                    'label' => $skill->name,
-                    'value' => strtolower(str_replace(" ", "-", $skill->name))
-                ];
-            })->toArray();
 
+    public function isCategorySelected($categoryId): bool
+    {
+        return in_array($categoryId, $this->selectedCategory);
     }
 
     #[Computed]
@@ -55,6 +46,20 @@ new class extends Component {
                     'skills' => $this->computeSkills($category->id)
                 ];
             });
+    }
+
+    public function computeSkills($categoryId): array
+    {
+        return Skill::where('category_id', $categoryId)
+            ->get()
+            ->map(function ($skill) {
+                return [
+                    'id' => $skill->id,
+                    'label' => $skill->name,
+                    'value' => strtolower(str_replace(" ", "-", $skill->name))
+                ];
+            })->toArray();
+
     }
 };
 ?>
@@ -77,34 +82,21 @@ new class extends Component {
                         @foreach($categories as $category)
                             <x-card.card-container size="2xl" :title="$category['name']">
                                 <x-slot:action>
-                                    <x-toggle-container>
-                                        <x-slot:element>
-                                            <x-checkbox
-                                                    id="category-{{ $category['id'] }}"
-                                                    name="category-{{ $category['name'] }}"
-                                                    value="{{ $category['id'] }}"
-                                                    :wrap="false"
-                                                    wire:model.live="selectedCategory"
-                                            />
-                                        </x-slot:element>
-                                        <x-slot:span>
-                                            <span class="ds-checkbox-mark"/>
-                                        </x-slot:span>
-                                    </x-toggle-container>
+                                    <x-form.toggle-switch
+                                            id="category-{{ $category['id'] }}"
+                                            name="category-{{ $category['name'] }}"
+                                            value="{{ $category['id'] }}"
+                                            wire:model.live="selectedCategory"
+                                    />
                                 </x-slot:action>
 
                                 {{-- SKILL SELECTION (Dependent on Category) --}}
+                                @php
+                                    $isCategorySelected = $this->isCategorySelected($category['id']);
+                                @endphp
+
                                 @foreach($category['skills'] as $skill)
-                                    <div class="flex flex-wrap gap-6">
-                                        <x-toggle-container wire:key="{{ $skill['id'] }}">
-                                            <x-slot:element>
-                                                <x-checkbox
-                                                        id="skill-{{ $skill['id'] }}"
-                                                        name="skill-{{ $skill['label'] }}"
-                                                        value="{{ $skill['id'] }}"
-                                                        wire:model.live="selectedSkill"
-                                                />
-                                            </x-slot:element>
+                                        <div class="flex flex-wrap gap-6 {{ !$isCategorySelected ? 'opacity-50 pointer-events-none' : '' }}" wire:transition>
                                             <x-toggle-container wire:key="{{ $skill['id'] }}">
                                                 <x-slot:element>
                                                     <x-form.checkbox
@@ -112,6 +104,7 @@ new class extends Component {
                                                             name="skill-{{ $skill['label'] }}"
                                                             value="{{ $skill['id'] }}"
                                                             wire:model.live="selectedSkill"
+                                                            :disabled="!$isCategorySelected"
                                                     />
                                                 </x-slot:element>
 
