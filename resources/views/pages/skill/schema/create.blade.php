@@ -105,13 +105,22 @@ new class extends Component {
                                                         wire:model.live="selectedSkill"
                                                 />
                                             </x-slot:element>
+                                            <x-toggle-container wire:key="{{ $skill['id'] }}">
+                                                <x-slot:element>
+                                                    <x-form.checkbox
+                                                            id="skill-{{ $skill['id'] }}"
+                                                            name="skill-{{ $skill['label'] }}"
+                                                            value="{{ $skill['id'] }}"
+                                                            wire:model.live="selectedSkill"
+                                                    />
+                                                </x-slot:element>
 
-                                            <x-slot:span>
-                                                <span class="ds-checkbox-mark"></span>
-                                            </x-slot:span>
-                                            {{ $skill['label'] }}
-                                        </x-toggle-container>
-                                    </div>
+                                                <x-slot:span>
+                                                    <span class="ds-checkbox-mark"></span>
+                                                </x-slot:span>
+                                                {{ $skill['label'] }}
+                                            </x-toggle-container>
+                                        </div>
                                 @endforeach
                             </x-card.card-container>
                         @endforeach

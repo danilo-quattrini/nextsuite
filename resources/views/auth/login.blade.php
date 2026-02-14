@@ -36,7 +36,11 @@
             <div class="my-10 flex flex-1 justify-between w-full">
                 <x-toggle-container>
                     <x-slot:element>
-                        <x-checkbox id="remember_me" name="remember" />
+                        <x-form.checkbox
+                                id="remember_me"
+                                name="remember"
+                                size="sm"
+                        />
                     </x-slot:element>
 
                     <x-slot:span>
