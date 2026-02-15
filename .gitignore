@@ -1,20 +1,27 @@
-.github
-.junie
-/.phpunit.cache
+# Dependencies (DON'T commit - installed on server)
 /node_modules
-# DO NOT ignore these (needed for production):
+/vendor
+
+# Ignore this built in local:
 # /public/build
 # /public/css
 # /public/js
 # /public/mix-manifest.json
+
+# Laravel specific
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+/.phpunit.cache
+
+# Environment
 .env
 .env.backup
 .env.production
+.env.local
+
+# Development files
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -22,11 +29,20 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 /auth.json
+
+# IDE files
 /.fleet
 /.idea
 /.nova
 /.vscode
 /.zed
+/.ai
+/.github
+/.junie
+*.swp
+*.swo
+*~
+
 /public/vendor/blade-heroicons/c-academic-cap.svg
 /public/vendor/blade-heroicons/c-adjustments-horizontal.svg
 /public/vendor/blade-heroicons/c-adjustments-vertical.svg
