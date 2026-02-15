@@ -30,6 +30,13 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         'user_id',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'dob' => 'datetime',
+        ];
+    }
+
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
@@ -48,13 +55,6 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             ->withPivot('value')
             ->withTimestamps()
             ->wherePivotNull('deleted_at');
-    }
-
-    protected function casts(): array
-    {
-        return [
-            'dob' => 'datetime',
-        ];
     }
 
     public function company(): BelongsTo
@@ -81,6 +81,12 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     public function documents(): MorphMany
     {
         return $this->morphMany(Document::class, 'documentable');
+    }
+
+
+    public function skillSchema(): MorphMany
+    {
+        // TODO: Implement skillSchema() method.
     }
 
     /**
@@ -112,6 +118,12 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
                 ]
             ]);
         }
+    }
+
+
+    public function removeSkill(int $skillId): void
+    {
+        // TODO: Implement removeSkill() method.
     }
 
     /**
