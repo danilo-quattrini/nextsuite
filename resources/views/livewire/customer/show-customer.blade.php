@@ -128,7 +128,7 @@
                 </p>
 
                 <div class="flex justify-center">
-                    <x-button href="{{ route('skill.create') }}" size="auto">
+                    <x-button href="{{ route('skill-schema.create', $customer) }}" size="auto">
                         Create Skill
                     </x-button>
                 </div>
