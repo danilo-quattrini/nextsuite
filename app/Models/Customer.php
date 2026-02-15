@@ -123,7 +123,15 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     public function removeSkill(int $skillId): void
     {
-        // TODO: Implement removeSkill() method.
+        $skill = Skill::findOrFail($skillId);
+
+        if ($skill->isSoftSkill()) {
+            SkillCustomers::where('customer_id', $this->id)
+                ->where('skill_id', $skillId)
+                ->delete();
+        } else {
+            $this->skills()->detach($skillId);
+        }
     }
 
     /**
