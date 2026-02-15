@@ -61,25 +61,11 @@
                         {{-- Level --}}
                         <x-form.input-container size="auto">
                             <x-form.label-container label="Level" :required="true"/>
-                            <div
-                                class="relative w-full"
-                                x-data="{ level: @entangle('skillLevel').live, min: 0, max: 100 }"
-                            >
-                                <span
-                                    class="absolute top-0 z-10 px-3 py-1 text-sm font-medium text-white bg-primary rounded-md whitespace-nowrap pointer-events-none"
-                                    x-text="level ?? 0"
-                                    :style="`left: calc(${((level ?? 0) - min) / (max - min) * 100}%); transform: translateX(-50%);`"
-                                ></span>
-                                <input
-                                    class="slider"
-                                    type="range"
-                                    min="0"
-                                    max="100"
-                                    value="0"
-                                    x-model="level"
-                                    wire:model="skillLevel"
+                                <x-form.slider
+                                        id="skillLevel"
+                                        name="skillLevel"
+                                        wire:model.live="skillLevel"
                                 />
-                            </div>
                             <x-input-error for="skillLevel"/>
                         </x-form.input-container>
                 @endif
