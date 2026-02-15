@@ -3,16 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class UserSkillSchema extends  Pivot
+class SkillSchema extends  Pivot
 {
     protected $table = 'user_skill_schema';
 
     protected $fillable = [
-        'user_id',
+        'assignable_type',
+        'assignable_id',
         'skill_id',
-        'default_level'
+        'default_level',
     ];
 
     /**
@@ -24,10 +26,10 @@ class UserSkillSchema extends  Pivot
     }
 
     /**
-     * Retrive the user who owns the schema
+     * Retrive the user who will be assigned the schema
      **/
-    public function user(): BelongsTo
+    public function assignable(): MorphTo
     {
-        return $this->belongsTo(User::class);
+        return $this->morphTo();
     }
 }

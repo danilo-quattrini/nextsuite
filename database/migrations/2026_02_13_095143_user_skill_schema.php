@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_skill_schema', function (Blueprint $table) {
+        Schema::create('skill_schemas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->morphs('assignable'); // assignable_type, assignable_id (Customer, etc.)
             $table->foreignId('skill_id')->constrained()->onDelete('cascade');
-            $table->integer('default_level')->nullable();
+            $table->integer('default_level')->default(30);
             $table->timestamps();
 
-            $table->unique(['user_id', 'skill_id']);
+            $table->unique(['assignable_type', 'assignable_id', 'skill_id']);
 
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_skill_schema');
+        Schema::dropIfExists('skill_schemas');
     }
 };
