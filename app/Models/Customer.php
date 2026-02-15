@@ -86,7 +86,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     public function skillSchema(): MorphMany
     {
-        // TODO: Implement skillSchema() method.
+        return $this->morphMany(SkillSchema::class, 'assignable');
     }
 
     /**
