@@ -1,10 +1,18 @@
 @props([
     'label' => null,
-    'step' => 1
-    ])
+    'step' => 1,
+    'level' => 0,
+])
+@php
+    $wireModel = $attributes->wire('model');
+@endphp
 <div
         class="range-slider-container"
-        x-data="{ level: 0, min: 0, max: 100 }"
+        @if($wireModel)
+            x-data="{ level: @entangle($wireModel), min: 0, max: 100 }"
+        @else
+            x-data="{ level: @js($level), min: 0, max: 100 }"
+        @endif
 >
     @if($label)
         <label class="range-slider-label">{{ $label }}</label>
@@ -23,7 +31,7 @@
                 class="range-slider-input"
                 min="0"
                 max="100"
-                value="0"
+                value="{{ $level }}"
                 x-model="level"
                 step="{{ $step }}"
                 {{ $attributes }}
