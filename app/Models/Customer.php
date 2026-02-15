@@ -135,6 +135,16 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
+     * Get skills grouped by category
+     */
+    public function skillsByCategory()
+    {
+        return $this->skills()
+            ->with('category')
+            ->get()
+            ->groupBy('category.name');
+    }
+    /**
      * Add an attribute to a customer, syncWithoutDetaching = remove already existing record and add new ones.
      */
     public function addAttribute(Attribute $attribute, mixed $value): void
