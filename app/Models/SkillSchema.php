@@ -32,4 +32,44 @@ class SkillSchema extends  Pivot
     {
         return $this->morphTo();
     }
+
+    /**
+     * Scope: Filter by assignable entity
+     */
+    public function scopeForAssignable($query, SkillAssignable $assignable)
+    {
+        return $query->where('assignable_type', get_class($assignable))
+            ->where('assignable_id', $assignable->id);
+    }
+
+    /**
+     * Scope: Filter by skill IDs
+     */
+    public function scopeForSkills($query, array $skillIds)
+    {
+        return $query->whereIn('skill_id', $skillIds);
+    }
+
+    /**
+     * Static helper: Remove single skill from assignable's schema
+     */
+    public static function removeSingle(SkillAssignable $assignable, int $skillId): bool
+    {
+        return static::where('assignable_type', get_class($assignable))
+                ->where('assignable_id', $assignable->id)
+                ->where('skill_id', $skillId)
+                ->delete() > 0;
+    }
+
+
+    /**
+     * Static helper: Bulk delete skills from an assignable's schema
+     */
+    public static function removeBulk(SkillAssignable $assignable, array $skillIds): int
+    {
+        return static::where('assignable_type', get_class($assignable))
+            ->where('assignable_id', $assignable->id)
+            ->whereIn('skill_id', $skillIds)
+            ->delete();
+    }
 }
