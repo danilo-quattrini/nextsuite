@@ -17,14 +17,6 @@ new class extends Component {
     public ?array $selectedSkills = [];
     public ?array $skillDefaultLevel = [];
 
-    public SkillSchemaService $schemaService;
-
-    #[Computed]
-    public function loadService(SkillSchemaService $schemaService): void
-    {
-        $this->schemaService = $schemaService;
-    }
-
     public function mount(): void
     {
         $this->categories = $this->computeCategories();
@@ -59,22 +51,22 @@ new class extends Component {
                 return [
                     'id' => $category->id,
                     'name' => $category->name,
-                    'skills' => $this->computeSkills($category->id)
+                    'skills' => $this->computeSkills($category->skills)
                 ];
             });
     }
 
-    public function computeSkills($categoryId): array
+    public function computeSkills(
+        Collection $skill
+    ): array
     {
-        return Skill::where('category_id', $categoryId)
-            ->get()
-            ->map(function ($skill) {
+        return $skill->map(function ($skill) {
                 return [
                     'id' => $skill->id,
                     'label' => $skill->name,
+                    'description' => $skill->description ?? '',
                     'value' => strtolower(str_replace(" ", "-", $skill->name))
                 ];
-            })->toArray();
-
+        })->toArray();
     }
 };

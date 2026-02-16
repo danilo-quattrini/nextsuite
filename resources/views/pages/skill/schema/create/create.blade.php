@@ -32,7 +32,7 @@
                                 @php
                                     $isSkillSelected = $this->isSkillSelected($skill['id']);
                                 @endphp
-                                <div class="flex flex-wrap gap-6 {{ !$isCategorySelected ? 'opacity-50 pointer-events-none' : '' }}"
+                                <div class="flex flex-wrap gap-8 {{ !$isCategorySelected ? 'opacity-50 pointer-events-none' : '' }}"
                                      wire:transition>
                                     @if($isSkillSelected)
                                         <x-form.slider
@@ -41,7 +41,10 @@
                                                 wire:model.live="skillDefaultLevel.{{ $skill['id'] }}"
                                         />
                                     @endif
-                                    <x-toggle-container wire:key="{{ $skill['id'] }}">
+                                    <x-toggle-container
+                                            wire:key="{{ $skill['id'] }}"
+                                            description="{{ $skill['description'] }}"
+                                    >
                                         <x-slot:element>
                                             <x-form.checkbox
                                                     id="skill-{{ $skill['id'] }}"
