@@ -1,7 +1,47 @@
 .card-container{
-    @apply bg-white border border-outline-grey rounded-md p-6 space-y-3;
+    @apply bg-white border border-outline-grey rounded-md space-y-3 text-black;
 }
 
 .card-head{
-    @apply flex justify-between items-center font-semibold border-b border-b-outline-grey pb-2;
+    @apply flex justify-between items-center font-semibold border-b border-b-outline-grey pb-2 text-black;
+}
+
+.card-title{
+    @apply font-semibold;
+}
+
+.card-title--sm{
+    @apply text-sm;
+}
+
+.card-title--md{
+    @apply text-base;
+}
+
+.card-title--lg{
+    @apply text-lg;
+}
+
+.card-title--xl{
+    @apply text-xl;
+}
+
+.card-title--2xl{
+    @apply text-2xl;
+}
+
+.card-title--3xl{
+    @apply text-3xl;
+}
+
+.card-container--sm{
+    @apply p-4;
+}
+
+.card-container--md{
+    @apply p-6;
+}
+
+.card-container--lg{
+    @apply p-8;
 }

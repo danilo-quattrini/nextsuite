@@ -1,25 +1,32 @@
 @props([
-    'title' => 'Title',
-    'size' => null
+    'title' => null,
+    'size' => '3xl',
+    'cardSize' => 'md'
 ])
 @php
-    $sizes = [
-        'sm' => ' text-sm ',
-        'md' => ' text-md ',
-        'lg' => ' text-base ',
-        'xl' => ' text-xl ',
-        '2xl' => ' text-2xl ',
-        '3xl' => ' text-3xl '
-    ]
+    $titleSizes = [
+        'sm' => 'card-title--sm',
+        'md' => 'card-title--md',
+        'lg' => 'card-title--lg',
+        'xl' => 'card-title--xl',
+        '2xl' => 'card-title--2xl',
+        '3xl' => 'card-title--3xl'
+    ];
+
+    $containerSizes = [
+        'sm' => 'card-container--sm',
+        'md' => 'card-container--md',
+        'lg' => 'card-container--lg'
+    ];
 @endphp
-<div class="card-container">
-    <div class="card-head">
-        @if('size')
-            <span {{ $attributes->merge(['class' => $sizes[$size] ?? $sizes['3xl'] ] ) }}> {{ $title }} </span>
-        @else
-            <h3>{{ $title }}</h3>
-        @endif
-        {{ $action ?? null }}
-    </div>
+<div {{ $attributes->merge(['class' => 'card-container ' . ($containerSizes[$cardSize] ?? $containerSizes['md'])]) }}>
+    @if($title || isset($action))
+        <div class="card-head">
+            @if($title)
+                <span class="card-title {{ $titleSizes[$size] ?? $titleSizes['3xl'] }}">{{ $title }}</span>
+            @endif
+            {{ $action ?? null }}
+        </div>
+    @endif
     {{ $slot }}
 </div>
