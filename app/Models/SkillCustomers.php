@@ -81,7 +81,30 @@ class SkillCustomers extends Pivot
         return $evaluation;
     }
 
-
+    /**
+     * Remove a skill from a customer
+     */
+    public function removeSkillFromCustomer(
+        SkillAssignable $user,
+        int $skillId
+    ): void
+    {
+        self::where('customer_id', $user->id)
+            ->where('skill_id', $skillId)
+            ->delete();
+    }
+    /**
+     * Remove a set of skills from a customer
+     */
+    public function removeManySkillFromCustomer(
+        SkillAssignable $user,
+        array $skillIds
+    ): void
+    {
+        foreach ($skillIds as $skillId) {
+            $this->removeSkillFromCustomer($user, $skillId);
+        }
+    }
     /**
      * Calculate the average from all the soft skill
      **/
