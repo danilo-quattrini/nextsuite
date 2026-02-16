@@ -116,23 +116,16 @@
                 @endforeach
             </div>
         @elseif($softSkills->isEmpty())
-            <x-card border="dashed">
-                <x-heroicon name="star" class="mx-auto h-12 w-12 text-primary-grey" />
-
-                <h2 class="font-semibold text-black">
-                    No soft skill associated
-                </h2>
-
-                <p class="text-primary-grey">
-                    Your customer currently don’t have any soft-skill.
-                </p>
-
-                <div class="flex justify-center">
-                    <x-button href="{{ route('skill-schema.create', $customer) }}" size="auto">
-                        Create Skill
-                    </x-button>
-                </div>
-            </x-card>
+            <x-empty-state
+                    icon="star"
+                    message="No soft skill added yet"
+                    description="Add a skill schema to this customer"
+            />
+            <div class="flex justify-center items-center">
+                <x-button href="{{ route('skill-schema.create', $customer) }}" size="large" >
+                    Create Skill
+                </x-button>
+            </div>
         @endif
     </div>
 
