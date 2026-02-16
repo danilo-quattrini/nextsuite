@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class SkillSchema extends  Pivot
 {
-    protected $table = 'user_skill_schema';
+    protected $table = 'skill_schemas';
 
     protected $fillable = [
         'assignable_type',
