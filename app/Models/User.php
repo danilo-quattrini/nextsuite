@@ -99,7 +99,7 @@ class User extends Authenticatable
     public function skillSchema(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'user_skill_schema')
-            ->using(UserSkillSchema::class)
+            ->using(SkillSchema::class)
             ->withPivot(['default_level'])
             ->withTimestamps();
     }
