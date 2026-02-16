@@ -1,4 +1,8 @@
-@php use Illuminate\Support\Carbon; @endphp
+@php
+    use Illuminate\Support\Carbon;
+    $modelType = get_class($user) ?? ' ';
+    $modelName = strtolower(class_basename($modelType)) ?? ' ';
+@endphp
 @props([
     'user' => null,
     'href' => null
@@ -11,9 +15,9 @@
         <div class="page-content__card-header">
             <div class="page-content__profile">
                 <x-profile-image
-                        :src="$user->profile_photo_url"
+                        :src="$user?->profile_photo_url"
                         :name="$user->full_name"
-                        directory="users-profile-photos"
+                        directory="{{ $modelName }}s-profile-photos"
                         size="custom"
                         class="page-content__avatar-image"
                 />
