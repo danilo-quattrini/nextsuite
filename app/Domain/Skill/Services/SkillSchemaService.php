@@ -85,6 +85,7 @@ class SkillSchemaService
         }
 
         SkillSchema::removeBulk($this->assignable, $skillsToRemove);
+        SkillCustomers::removeBulk($this->assignable, $skillsToRemove);
     }
 
     /**
