@@ -131,6 +131,10 @@
     color: var(--color-black);
 }
 
+.ds-checkbox-description {
+    @apply text-xs text-primary-grey/50;
+}
+
 .ds-checkbox:has(.ds-checkbox-input:disabled) .ds-checkbox-label,
 .ds-checkbox-container:has(.ds-checkbox-input:disabled) .ds-checkbox-label {
     color: var(--color-primary-grey);
