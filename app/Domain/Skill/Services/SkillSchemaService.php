@@ -3,6 +3,7 @@
 namespace App\Domain\Skill\Services;
 
 use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Models\SkillCustomers;
 use App\Models\SkillSchema;
 use App\Models\User;
 
