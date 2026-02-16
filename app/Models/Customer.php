@@ -37,6 +37,33 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         ];
     }
 
+    protected static function booted(): void
+    {
+        // Clear cache when customer is created
+        static::created(function () {
+            self::clearReportCache();
+        });
+
+        // Clear cache when customer is updated
+        static::updated(function () {
+            self::clearReportCache();
+        });
+
+        // Clear cache when customer is deleted
+        static::deleted(function () {
+            self::clearReportCache();
+        });
+    }
+
+    protected static function clearReportCache(): void
+    {
+        // Clear all customer report cache pages
+        for ($i = 1; $i <= 50; $i++) {
+            Cache::forget('customer_report_page_' . $i);
+            Cache::forget('customer_list_page_' . $i);
+        }
+    }
+
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
