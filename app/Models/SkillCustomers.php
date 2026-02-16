@@ -4,6 +4,7 @@ namespace App\Models;
 
 
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
