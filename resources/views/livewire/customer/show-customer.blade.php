@@ -84,50 +84,11 @@
 
     </div>
 
-    {{-- FIELD SKILLS --}}
+    {{-- HARD SKILLS --}}
     <livewire:customer.customer-hard-skills :customer="$customer" />
 
-    {{-- SOFT SKILL COMPETENCE --}}
-    <div class="bg-white border border-outline-grey rounded-md p-6 space-y-4">
-        <div class="flex justify-between items-center border-b border-b-outline-grey pb-2">
-            <h3 class="truncate">Soft Skills</h3>
-            {{-- BUTTON TO ADD A NEW SKILL  --}}
-            @livewire('skill-modal', ['hideFieldSkills' => true])
-        </div>
-
-        @if($softSkills && $softSkills->isNotEmpty())
-            <div class="flex gap-8 overflow-x-auto w-full pb-2">
-                @foreach($softSkills as $categoryName => $group)
-                    @php
-                        $labels = collect($group['skills'])->pluck('name')->all();
-                        $data = collect($group['skills'])->pluck('level')->map(fn ($level) => $level ?? 0)->all();
-                    @endphp
-                    <div class="border border-outline-grey rounded-md p-4 bg-white min-w-125 shrink-0">
-                        <div class="flex justify-center my-6">
-                            <x-average-tag size="xl" :value="$group['average']" />
-                        </div>
-                        <div class="flex items-start justify-center">
-                            <h3 class="font-semibold uppercase tracking-wide">{{ $categoryName }}</h3>
-                        </div>
-                        <div class="flex justify-center items-center">
-                            {!! $this->buildSoftSkillChart($categoryName, $labels, $data)->render() !!}
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @elseif($softSkills->isEmpty())
-            <x-empty-state
-                    icon="star"
-                    message="No soft skill added yet"
-                    description="Add a skill schema to this customer"
-            />
-            <div class="flex justify-center items-center">
-                <x-button href="{{ route('skill-schema.create', $customer) }}" size="large" >
-                    Create Skill
-                </x-button>
-            </div>
-        @endif
-    </div>
+    {{-- SOFT SKILL  --}}
+    <livewire:customer.customer-soft-skills :customer="$customer" />
 
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
     <x-popup.review-popup :show-review-modal="$showReviewModal" :rating="$rating" />
