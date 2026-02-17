@@ -6,6 +6,7 @@
         <div class="skill-card__title-wrapper">
             <div class="skill-card__title-group">
                 <h4 class="skill-card__title">{{ $skill->name }}</h4>
+                <span class="skill-card__subtitle"> {{ $skill->description ?? '' }}</span>
             </div>
         </div>
     </div>

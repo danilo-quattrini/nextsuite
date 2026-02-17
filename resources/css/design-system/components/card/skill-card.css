@@ -52,6 +52,12 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.skill-card__subtitle {
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-light);
+    color: var(--color-primary-grey);
+    text-overflow: ellipsis;
+}
 
 .skill-card__category {
     font-size: var(--text-xs);
