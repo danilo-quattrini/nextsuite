@@ -1,4 +1,4 @@
-<label class="ds-radio-container flex items-center gap-2 cursor-pointer">
+<label class="ds-radio-container">
     {{$element}}
     {{$span}}
     <span>{{ $slot }}</span>

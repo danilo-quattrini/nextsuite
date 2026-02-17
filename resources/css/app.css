@@ -2,6 +2,7 @@
 @import "./design-system/token.css";
 @import "./design-system/base.css";
 @import "./design-system/components/checkbox.css";
+@import "./design-system/components/radio.css";
 @import "./design-system/components/toggle-switch.css";
 @import "./design-system/components/buttons.css";
 @import "./design-system/components/input.css";

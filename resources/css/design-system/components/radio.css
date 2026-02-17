@@ -1,0 +1,60 @@
+/* ============================================
+   RADIO BUTTON
+   ============================================ */
+
+.ds-radio-container {
+    @apply inline-flex items-center justify-center cursor-pointer select-none relative;
+    gap: 0.625rem;
+    height: 1.5rem;
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-snug);
+}
+
+/* Hide browser radio */
+.ds-radio-input {
+    @apply sr-only;
+}
+
+/* Radio Button */
+.ds-radio-mark {
+    @apply inline-flex items-center justify-center h-6 w-6 rounded-full border transition-colors duration-150 relative;
+    background-color: var(--color-light);
+    border-color: var(--color-outline-grey);
+}
+
+/* Hover effect */
+.ds-radio-container:hover .ds-radio-mark {
+    background-color: var(--color-light);
+    border-color: var(--color-outline-grey);
+}
+
+/* Checked circle */
+.ds-radio-input:checked ~ .ds-radio-mark {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+/* Inner dot (hidden by default) */
+.ds-radio-mark::after {
+    content: "";
+    position: absolute;
+    display: none;
+
+    /* Center */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    /* Dot size */
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+
+    background-color: white; /* same as checkbox mark color */
+}
+
+/* Show dot */
+.ds-radio-input:checked ~ .ds-radio-mark::after {
+    display: block;
+}
