@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Skill\Services\SoftSkillChartService;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
@@ -8,18 +9,31 @@ new class extends Component {
     public ?Model $user = null;
     public bool $hasReview = false;
     public bool $hasSoftSkill = false;
+    public bool $showInfo = true;
     public ?string $modelType = '';
     public ?string $modelName = '';
 
+    public ?float $softSkillsAverage = null;
     public function mount(): void
     {
         $this->getModelDetails();
+        $this->getSoftSkillsAverage();
     }
+
     #[Computed]
     public function getModelDetails(): void
     {
         $this->modelType = get_class($this->user);
         $this->modelName = strtolower(class_basename($this->modelType));
+    }
+
+    #[Computed]
+    public function getSoftSkillsAverage(): void
+    {
+        $service = app(SoftSkillChartService::class);
+        $skillsByCategory = $service->buildSoftSkills($this->user);
+
+        $this->softSkillsAverage = $service->overallAverage($skillsByCategory);
     }
 };
 ?>
@@ -38,10 +52,11 @@ new class extends Component {
                 <h1 class="user-view__name">
                     {{ $user->full_name ?? 'User' }}
                 </h1>
-                @if($hasSoftSkill)
-                    <x-average-tag size="large" :value="$softSkillsAverage"/>
-                @endif
-
+                @island
+                    @if(!empty($softSkillsAverage))
+                        <x-average-tag size="large" :value="$softSkillsAverage"/>
+                    @endif
+                @endisland
             </div>
             @if($hasReview)
                 <div class="user-view__rating">
@@ -50,10 +65,11 @@ new class extends Component {
                     <span>({{ $user?->reviews_count }} reviews)</span>
                 </div>
             @endif
-            <p class="user-view__subtitle">{{ $user->email ?? 'example@gmail.com' }}
-            </p>
-            <p class="user-view__subtitle">{{ $user->phone ?? '+12 1234566789'  }}</p>
+
+            @if($showInfo)
+                <p class="user-view__subtitle">{{ $user->email ?? 'example@gmail.com' }}</p>
+                <p class="user-view__subtitle">{{ $user->phone ?? '+12 1234566789'  }}</p>
+            @endif
         </div>
     </div>
-</div>
 </div>
