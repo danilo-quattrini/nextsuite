@@ -19,6 +19,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
+    private const string CACHE_KEY = 'customers_list_page_';
+    private const int CACHE_TTL = 60;
+
     protected $fillable = [
         'profile_photo_url',
         'full_name',
@@ -60,8 +63,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     {
         // Clear all customer report cache pages
         for ($i = 1; $i <= 50; $i++) {
-            Cache::forget('customer_report_page_' . $i);
-            Cache::forget('customer_list_page_' . $i);
+            Cache::forget(self::CACHE_KEY. $i);
+            Cache::forget(self::CACHE_KEY . $i);
         }
     }
 
@@ -195,5 +198,27 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     {
         return LogOptions::defaults()
             ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
+    }
+
+    public static function getCustomersWithReviews()
+    {
+        $page = request()->get('page', 1);
+        $key  = self::CACHE_KEY . $page;
+
+        return Cache::remember($key, self::CACHE_TTL, function () {
+            return static::with('skills')
+                ->withCount([
+                    'reviews as reviews_count' => function ($query) {
+                        $query->where('reviewable_type', 'App\Models\Customer');
+                }
+                ])
+                ->withAvg([
+                    'reviews as reviews_avg_rating' => function($query) {
+                        $query->where('reviewable_type', 'App\Models\Customer');
+                    }
+                ], 'rating')
+                ->paginate(6);
+        });
+
     }
 }
