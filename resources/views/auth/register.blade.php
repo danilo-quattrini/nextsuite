@@ -55,24 +55,17 @@
 
             {{-- TERM & PRIVACY --}}
             <div class="my-10 flex flex-1 justify-between w-full">
-                <x-radio-container>
-                    <x-slot:element>
-                        <input type="radio" name="terms" id="terms" class="ds-radio-input" required />
-                    </x-slot:element>
-
-                    <x-slot:span>
-                        <span class="ds-radio-mark"></span>
-                    </x-slot:span>
-                    {{ __('I agree to the') }} <br>
+                <x-radio name="terms" value="agree" required>
+                    I agree to the
                     <a href="{{ route('terms.show') }}" target="_blank">
-                        <x-span-link>{{ __('Terms & Conditions') }}</x-span-link>
+                        <x-span-link>{{ __('Terms, Conditions') }}</x-span-link>
                     </a>
-                    and
+                    & <br>
                     <a href="{{ route('policy.show') }}" target="_blank">
                         <x-span-link>{{ __('Privacy Policy') }}</x-span-link>
                     </a>
                     <span class="text-secondary-error m-0.5">*</span>
-                </x-radio-container>
+                </x-radio>
                 <a href="{{route('login')}}">
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
                 </a>
