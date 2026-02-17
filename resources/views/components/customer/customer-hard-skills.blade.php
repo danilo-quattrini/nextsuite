@@ -12,15 +12,15 @@ new class extends Component {
     public function mount(): void
     {
         $this->loadSkill();
-        $this->getFieldSkills();
+        $this->getHardSkills();
     }
 
     public function loadSkill(): void
     {
         $this->customer->load('skills.category.fields');
-
     }
-    public function getFieldSkills(): void
+
+    public function getHardSkills(): void
     {
         $this->hardSkills = $this->customer->skills
             ->filter(fn($skill) => $skill->category?->type->value !== 'soft_skill')
@@ -49,7 +49,7 @@ new class extends Component {
     @else
         <div class="skills-grid">
             @foreach($hardSkills as $skill)
-                <x-card.skill-card :skill="$skill" />
+                <x-card.skill-card :skill="$skill"/>
             @endforeach
         </div>
     @endif
