@@ -13,7 +13,7 @@
     @if($this->customers->total() > 6)
         <x-slot:pagination>
             <div class="page-content__pagination">
-                {{ $this->customers->links('components.pagination') }}
+                {{ $this->customers->links('components.pagination', data: ['scrollTo' => false]) }}
             </div>
         </x-slot:pagination>
     @endif
