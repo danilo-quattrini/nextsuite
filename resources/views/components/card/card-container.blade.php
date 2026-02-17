@@ -1,5 +1,6 @@
 @props([
     'title' => null,
+    'subtitle' => null,
     'size' => '3xl',
     'cardSize' => 'md'
 ])
@@ -22,9 +23,14 @@
 <div {{ $attributes->merge(['class' => 'card-container ' . ($containerSizes[$cardSize] ?? $containerSizes['md'])]) }}>
     @if($title || isset($action))
         <div class="card-head">
-            @if($title)
-                <span class="card-title {{ $titleSizes[$size] ?? $titleSizes['3xl'] }}">{{ $title }}</span>
-            @endif
+            <div>
+                @if($title)
+                    <span class="card-title {{ $titleSizes[$size] ?? $titleSizes['3xl'] }}">{{ $title }}</span>
+                @endif
+                @if($subtitle)
+                    <p class="card-subtitle">{{ $subtitle }}</p>
+                @endif
+            </div>
             {{ $action ?? null }}
         </div>
     @endif
