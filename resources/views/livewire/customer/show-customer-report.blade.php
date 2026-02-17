@@ -1,31 +1,6 @@
 <div class="user-view">
     {{-- HEADER --}}
-    <div class="user-view__header">
-        <div class="user-view__identity">
-            <x-profile-image
-                :src="$customer->profile_photo_url"
-                :name="$customer->full_name"
-                directory="customers-profile-photos"
-                size="custom"
-                class="user-view__avatar"
-            />
-
-            <div class="user-view__meta">
-                <div class="user-view__title">
-                    <h1 class="user-view__name">
-                        {{ $customer->full_name }}
-                    </h1>
-                    <x-average-tag size="large" :value="$softSkillsAverage" />
-                </div>
-                <div class="user-view__rating">
-                    <x-heroicon variant="solid" name="star" class="text-secondary-warning" />
-                    <span>{{ number_format($customer->reviews_avg_rating ?? 0, 1) }}</span>
-                    <span>({{ $customer->reviews_count }} reviews)</span>
-                </div>
-                <p class="user-view__subtitle">Customer performance report</p>
-            </div>
-        </div>
-    </div>
+    <livewire:user.info-header :user="$customer" has-review="true"/>
 
     {{-- QUICK STATS --}}
     <section class="user-view__stats">
