@@ -19,10 +19,7 @@ class CustomerTable extends Component
     public function render()
     {
         return view('livewire.customer.customer-table', [
-            'customers' => Customer::with('skills')
-                ->withCount('reviews')
-                ->withAvg('reviews', 'rating')
-                ->paginate(6)
+            'customers' => Customer::getCustomersWithReviews()
         ]);
     }
 }
