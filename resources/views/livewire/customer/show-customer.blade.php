@@ -2,33 +2,12 @@
 
     {{-- HEADER --}}
     <div class="flex items-center justify-between">
-        <div class="flex-col justify-start items-center space-y-6">
-            <x-profile-image
-                :src="$customer->profile_photo_url"
-                :name="$customer->full_name"
-                directory="customers-profile-photos"
-            />
-
-
-            <div>
-                <div class="flex justify-start items-center gap-4 ">
-                    <h1 class="text-2xl font-semibold">
-                        {{ $customer->full_name }}
-                    </h1>
-                    <x-average-tag size="xl" :value="$softSkillsAverage" />
-                </div>
-                <div class="flex items-center gap-2 mt-1 text-base text-primary-grey">
-                    <x-heroicon variant="solid" name="star"  class="text-secondary-warning" />
-                    <span>
-                        {{ number_format($customer->reviews_avg_rating ?? 0, 1) }}
-                    </span>
-                    <span>
-                        ({{ $customer->reviews_count }} reviews)
-                    </span>
-                </div>
-            </div>
-        </div>
-
+        <livewire:user.info-header
+                :user="$customer"
+                :has-review="true"
+                :has-soft-skill="true"
+                :show-info="false"
+        />
         <x-form.dropdown-button align="right">
             <x-slot:trigger>
                 <x-button
@@ -67,11 +46,10 @@
             </x-slot:content>
 
         </x-form.dropdown-button>
-
     </div>
 
     {{-- INFO GRID --}}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="user-view__grid">
 
         {{-- PERSONAL INFO --}}
         <livewire:customer.customer-info :customer="$customer"/>
