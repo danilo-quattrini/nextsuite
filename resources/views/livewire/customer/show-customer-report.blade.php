@@ -45,36 +45,18 @@
                 </div>
 
                 {{-- DROPDOWN BUTTON --}}
-                <x-form.dropdown-button align="right">
-                    <x-slot:trigger>
-                        <x-button
-                                type="button"
-                                variant="white"
-                                size="auto"
-                                aria-label="choose which type of diagram"
+                <div class="flex justify-between items-center gap-8">
+                    @foreach ($chartTypes as $type)
+                        <x-radio
+                                id="chartype-{{$type}}"
+                                name="chartype-{{$type}}"
+                                value="{{ $type }}"
+                                wire:model.live.debounce.150ms="fieldChartType"
                         >
-                            <x-heroicon name="ellipsis-vertical" />
-                        </x-button>
-                    </x-slot:trigger>
-
-                    <x-slot:content>
-                        <div class="flex-col items-center space-y-3">
-                            <div class="flex flex-col space-y-2 min-w-40">
-                                <h6>Change Diagram</h6>
-                                @foreach ($chartTypes as $type)
-                                    <button
-                                            type="button"
-                                            wire:click.prevent="$set('fieldChartType', '{{ $type }}')"
-                                            class="flex items-center gap-2 px-3 py-2 rounded-md text-sm  hover:bg-outline-grey cursor-pointer transition duration-150"
-                                    >
-                                        <span>{{ ucfirst($type) }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </x-slot:content>
-                </x-form.dropdown-button>
-
+                            {{ ucfirst($type) }}
+                        </x-radio>
+                    @endforeach
+                </div>
             </div>
 
             {{-- GRAPH --}}
@@ -119,37 +101,19 @@
                     <p class="user-view__panel-subtitle">Average level by soft skill</p>
                 </div>
 
-                {{-- DROPDOWN BUTTON --}}
-                <x-form.dropdown-button align="right">
-                    <x-slot:trigger>
-                        <x-button
-                                type="button"
-                                variant="white"
-                                size="auto"
-                                aria-label="choose which type of diagram"
+                {{-- RADIO BUTTONS --}}
+                <div class="flex justify-between items-center gap-8">
+                    @foreach ($chartTypes as $type)
+                        <x-radio
+                                id="chartype-{{$type}}"
+                                name="chartype-{{$type}}"
+                                value="{{ $type }}"
+                                wire:model.live.debounce.150ms="chartType"
                         >
-                            <x-heroicon name="ellipsis-vertical" />
-                        </x-button>
-                    </x-slot:trigger>
-
-                    <x-slot:content>
-                        <div class="flex-col items-center space-y-3">
-                            <div class="flex flex-col space-y-2 min-w-40">
-                                <h6>Change Diagram</h6>
-                                @foreach ($chartTypes as $type)
-                                    <button
-                                            type="button"
-                                            wire:click.prevent="$set('chartType', '{{ $type }}')"
-                                            class="flex items-center gap-2 px-3 py-2 rounded-md text-sm  hover:bg-outline-grey cursor-pointer transition duration-150"
-                                    >
-                                        <span>{{ ucfirst($type) }}</span>
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    </x-slot:content>
-                </x-form.dropdown-button>
-
+                            {{ ucfirst($type) }}
+                        </x-radio>
+                    @endforeach
+                </div>
             </div>
 
             {{-- GRAPH --}}
