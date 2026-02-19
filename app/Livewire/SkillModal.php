@@ -26,21 +26,11 @@ class SkillModal extends Component
         $this->authUser = Auth::user();
         $skillService = new SkillService();
 
-        if ($user->company) {
-            $user->company->load('fields.categories.skills');
-            $skills = $user->company->fields
-                ->flatMap(fn ($field) => $field->categories)
-                ->flatMap(fn ($category) => $category->skills)
-                ->unique('id');
-        } else {
-            $skills = Skill::with('category')->get();
-        }
+        $skillService->loadSkillsForUser($this->authUser);
 
-        $skills = $this->hideSkill($skills);
+        $this->hideSkill($skillService);
 
-        $this->skillsByCategory = $skills
-            ->groupBy(fn ($skill) => $skill->category->name)
-            ->toArray();
+        $this->skillsByCategory = $skillService->groupByCategory();
     }
 
     public function toggleYearsInput($skillId): bool
@@ -55,16 +45,13 @@ class SkillModal extends Component
         $this->showYearsInput = $this->toggleYearsInput($skillId);
     }
 
-    public function hideSkill(Collection $skills): Collection
+    public function hideSkill(SkillService $skillService): void
     {
-        return match (true){
-            $this->hideFieldSkills =>  $skills->reject(
-                fn ($skill) => $skill->category?->type?->value !== 'soft_skill'
-            ),
-            $this->hideSoftSkills => $skills->reject(
-                fn ($skill) => $skill->category?->type?->value === 'soft_skill'
-            )
-        };
+        if($this->hideSoftSkills){
+            $skillService->filterByType('soft_skill');
+        }elseif ($this->hideHardSkills){
+            $skillService->filter(fn ($skill) => $skill->category?->type?->value === 'soft_skill');
+        }
     }
 
     public function render()
