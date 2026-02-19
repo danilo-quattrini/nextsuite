@@ -48,37 +48,52 @@ class SkillModal extends Component
     }
     public function mount(): void
     {
-        $this->authUser = Auth::user();
-        $skillService = new SkillService();
-
-        $skillService->loadSkillsForUser($this->authUser);
-
-        $this->hideSkill($skillService);
-
-        $this->skillsByCategory = $skillService->groupByCategory();
+        $this->loadSkills();
     }
 
-    public function toggleYearsInput($skillId): bool
+    /**
+     * Load skills with filters
+     */
+    public function loadSkills(): void
     {
-        $categoryType = Skill::findOrFail($skillId)->category->type->value;
-        return $categoryType !== 'soft_skill';
+        $this->skillsByCategory = $this->getSkillService()->groupByCategory();
     }
 
-    public function updatedSelectedSkillId($skillId): void
+    /**
+    * Create and configure skill service
+    */
+    public function getSkillService(): SkillService
     {
-        $this->selectedSkillId = $skillId;
-        $this->showYearsInput = $this->toggleYearsInput($skillId);
+        $service = new SkillService();
+        $service->loadSkillsForUser(Auth::user());
+
+        if ($this->hideSoftSkills) {
+            $service->filterByType('soft_skill');
+        } elseif ($this->hideHardSkills) {
+            $service->filter(fn($skill) => $skill->category?->type?->value === 'soft_skill');
+        }
+
+        return $service;
     }
 
-    public function hideSkill(SkillService $skillService): void
+    public function updatedSelectedSkillId(?int $skillId): void
     {
-        if($this->hideSoftSkills){
-            $skillService->filterByType('soft_skill');
-        }elseif ($this->hideHardSkills){
-            $skillService->filter(fn ($skill) => $skill->category?->type?->value === 'soft_skill');
+        if (!$skillId) {
+            $this->showYearsInput = true;
+            $this->skillYears = null;
+            return;
+        }
+
+        $this->showYearsInput = !$this->getSkillService()->isSoftSkill($skillId);
+
+        if (!$this->showYearsInput) {
+            $this->skillYears = null;
         }
     }
 
+    /**
+     * Close the modal
+     */
     #[On('close-modal')]
     public function closeModal(): void
     {
