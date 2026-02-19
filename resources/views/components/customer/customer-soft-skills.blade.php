@@ -44,7 +44,7 @@ new class extends Component {
         $this->customerSkills = $this->customer->skills;
     }
 
-    #[On('skill-selected')]
+    #[On('skill-added')]
     public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
         $user = Auth::user();

@@ -95,7 +95,7 @@ class SkillService
     }
 
     /**
-     * Get all skills in current state
+     * Get all skills in the current state
      */
     public function getSkills(): Collection
     {
