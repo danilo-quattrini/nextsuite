@@ -1,8 +1,10 @@
 <?php
 
+use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
@@ -25,6 +27,33 @@ new class extends Component {
         $this->hardSkills = $this->customer->skills
             ->filter(fn($skill) => $skill->category?->type->value !== 'soft_skill')
             ->values();
+    }
+
+    #[On('skill-added')]
+    public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
+    {
+
+        try {
+            $user = Auth::user();
+            app(SkillAssignmentService::class)->assign(
+                $this->customer,
+                $user,
+                $skillId,
+                $skillLevel,
+                $skillYears
+            );
+            $this->updateHardSkillModel();
+
+            session()->flash('status', 'Skill added successfully!');
+        } catch (Exception $e) {
+            session()->flash('error', 'Failed to add skill: '.$e->getMessage());
+        }
+    }
+
+    public function updateHardSkillModel(): void
+    {
+        $this->loadSkill();
+        $this->getHardSkills();
     }
 };
 ?>
