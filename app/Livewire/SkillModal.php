@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Domain\Skill\Services\SkillService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -74,6 +75,10 @@ class SkillModal extends Component
         return $service;
     }
 
+
+    /**
+     * When skill selection changes
+     */
     public function updatedSelectedSkillId(?int $skillId): void
     {
         if (!$skillId) {
@@ -86,6 +91,42 @@ class SkillModal extends Component
 
         if (!$this->showYearsInput) {
             $this->skillYears = null;
+        }
+    }
+
+    /**
+     * Add skill and notify parent component
+     */
+    public function addSkill(): void
+    {
+
+        $this->validate();
+
+        try {
+
+            $this->dispatch(
+                'skill-added',
+                skillId: $this->selectedSkillId,
+                skillLevel: $this->skillLevel,
+                skillYears: $this->skillYears
+            );
+
+            $this->closeModal();
+
+            $this->dispatch('notify', [
+                'type' => 'status',
+                'message' => 'Skill added successfully!'
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to add skill', [
+                'skill_id' => $this->selectedSkillId,
+                'error' => $e->getMessage()
+            ]);
+
+            $this->dispatch('notify', [
+                'type' => 'error',
+                'message' => 'Failed to add skill. Please try again.'
+            ]);
         }
     }
 
