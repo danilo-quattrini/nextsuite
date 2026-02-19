@@ -18,11 +18,10 @@ class SkillModal extends Component
     public bool $showSkillModal = false;
     public bool $showYearsInput = true;
     public bool $hideSoftSkills = false;
-    public bool $hideFieldSkills = false;
+    public bool $hideHardSkills = false;
 
     public function mount(): void
     {
-        $user = auth()->user();
         $this->authUser = Auth::user();
 
         if ($user->company) {

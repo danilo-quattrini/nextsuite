@@ -89,7 +89,7 @@ new class extends Component {
     @endif
 
     <x-slot:action>
-        @livewire('skill-modal', ['hideFieldSkills' => true])
+        @livewire('skill-modal', ['hideHardSkills' => true])
     </x-slot:action>
 
     @if($softSkills->isEmpty())
