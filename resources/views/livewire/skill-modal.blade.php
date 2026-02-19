@@ -3,14 +3,14 @@
     {{-- BUTTON TO ADD A NEW SKILL  --}}
     <x-button
             size="auto"
-            wire:click="$set('showSkillModal', true)"
+            wire:click="$set('showModal', true)"
     >
-        <x-heroicon name="plus" />
+        <x-heroicon name="plus"/>
         New Skill
     </x-button>
 
-    @if ($showSkillModal)
-        <x-popup-box modal="showSkillModal">
+    @if ($showModal)
+        <x-popup-box modal="showModal">
 
             <x-slot:header>
                 <x-authentication-card-logo/>
@@ -51,23 +51,24 @@
 
                 @if(!empty($selectedSkillId))
                     @if($showYearsInput)
-                         {{-- Years --}}
+                        {{-- Years --}}
                         <x-form.input-container size="auto">
                             <x-form.label-container label="Years" :required="true"/>
-                            <x-input type="number" min="0" wire:model="skillYears" placeholder="Years" right-icon="clock"  :error="$errors->has('skillYears')" />
+                            <x-input type="number" min="0" wire:model="skillYears" placeholder="Years"
+                                     right-icon="clock" :error="$errors->has('skillYears')"/>
                             <x-input-error for="skillYears"/>
                         </x-form.input-container>
                     @endif
-                        {{-- Level --}}
-                        <x-form.input-container size="auto">
-                            <x-form.label-container label="Level" :required="true"/>
-                                <x-form.slider
-                                        id="skillLevel"
-                                        name="skillLevel"
-                                        wire:model.live="skillLevel"
-                                />
-                            <x-input-error for="skillLevel"/>
-                        </x-form.input-container>
+                    {{-- Level --}}
+                    <x-form.input-container size="auto">
+                        <x-form.label-container label="Level" :required="true"/>
+                        <x-form.slider
+                                id="skillLevel"
+                                name="skillLevel"
+                                wire:model.live="skillLevel"
+                        />
+                        <x-input-error for="skillLevel"/>
+                    </x-form.input-container>
                 @endif
             </x-form.container>
             {{-- Actions --}}
@@ -76,7 +77,7 @@
                         type="button"
                         size="large"
                         variant="rest"
-                        wire:click="$set('showSkillModal', false)"
+                        wire:click="$set('showModal', false)"
                 >
                     Cancel
                 </x-button>

@@ -16,7 +16,7 @@ class SkillModal extends Component
     public ?User $authUser = null;
 
     public ?int $selectedCategoryId = null;
-    public bool $showSkillModal = false;
+    public bool $showModal = false;
     public bool $showYearsInput = true;
     public bool $hideSoftSkills = false;
     public bool $hideHardSkills = false;
