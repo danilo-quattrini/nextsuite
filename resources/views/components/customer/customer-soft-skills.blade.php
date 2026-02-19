@@ -2,11 +2,13 @@
 
 use App\Domain\Skill\Services\Chart\ChartFactory;
 use App\Domain\Skill\Services\SkillAssignmentService;
+use App\Domain\Skill\Services\SkillSchemaService;
 use App\Domain\Skill\Services\SoftSkillChartService;
 use App\Models\Customer;
 use IcehouseVentures\LaravelChartjs\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -16,11 +18,24 @@ new class extends Component {
     public ?Collection $customerSkills = null;
 
     public ?float $softSkillsAverage = null;
+    public bool $skillSchemaExists = false;
 
     public function mount(): void
     {
-        $this->loadSkill();
+        $this->checkSkillSchema();
         $this->getSoftSkills();
+    }
+
+    #[Computed]
+    public function checkSkillSchema(): void
+    {
+        $service = new SkillSchemaService()->for($this->customer);
+        if ($service->isSkillSchemaExists()) {
+            $this->customerSkills = $service->getSkillsFromSchema();
+            $this->skillSchemaExists = true;
+        } else {
+            $this->loadSkill();
+        }
     }
 
     public function loadSkill(): void
@@ -44,6 +59,7 @@ new class extends Component {
 
         $this->updateSoftSkillModel();
     }
+
     public function getSoftSkills(): void
     {
         $service = app(SoftSkillChartService::class);
@@ -55,14 +71,16 @@ new class extends Component {
 
     public function updateSoftSkillModel(): void
     {
-        $this->customer->load('skills.category.fields');
-        $this->customerSkills = $this->customer->skills;
+        $this->loadSkill();
         $this->getSoftSkills();
     }
 };
 ?>
 
-<x-card.card-container title="Soft Skills">
+<x-card.card-container
+        title="Soft Skills"
+        subtitle="Has a skill schema: {{ $skillSchemaExists ? 'yes' : 'no' }}"
+>
     {{--  COUNTER  --}}
     @if($softSkills->count() > 0)
         <x-tag variant="white" size="lg">
@@ -81,7 +99,7 @@ new class extends Component {
                 description="Add a skill schema to this customer"
         />
         <div class="flex justify-center items-center">
-            <x-button href="{{ route('skill-schema.create', $customer) }}" size="large" >
+            <x-button href="{{ route('skill-schema.create', $customer) }}" size="large">
                 Create Skill
             </x-button>
         </div>
