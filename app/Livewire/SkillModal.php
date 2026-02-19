@@ -3,13 +3,17 @@
 namespace App\Livewire;
 
 use App\Models\Skill;
+use App\Models\User;
 use App\Traits\WithSkill;
-use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class SkillModal extends Component
 {
     use WithSkill;
+
+    public ?User $authUser = null;
+
     public ?int $selectedCategoryId = null;
     public bool $showSkillModal = false;
     public bool $showYearsInput = true;
@@ -19,6 +23,7 @@ class SkillModal extends Component
     public function mount(): void
     {
         $user = auth()->user();
+        $this->authUser = Auth::user();
 
         if ($user->company) {
             $user->company->load('fields.categories.skills');
