@@ -115,4 +115,14 @@ class SkillSchemaService
             );
         }
     }
+
+    /**
+     * Ensure assignable is set before operations
+     */
+    public function getSkillsFromSchema(): Collection
+    {
+        return $this->assignable->skillSchema()
+            ->get()
+            ->map(fn($skill) => $skill->skill);
+    }
 }
