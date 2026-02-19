@@ -6,8 +6,9 @@
 
 @php
     $proficiency = match(true) {
-        $level >= 70 => ['label' => 'Expert', 'variant' => 'success'],
-        $level >= 50 => ['label' => 'Advanced', 'variant' => 'info'],
+        $level == 100 => ['label' => 'Professional', 'variant' => 'success'],
+        $level >= 80 => ['label' => 'Expert', 'variant' => 'success'],
+        $level >= 60 => ['label' => 'Advanced', 'variant' => 'info'],
         $level >= 40 => ['label' => 'Intermediate', 'variant' => 'warning'],
         $level >= 20 => ['label' => 'Beginner', 'variant' => 'neutral'],
         default => ['label' => 'Novice', 'variant' => 'neutral'],
