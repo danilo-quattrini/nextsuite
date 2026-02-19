@@ -6,6 +6,7 @@ use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Models\SkillCustomers;
 use App\Models\SkillSchema;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class SkillSchemaService
 {
@@ -17,7 +18,10 @@ class SkillSchemaService
      */
     public function __construct() {}
 
-    public function for(SkillAssignable $assignable, array $skillsData): self
+    public function for(
+        SkillAssignable $assignable,
+        ?array $skillsData = []
+    ): self
     {
         $this->assignable = $assignable;
         $this->skillsData = $skillsData;
