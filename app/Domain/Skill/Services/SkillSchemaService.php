@@ -121,12 +121,23 @@ class SkillSchemaService
     }
 
     /**
-     * Ensure assignable is set before operations
+     * Get all the skill from the schema.
      */
     public function getSkillsFromSchema(): Collection
     {
-        return $this->assignable->skillSchema()
-            ->get()
-            ->map(fn($skill) => $skill->skill);
+        if($this->isSkillSchemaExists()) {
+            return $this->assignable->skillSchema()
+                ->get()
+                ->map(fn($skill) => $skill->skill);
+        }
+        return collect();
+    }
+
+    /**
+     * Ensure is there any skill inside the schema
+     */
+    public function isSkillSchemaExists(): bool
+    {
+        return $this->assignable->skillSchema()->exists();
     }
 }
