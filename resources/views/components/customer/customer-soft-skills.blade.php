@@ -47,17 +47,22 @@ new class extends Component {
     #[On('skill-added')]
     public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
-        $user = Auth::user();
 
-        app(SkillAssignmentService::class)->assign(
-            $this->customer,
-            $user,
-            $skillId,
-            $skillLevel,
-            $skillYears
-        );
+        try {
+            $user = Auth::user();
+            app(SkillAssignmentService::class)->assign(
+                $this->customer,
+                $user,
+                $skillId,
+                $skillLevel,
+                $skillYears
+            );
+            $this->updateSoftSkillModel();
 
-        $this->updateSoftSkillModel();
+            session()->flash('status', 'Skill added successfully!');
+        } catch (Exception $e) {
+            session()->flash('error', 'Failed to add skill: ' . $e->getMessage());
+        }
     }
 
     public function getSoftSkills(): void
