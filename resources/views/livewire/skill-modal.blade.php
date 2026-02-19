@@ -77,7 +77,7 @@
                         type="button"
                         size="large"
                         variant="rest"
-                        wire:click="$set('showModal', false)"
+                        wire:click="dispatch('close-modal')"
                 >
                     Cancel
                 </x-button>

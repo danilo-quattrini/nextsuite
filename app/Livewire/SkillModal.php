@@ -86,7 +86,7 @@ class SkillModal extends Component
     #[On('close-modal')]
     public function closeModal(): void
     {
-        return view('livewire.skill-modal');
         $this->showModal = false;
+        $this->resetForm();
     }
 }
