@@ -12,6 +12,10 @@ use Livewire\Component;
 class SkillModal extends Component
 {
     use WithSkill;
+    public ?int $selectedSkillId = null;
+    public ?int $skillLevel = 1;
+    public ?int $skillYears = null;
+    public array $skillsByCategory = [];
 
     public ?User $authUser = null;
 
