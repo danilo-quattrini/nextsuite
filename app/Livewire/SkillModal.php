@@ -7,6 +7,7 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Traits\WithSkill;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SkillModal extends Component
@@ -82,8 +83,10 @@ class SkillModal extends Component
         }
     }
 
-    public function render()
+    #[On('close-modal')]
+    public function closeModal(): void
     {
         return view('livewire.skill-modal');
+        $this->showModal = false;
     }
 }
