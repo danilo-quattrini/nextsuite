@@ -89,4 +89,24 @@ class SkillModal extends Component
         $this->showModal = false;
         $this->resetForm();
     }
+
+    /**
+     * Reset all form fields
+     */
+    private function resetForm(): void
+    {
+        $this->reset([
+            'selectedSkillId',
+            'skillLevel',
+            'skillYears',
+            'showYearsInput',
+        ]);
+
+        $this->resetValidation();
+    }
+
+    public function render()
+    {
+        return view('livewire.skill-modal');
+    }
 }
