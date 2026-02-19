@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Domain\Skill\Services\SkillService;
 use App\Models\Skill;
 use App\Models\User;
 use App\Traits\WithSkill;
@@ -23,6 +24,7 @@ class SkillModal extends Component
     public function mount(): void
     {
         $this->authUser = Auth::user();
+        $skillService = new SkillService();
 
         if ($user->company) {
             $user->company->load('fields.categories.skills');
