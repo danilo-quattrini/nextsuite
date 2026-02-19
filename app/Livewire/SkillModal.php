@@ -3,8 +3,6 @@
 namespace App\Livewire;
 
 use App\Domain\Skill\Services\SkillService;
-use App\Models\Skill;
-use App\Models\User;
 use App\Traits\WithSkill;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
@@ -17,8 +15,6 @@ class SkillModal extends Component
     public ?int $skillLevel = 1;
     public ?int $skillYears = null;
     public array $skillsByCategory = [];
-
-    public ?User $authUser = null;
 
     public ?int $selectedCategoryId = null;
     public bool $showModal = false;
