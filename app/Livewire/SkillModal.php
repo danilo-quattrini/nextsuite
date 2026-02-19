@@ -25,6 +25,30 @@ class SkillModal extends Component
     public bool $hideSoftSkills = false;
     public bool $hideHardSkills = false;
 
+    /**
+     * Validation rules
+     */
+    protected function rules(): array
+    {
+        return [
+            'selectedSkillId' => ['required', 'exists:skills,id'],
+            'skillLevel' => ['required', 'integer', 'min:1', 'max:100'],
+            'skillYears' => ['nullable', 'integer', 'min:0', 'max:30'],
+        ];
+    }
+
+    /**
+     * Custom validation messages
+     */
+    protected function messages(): array
+    {
+        return [
+            'selectedSkillId.required' => 'Please select a skill.',
+            'skillLevel.required' => 'Please set a skill level.',
+            'skillLevel.between' => 'Skill level must be between 1 and 100',
+            'skillYears.max' => 'Years of experience cannot exceed 30.',
+        ];
+    }
     public function mount(): void
     {
         $this->authUser = Auth::user();
