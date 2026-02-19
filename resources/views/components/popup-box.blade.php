@@ -2,12 +2,10 @@
     'modal' => null,
     'transition' => true
 ])
-<div class="popup-overlay"
-     @if($transition) wire:transition @endif
+<div class="popup"
+     wire:click.self="dispatch('close-modal')"
 >
-    <div class="popup-card"
-         @click.outside="$wire.set('{{ $modal }}', false)"
-    >
+    <div class="popup__card">
         <div class=" text-black">
             {{ $header }}
         </div>
