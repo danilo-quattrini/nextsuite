@@ -3,14 +3,12 @@
 namespace App\Livewire;
 
 use App\Domain\Skill\Services\SkillService;
-use App\Traits\WithSkill;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class SkillModal extends Component
 {
-    use WithSkill;
     public ?int $selectedSkillId = null;
     public ?int $skillLevel = 1;
     public ?int $skillYears = null;
