@@ -3,6 +3,7 @@
 namespace App\Domain\Skill\Services;
 
 use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Models\Skill;
 use App\Models\User;
 
 class SkillAssignmentService
@@ -18,6 +19,11 @@ class SkillAssignmentService
         int | null $skillYears
     ): void {
         $model->addSkill($evaluator, $skillId, $skillLevel, $skillYears);
+        activity()
+            ->performedOn($model)
+            ->causedBy($evaluator)
+            ->withProperties(['name' => Skill::find($skillId)->name])
+            ->log('add new skill');
     }
 
     /**
