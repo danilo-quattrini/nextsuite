@@ -21,9 +21,11 @@ class SkillService
     /**
      * Load skills based on user's company fields or all skills
      */
-    public function loadSkillsForUser(User $user): self
+    public function loadSkillsForUser(
+        ?User $user = null
+    ): self
     {
-        if ($user->company) {
+        if (isset($user) && $user->company) {
             $this->skills = $user->company->fields()
                 ->with('categories.skills.category')
                 ->get()
