@@ -39,7 +39,7 @@
             <div class="user-view__panel-header">
 
                 {{-- HEADING & SUBTITLE --}}
-                <div>
+                <div class="user-view__panel-header--left">
                     <h3>Field Skills</h3>
                     <p class="user-view__panel-subtitle">Average level by field</p>
                 </div>
@@ -96,7 +96,7 @@
         <div class="user-view__panel user-view__panel--wide">
             {{-- HEADING & SUBTITLE --}}
             <div class="user-view__panel-header">
-                <div>
+                <div class="user-view__panel-header--left">
                     <h3>Soft Skill Diagram</h3>
                     <p class="user-view__panel-subtitle">Average level by soft skill</p>
                 </div>

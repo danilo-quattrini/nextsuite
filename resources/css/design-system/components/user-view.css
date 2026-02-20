@@ -74,6 +74,10 @@
     @apply flex items-center justify-between;
 }
 
+.user-view__panel-header--left{
+    @apply space-y-1;
+}
+
 .user-view__panel-tag{
     @apply text-xs uppercase tracking-widest text-primary-grey;
 }
