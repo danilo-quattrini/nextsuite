@@ -66,6 +66,14 @@
                                 id="skillLevel"
                                 name="skillLevel"
                                 wire:model.live="skillLevel"
+                                :step="25"
+                                :markers="[
+                                    ['value' => 0, 'label' => 'Novice'],
+                                    ['value' => 25, 'label' => 'Intermedian'],
+                                    ['value' => 50, 'label' => 'Advanced'],
+                                    ['value' => 75, 'label' => 'Expert'],
+                                    ['value' => 100, 'label' => 'Professional'],
+                                ]"
                         />
                         <x-input-error for="skillLevel"/>
                     </x-form.input-container>

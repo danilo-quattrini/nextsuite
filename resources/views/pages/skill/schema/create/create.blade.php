@@ -39,6 +39,12 @@
                                             <x-form.slider
                                                     id="skill-{{$skill['value']}}-level"
                                                     name="skill-{{$skill['value']}}-level"
+                                                    :step="50"
+                                                    :markers="[
+                                                        ['value' => 0, 'label' => 'Bad'],
+                                                        ['value' => 50, 'label' => 'Good'],
+                                                        ['value' => 100, 'label' => 'Expert'],
+                                                    ]"
                                                     wire:model.live="skillDefaultLevel.{{ $skill['id'] }}"
                                             />
                                             <x-input-error for="skillDefaultLevel.{{ $skill['id'] }}"/>
