@@ -8,6 +8,18 @@ use OpenAI\Responses\Chat\CreateResponse;
 class OpenAIService
 {
     /**
+     * Generate a review for a customer
+     */
+    public function generateReview(string $name): string
+    {
+        $prompt = $this->buildReviewPrompt($name);
+
+        $response = $this->openAICall('You write a review for a customer show web page.', $prompt);
+
+        return trim($response->choices[0]->message->content);
+    }
+
+    /**
      * Generate a short professional summary for a customer
      */
     public function generateCustomerSummary(array $data): string
