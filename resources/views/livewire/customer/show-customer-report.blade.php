@@ -2,6 +2,8 @@
     {{-- HEADER --}}
     <livewire:user.info-header :user="$customer" has-review="true"/>
 
+    {{-- CUSTOMER SUMMARY --}}
+    <livewire:card.user-summary-card :user="$customer" />
     {{-- QUICK STATS --}}
     <section class="user-view__stats">
         <div class="user-view__stat-card">
