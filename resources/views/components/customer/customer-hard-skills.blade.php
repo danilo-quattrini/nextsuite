@@ -2,6 +2,7 @@
 
 use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Models\Customer;
+use App\Models\Skill;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -32,6 +33,10 @@ new class extends Component {
     #[On('skill-added')]
     public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
+        $skill = Skill::find($skillId);
+        if (!$skill || $skill->isSoftSkill()) {
+            return;
+        }
 
         try {
             $user = Auth::user();

@@ -5,6 +5,7 @@ use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Domain\Skill\Services\SkillSchemaService;
 use App\Domain\Skill\Services\SoftSkillChartService;
 use App\Models\Customer;
+use App\Models\Skill;
 use IcehouseVentures\LaravelChartjs\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Collection;
@@ -47,6 +48,10 @@ new class extends Component {
     #[On('skill-added')]
     public function addSkillToCustomer(int $skillId, int $skillLevel, int|null $skillYears): void
     {
+        $skill = Skill::find($skillId);
+        if (!$skill || !$skill->isSoftSkill()) {
+            return;
+        }
 
         try {
             $user = Auth::user();
