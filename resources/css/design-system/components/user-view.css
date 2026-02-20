@@ -174,7 +174,7 @@
 }
 
 .user-view__timeline-item{
-    @apply flex items-start gap-3;
+    @apply flex items-start gap-2;
 }
 
 .user-view__dot{
