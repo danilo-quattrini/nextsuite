@@ -34,9 +34,7 @@ class CreateCustomer extends Component
 
     public function mount(NationalityService $nationalityService): void
     {
-//        Disable function to assign default skill to the customer.
-//        $this->form->defaultSkills();
-        $this->nationalities = $nationalityService->all();
+      $this->nationalities = $nationalityService->all();
     }
 
     public function render(): View
@@ -52,7 +50,7 @@ class CreateCustomer extends Component
         $this->form->addAttribute($attribute, $value);
     }
 
-    #[On('skill-selected')]
+    #[On('skill-added')]
     public function skillSelected(int $skillId, int $skillLevel, int | null $skillYears): void
     {
         $user = Auth::user();

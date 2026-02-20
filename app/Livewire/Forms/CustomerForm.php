@@ -34,29 +34,6 @@ class CustomerForm extends Form
 
     public array $attributes = [];
 
-//    public function defaultSkills(): void
-//    {
-//        $skillsByCategory = Skill::with('category')
-//            ->get()
-//            ->map(function (Skill $skill) {
-//                    return [
-//                        'id' => $skill->id,
-//                        'name' => $skill->name,
-//                        'type' => $skill->category->type->value
-//                    ];
-//            } );
-//
-//        foreach ($skillsByCategory as $value) {
-//            $skillId = $value['id'];
-//            $this->skills[$skillId] = [
-//                'skill' => $value,
-//                'selected' => $value['type'] === 'soft_skill',
-//                'level' => 20,
-//                'years' => null,
-//            ];
-//        }
-//    }
-
     public function addAttribute(Attribute $attribute, mixed $value): void
     {
         $this->attributes[$attribute->id] = compact('attribute', 'value');
