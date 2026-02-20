@@ -35,6 +35,26 @@ class OpenAIService
                 The tone must be neutral and suitable for a formal document that will be generated.
                 TEXT;
     }
+
+    /**
+     * Build a safe, deterministic prompt
+     */
+    protected function buildReviewPrompt(string $name): string
+    {
+        return <<<TEXT
+                Write a concise review on this user.
+                
+                User information:
+                - Name: {$name}
+                - Hard skills: name: Php - level: 25 out of 100
+                - Soft skills: name: Communication - level: 50 out of 100
+                - Review avg: 3.4 out of 5
+                
+                The tone must be neutral and suitable, but also should ,
+                advice in which field the user it's suitable for.
+                TEXT;
+    }
+
     /**
      * Call the OpenAI API to work with a content and a prompt
      */
@@ -57,4 +77,5 @@ class OpenAIService
             ],
             'temperature' => 0.3,
         ]);
+    }
 }
