@@ -145,29 +145,6 @@
 
     </section>
 
-    <section class="user-view__grid" >
-        <div class="user-view__panel user-view__panel--wide">
-            <div class="user-view__panel-header">
-                <h3>Recent activity</h3>
-                <span class="user-view__panel-tag">Timeline</span>
-            </div>
-
-            <div class="user-view__timeline">
-                <div class="user-view__timeline-item">
-                    <span class="user-view__dot"></span>
-                    <div>
-                        <p class="user-view__timeline-title">Completed onboarding session</p>
-                        <p class="user-view__timeline-meta">2 days ago</p>
-                    </div>
-                </div>
-                <div class="user-view__timeline-item">
-                    <span class="user-view__dot"></span>
-                    <div>
-                        <p class="user-view__timeline-title">Generated new contract</p>
-                        <p class="user-view__timeline-meta">1 week ago</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    {{--  RECENT ACTIVITY CARD  --}}
+    <livewire:card.activity-card :user="$customer" />
 </div>
