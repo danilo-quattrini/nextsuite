@@ -49,7 +49,7 @@ new class extends Component {
 <section class="user-view__grid">
     <div class="user-view__panel user-view__panel--wide">
         <div class="user-view__panel-header">
-            <div>
+            <div class="user-view__panel-header--left">
                 <h3>Recent activities</h3>
                 <p class="user-view__panel-subtitle">All actions made on this customer</p>
             </div>
