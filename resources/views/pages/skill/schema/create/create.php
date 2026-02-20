@@ -53,7 +53,7 @@ new class extends Component {
         foreach ($this->selectedSkills as $skillId) {
             $skillsData[] = [
                 'skill_id' => $skillId,
-                'default_level' => $this->skillDefaultLevel[$skillId] ?? 30,
+                'default_level' => $this->skillDefaultLevel[$skillId] ?? 0,
             ];
         }
 
@@ -94,7 +94,7 @@ new class extends Component {
         // Initialize default level for newly selected skills
         foreach ($this->selectedSkills as $skillId) {
             if (!isset($this->skillDefaultLevel[$skillId])) {
-                $this->skillDefaultLevel[$skillId] = 30;
+                $this->skillDefaultLevel[$skillId] = 0;
             }
         }
 
@@ -171,7 +171,7 @@ new class extends Component {
         return [
             'selectedSkills' => 'required|array|min:1',
             'selectedSkills.*' => 'exists:skills,id',
-            'skillDefaultLevel.*' => 'integer|min:30'
+            'skillDefaultLevel.*' => 'integer'
         ];
     }
     protected function messages(): array
