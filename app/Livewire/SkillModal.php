@@ -2,7 +2,10 @@
 
 namespace App\Livewire;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Domain\Skill\Services\SkillService;
+use App\Domain\Skill\Services\SkillState\HardSkillState;
+use App\Domain\Skill\Services\SkillState\SoftSkillState;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\On;
@@ -10,6 +13,8 @@ use Livewire\Component;
 
 class SkillModal extends Component
 {
+    public ?SkillAssignable $user = null;
+
     public ?int $selectedSkillId = null;
     public ?int $skillLevel = 1;
     public ?int $skillYears = null;
@@ -63,13 +68,13 @@ class SkillModal extends Component
     */
     public function getSkillService(): SkillService
     {
-        $service = new SkillService();
-        $service->loadSkillsForUser(Auth::user());
-
+        $service = new SkillService($this->user);
         if ($this->hideSoftSkills) {
-            $service->filterByType('soft_skill');
+            $service->transitionToState(new HardSkillState());
+            $service->loadSkillsForUser(Auth::user());
         } elseif ($this->hideHardSkills) {
-            $service->filter(fn($skill) => $skill->category?->type?->value === 'soft_skill');
+            $service->transitionToState(new SoftSkillState());
+            $service->loadSkillsForUser(Auth::user());
         }
 
         return $service;

@@ -99,7 +99,7 @@ new class extends Component {
     @endif
 
     <x-slot:action>
-        @livewire('skill-modal', ['hideHardSkills' => true])
+        <livewire:skill-modal :hide-hard-skills="true" :user="$customer" />
     </x-slot:action>
 
     @if($softSkills->isEmpty())

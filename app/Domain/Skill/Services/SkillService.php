@@ -3,6 +3,8 @@
 namespace App\Domain\Skill\Services;
 
 use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Domain\Skill\Services\SkillState\AllSkillState;
+use App\Domain\Skill\Services\SkillState\SkillState;
 use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Support\Collection;
@@ -10,12 +12,16 @@ use Illuminate\Support\Collection;
 class SkillService
 {
     private Collection $skills;
+    private SkillState $state;
 
     public function __construct(
-        private readonly ?SkillAssignable $assignable = null
+        private readonly ?SkillAssignable $assignable = null,
+        ?SkillState $state = null
     )
     {
         $this->skills = collect();
+        $this->state = $state ?? new AllSkillState();
+        $this->state->setContext($this);
     }
 
     /**
@@ -25,18 +31,7 @@ class SkillService
         ?User $user = null
     ): self
     {
-        if (isset($user) && $user->company) {
-            $this->skills = $user->company->fields()
-                ->with('categories.skills.category')
-                ->get()
-                ->flatMap(fn($field) => $field->categories)
-                ->flatMap(fn($category) => $category->skills)
-                ->unique('id')
-                ->values();
-        } else {
-            $this->skills = Skill::with('category')->get();
-        }
-
+        $this->state->loadSkillsForUser($user);
         return $this;
     }
 
@@ -119,6 +114,24 @@ class SkillService
     {
         $this->skills = $skills;
         return $this;
+    }
+
+    /**
+     * Transition to a new state
+     */
+    public function transitionToState(SkillState $newState): self
+    {
+        $this->state = $newState;
+        $this->state->setContext($this);
+        return $this;
+    }
+
+    /**
+     * Get current state
+     */
+    public function getState(): SkillState
+    {
+        return $this->state;
     }
 
 }
