@@ -209,7 +209,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
     }
 
-    public static function getCustomersWithReviews(string $context = null)
+    public static function getCustomersWithReviews(string $context)
     {
         $page = request()->get('page', 1);
 
