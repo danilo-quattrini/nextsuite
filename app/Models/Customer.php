@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -19,7 +20,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
-    private const string CACHE_KEY = 'customers_list_page_';
+    private const string CACHE_KEY = 'customers_';
     private const int CACHE_TTL = 60;
 
     protected $fillable = [
@@ -59,12 +60,20 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         });
     }
 
-    protected static function clearReportCache(): void
+    public static function clearAllContexts(): void
     {
-        // Clear all customer report cache pages
-        for ($i = 1; $i <= 50; $i++) {
-            Cache::forget(self::CACHE_KEY. $i);
-            Cache::forget(self::CACHE_KEY . $i);
+        Cache::flush();
+    }
+
+    protected static function clearReportCache(string $context = 'table'): void
+    {
+        if ($context === null) {
+            self::clearAllContexts();
+            return;
+        }
+
+        for ($i = 1; $i <= 100; $i++) {
+            Cache::forget(self::CACHE_KEY . $context . '_page_' . $i);
         }
     }
 
@@ -200,10 +209,16 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
     }
 
-    public static function getCustomersWithReviews()
+    public static function getCustomersWithReviews(string $context = null)
     {
         $page = request()->get('page', 1);
-        $key  = self::CACHE_KEY . $page;
+
+        if ($context === null) {
+            $currentRoute = Route::currentRouteName();
+            $context = $currentRoute ?: 'default';
+        }
+
+        $key = self::CACHE_KEY . $context . '_page_' . $page;
 
         return Cache::remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
