@@ -3,9 +3,11 @@
 use App\Models\Customer;
 use App\Traits\WithReview;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
-new class extends Component {
+new #[Lazy]
+class extends Component {
 
     use WithReview;
 
@@ -43,7 +45,7 @@ new class extends Component {
     </x-slot:action>
 
     @forelse($customer->reviews as $review)
-        <x-card.review-card :review="$review" />
+        <x-card.review-card :review="$review"/>
     @empty
         <x-empty-state
                 icon="star"

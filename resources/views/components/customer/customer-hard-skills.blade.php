@@ -5,10 +5,12 @@ use App\Models\Customer;
 use App\Models\Skill;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-new class extends Component {
+new #[Lazy]
+class extends Component {
     public ?Customer $customer = null;
     public ?Collection $hardSkills = null;
 

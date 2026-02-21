@@ -4,10 +4,12 @@ use App\Models\Attribute;
 use App\Domain\Attribute\Services\AttributeAssignableService;
 use App\Models\Customer;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-new class extends Component {
+new #[Lazy]
+class extends Component {
 
     public ?Customer $customer = null;
     public ?Collection $userAttributes = null;
