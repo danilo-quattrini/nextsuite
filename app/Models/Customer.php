@@ -183,6 +183,14 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
+     * Check if customer has a relation with the skill model.
+     */
+    public function hasSkill(): bool
+    {
+        return self::skills()->exists();
+    }
+
+    /**
      * Get skills grouped by category
      */
     public function skillsByCategory()

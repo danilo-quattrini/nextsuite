@@ -31,4 +31,9 @@ interface SkillAssignable
      * Check if the model has a specific skill assigned
      */
     public function skillExists(int $skillId): bool;
+
+    /**
+     * Check if the model has a skill relation
+     */
+    public function hasSkill(): bool;
 }

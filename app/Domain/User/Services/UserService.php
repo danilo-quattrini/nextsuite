@@ -2,13 +2,14 @@
 
 namespace App\Domain\User\Services;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Services\OpenAIService;
 use Illuminate\Database\Eloquent\Model;
 
 class UserService
 {
     public function __construct(
-        private readonly ?Model $user = null
+        private readonly ?SkillAssignable $user = null
     ) {}
 
     /**
@@ -46,7 +47,7 @@ class UserService
      * */
     private function hasSkill(): bool
     {
-        return $this->user->skills()->exists();
+        return $this->user->hasSkill();
     }
 
 }
