@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -27,7 +26,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
-    private const string CACHE_KEY = "user:";
+    private const string CACHE_KEY = "user";
 
     /**
      * The attributes that are mass assignable.
@@ -126,28 +125,38 @@ class User extends Authenticatable
     /**
      * Get the user company if exists.
      */
-    public static function getCompany(?int $id = null): Builder | Company|null
+    public function getCompany(): ?Company
     {
-        if(self::hasCompany($id)) {
-            return Company::with('users')
-                ->where('owner_id', $id);
+        return $this->company;
+    }
+
+    public function getCompanyWithUsers(): ?Company
+    {
+        if (!$this->relationLoaded('company')) {
+            $this->load('company.users');
         }
-        return null;
+        return $this->company;
     }
 
     /**
      * Check if the user has a company.
      */
-    public static function hasCompany(?int $id = null): bool
+    public function hasCompany(): bool
     {
-        return self::findOrFail($id)->company()->exists();
+        return $this->company()->exists();
     }
 
     /**
      * Get the cache key.
      */
-    public static function getCacheKey(): string
+    public function getCacheKey(?int $userId = null): string
     {
-        return self::CACHE_KEY . Auth::user()->id;
+        $id = $userId ?? Auth::id();
+
+        if (!$id) {
+            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
+        }
+
+        return self::CACHE_KEY . ':' . $id;
     }
 }

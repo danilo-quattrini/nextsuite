@@ -9,7 +9,7 @@
 ])
 <a @if(!empty($href) && !empty($user)) href="{{ route($href, $user) }}" @endif >
     <div
-            class="page-content__card page-content__card-info page-content__card-animated"
+            class="page-content__card page-content__card-info"
     >
         {{-- Header --}}
         <div class="page-content__card-header">

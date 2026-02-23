@@ -13,11 +13,13 @@ class SidebarMenu extends Component
 
     public function mount(): void
     {
-        $this->userOrCompanyName = Cache::remember(User::getCacheKey(), 60, function(){
-            if(User::hasCompany(Auth::user()->id)){
-                return User::getCompany(Auth::user()->id)->pluck('name');
+        $user = Auth::user();
+        $this->userOrCompanyName = Cache::tags([$user->getCacheKey()])
+            ->remember(Cache::get($user->getCacheKey()), 60, function() use ($user){
+            if($user->hasCompany()){
+                return $user->getCompany()->name;
             }else{
-                return Auth::user()->full_name ;
+                return $user->full_name ;
             }
         });
     }

@@ -184,7 +184,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
      */
     public function skillsByCategory(): Collection
     {
-        if (!$this->relationLoaded('skills')) {
+        if (!$this->relationLoaded('skills.category')) {
             $this->load(['skills.category']);
         }
 
@@ -198,7 +198,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
      */
     public function getSkills(): Collection
     {
-        if (!$this->relationLoaded('skills')) {
+        if (!$this->relationLoaded('skills.category')) {
             $this->load(['skills.category']);
         }
 
