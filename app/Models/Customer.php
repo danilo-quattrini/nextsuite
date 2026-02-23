@@ -21,8 +21,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
-    private const string CACHE_KEY = 'customers:';
-    private const int CACHE_TTL = 60;
+    private const string CACHE_KEY = 'customers';
+    private const int CACHE_TTL = 3600;
 
     protected $fillable = [
         'profile_photo_url',
@@ -47,35 +47,23 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     {
         // Clear cache when customer is created
         static::created(function () {
-            self::clearReportCache();
+            self::clearAllContexts();
         });
 
         // Clear cache when customer is updated
         static::updated(function () {
-            self::clearReportCache();
+            self::clearAllContexts();
         });
 
         // Clear cache when customer is deleted
         static::deleted(function () {
-            self::clearReportCache();
+            self::clearAllContexts();
         });
     }
 
-    public static function clearAllContexts(): void
+    protected static function clearAllContexts(): void
     {
-        Cache::flush();
-    }
-
-    protected static function clearReportCache(string $context = 'table'): void
-    {
-        if ($context === null) {
-            self::clearAllContexts();
-            return;
-        }
-
-        for ($i = 1; $i <= 100; $i++) {
-            Cache::forget(self::CACHE_KEY . $context . '_page_' . $i);
-        }
+        Cache::tags([self::CACHE_KEY])->flush();
     }
 
     public function skills(): BelongsToMany
@@ -227,8 +215,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $context = $currentRoute ?: 'default';
         }
 
-        $key = self::CACHE_KEY . $context . ':' . $page;
-        return Cache::remember($key, self::CACHE_TTL, function () {
+        $key = $context . ':' . $page;
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
             return static::with('user')
                 ->where('user_id', Auth::user()->id)
                 ->paginate(6);
@@ -243,9 +231,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $context = $currentRoute ?: 'default';
         }
 
-        $key = self::CACHE_KEY . $context . ':' . $page;
+        $key = $context . ':' . $page;
 
-        return Cache::remember($key, self::CACHE_TTL, function () {
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
                 ->withCount([
                     'reviews as reviews_count' => function ($query) {
