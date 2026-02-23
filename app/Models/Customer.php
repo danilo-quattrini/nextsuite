@@ -176,7 +176,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
      */
     public function hasSkill(): bool
     {
-        return self::skills()->exists();
+        return $this->skills()->exists();
     }
 
     /**
