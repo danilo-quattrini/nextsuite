@@ -27,4 +27,8 @@ interface SkillAssignable
      * Remove a skill
      */
     public function removeSkill(int $skillId): void;
+    /**
+     * Check if the model has a specific skill assigned
+     */
+    public function skillExists(int $skillId): bool;
 }

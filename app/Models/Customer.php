@@ -177,7 +177,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     /**
      * Check if customer has a specific skill assigned
      */
-    public function hasSkill(int $skillId): bool
+    public function skillExists(int $skillId): bool
     {
         return $this->skills()->where('skill_id', $skillId)->exists();
     }

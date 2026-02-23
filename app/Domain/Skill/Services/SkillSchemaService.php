@@ -60,7 +60,7 @@ class SkillSchemaService
         foreach ($schema as $schemaEntry) {
             $skill = $schemaEntry->skill;
 
-            if (!$overwriteExisting && $this->assignable->hasSkill($skill->id)) {
+            if (!$overwriteExisting && $this->assignable->skillExists($skill->id)) {
                 continue;
             }
 
