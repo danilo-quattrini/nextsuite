@@ -5,6 +5,7 @@ namespace App\Domain\Skill\Contracts;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Collection;
 
 interface SkillAssignable
 {
@@ -36,4 +37,9 @@ interface SkillAssignable
      * Check if the model has a skill relation
      */
     public function hasSkill(): bool;
+
+    /**
+     * Get all the hard skill of the model
+     */
+    public function getSkills(): Collection;
 }

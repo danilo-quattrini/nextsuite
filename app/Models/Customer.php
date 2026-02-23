@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
@@ -119,6 +120,16 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
+     * Load the skill model
+     */
+    private function loadSkills(): mixed
+    {
+        return $this->skills()
+            ->with('category')
+            ->get();
+    }
+
+    /**
      * Add a skill to a customer
      * @param  User  $user
      * @param  int  $id
@@ -183,11 +194,26 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
      */
     public function skillsByCategory()
     {
-        return $this->skills()
-            ->with('category')
-            ->get()
+        return self::loadSkills()
             ->groupBy('category.name');
     }
+
+    /**
+     * Get all the skill owned from the customer
+     */
+    public function getSkills(): Collection
+    {
+        if(self::hasSkill()) {
+            return $this->loadSkills()
+                ->map(fn($skill) => [
+                    'name' => $skill->name,
+                    'level' => $skill->pivot->level,
+                    'type' => $skill->category->type->value
+                ]);
+        }
+        return  collect();
+    }
+
     /**
      * Add an attribute to a customer, syncWithoutDetaching = remove already existing record and add new ones.
      */

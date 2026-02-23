@@ -2,14 +2,14 @@
 
 namespace App\Domain\User\Services;
 
+use App\Domain\Attribute\Contracts\AttributeAssignable;
 use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Services\OpenAIService;
-use Illuminate\Database\Eloquent\Model;
 
 class UserService
 {
     public function __construct(
-        private readonly ?SkillAssignable $user = null
+        private readonly SkillAssignable | AttributeAssignable $user
     ) {}
 
     /**
@@ -20,16 +20,25 @@ class UserService
 
         if($this->isNotEmpty()) {
             $openAIService = new OpenAIService();
-            return $openAIService->generateReview($this->getUser()?->full_name);
+            return $openAIService->generateReview();
         }else{
             return 'No, customer has been assigned!';
         }
     }
 
+
+    /**
+     * Get the SkillAssignable skills
+     * */
+    public function getSkills(): array
+    {
+        return   $this->getUser()->getSkills()->toArray();
+    }
+
     /**
      * Get the User model
      * */
-    public function getUser(): ?Model
+    public function getUser(): SkillAssignable | AttributeAssignable
     {
         return $this->user;
     }

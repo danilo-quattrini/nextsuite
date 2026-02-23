@@ -13,13 +13,14 @@ class extends Component {
 
     public ?SkillAssignable $user = null;
     public ?string $summary = '';
-    public ?Collection $hardSkills = null;
+    public ?array $skills = null;
 
     public function mount(): void
     {
         if($this->user->hasSkill()) {
             $service = new UserService($this->user);
             $this->summary = $service->getUserReview();
+            $this->skills = $service->getSkills();
         }
     }
 
