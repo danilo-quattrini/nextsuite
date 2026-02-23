@@ -3,7 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\AttributeAssignment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -24,6 +25,8 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    private const string CACHE_KEY = "user:";
 
     /**
      * The attributes that are mass assignable.
@@ -102,5 +105,33 @@ class User extends Authenticatable
             ->using(SkillSchema::class)
             ->withPivot(['default_level'])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user company if exists.
+     */
+    public static function getCompany(?int $id = null): Builder | Company|null
+    {
+        if(self::hasCompany($id)) {
+            return Company::with('users')
+                ->where('owner_id', $id);
+        }
+        return null;
+    }
+
+    /**
+     * Check if the user has a company.
+     */
+    public static function hasCompany(?int $id = null): bool
+    {
+        return self::findOrFail($id)->company()->exists();
+    }
+
+    /**
+     * Get the cache key.
+     */
+    public static function getCacheKey(): string
+    {
+        return self::CACHE_KEY . Auth::user()->id;
     }
 }
