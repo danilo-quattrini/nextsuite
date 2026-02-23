@@ -60,11 +60,11 @@
 }
 
 .page-content__card {
-    @apply bg-white border border-outline-grey rounded-md shadow-md xl:px-10 xl:py-8 flex flex-col justify-between;
+    @apply bg-white border border-outline-grey rounded-md xl:px-10 xl:py-8 flex flex-col justify-between  transition-all;
 }
 
-.page-content__card-animated{
-    @apply cursor-pointer hover:shadow-md hover:-translate-y-2 transition-all
+.page-content__card:hover{
+    @apply cursor-pointer shadow-md shadow-secondary -translate-y-2 ring-1 ring-primary;
 }
 
 .page-content__card-info {
