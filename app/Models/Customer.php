@@ -198,15 +198,19 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
      */
     public function getSkills(): Collection
     {
-        if(self::hasSkill()) {
-            return $this->loadSkills()
-                ->map(fn($skill) => [
-                    'name' => $skill->name,
-                    'level' => $skill->pivot->level,
-                    'type' => $skill->category->type->value
-                ]);
+        if (!$this->relationLoaded('skills')) {
+            $this->load(['skills.category']);
         }
-        return  collect();
+
+        if ($this->skills->isEmpty()) {
+            return collect();
+        }
+
+        return $this->skills->map(fn($skill) => [
+            'name' => $skill->name,
+            'level' => $skill->pivot->level,
+            'type' => $skill->category?->type?->value
+        ]);
     }
 
     /**
@@ -254,16 +258,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
         return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
-                ->withCount([
-                    'reviews as reviews_count' => function ($query) {
-                        $query->where('reviewable_type', 'App\Models\Customer');
-                }
-                ])
-                ->withAvg([
-                    'reviews as reviews_avg_rating' => function($query) {
-                        $query->where('reviewable_type', 'App\Models\Customer');
-                    }
-                ], 'rating')
+                ->withCount('reviews as reviews_count')
+                ->withAvg('reviews as reviews_avg_rating', 'rating')
                 ->paginate(6);
         });
 
