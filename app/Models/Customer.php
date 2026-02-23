@@ -182,9 +182,14 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     /**
      * Get skills grouped by category
      */
-    public function skillsByCategory()
+    public function skillsByCategory(): Collection
     {
-        return self::loadSkills()
+        if (!$this->relationLoaded('skills')) {
+            $this->load(['skills.category']);
+        }
+
+        return $this->skills
+            ->filter(fn($skill) => $skill->category !== null)
             ->groupBy('category.name');
     }
 
