@@ -120,16 +120,6 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
-     * Load the skill model
-     */
-    private function loadSkills(): mixed
-    {
-        return $this->skills()
-            ->with('category')
-            ->get();
-    }
-
-    /**
      * Add a skill to a customer
      * @param  User  $user
      * @param  int  $id
