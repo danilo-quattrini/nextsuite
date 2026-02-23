@@ -229,17 +229,15 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     public static function getCustomersOwnedByUser(?string $context = null)
     {
+        $context = $context ?? Route::currentRouteName() ?? 'default';
         $page = request()->get('page', 1);
+        $userId = Auth::id();
 
-        if ($context === null) {
-            $currentRoute = Route::currentRouteName();
-            $context = $currentRoute ?: 'default';
-        }
+        $key = self::CACHE_KEY . ':owned:' . $userId . ':' . $context . ':page:' . $page;
 
-        $key = $context . ':' . $page;
-        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($userId) {
             return static::with('user')
-                ->where('user_id', Auth::user()->id)
+                ->where('user_id', $userId)
                 ->paginate(6);
         });
     }
