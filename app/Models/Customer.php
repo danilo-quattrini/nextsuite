@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\LogOptions;
@@ -20,7 +21,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
     use HasFactory, SoftDeletes, LogsActivity;
 
-    private const string CACHE_KEY = 'customers_';
+    private const string CACHE_KEY = 'customers:';
     private const int CACHE_TTL = 60;
 
     protected $fillable = [
@@ -209,6 +210,22 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
     }
 
+    public static function getCustomersOwnedByUser(?string $context = null)
+    {
+        $page = request()->get('page', 1);
+
+        if ($context === null) {
+            $currentRoute = Route::currentRouteName();
+            $context = $currentRoute ?: 'default';
+        }
+
+        $key = self::CACHE_KEY . $context . ':' . $page;
+        return Cache::remember($key, self::CACHE_TTL, function () {
+            return static::with('user')
+                ->where('user_id', Auth::user()->id)
+                ->paginate(6);
+        });
+    }
     public static function getCustomersWithReviews(?string $context = null)
     {
         $page = request()->get('page', 1);
@@ -218,7 +235,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $context = $currentRoute ?: 'default';
         }
 
-        $key = self::CACHE_KEY . $context . '_page_' . $page;
+        $key = self::CACHE_KEY . $context . ':' . $page;
 
         return Cache::remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
