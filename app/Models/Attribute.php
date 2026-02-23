@@ -3,12 +3,12 @@
 namespace App\Models;
 
 use App\Enums\AttributeType;
-use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Attribute extends Model
 {
@@ -59,6 +59,12 @@ class Attribute extends Model
         ];
     }
 
+    public static function getAttributeCollection(?int $key = null): Collection
+    {
+        return self::with('category')
+            ->where('category_id', $key)
+            ->get();
+    }
     public function isSelectable(): bool
     {
         return $this->type === AttributeType::SELECT;

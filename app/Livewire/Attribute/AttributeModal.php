@@ -7,11 +7,12 @@ use App\Enums\AttributeType;
 use App\Models\Attribute;
 use App\Models\Category;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class AttributeModal extends Component
 {
-    public bool $showAttributeModal = false;
+    public bool $showModal = false;
     public ?int $selectedAttributeId = null;
     public ?int $selectedCategoryId = null;
 
@@ -48,9 +49,7 @@ class AttributeModal extends Component
     public function mount(): void
     {
 
-        $this->categories = Category::with('attributes.category.fields')
-            ->where('type' , '<>', 'soft_skill')
-            ->get();
+        $this->categories = Category::loadCategories();
     }
 
     public function render()
@@ -60,7 +59,7 @@ class AttributeModal extends Component
 
     public function updatedSelectedCategoryId($categoryId): void
     {
-        $this->customerAttributes = Attribute::where('category_id', $categoryId)->get();
+        $this->customerAttributes = Attribute::getAttributeCollection($categoryId);
         $this->selectedAttributeId = null;
     }
 
@@ -110,14 +109,33 @@ class AttributeModal extends Component
         
         $this->dispatch('attribute-selected', attribute: $this->attribute, value: $this->value);
         
+        $this->closeModal();
+
+    }
+
+    /**
+     * Close the modal
+     */
+    #[On('close-modal')]
+    public function closeModal(): void
+    {
+        $this->showModal = false;
+        $this->resetForm();
+    }
+
+    /**
+     * Reset all form fields
+     */
+    private function resetForm(): void
+    {
         $this->reset([
-            'showAttributeModal',
+            'showModal',
             'selectedAttributeId',
             'selectedCategoryId',
             'attribute',
             'value',
         ]);
 
+        $this->resetValidation();
     }
-
 }
