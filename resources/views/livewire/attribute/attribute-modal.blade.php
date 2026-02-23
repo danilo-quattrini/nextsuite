@@ -40,7 +40,7 @@
                             </x-slot:options>
                         </x-form.select-element>
                     </x-form.select-wrapper>
-
+                    <x-input-error for="selectedCategoryId" />
                 </x-form.input-container>
 
                 {{-- Attribute selection --}}
@@ -61,7 +61,7 @@
                                 </x-slot:options>
                             </x-form.select-element>
                         </x-form.select-wrapper>
-
+                        <x-input-error for="selectedAttributeId" />
                     </x-form.input-container>
                 @endif
 
@@ -117,6 +117,7 @@
                                 @endforeach
                             </div>
                         @endif
+                        <x-input-error for="value" />
                     </x-form.input-container>
                 @endif
             </x-form.container>

@@ -20,6 +20,31 @@ class AttributeModal extends Component
     public ?Attribute $attribute = null;
     public mixed $value = null;
 
+    /**
+     * Validation rules
+     */
+    protected function rules(): array
+    {
+        return [
+            'selectedAttributeId' => ['required', 'exists:attributes,id'],
+            'selectedCategoryId' => ['required', 'exists:categories,id'],
+            'attribute' => ['required'],
+            'value' => ['required']
+        ];
+    }
+
+    /**
+     * Custom validation messages
+     */
+    protected function messages(): array
+    {
+        return [
+            'selectedAttributeId.required' => 'Please select an attribute.',
+            'selectedCategoryId.required' => 'Please set a category for this attribute.',
+            'value.required' => 'Select at least one value.'
+        ];
+    }
+
     public function mount(): void
     {
 
@@ -81,12 +106,7 @@ class AttributeModal extends Component
 
     public function addAttribute(): void
     {
-        $this->validate([
-            'selectedAttributeId' => ['required', 'exists:attributes,id'],
-            'selectedCategoryId' => ['required', 'exists:categories,id'],
-            'attribute' => ['required'],
-            'value' => ['required']
-        ]);
+        $this->validate();
         
         $this->dispatch('attribute-selected', attribute: $this->attribute, value: $this->value);
         
