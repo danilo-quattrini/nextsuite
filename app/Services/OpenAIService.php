@@ -10,9 +10,9 @@ class OpenAIService
     /**
      * Generate a review for a customer
      */
-    public function generateReview(string $name): string
+    public function generateReview(?array $data = []): string
     {
-        $prompt = $this->buildReviewPrompt($name);
+        $prompt = $this->buildReviewPrompt($data);
 
         $response = $this->openAICall('You write a review for a customer show web page.', $prompt);
 
@@ -51,19 +51,27 @@ class OpenAIService
     /**
      * Build a safe, deterministic prompt
      */
-    protected function buildReviewPrompt(string $name): string
+    protected function buildReviewPrompt(?array $data = []): string
     {
+        $skills = collect($data['skills'])
+            ->map(fn($s) => "  - {$s['name']}: {$s['level']} out of 100, type: {$s['type']}")
+            ->join("\n");
+
         return <<<TEXT
-                Write a concise review on this user.
+                Write a concise, neutral professional review for the following customer.
+                Customer information:
                 
-                User information:
-                - Name: {$name}
-                - Hard skills: name: Php - level: 25 out of 100
-                - Soft skills: name: Communication - level: 50 out of 100
-                - Review avg: 3.4 out of 5
+                - Name: {$data['full_name']}
                 
-                The tone must be neutral and suitable, but also should ,
-                advice in which field the user it's suitable for.
+                Skills:
+                {$skills}
+                
+                Instructions:
+                - Keep the tone neutral and professional.
+                - Highlight the customer's strongest areas.
+                - Point out areas that could be improved.
+                - Suggest which professional fields or roles this person would be best suited for.
+                - Keep the response under 150 words.
                 TEXT;
     }
 

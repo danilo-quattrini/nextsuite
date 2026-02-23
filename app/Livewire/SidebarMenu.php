@@ -15,7 +15,7 @@ class SidebarMenu extends Component
     {
         $this->userOrCompanyName = Cache::remember(User::getCacheKey(), 60, function(){
             if(User::hasCompany(Auth::user()->id)){
-                return User::getCompany(Auth::user()->id)->get('name');
+                return User::getCompany(Auth::user()->id)->pluck('name');
             }else{
                 return Auth::user()->full_name ;
             }

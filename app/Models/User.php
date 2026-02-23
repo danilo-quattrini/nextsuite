@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -72,6 +73,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Clear the cache if the user has been created, updated, or deleted.
+     */
+    protected static function booted(): void
+    {
+        static::created(fn() => self::clearAllContexts());
+        static::updated(fn() => self::clearAllContexts());
+        static::deleted(fn() => self::clearAllContexts());
+    }
+
+    protected static function clearAllContexts(): void
+    {
+        Cache::tags([self::CACHE_KEY])->flush();
     }
 
     public function company(): HasOne

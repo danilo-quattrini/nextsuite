@@ -2,20 +2,12 @@
     {{-- HEADER --}}
     <livewire:user.info-header :user="$customer" has-review="true"/>
 
-    {{-- CUSTOMER SUMMARY --}}
-    <livewire:card.user-summary-card :user="$customer" />
+
     {{-- QUICK STATS --}}
     <section class="user-view__stats">
-        <div class="user-view__stat-card">
-            <p class="user-view__stat-label">Profile completion</p>
-            <p class="user-view__stat-value">82%</p>
-            <p class="user-view__stat-hint">+6% this month</p>
-        </div>
-        <div class="user-view__stat-card">
-            <p class="user-view__stat-label">Engagement score</p>
-            <p class="user-view__stat-value">74</p>
-            <p class="user-view__stat-hint">Stable trend</p>
-        </div>
+        {{-- CUSTOMER SUMMARY --}}
+        <livewire:card.user-summary-card :user="$customer" />
+
         <div class="user-view__stat-card">
             <p class="user-view__stat-label">Documents created</p>
             <p class="user-view__stat-value">18</p>

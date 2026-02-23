@@ -20,7 +20,7 @@ class UserService
 
         if($this->isNotEmpty()) {
             $openAIService = new OpenAIService();
-            return $openAIService->generateReview();
+            return $openAIService->generateReview($this->buildReviewData());
         }else{
             return 'No, customer has been assigned!';
         }
@@ -57,6 +57,20 @@ class UserService
     private function hasSkill(): bool
     {
         return $this->user->hasSkill();
+    }
+
+    /**
+     * Collect all relevant user data for the AI review
+     * */
+    private function buildReviewData(): array
+    {
+        $user = $this->getUser();
+        $skills = $this->getUser()->getSkills()->toArray();
+
+        return [
+            'full_name'   => $user->full_name,
+            'skills' => $skills
+        ];
     }
 
 }

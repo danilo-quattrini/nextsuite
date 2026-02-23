@@ -47,9 +47,10 @@ class extends Component {
 <x-card.card-container
         title="Summary"
         subtitle="That's a quick review about the customer"
+        class="text-wrap"
 >
     @if($this->user->hasSkill())
-        <p>{{ $summary }}</p>
+        <p class="indent-0">{{ $summary }}</p>
     @else
         <x-empty-state
                 icon="cube-transparent"
