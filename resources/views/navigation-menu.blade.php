@@ -63,7 +63,7 @@
                                 <div class="flex justify-center items-center gap-4">
                                     <div class="flex flex-col">
                                         <span class="text-sm font-medium">{{ Auth::user()->full_name }}</span>
-                                        <span class="text-xs font-medium text-primary-grey">{{ Auth::user()->company->field->name ?? 'Employee' }}</span>
+                                        <span class="text-xs font-medium text-primary-grey">{{ 'Employee' }}</span>
                                     </div>
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition">
                                         <x-profile-image
