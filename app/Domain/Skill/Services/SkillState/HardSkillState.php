@@ -57,16 +57,11 @@ class HardSkillState extends SkillState
             return $this;
         }
 
-        $skillIds = $assignable->skills()
+        $skills = $assignable->skills()
             ->with('category')
             ->get()
             ->filter(fn($skill) => !$skill->isSoftSkill())
-            ->pluck('id')
-            ->toArray();
-
-        $skills = Skill::with('category')
-            ->whereIn('id', $skillIds)
-            ->get();
+            ->values();
 
         $this->skillService->setSkills($skills);
         return $this;
