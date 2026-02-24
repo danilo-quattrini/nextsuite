@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 
 class Category extends Model
 {
@@ -34,4 +35,29 @@ class Category extends Model
         return $this->hasMany(Attribute::class);
     }
 
+    /**
+     * Get all the attributes.
+     * @param  int|null  $key
+     * @return Collection
+     */
+    public static function getAttributesWithCategoryId(?int $key = null): Collection
+    {
+        return Attribute::with('category')
+            ->where('category_id', $key)
+            ->get();
+    }
+
+    /**
+     * Load all the categories
+     * */
+    public function loadCategories(): Collection
+    {
+        $key = 'list';
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
+            return $this->with('attributes.category.fields')
+                ->where('type' , '<>', 'soft_skill')
+                ->get();
+            }
+        );
+    }
 }
