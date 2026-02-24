@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Skill\Services\Chart;
+namespace App\Domain\Skill\Services\SkillChart;
 
 use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Domain\Skill\Services\SkillService;
