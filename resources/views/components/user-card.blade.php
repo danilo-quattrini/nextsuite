@@ -9,7 +9,7 @@
 ])
 <a @if(!empty($href) && !empty($user)) href="{{ route($href, $user) }}" @endif >
     <div
-            class="page-content__card page-content__card-info"
+            class="page-content__card page-content__card-info page-content__card__animation"
     >
         {{-- Header --}}
         <div class="page-content__card-header">
@@ -28,59 +28,6 @@
                 </div>
             </div>
         </div>
-{{-- TODO:  FIX THE DROPDOWN MENU       --}}
-{{--        <div--}}
-{{--                class="flex float-end"--}}
-{{--                onclick="event.stopPropagation()"--}}
-{{--        >--}}
-{{--            <x-form.dropdown-button align="right">--}}
-{{--                <x-slot:trigger>--}}
-{{--                    <x-button--}}
-{{--                            type="button"--}}
-{{--                            variant="white"--}}
-{{--                            size="auto"--}}
-{{--                            aria-label="Customer actions 2"--}}
-{{--                    >--}}
-{{--                        <x-heroicon--}}
-{{--                                name="ellipsis-vertical"--}}
-{{--                        />--}}
-{{--                    </x-button>--}}
-{{--                </x-slot:trigger>--}}
-
-{{--                <x-slot:content>--}}
-{{--                    <div class="flex-col items-center space-y-3">--}}
-{{--                        <div class="flex flex-col space-y-2 min-w-40">--}}
-
-{{--                            <a--}}
-{{--                                    href="#"--}}
-{{--                                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition duration-150"--}}
-{{--                            >--}}
-{{--                                <x-heroicon name="pencil-square" class="text-primary-grey" />--}}
-{{--                                <span>Edit customer</span>--}}
-{{--                            </a>--}}
-
-{{--                            <button--}}
-{{--                                    type="button"--}}
-{{--                                    wire:click.prevent="$dispatch('delete-element', { id: {{ $user->id }}, type: 'customer' })"--}}
-{{--                                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition duration-150"--}}
-{{--                            >--}}
-{{--                                <x-heroicon name="trash" />--}}
-{{--                                <span>Delete</span>--}}
-{{--                            </button>--}}
-
-{{--                            <button--}}
-{{--                                    type="button"--}}
-{{--                                    wire:click.prevent="$dispatch('review-user', { id: {{ $user->id }}, type: 'customer' })"--}}
-{{--                                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-warning hover:bg-secondary-warning-100 cursor-pointer transition duration-150"--}}
-{{--                            >--}}
-{{--                                <x-heroicon name="star"/>--}}
-{{--                                <span>Review</span>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </x-slot:content>--}}
-{{--            </x-form.dropdown-button>--}}
-{{--        </div>--}}
 
         {{-- Main info --}}
         <div class="page-content__meta">

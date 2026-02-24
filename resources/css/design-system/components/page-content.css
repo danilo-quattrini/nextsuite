@@ -63,7 +63,7 @@
     @apply bg-white border border-outline-grey rounded-md xl:px-10 xl:py-8 flex flex-col justify-between  transition-all;
 }
 
-.page-content__card:hover{
+.page-content__card__animation:hover{
     @apply cursor-pointer shadow-md shadow-secondary -translate-y-2 ring-1 ring-primary;
 }
 
