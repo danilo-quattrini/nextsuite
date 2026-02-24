@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Collection;
 
 class Attribute extends Model
 {
@@ -59,11 +58,14 @@ class Attribute extends Model
         ];
     }
 
-    public static function getAttributeCollection(?int $key = null): Collection
+    /**
+     * Find and get the attribute by the $key
+     * @param  int|null  $key
+     * @return Attribute
+     */
+    public static function getAttributeById(?int $key = null): self
     {
-        return self::with('category')
-            ->where('category_id', $key)
-            ->get();
+        return static::with('category')->findOrFail($key);
     }
     public function isSelectable(): bool
     {
