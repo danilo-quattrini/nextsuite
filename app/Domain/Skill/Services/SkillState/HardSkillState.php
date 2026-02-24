@@ -2,6 +2,7 @@
 
 namespace App\Domain\Skill\Services\SkillState;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Models\Skill;
 use App\Models\User;
 
@@ -47,6 +48,27 @@ class HardSkillState extends SkillState
 
         $this->skillService->setSkills($skills);
 
+        return $this;
+    }
+
+    public function loadSkillFromAssignable(?SkillAssignable $assignable = null): SkillState
+    {
+        if($assignable === null && !$assignable?->skills()->exists()){
+            return $this;
+        }
+
+        $skillIds = $assignable->skills()
+            ->with('category')
+            ->get()
+            ->filter(fn($skill) => !$skill->isSoftSkill())
+            ->pluck('id')
+            ->toArray();
+
+        $skills = Skill::with('category')
+            ->whereIn('id', $skillIds)
+            ->get();
+
+        $this->skillService->setSkills($skills);
         return $this;
     }
 }

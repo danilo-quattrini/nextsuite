@@ -36,6 +36,15 @@ class SkillService
     }
 
     /**
+     * Load skills from the assignable
+     */
+    public function loadSkillFromAssignable(): self
+    {
+        $this->state->loadSkillFromAssignable($this->getAssignable());
+        return $this;
+    }
+
+    /**
      * Group skills by category name
      */
     public function groupByCategory(): array
