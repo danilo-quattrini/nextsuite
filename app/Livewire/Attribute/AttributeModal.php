@@ -48,8 +48,7 @@ class AttributeModal extends Component
 
     public function mount(): void
     {
-
-        $this->categories = Category::loadCategories();
+        $this->categories = Category::getAllExceptSoftSkills();
     }
 
     public function render()
@@ -59,14 +58,14 @@ class AttributeModal extends Component
 
     public function updatedSelectedCategoryId($categoryId): void
     {
-        $this->customerAttributes = Attribute::getAttributeCollection($categoryId);
+        $this->customerAttributes = Category::getAttributesWithCategoryId($categoryId);
         $this->selectedAttributeId = null;
     }
 
     public function updatedSelectedAttributeId($attributeId): void
     {
-        $this->attribute = Attribute::findOrFail($attributeId);
-        $this->value = null; // reset value when attribute changes
+        $this->attribute = Attribute::getAttributeById($attributeId);
+        $this->value = null;
     }
 
     public function attributeInputConfig(): array
