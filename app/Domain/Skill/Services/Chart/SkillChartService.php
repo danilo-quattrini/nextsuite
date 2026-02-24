@@ -64,7 +64,7 @@ abstract  class SkillChartService
     /**
      * Get chart data as array
      */
-    abstract public function getChartData(): array;
+    abstract public function getChartData(): Collection;
 
     /**
      * Build the chart data structure
@@ -92,11 +92,11 @@ abstract  class SkillChartService
             ->pluck('level')
             ->filter(fn($level) => is_numeric($level));
 
-        return $levels->isEmpty() ? null : round($levels->avg(), 2);
+        return $levels->isEmpty() ? null : round($levels->avg(), 1);
     }
 
     /**
-     * Map a group of skills to chart format
+     * Map a group of skills to chart a format
      */
     protected function mapSkillGroup(Collection $skills): array
     {
