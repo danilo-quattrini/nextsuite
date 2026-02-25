@@ -16,6 +16,8 @@ class GenerateDocument implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
+    public int $tries = 1;
+
     protected ?Model $subject = null;
     protected ?string $type = null;
     protected ?int $requestId = null;
@@ -45,8 +47,7 @@ class GenerateDocument implements ShouldQueue
         try {
             list($subject, $skills, $attributes) = $this->getSubjectInfo($this->subject);
 
-            $summary = "Random summary";
-            //$this->subjectSummary($subject, $skills, $openAIService);
+            $summary = $this->subjectSummary($subject, $skills, $openAIService);
             $pdf = Pdf::loadView('documents.template-1', compact('subject', 'skills', 'attributes', 'summary'));
 
             $fileName = "documents/{$this->subject->id}_{$this->type}_".time().".pdf";

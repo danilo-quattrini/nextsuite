@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
 class OpenAIService
 {
+    private const int CACHE_TTL_SECONDS = 21600;
     /**
      * Generate a review for a customer
      */
@@ -14,9 +16,11 @@ class OpenAIService
     {
         $prompt = $this->buildReviewPrompt($data);
 
-        $response = $this->openAICall('You write a review for a customer show web page.', $prompt);
-
-        return trim($response->choices[0]->message->content);
+        return $this->cachedResponse(
+            'review',
+            'You write a review for a customer show web page.',
+            $prompt
+        );
     }
 
     /**
@@ -26,9 +30,11 @@ class OpenAIService
     {
         $prompt = $this->buildSummaryPrompt($data);
 
-        $response = $this->openAICall('You write short professional summaries for documents.', $prompt);
-
-        return trim($response->choices[0]->message->content);
+        return $this->cachedResponse(
+            'summary',
+            'You write short professional summaries for documents.',
+            $prompt
+        );
     }
 
     /**
@@ -97,5 +103,15 @@ class OpenAIService
             ],
             'temperature' => 0.3,
         ]);
+    }
+
+    private function cachedResponse(string $type, string $content, string $prompt): string
+    {
+        $key = "openai:{$type}:" . sha1($content . '|' . $prompt);
+
+        return Cache::remember($key, self::CACHE_TTL_SECONDS, function () use ($content, $prompt) {
+            $response = $this->openAICall($content, $prompt);
+            return trim($response->choices[0]->message->content);
+        });
     }
 }

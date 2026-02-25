@@ -3,6 +3,7 @@
 use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Domain\Skill\Services\SkillService;
 use App\Domain\User\Services\UserService;
+use App\Jobs\GenerateUserReview;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Lazy;
@@ -17,10 +18,14 @@ class extends Component {
 
     public function mount(): void
     {
-        if($this->user->hasSkill()) {
-            $service = new UserService($this->user);
-            $this->summary = $service->getUserReview();
-            $this->skills = $service->getSkills();
+        if ($this->user->hasSkill()) {
+            $userService = new UserService($this->user);
+            $this->summary = $userService->getReview();
+
+            if ($this->summary === '') {
+                $userService->generateUserReview();
+                $this->summary = $userService->getReview();
+            }
         }
     }
 

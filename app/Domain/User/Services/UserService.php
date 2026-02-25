@@ -4,26 +4,40 @@ namespace App\Domain\User\Services;
 
 use App\Domain\Attribute\Contracts\AttributeAssignable;
 use App\Domain\Skill\Contracts\SkillAssignable;
-use App\Services\OpenAIService;
+use App\Jobs\GenerateUserReview;
+use Illuminate\Support\Facades\Cache;
 
 class UserService
 {
+    private const int REVIEW_TTL_SECONDS = 21600;
+    private const int REVIEW_LOCK_TTL_SECONDS = 600;
+
     public function __construct(
-        private readonly SkillAssignable | AttributeAssignable $user
+        private readonly SkillAssignable | AttributeAssignable $user,
+        private ?string $review = ''
     ) {}
 
     /**
      * Get the review made from the OpenAI service in base of user info
      * */
-    public function getUserReview(): string
+    public function generateUserReview(): void
     {
-
-        if($this->isNotEmpty()) {
-            $openAIService = new OpenAIService();
-            return $openAIService->generateReview($this->buildReviewData());
-        }else{
-            return 'No, customer has been assigned!';
+        if (!$this->hasSkill()) {
+            return;
         }
+
+        $cacheKey = $this->reviewCacheKey();
+        if (Cache::has($cacheKey)) {
+            $this->review = (string) Cache::get($cacheKey);
+            return;
+        }
+
+        $lockKey = "{$cacheKey}:generating";
+        if (!Cache::add($lockKey, true, self::REVIEW_LOCK_TTL_SECONDS)) {
+            return;
+        }
+
+        GenerateUserReview::dispatch($this);
     }
 
 
@@ -52,6 +66,34 @@ class UserService
     }
 
     /**
+     * Get the review of the user if he/she has it
+     * */
+    public function getReview(): string
+    {
+        if ($this->review) {
+            return $this->review;
+        }
+
+        $cached = Cache::get($this->reviewCacheKey());
+        if (is_string($cached) && $cached !== '') {
+            $this->review = $cached;
+            return $cached;
+        }
+
+        return '';
+    }
+
+    /**
+     * Get the review of the user if he/she has it
+     * */
+    public function setReview(string $review): self
+    {
+        $this->review = $review;
+        Cache::put($this->reviewCacheKey(), $review, self::REVIEW_TTL_SECONDS);
+        Cache::forget($this->reviewCacheKey().':generating');
+        return $this;
+    }
+    /**
      * Check if the user relation with skill exists
      * */
     private function hasSkill(): bool
@@ -59,18 +101,16 @@ class UserService
         return $this->user->hasSkill();
     }
 
-    /**
-     * Collect all relevant user data for the AI review
-     * */
-    private function buildReviewData(): array
+    private function reviewCacheKey(): string
     {
-        $user = $this->getUser();
-        $skills = $this->getUser()->getSkills()->toArray();
+        $class = method_exists($this->user, 'getMorphClass')
+            ? $this->user->getMorphClass()
+            : get_class($this->user);
 
-        return [
-            'full_name'   => $user->full_name,
-            'skills' => $skills
-        ];
+        $id = method_exists($this->user, 'getKey')
+            ? (string) $this->user->getKey()
+            : 'unknown';
+
+        return "user-review:{$class}:{$id}";
     }
-
 }

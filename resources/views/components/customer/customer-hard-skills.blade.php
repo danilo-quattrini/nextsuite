@@ -66,7 +66,7 @@ class extends Component {
     public function placeholder(): string
     {
         return <<<'HTML'
-                <x-card.card-container title="Reviews">
+                <x-card.card-container title="Hard Skills">
                     <div class="flex items-center justify-center py-8">
                         <x-spinner size="lg" label="Loading reviews"/>
                     </div>

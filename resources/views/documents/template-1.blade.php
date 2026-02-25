@@ -30,14 +30,15 @@
 
         <div class="sheet">
             <header class="header">
-                <img src="{{ $src }}" class="avatar" alt="customer profile image">
                 <div class="identity">
-                    <h1>{{ $subject->full_name }}</h1>
-                    <p class="subtitle">{{ $subject->email }}</p>
-                    <div class="identity-meta">
-                        <span>Gender: {{ $subject->gender }}</span>
-                        <span>Date of Birthday: {{ date_format($subject->dob, 'd-m-Y') }}</span>
-                        <span>Nationality: {{ $subject->nationality }}</span>
+                    <img src="{{ $src }}" class="avatar" alt="customer profile image">
+                    <div class="identity-text">
+                        <h1>{{ $subject->full_name }}</h1>
+                        <p class="subtitle">{{ $subject->nationality ?? '—' }}</p>
+                        <div class="identity-meta">
+                            <span>{{ $subject->email }}</span>
+                            <span>{{ $subject->phone ?? '—' }}</span>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -45,30 +46,14 @@
             <div class="layout">
                 <aside class="sidebar">
                     <section class="section">
-                        <h2 class="section-title">Contact</h2>
-                        <div class="info-row">
-                            <span class="label">Email</span>
-                            <span class="value">{{ $subject->email }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">Phone</span>
-                            <span class="value">{{ $subject->phone ?? '—' }}</span>
-                        </div>
-                    </section>
-
-                    <section class="section">
                         <h2 class="section-title">Personal Details</h2>
                         <div class="info-row">
                             <span class="label">Gender</span>
-                            <span class="value">{{ $subject->gender }}</span>
+                            <span class="value">{{ $subject->gender ?? '—' }}</span>
                         </div>
                         <div class="info-row">
                             <span class="label">Date of birth</span>
                             <span class="value">{{ date_format($subject->dob, 'd-m-Y') }}</span>
-                        </div>
-                        <div class="info-row">
-                            <span class="label">Nationality</span>
-                            <span class="value">{{ $subject->nationality }}</span>
                         </div>
                     </section>
 
