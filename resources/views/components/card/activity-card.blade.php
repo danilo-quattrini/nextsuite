@@ -5,10 +5,12 @@ use App\Models\Skill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 use Spatie\Activitylog\Models\Activity;
 
-new class extends Component {
+new #[Lazy]
+class extends Component {
     public ?Collection $activities = null;
     public ?Model $user = null;
 
@@ -24,9 +26,10 @@ new class extends Component {
             ->where('event', '<>', 'created')
             ->sortBy('created_at');
     }
+
     public function logSubjectLabel(Activity $changeLog): string
     {
-        return $changeLog->subject_type ? class_basename(strtolower($changeLog->subject_type)) . ' ' .  $changeLog->subject?->full_name : 'record';
+        return $changeLog->subject_type ? class_basename(strtolower($changeLog->subject_type)).' '.$changeLog->subject?->full_name : 'record';
     }
 
     public function logCauserLabel(Activity $changeLog): string
@@ -59,7 +62,10 @@ new class extends Component {
                     <div class="user-view__timeline-item">
                         <span class="user-view__dot"></span>
                         <div class="space-y-1">
-                            <p class="user-view__timeline-title">{{ $logMessage }} <strong>{{ strtolower($this->logPropertiesLabel($activity)) }}</strong></p>
+                            <p class="user-view__timeline-title">{{ $logMessage }}
+                                <strong>{{ $this->logPropertiesLabel($activity) }}</strong> with level:
+                                <strong>{{ $activity->getExtraProperty('level')}}</strong>
+                            </p>
                             <p class="user-view__timeline-meta">{{ $this->logTimestamp($activity) }}</p>
                         </div>
                     </div>

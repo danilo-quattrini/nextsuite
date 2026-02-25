@@ -22,7 +22,10 @@ class SkillAssignmentService
         activity()
             ->performedOn($model)
             ->causedBy($evaluator)
-            ->withProperties(['name' => Skill::find($skillId)->name])
+            ->withProperties([
+                'name' => Skill::with('category')->find($skillId)->name,
+                'level' => $skillLevel
+            ])
             ->log('add new skill');
     }
 
