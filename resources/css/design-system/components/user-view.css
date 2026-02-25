@@ -186,7 +186,7 @@
 }
 
 .user-view__timeline-title{
-    @apply font-medium;
+    @apply font-normal;
 }
 
 .user-view__timeline-meta{

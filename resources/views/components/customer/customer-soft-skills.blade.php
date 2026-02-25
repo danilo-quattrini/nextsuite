@@ -120,7 +120,7 @@ new class extends Component {
         />
         <div class="flex justify-center items-center">
             <x-button href="{{ route('skill-schema.create', $customer) }}" size="large">
-                Create Skill
+                Create Schema
             </x-button>
         </div>
     @else
