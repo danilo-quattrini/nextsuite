@@ -9,7 +9,7 @@ use Livewire\Attributes\Validate;
 
 trait WithReview
 {
-    public bool $showReviewModal = false;
+    public bool $showModal = false;
     public mixed $reviewableId;
     public string $reviewableType;
 
@@ -19,7 +19,9 @@ trait WithReview
     #[Validate('required|integer|min:1|max:5')]
     public int $rating = 1;
 
-
+    /**
+     * Open the review modal when it has been called
+     */
     #[On('review-user')]
     public function openReviewModal(int $id, string $type): void
     {
@@ -39,7 +41,7 @@ trait WithReview
         $this->rating = 1;
         $this->review = '';
 
-        $this->showReviewModal = true;
+        $this->showModal = true;
     }
 
     public function saveReview(): void
@@ -54,14 +56,34 @@ trait WithReview
             'author_id' => auth()->id()
         ]);
 
-        $this->reset([
-            'showReviewModal',
-            'reviewableId',
-            'reviewableType'
-        ]);
+       $this->closeModal();
 
         session()->flash('info', 'Left the review for the user: ' .  $model->full_name ?:  'User');
 
         $this->redirect(route('customer.list'), navigate: true);
+    }
+
+    /**
+     * Close the modal
+     */
+    #[On('close-modal')]
+    public function closeModal(): void
+    {
+        $this->showModal = false;
+        $this->resetForm();
+    }
+
+    /**
+     * Reset all form fields
+     */
+    private function resetForm(): void
+    {
+        $this->reset([
+            'showModal',
+            'reviewableId',
+            'reviewableType'
+        ]);
+
+        $this->resetValidation();
     }
 }
