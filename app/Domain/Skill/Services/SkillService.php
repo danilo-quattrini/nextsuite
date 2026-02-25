@@ -45,6 +45,15 @@ class SkillService
     }
 
     /**
+     * Load all the skills from the specific state
+     */
+    public function loadAllSkills(): self
+    {
+        $this->state->loadAllSkills();
+        return $this;
+    }
+
+    /**
      * Group skills by category name
      */
     public function groupByCategory(): array

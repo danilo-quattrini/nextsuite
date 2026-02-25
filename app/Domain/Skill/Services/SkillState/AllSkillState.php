@@ -5,6 +5,7 @@ namespace App\Domain\Skill\Services\SkillState;
 use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Models\Skill;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class AllSkillState extends SkillState
 {
@@ -37,7 +38,7 @@ class AllSkillState extends SkillState
                     ->unique('id')
                     ->values();
             } else {
-                $skills = Skill::with('category')->get();
+                $skills = $this->loadAllSkills();
             }
         }
 
@@ -56,6 +57,13 @@ class AllSkillState extends SkillState
             ->get()
             ->values();
 
+        $this->skillService->setSkills($skills);
+        return $this;
+    }
+
+    public function loadAllSkills(): self
+    {
+        $skills = Skill::with('category')->get();
         $this->skillService->setSkills($skills);
         return $this;
     }

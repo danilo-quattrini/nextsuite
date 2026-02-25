@@ -5,6 +5,7 @@ namespace App\Domain\Skill\Services\SkillState;
 use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Models\Skill;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class HardSkillState extends SkillState
 {
@@ -64,6 +65,19 @@ class HardSkillState extends SkillState
             ->values();
 
         $this->skillService->setSkills($skills);
+        return $this;
+    }
+
+    public function loadAllSkills(): self
+    {
+        $skills = Skill::with('category')
+            ->whereHas('category', function ($query) {
+                $query->where('type', '!=', 'soft_skill');
+            })
+            ->get();
+
+        $this->skillService->setSkills($skills);
+
         return $this;
     }
 }

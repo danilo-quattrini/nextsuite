@@ -27,6 +27,11 @@ abstract class SkillState
     abstract public function loadSkillFromAssignable(?SkillAssignable $assignable): self;
 
     /**
+     * Load all the skills from the specific state
+     */
+    abstract public function loadAllSkills(): self;
+
+    /**
      * Get the loaded skills
      */
     public function getSkills(): Collection
