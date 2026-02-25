@@ -30,6 +30,17 @@ class extends Component {
             'average' => $this->customer->reviews_avg_rating ?? $this->customer->reviews()->avg('rating'),
         ];
     }
+
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+                <x-card.card-container title="Reviews">
+                    <div class="flex items-center justify-center py-8">
+                        <x-spinner size="lg" label="Loading reviews"/>
+                    </div>
+                </x-card.card-container>
+        HTML;
+    }
 };
 ?>
 

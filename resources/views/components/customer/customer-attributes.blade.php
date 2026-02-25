@@ -30,6 +30,17 @@ class extends Component {
 
         $this->userAttributes = $this->customer->attributes;
     }
+
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+                <x-card.card-container title="Attributes">
+                    <div class="flex items-center justify-center py-8">
+                        <x-spinner size="lg" label="Loading attributes"/>
+                    </div>
+                </x-card.card-container>
+        HTML;
+    }
 };
 ?>
 
