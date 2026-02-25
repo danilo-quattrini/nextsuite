@@ -49,9 +49,11 @@ class extends Component {
         <x-button
                 type="button"
                 wire:click.prevent="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
+                size="auto"
                 variant="warning"
         >
-            Write Review
+            <x-heroicon name="pencil" size="sm"/>
+            Leave a Review
         </x-button>
     </x-slot:action>
 

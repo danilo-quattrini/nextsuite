@@ -241,5 +241,5 @@
     </div>
 
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
-    <x-popup.review-popup :show-review-modal="$showReviewModal" :rating="$rating"/>
+    <x-popup.review-popup :show-modal="$showModal" :rating="$rating"/>
 </div>

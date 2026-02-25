@@ -1,13 +1,13 @@
 @props([
-    'showReviewModal' => false,
+    'showModal' => false,
     'rating' => 1,
 ])
-@if($showReviewModal)
+@if($showModal)
     {{-- REVIEW POP UP --}}
-    <x-popup-box modal="showReviewModal">
+    <x-popup-box modal="showModal">
         <x-slot:header>
             <div class="w-16 h-16 flex justify-center items-center bg-secondary-warning-100 rounded-full border border-secondary-warning">
-                <x-heroicon size="lg"  class="text-secondary-warning" name="star" variant="solid" />
+                <x-heroicon size="lg" class="text-secondary-warning" name="star" variant="solid"/>
             </div>
         </x-slot:header>
         <x-slot:subheader>
@@ -46,7 +46,7 @@
             <x-button
                     variant="disable"
                     size="large"
-                    wire:click="$set('showReviewModal', false)"
+                    wire:click="$dispatch('close-modal')"
             >
                 Cancel
             </x-button>
