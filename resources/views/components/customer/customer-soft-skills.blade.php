@@ -100,9 +100,17 @@ new class extends Component {
 
     <x-slot:action>
         @if($skillSchemaExists)
-            <livewire:skill-modal :hide-hard-skills="true" :user="$customer"/>
+            <x-button
+                    size="auto"
+                    wire:click="$dispatch('open-soft-skill-modal')"
+            >
+                <x-heroicon name="plus"/>
+                New Skill
+            </x-button>
         @endif
     </x-slot:action>
+
+    <livewire:skill-modal :user="$customer"/>
 
     @if($softSkills->isEmpty())
         <x-empty-state

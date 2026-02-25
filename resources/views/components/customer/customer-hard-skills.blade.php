@@ -74,8 +74,16 @@ class extends Component {
     @endif
 
     <x-slot:action>
-        @livewire('skill-modal', ['hideSoftSkills' => true])
+        <x-button
+                size="auto"
+                wire:click="$dispatch('open-hard-skill-modal')"
+        >
+            <x-heroicon name="plus"/>
+            New Skill
+        </x-button>
     </x-slot:action>
+
+    <livewire:skill-modal :user="$customer"/>
     @if($hardSkills->isEmpty())
         <x-empty-state
                 icon="academic-cap"

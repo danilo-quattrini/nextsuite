@@ -1,14 +1,4 @@
 <div>
-
-    {{-- BUTTON TO ADD A NEW SKILL  --}}
-    <x-button
-            size="auto"
-            wire:click="$set('showModal', true)"
-    >
-        <x-heroicon name="plus"/>
-        New Skill
-    </x-button>
-
     @if ($showModal)
         <x-popup-box modal="showModal">
 
@@ -85,7 +75,7 @@
                         type="button"
                         size="large"
                         variant="rest"
-                        wire:click="dispatch('close-modal')"
+                        wire:click="$dispatch('close-modal')"
                 >
                     Cancel
                 </x-button>

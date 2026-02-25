@@ -8,9 +8,11 @@ use App\Domain\Skill\Services\SkillState\HardSkillState;
 use App\Domain\Skill\Services\SkillState\SoftSkillState;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
+#[Lazy]
 class SkillModal extends Component
 {
     public ?SkillAssignable $user = null;
@@ -50,11 +52,34 @@ class SkillModal extends Component
             'skillYears.max' => 'Years of experience cannot exceed 30.',
         ];
     }
-    public function mount(): void
+
+    #[On('open-hard-skill-modal')]
+    public function openHardSkillModal(): void
     {
-        $this->loadSkills();
+        if ($this->hideHardSkills) {
+            $this->hideHardSkills = false;
+        }
+
+        $this->hideSoftSkills = true;
+        $this->openModal();
     }
 
+    #[On('open-soft-skill-modal')]
+    public function openSoftSkillModal(): void
+    {
+        if ($this->hideSoftSkills) {
+            $this->hideSoftSkills = false;
+        }
+
+        $this->hideHardSkills = true;
+        $this->openModal();
+    }
+
+    public function openModal(): void
+    {
+        $this->showModal = true;
+        $this->loadSkills();
+    }
     /**
      * Load skills with filters
      */
@@ -68,13 +93,15 @@ class SkillModal extends Component
     */
     public function getSkillService(): SkillService
     {
-        $service = new SkillService($this->user);
         if ($this->hideSoftSkills) {
-            $service->transitionToState(new HardSkillState());
-            $service->loadSkillsForUser(Auth::user());
+            $service = new SkillService($this->user, new HardSkillState());
+            $service->loadAllSkills();
         } elseif ($this->hideHardSkills) {
-            $service->transitionToState(new SoftSkillState());
+            $service = new SkillService($this->user, new SoftSkillState());
             $service->loadSkillsForUser(Auth::user());
+        }else{
+            $service = new SkillService($this->user);
+            $service->loadAllSkills();
         }
 
         return $service;
