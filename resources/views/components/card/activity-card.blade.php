@@ -46,15 +46,10 @@ new class extends Component {
 };
 ?>
 
-<section class="user-view__grid">
-    <div class="user-view__panel user-view__panel--wide">
-        <div class="user-view__panel-header">
-            <div class="user-view__panel-header--left">
-                <h3>Recent activities</h3>
-                <p class="user-view__panel-subtitle">All actions made on this customer</p>
-            </div>
-            <span class="user-view__panel-tag">Timeline</span>
-        </div>
+<x-card.card-container
+        title="Recent Activities"
+        subtitle="All actions made on this customer"
+>
         <div class="user-view__timeline">
             @if($activities->isNotEmpty())
                 @foreach($activities as $activity)
@@ -77,5 +72,4 @@ new class extends Component {
                 />
             @endif
         </div>
-    </div>
-</section>
+</x-card.card-container>
