@@ -206,7 +206,14 @@
                                     <x-skill.skill-card-view :skills="$form->skills" :hide-soft-skills="true" />
 
                                     <x-form.input-container>
-                                        @livewire('skill-modal', ['hideSoftSkills' => true])
+                                        <x-button
+                                                size="auto"
+                                                wire:click="$dispatch('open-hard-skill-modal')"
+                                        >
+                                            <x-heroicon name="plus"/>
+                                            New Skill
+                                        </x-button>
+                                        <livewire:skill-modal />
                                     </x-form.input-container>
                                 </div>
 
