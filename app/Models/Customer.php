@@ -46,20 +46,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     protected static function booted(): void
     {
-        // Clear cache when customer is created
-        static::created(function () {
-            self::clearAllContexts();
-        });
-
-        // Clear cache when customer is updated
-        static::updated(function () {
-            self::clearAllContexts();
-        });
-
-        // Clear cache when customer is deleted
-        static::deleted(function () {
-            self::clearAllContexts();
-        });
+        static::created(fn() => self::clearAllContexts());
+        static::updated(fn() => self::clearAllContexts());
+        static::deleted(fn() => self::clearAllContexts());
     }
 
     protected static function clearAllContexts(): void
