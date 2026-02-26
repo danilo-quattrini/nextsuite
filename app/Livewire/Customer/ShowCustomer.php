@@ -15,6 +15,10 @@ class ShowCustomer extends Component
 
     public Customer $customer;
 
+    public function mount(): void
+    {
+        $this->customer = Customer::findCustomerWithReview($this->customer->id);
+    }
     public function render() : View
     {
         return view('livewire.customer.show-customer');

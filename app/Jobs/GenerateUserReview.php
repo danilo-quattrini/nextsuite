@@ -39,7 +39,7 @@ class GenerateUserReview implements ShouldQueue
     private function buildReviewData(): array
     {
         $user = $this->userService->getUser();
-        $skills = $this->userService->getUser()->getSkills()->toArray();
+        $skills = $this->userService->getSkills();
 
         return [
             'full_name'   => $user->full_name,

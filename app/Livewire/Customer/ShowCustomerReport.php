@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customer;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Domain\Skill\Services\Chart\ChartFactory;
 use App\Domain\Skill\Services\FieldSkillChartService;
 use App\Domain\Skill\Services\SoftSkillChartService;
@@ -12,7 +13,7 @@ use Livewire\Component;
 
 class ShowCustomerReport extends Component
 {
-    public Customer $customer;
+    public ?Customer $customer = null;
     public ?float $softSkillsAverage = null;
     public ?Collection $softSkills = null;
     public string $chartType = 'bar';
@@ -21,6 +22,7 @@ class ShowCustomerReport extends Component
 
     public function mount(): void
     {
+        $this->customer = Customer::findCustomerWithReview($this->customer->id);
         $this->getSoftSkill($this->customer);
     }
 
