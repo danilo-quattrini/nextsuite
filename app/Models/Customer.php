@@ -225,12 +225,29 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         ]);
     }
 
-    public function getActivitylogOptions(): LogOptions
+    /**
+     * Find the customer with reviews and save them inside the cache
+     */
+    public static function findCustomerWithReview(
+        int $id,
+        ?string $context = null
+    )
     {
-        return LogOptions::defaults()
-            ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
+        $context = $context ?? Route::currentRouteName() ?? 'default';
+
+        $key = self::CACHE_KEY . ':id:' . $id . ':' . $context;
+
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($id) {
+            return static::with('reviews')
+                ->withCount('reviews as reviews_count')
+                ->withAvg('reviews as reviews_avg_rating', 'rating')
+                ->findOrFail($id);
+        });
     }
 
+    /**
+     * Get all the customers owned by a user with saved them inside the cache
+     */
     public static function getCustomersOwnedByUser(?string $context = null)
     {
         $context = $context ?? Route::currentRouteName() ?? 'default';
@@ -245,6 +262,10 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
                 ->paginate(6);
         });
     }
+
+    /**
+     * Get all the customers with reviews and their average, save them inside the cache
+     */
     public static function getCustomersWithReviews(?string $context = null)
     {
         $page = request()->get('page', 1);
@@ -263,5 +284,13 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
                 ->paginate(6);
         });
 
+    }
+    /**
+     * Default method to log specific customer details
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
     }
 }
