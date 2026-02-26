@@ -51,11 +51,40 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         static::deleted(fn() => self::clearAllContexts());
     }
 
+    // ==================== CACHE OPERATION ====================
+
     protected static function clearAllContexts(): void
     {
         Cache::tags([self::CACHE_KEY])->flush();
     }
 
+
+    /**
+     * Clear cache for a specific customer
+     * Called by Review model when review is added/updated/deleted
+     */
+    public static function clearModelCache(
+        ?int $id = null
+    ): void
+    {
+        if(!$id){
+            return;
+        }
+        $keys = [
+            self::CACHE_KEY . ':' . $id . ':with_reviews',
+            self::CACHE_KEY . ':' . $id . ':with_review_stats',
+            self::CACHE_KEY . ':' . $id . ':details',
+        ];
+
+        foreach ($keys as $key){
+            Cache::tags([self::CACHE_KEY])->forget($key);
+        }
+    }
+    // ==================== RELATIONSHIPS ====================
+
+    /**
+     * Get the skills from the Skill model.
+     */
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
@@ -102,11 +131,15 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         return $this->morphMany(Document::class, 'documentable');
     }
 
-
+    /**
+     * Get user skill scheme.
+     */
     public function skillSchema(): MorphMany
     {
         return $this->morphMany(SkillSchema::class, 'assignable');
     }
+
+    // ==================== HELPER METHODS ====================
 
     /**
      * Add a skill to a customer
@@ -139,7 +172,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         }
     }
 
-
+    /**
+     * Remove a skill with a specific id from the customer
+     */
     public function removeSkill(int $skillId): void
     {
         $skill = Skill::findOrFail($skillId);
@@ -152,6 +187,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $this->skills()->detach($skillId);
         }
     }
+
     /**
      * Check if customer has a specific skill assigned
      */
@@ -216,18 +252,16 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     /**
      * Find the customer with reviews and save them inside the cache
+     * @param  int  $id
+     * @return Customer|null
      */
     public static function findCustomerWithReview(
-        int $id,
-        ?string $context = null
-    )
-    {
-        $context = $context ?? Route::currentRouteName() ?? 'default';
-
-        $key = self::CACHE_KEY . ':id:' . $id . ':' . $context;
+        int $id
+    ): ?Customer {
+        $key = self::CACHE_KEY . ':' . $id . ':with_reviews';
 
         return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($id) {
-            return static::with('reviews')
+            return static::with(['reviews.author'], ['skills'])
                 ->withCount('reviews as reviews_count')
                 ->withAvg('reviews as reviews_avg_rating', 'rating')
                 ->findOrFail($id);
