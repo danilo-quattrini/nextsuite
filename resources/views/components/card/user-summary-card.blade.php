@@ -15,6 +15,7 @@ class extends Component {
     public ?SkillAssignable $user = null;
     public ?string $summary = '';
     public ?array $skills = null;
+    public bool $isGenerating = false;
 
     public function mount(): void
     {
@@ -25,25 +26,36 @@ class extends Component {
             if ($this->summary === '') {
                 $userService->generateUserReview();
                 $this->summary = $userService->getReview();
+                $this->isGenerating = $this->summary === '';
             }
         }
     }
 
+    public function refreshSummary(): void
+    {
+        if (!$this->user->hasSkill()) {
+            $this->isGenerating = false;
+            return;
+        }
 
-    // This is the placeholder shown WHILE mount() is running
+        $userService = new UserService($this->user);
+        $this->summary = $userService->getReview();
+        $this->isGenerating = $this->summary === '';
+    }
+
     public function placeholder(): string
     {
         return <<<'HTML'
                 <x-card.card-container
-            title="Summary"
-            subtitle="That's a quick review about the customer"
-                    >
-                        <div class="summary-skeleton">
-                            <div class="skeleton-line"></div>
-                            <div class="skeleton-line skeleton-line--short"></div>
-                            <div class="skeleton-line"></div>
-                        </div>
-               </x-card.card-container>
+                        title="Summary"
+                        subtitle="That's a quick review about the customer"
+                >
+                    <div class="summary-skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line skeleton-line--short"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                </x-card.card-container>
         HTML;
     }
 };
@@ -54,8 +66,19 @@ class extends Component {
         subtitle="That's a quick review about the customer"
         class="text-wrap"
 >
+    @if($isGenerating)
+        <div wire:poll.2s="refreshSummary"></div>
+    @endif
     @if($this->user->hasSkill())
-        <p class="indent-0">{{ $summary }}</p>
+        @if($summary !== '')
+            <p class="indent-0">{{ $summary }}</p>
+        @else
+            <div class="summary-skeleton">
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line skeleton-line--short"></div>
+                <div class="skeleton-line"></div>
+            </div>
+        @endif
     @else
         <x-empty-state
                 icon="cube-transparent"
