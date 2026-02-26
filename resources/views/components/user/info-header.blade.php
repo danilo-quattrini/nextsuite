@@ -59,10 +59,15 @@ new class extends Component {
                 @endisland
             </div>
             @if($hasReview)
+                @php
+                    $reviewCounter = $user?->reviews_count;
+                    $reviewWord = $user?->reviews_count === 1 ? 'review' : 'reviews';
+                    $review = trim($reviewCounter . ' ' . $reviewWord)
+                @endphp
                 <div class="user-view__rating">
                     <x-heroicon variant="solid" name="star" class="text-secondary-warning"/>
-                    <span>{{ number_format($user->reviews_avg_rating ?? 0, 1) }}</span>
-                    <span>({{ $user?->reviews_count }} reviews)</span>
+                    <span>{{ number_format($user->reviews_avg_rating ?? 0, 1)  }} / 5</span>
+                    <span>({{ $review }})</span>
                 </div>
             @endif
 
