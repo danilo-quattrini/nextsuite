@@ -7,7 +7,7 @@
 }
 
 .card-title{
-    @apply font-semibold;
+    @apply font-semibold flex items-center gap-2;
 }
 
 .card-subtitle{
