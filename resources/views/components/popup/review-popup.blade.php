@@ -25,7 +25,7 @@
                             class="focus:outline-none cursor-pointer"
                     >
                         <x-heroicon
-                                size="xxl"
+                                size="2xl"
                                 name="star"
                                 variant="solid"
                                 class="{{ $rating >= $i ? 'text-secondary-warning' : 'text-outline-grey' }}"
