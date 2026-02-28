@@ -72,8 +72,12 @@ new class extends Component {
             @endif
 
             @if($showInfo)
-                <p class="user-view__subtitle">{{ $user->email ?? 'example@gmail.com' }}</p>
-                <p class="user-view__subtitle">{{ $user->phone ?? '+12 1234566789'  }}</p>
+                <x-user.user-view-subtitle icon="envelope">
+                    {{ $user->email ?? 'example@gmail.com' }}
+                </x-user.user-view-subtitle>
+                <x-user.user-view-subtitle icon="phone">
+                    {{ $user->phone ?? '+(123) 1234567890' }}
+                </x-user.user-view-subtitle>
             @endif
         </div>
     </div>
