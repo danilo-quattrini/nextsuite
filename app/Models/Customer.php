@@ -79,6 +79,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         foreach ($keys as $key){
             Cache::tags([self::CACHE_KEY])->forget($key);
         }
+
+        self::clearAllContexts();
     }
     // ==================== RELATIONSHIPS ====================
 
@@ -298,7 +300,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $context = $currentRoute ?: 'default';
         }
 
-        $key = $context . ':' . $page;
+        $key = self::CACHE_KEY . ':context:' . $context . ':page:' . $page;
 
         return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
