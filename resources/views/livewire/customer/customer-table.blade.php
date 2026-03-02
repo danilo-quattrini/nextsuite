@@ -45,30 +45,8 @@
             </div>
 
             {{-- FILTERS --}}
-            <x-button
-                    variant="white"
-                    size="auto"
-            >
-                <x-heroicon name="academic-cap" />
-                Hard Skill
-            </x-button>
-
-            <x-button
-                    variant="white"
-                    size="auto"
-            >
-                <x-heroicon name="face-smile" />
-                Soft skill
-            </x-button>
-
-            <x-button
-                    variant="white"
-                    size="auto"
-            >
-                <x-heroicon name="star" />
-                Rating
-            </x-button>
-
+            <livewire:filters.base-filter state="soft"/>
+            <livewire:filters.base-filter state="hard"/>
         </div>
         {{-- TABLE VIEW --}}
         <div
