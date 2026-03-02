@@ -50,6 +50,14 @@ class UserService
     }
 
     /**
+     * Get an array of all the rating and comment from SkillAssignable user.
+     * */
+    public function getRatings(): array
+    {
+        return $this->getUser()->reviews()->exists() ? $this->getUser()->reviews()->get()->toArray() : [];
+    }
+
+    /**
      * Get the User model
      * */
     public function getUser(): SkillAssignable | AttributeAssignable
