@@ -38,15 +38,16 @@
                 <div class="page-content__meta-label">
                     @if(!empty($user->reviews_count))
                         @php $rating = round($user->reviews_avg_rating) @endphp
-                        <div class="flex">
-                            @for($i = 1; $i <= 5; $i++)
-                                <x-heroicon
-                                        size="md"
-                                        name="star"
-                                        variant="solid"
-                                        class="{{ $i <= $rating ? 'text-secondary-warning' : 'text-outline-grey' }}"
-                                />
-                            @endfor
+                        <div class="flex items-center space-x-2">
+                            <div class="flex">
+                                @for($i = 1; $i <= 5; $i++)
+                                    <x-heroicon
+                                            name="star"
+                                            variant="solid"
+                                            class="{{ $i <= $rating ? 'text-secondary-warning' : 'text-outline-grey' }}"
+                                    />
+                                @endfor
+                            </div>
                             <p>{{number_format($user->reviews_avg_rating, 1)}} / ({{ $user->reviews_count }})</p>
                         </div>
                     @else
