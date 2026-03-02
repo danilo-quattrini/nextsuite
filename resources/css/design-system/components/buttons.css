@@ -32,15 +32,10 @@
 
 .btn-white {
     background-color: var(--color-white);
-    color: var(--color-primary-grey);
-    outline: thin solid var(--color-outline-grey);
+    font-weight: var(--font-weight-medium);
 
     &:hover:not(:disabled) {
-        background-color: var(--color-outline-grey);
-    }
-
-    &:focus-visible {
-        box-shadow: 0 0 0 4px var(--color-outline-grey);
+        @apply border border-primary text-primary transition delay-75 duration-150 ease-in;
     }
 }
 
