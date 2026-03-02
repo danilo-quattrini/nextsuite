@@ -25,21 +25,50 @@
 
     <div class="page-content__body">
 
-        <div class="page-content__switch">
-            <button
-                    @click="$store.views.set('table')"
-                    :class="$store.views.current === 'table' ? 'bg-primary text-white' : ''"
-                    class="page-content__switch-buttons"
+        <div class="flex items-center justify-start gap-4">
+            {{-- SWITCH --}}
+            <div class="page-content__switch">
+                <button
+                        @click="$store.views.set('table')"
+                        :class="$store.views.current === 'table' ? 'bg-primary text-white' : ''"
+                        class="page-content__switch-buttons"
+                >
+                    <x-heroicon name="list-bullet"/>
+                </button>
+                <button
+                        @click="$store.views.set('card')"
+                        :class="$store.views.current === 'card' ? 'bg-primary text-white' : ''"
+                        class="page-content__switch-buttons"
+                >
+                    <x-heroicon name="squares-2x2"/>
+                </button>
+            </div>
+
+            {{-- FILTERS --}}
+            <x-button
+                    variant="white"
+                    size="auto"
             >
-                <x-heroicon name="list-bullet" size="lg"/>
-            </button>
-            <button
-                    @click="$store.views.set('card')"
-                    :class="$store.views.current === 'card' ? 'bg-primary text-white' : ''"
-                    class="page-content__switch-buttons"
+                <x-heroicon name="academic-cap" />
+                Hard Skill
+            </x-button>
+
+            <x-button
+                    variant="white"
+                    size="auto"
             >
-                <x-heroicon name="squares-2x2" size="lg"/>
-            </button>
+                <x-heroicon name="face-smile" />
+                Soft skill
+            </x-button>
+
+            <x-button
+                    variant="white"
+                    size="auto"
+            >
+                <x-heroicon name="star" />
+                Rating
+            </x-button>
+
         </div>
         {{-- TABLE VIEW --}}
         <div
