@@ -18,11 +18,19 @@ class Skill extends Model
         'category_id'
     ];
 
+    // ==================== RELATIONSHIPS ====================
+
+    /**
+     * Get the categories from the Category model.
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the customers from the Customer model.
+     */
     public function customers(): BelongsToMany
     {
         return $this->belongsToMany(Customer::class, 'skill_customers', 'skill_id', 'customer_id')
@@ -30,6 +38,8 @@ class Skill extends Model
             ->withPivot(['years', 'level', 'notes', 'user_id'])
             ->withTimestamps();
     }
+
+    // ==================== HELPER METHODS ====================
 
     public function isSoftSkill(): bool
     {
