@@ -63,21 +63,33 @@ class OpenAIService
             ->map(fn($s) => "  - {$s['name']}: {$s['level']} out of 100, type: {$s['type']}")
             ->join("\n");
 
+        $ratings = collect($data['ratings'])
+            ->map(fn($s) => "  - {$s['rating']} out of 5, comment: {$s['comment']}")
+            ->join("\n");
+        
         return <<<TEXT
                 Write a concise, neutral professional review for the following customer.
                 Customer information:
                 
-                - Name: {$data['full_name']}
-                
                 Skills:
                 {$skills}
                 
-                Instructions:
+                Ratings: 
+                {$ratings}
+                
+                Ratings instruction:
+                - Only consider ratings with a meaningful comment attached.
+                - For ratings below 3, ensure the comment provides a substantial reason; otherwise, do not evaluate it.
+                - Do not consider any ratings with comment, where there are bad words.
+                
+                Review Instructions:
                 - Keep the tone neutral and professional.
-                - Highlight the customer's strongest areas.
+                - Highlight the customer's strongest areas but with partiality tone.
                 - Point out areas that could be improved.
+                - Empathise with the bold HTML element, that parts who can be relevant for
+                someone who read the Review.
                 - Suggest which professional fields or roles this person would be best suited for.
-                - Keep the response under 150 words.
+                - Keep the response under 100 words.
                 TEXT;
     }
 
