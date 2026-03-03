@@ -43,33 +43,6 @@ class Skill extends Model
 
     // ==================== HELPER METHODS ====================
 
-    /**
-     * Find customers that have all the selected skills.
-     */
-    public static function findCustomerWithSkills(
-        array $skillIds,
-        int $perPage = 6
-    ): LengthAwarePaginator {
-        $skillIds = array_values(array_unique(array_filter($skillIds)));
-
-        if (empty($skillIds)) {
-            return Customer::getCustomersWithReviews();
-        }
-
-        return Customer::query()
-            ->with('skills')
-            ->withCount('reviews as reviews_count')
-            ->withAvg('reviews as reviews_avg_rating', 'rating')
-            ->whereIn('id', function ($query) use ($skillIds) {
-                $query->select('customer_id')
-                    ->from('skill_customers')
-                    ->whereIn('skill_id', $skillIds)
-                    ->groupBy('customer_id')
-                    ->havingRaw('COUNT(DISTINCT skill_id) = ?', [count($skillIds)]);
-            })
-            ->paginate($perPage);
-    }
-
     public function isSoftSkill(): bool
     {
         return $this->category->type->value === 'soft_skill';
