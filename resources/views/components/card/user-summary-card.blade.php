@@ -71,7 +71,16 @@ class extends Component {
     @endif
     @if($this->user->hasSkill())
         @if($summary !== '')
-            <p class="indent-0">{{ $summary }}</p>
+            @php
+                $summaryLines = preg_split('/\r\n|\r|\n/', trim($summary));
+            @endphp
+            <div class="space-y-3">
+                @foreach($summaryLines as $line)
+                    @if(trim($line) !== '')
+                        <p class="indent-0">{{ $line }}</p>
+                    @endif
+                @endforeach
+            </div>
         @else
             <div class="summary-skeleton">
                 <div class="skeleton-line"></div>
