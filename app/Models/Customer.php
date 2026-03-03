@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -268,6 +269,44 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
                 ->withAvg('reviews as reviews_avg_rating', 'rating')
                 ->findOrFail($id);
         });
+    }
+
+    /**
+     * Find the customer with reviews greater than a value and skills
+     * @param array $skillIds
+     * @param  int  $ratingStars
+     * @param  int $perPage
+     * @return LengthAwarePaginator
+     */
+    public static function findCustomerWithSkillsAndReviews(
+        array $skillIds,
+        int $ratingStars = 0,
+        int $perPage = 6
+    ): LengthAwarePaginator {
+
+        $skillIds = array_values(array_unique(array_filter($skillIds)));
+
+        $query = static::with(['reviews.author', 'skills'])
+            ->withCount('reviews as reviews_count')
+            ->withAvg('reviews as reviews_avg_rating', 'rating');
+
+        if (!empty($skillIds)) {
+            $query->whereIn('id', function ($query) use ($skillIds) {
+                $query->select('customer_id')
+                    ->from('skill_customers')
+                    ->whereIn('skill_id', $skillIds)
+                    ->groupBy('customer_id')
+                    ->havingRaw('COUNT(DISTINCT skill_id) = ?', [count($skillIds)]);
+            });
+        }
+
+        if ($ratingStars > 0) {
+            $query->having('reviews_avg_rating', '>', $ratingStars);
+        }
+
+        return $query
+            ->orderByDesc('reviews_avg_rating')
+            ->paginate($perPage);
     }
 
     /**
