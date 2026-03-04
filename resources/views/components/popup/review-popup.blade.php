@@ -1,6 +1,6 @@
 @props([
     'showModal' => false,
-    'rating' => 1,
+    'rating'
 ])
 @if($showModal)
     {{-- REVIEW POP UP --}}
@@ -17,22 +17,7 @@
         {{-- RATING --}}
         <div>
             <x-form.label-container label="Rating"/>
-            <div class="flex items-center space-x-1 my-3">
-                @for($i = 1; $i <= 5; $i++)
-                    <button
-                            type="button"
-                            wire:click="$set('rating', {{ $i }})"
-                            class="focus:outline-none cursor-pointer"
-                    >
-                        <x-heroicon
-                                size="2xl"
-                                name="star"
-                                variant="solid"
-                                class="{{ $rating >= $i ? 'text-secondary-warning' : 'text-outline-grey' }}"
-                        />
-                    </button>
-                @endfor
-            </div>
+            <livewire:rating-stars wire:model="rating" size="xl" :selectable="true"/>
         </div>
 
         {{-- TEXTBOX --}}
