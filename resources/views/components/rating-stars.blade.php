@@ -1,12 +1,15 @@
 <?php
 
+use App\Models\Skill;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\Attributes\Modelable;
 
-new class extends Component {
+new #[Lazy]
+class extends Component {
     #[Modelable]
-    public ?int $rating = null;
+    public ?int $rating = 0;
     public string $size = 'sm';
     public bool $selectable = false;
     public int $max = 5;
@@ -15,16 +18,15 @@ new class extends Component {
     public string $ariaLabel = 'Rating';
     public ?string $id = null;
 
-    #[On('filter-customer-review')]
-    public function filter(): void
+    #[On('filter-customer')]
+    public function filter(array $skillIds): void
     {
-        $this->dispatch('customer-filters-updated', skillIds: [], ratingStars: $this->rating);
+        $this->dispatch('customer-filters-updated', skillIds: $skillIds, ratingStars: $this->rating);
     }
-
-    public function clearFilters(): void
+    #[On('clear-rating')]
+    public function clear(): void
     {
-        $this->selectedSkills = [];
-        $this->dispatch('customer-filters-updated', skillIds: [], ratingStars: null);
+        $this->rating = 0;
     }
 };
 ?>
@@ -55,7 +57,7 @@ new class extends Component {
                             name="{{ $name }}"
                             value="{{ $i }}"
                             class="peer sr-only"
-                            wire:model="rating"
+                            wire:model.live="rating"
                             @disabled($disabled)
                             @checked($ratingValue === $i)
                             aria-label="{{ $i }} star"
