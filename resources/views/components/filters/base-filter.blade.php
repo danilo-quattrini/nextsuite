@@ -7,101 +7,83 @@ use App\Domain\Skill\Services\SkillState\SoftSkillState;
 use App\Livewire\Filter\FilterState;
 use JetBrains\PhpStorm\NoReturn;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\On;
+use Livewire\Component;
 
 new #[Lazy]
-class extends FilterState {
+class extends Component {
 
-    #[NoReturn]
-    public function loadSkills(): void
+    public array $skills = [];
+    public array $selectedSkills = [];
+
+    public function toggleSkill(int $skillId): void
     {
-        $skillService = match (true) {
-            $this->state === 'hard' => new SkillService(null, new HardSkillState()),
-            $this->state ===  'soft' => new SkillService(null, new SoftSkillState()),
-            default => new SkillService(null, new AllSkillState())
-        };
-        $skillService->loadAllSkills();
-        $this->skills = $skillService->groupByCategory();
+        if (in_array($skillId, $this->selectedSkills, true)) {
+            $this->selectedSkills = array_values(
+                array_diff($this->selectedSkills, [$skillId])
+            );
+            return;
+        }
+
+        $this->selectedSkills[] = $skillId;
+    }
+    #[On('send-selected-skill')]
+    public function sendSelectedSkills(): void
+    {
+        $this->dispatch('filter-customer', skillIds: $this->selectedSkills);
+    }
+
+    #[On('clear-selected-skill')]
+    public function clear(): void
+    {
+        $this->selectedSkills = [];
     }
 };
 ?>
-
 <div class="flex items-center justify-start gap-4">
-    <x-form.dropdown-button
-            width="w-100"
-    >
-        <x-slot:trigger>
-            <x-button
-                    variant="white"
-                    size="auto"
-                    wire:click="loadSkills"
-            >
-                <x-heroicon name="{{ $icon }}"/>
-                {{ $label }}
-            </x-button>
-        </x-slot:trigger>
-        <x-slot:content>
-            <div class="flex justify-between items-center my-2">
-                <x-button
-                        variant="outline-error"
-                        size="auto"
-                        wire:click="clearFilters"
-                >
-                    <x-heroicon name="trash"/>
-                    Clear
-                </x-button>
-                <x-button
-                        size="auto"
-                        wire:click="filter"
-                >
-                    <x-heroicon name="funnel"/>
-                    Filter
-                </x-button>
-            </div>
-            @if(!empty($skills))
-                <div class="space-y-3">
-                    @foreach($skills as $categoryName => $skillValues)
-                        <div class="space-y-2 border-b border-outline-grey/60 pb-3 last:border-b-0">
-                            <p class="text-xs uppercase tracking-wide text-primary-grey">
-                                {{ $categoryName }}
-                            </p>
-                            @php
-                                $maxNameLength = 0;
-                                foreach ($skillValues as $skill) {
-                                    $maxNameLength = max($maxNameLength, strlen($skill['name'] ?? ''));
-                                }
+    @if(!empty($skills))
+        <div class="grid grid-cols-4 gap-4 ">
+            @foreach($skills as $categoryName => $skillValues)
+                <div class="space-y-2 gap-5">
+                    <p class="text-xs uppercase tracking-wide text-primary-grey">
+                        {{ $categoryName }}
+                    </p>
+                    @php
+                        $maxNameLength = 0;
+                        foreach ($skillValues as $skill) {
+                            $maxNameLength = max($maxNameLength, strlen($skill['name'] ?? ''));
+                        }
 
-                                $columns = $maxNameLength >= 24 ? 4 : ($maxNameLength >= 16 ? 3 : 2);
+                        $columns = $maxNameLength >= 24 ? 4 : ($maxNameLength >= 16 ? 3 : 2);
+                    @endphp
+                    <div @class([
+                        'grid gap-2',
+                        'grid-cols-2' => $columns === 2,
+                        'grid-cols-3' => $columns === 3,
+                        'grid-cols-4' => $columns === 4,
+                    ])>
+                        @foreach($skillValues as $skill)
+                            @php
+                                $skillId = $skill['id'];
+                                $isSelected = in_array($skillId, $selectedSkills, true);
                             @endphp
-                            <div @class([
-                                'grid gap-2',
-                                'grid-cols-2' => $columns === 2,
-                                'grid-cols-3' => $columns === 3,
-                                'grid-cols-4' => $columns === 4,
-                            ])>
-                                @foreach($skillValues as $skill)
-                                    @php
-                                        $skillId = $skill['id'];
-                                        $isSelected = in_array($skillId, $selectedSkills, true);
-                                    @endphp
-                                    <button
-                                            type="button"
-                                            value="{{ $skillId }}"
-                                            wire:click="toggleSkill({{ $skillId }})"
-                                            class="px-4 py-1.5 cursor-pointer rounded-md text-sm font-medium border transition
-                                            truncate text-nowrap
-                                                {{ $isSelected
-                                                    ? 'bg-primary text-white border-primary'
-                                                    : 'bg-white text-black border-outline-grey hover:bg-gray-100'
-                                                }}"
-                                    >
-                                        {{ $skill['name'] }}
-                                    </button>
-                                @endforeach
-                            </div>
-                        </div>
-                    @endforeach
+                            <button
+                                    type="button"
+                                    value="{{ $skillId }}"
+                                    wire:click="toggleSkill({{ $skillId }})"
+                                    class="px-4 py-1.5 cursor-pointer rounded-md text-sm font-medium border transition
+                                    truncate text-nowrap
+                                        {{ $isSelected
+                                            ? 'bg-primary text-white border-primary'
+                                            : 'bg-white text-black border-outline-grey hover:bg-gray-100'
+                                        }}"
+                            >
+                                {{ $skill['name'] }}
+                            </button>
+                        @endforeach
+                    </div>
                 </div>
-            @endif
-        </x-slot:content>
-    </x-form.dropdown-button>
+            @endforeach
+        </div>
+    @endif
 </div>
