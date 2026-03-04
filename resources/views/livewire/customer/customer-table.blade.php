@@ -45,9 +45,18 @@
             </div>
 
             {{-- FILTERS --}}
-            <livewire:filters.base-filter state="soft"/>
-            <livewire:filters.base-filter state="hard"/>
+            <x-button
+                    size="auto"
+                    wire:click="dispatch('open-section')"
+            >
+                <x-heroicon name="funnel" size="md"/>
+                Filter
+            </x-button>
         </div>
+
+        {{-- FILTER SECTION --}}
+        <livewire:filters.filter-section />
+
         {{-- TABLE VIEW --}}
         <div
                 x-show="$store.views.current === 'table'"
@@ -240,7 +249,7 @@
             @endforeach
         </div>
 
-        @if(count($customers) != 0)
+        @if(count($customers) < 7)
             <div class="page-content__pagination">
                 {{ $customers->links('components.pagination') }}
             </div>
