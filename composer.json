@@ -28,7 +28,8 @@
         "propaganistas/laravel-phone": "^6.0",
         "rinvex/countries": "^9.1",
         "salahhusa9/laravel-updater": "dev-Add-Bitbucket-repository-support",
-        "spatie/laravel-activitylog": "^4.11"
+        "spatie/laravel-activitylog": "^4.11",
+        "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.16",
