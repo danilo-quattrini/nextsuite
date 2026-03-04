@@ -19,20 +19,26 @@ class CustomerTable extends Component
     protected string $paginationTheme = 'tailwind';
 
     public array $selectedSkillIds = [];
+    public ?int $selectedRatingStars = 0;
 
     #[On('customer-filters-updated')]
-    public function applySkillFilters(array $skillIds): void
+    public function applyFilters(
+        ?array $skillIds = [],
+        ?int $ratingStars = 0
+    ): void
     {
         $this->selectedSkillIds = $skillIds;
+        $this->selectedRatingStars = $ratingStars;
+
         $this->resetPage();
     }
 
     public function render()
     {
-        $customers = empty($this->selectedSkillIds)
-            ? Customer::getCustomersWithReviews()
-            : Skill::findCustomerWithSkills($this->selectedSkillIds);
-
+        $customers = Customer::findCustomerWithSkillsAndReviews(
+            $this->selectedSkillIds,
+            $this->selectedRatingStars
+        );
         return view('livewire.customer.customer-table', [
             'customers' => $customers
         ]);
