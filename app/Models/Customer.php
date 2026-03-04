@@ -18,11 +18,13 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, HasRoles, SoftDeletes, LogsActivity;
 
+    protected string $guard_name = 'web';
     private const string CACHE_KEY = 'customers';
     private const int CACHE_TTL = 3600;
 
