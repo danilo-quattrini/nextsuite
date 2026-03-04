@@ -37,10 +37,6 @@ trait WithReview
     {
         $this->reviewableId = $model->id;
         $this->reviewableType = get_class($model);
-
-        $this->rating = 1;
-        $this->review = '';
-
         $this->showModal = true;
     }
 
