@@ -1,0 +1,37 @@
+[
+    {
+      "name": "owner",
+      "guard_name": "web",
+      "description": "Primary company owner. Full access to company data, billing, users, and settings."
+    },
+    {
+      "name": "admin",
+      "guard_name": "web",
+      "description": "Company administrator. Can manage projects, invoices, and team members but not subscription ownership."
+    },
+    {
+      "name": "manager",
+      "guard_name": "web",
+      "description": "Project or department manager. Can manage assigned projects, tasks, and reports."
+    },
+    {
+      "name": "accountant",
+      "guard_name": "web",
+      "description": "Access to invoices, payments, financial reports, and billing data."
+    },
+    {
+      "name": "employee",
+      "guard_name": "web",
+      "description": "Standard employee. Access to assigned tasks, projects, and internal documents."
+    },
+    {
+      "name": "support",
+      "guard_name": "web",
+      "description": "Can create and manage support tickets and client communications."
+    },
+    {
+      "name": "viewer",
+      "guard_name": "web",
+      "description": "Read-only access to company data such as reports and project status."
+    }
+]
