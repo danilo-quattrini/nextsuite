@@ -16,7 +16,7 @@ class extends Component {
     #[On('open-section')]
     public function openFilterSection(): void
     {
-        $this->showSection = true;
+        $this->showSection = !$this->showSection;
 
         if (empty($this->hardSkills) && empty($this->softSkills)) {
             $skillService = new SkillService(null, new HardSkillState());
@@ -28,7 +28,6 @@ class extends Component {
         }
     }
 
-    #[On('close-section')]
     public function closeSection(): void
     {
         $this->showSection = false;
@@ -54,7 +53,7 @@ class extends Component {
                 title="Filter"
                 subtitle="Filter the customer in base of your preferences"
                 class="text-wrap"
-                wire:transition
+                wire:transition="filterSection"
         >
             {{--      CLOSE BUTTON      --}}
             <x-slot:action>
@@ -62,7 +61,7 @@ class extends Component {
                         class="cursor-pointer hover:text-secondary-error transition-colors delay-50 duration-150 ease-in-out"
                         wire:click="closeSection"
                 >
-                    <x-heroicon name="x-circle" size="xl"/>
+                    <x-heroicon name="x-circle" size="lg"/>
                 </button>
             </x-slot:action>
 

@@ -180,7 +180,6 @@
                                         <x-button
                                                 type="button"
                                                 variant="white"
-                                                size="auto"
                                                 aria-label="Customer actions"
                                         >
                                             <x-heroicon
