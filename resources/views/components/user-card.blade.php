@@ -34,6 +34,7 @@
             <p><span class="page-content__meta-label">Phone:</span> {{ $user->phone ?: '---' }}</p>
             <p><span class="page-content__meta-label">DOB:</span> {{ $user->dob ? Carbon::parse($user->dob)->format('d-m-Y') : '---' }}</p>
             <p><span class="page-content__meta-label">Nationality:</span> {{ $user->nationality ?: '---' }}</p>
+            <p><span class="page-content__meta-label">Role{{count($user->getRoleNames()) > 1 ? 's': ''}}:</span> {{ ucfirst($user->getRoleNames()->first()) ?: '---' }}</p>
             <div class="space-y-1">
                 <div class="page-content__meta-label">
                     @if(!empty($user->reviews_count))
