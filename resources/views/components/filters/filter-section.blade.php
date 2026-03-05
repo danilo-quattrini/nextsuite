@@ -66,28 +66,25 @@ class extends Component {
             </x-slot:action>
 
             {{--      HARD SKILL SECTION      --}}
-            <div class="space-y-2 border-b border-outline-grey/60 pb-3">
-                <p class="font-semibold uppercase tracking-wideborder-b-black">
-                    Hard Skill
-                </p>
+            <x-filters.filter-subsection
+                    title="Hard Skill"
+            >
                 <livewire:filters.base-filter :skills="$hardSkills"/>
-            </div>
+            </x-filters.filter-subsection>
 
             {{--      SOFT SKILL SECTION      --}}
-            <div class="space-y-2 border-b border-outline-grey/60 pb-3">
-                <p class="font-semibold uppercase tracking-wideborder-b-black">
-                    Soft Skill
-                </p>
+            <x-filters.filter-subsection
+                    title="Soft Skill"
+            >
                 <livewire:filters.base-filter :skills="$softSkills"/>
-            </div>
+            </x-filters.filter-subsection>
 
             {{--      REVIEW SECTION BUTTON      --}}
-            <div class="space-y-2 border-b border-outline-grey/60 pb-3">
-                <p class="text-xs uppercase tracking-wide text-primary-grey">
-                    Rating
-                </p>
+            <x-filters.filter-subsection
+                    title="Rating"
+            >
                 <livewire:rating-stars size="xl" selectable="true"/>
-            </div>
+            </x-filters.filter-subsection>
 
             {{--      BUTTON SECTION      --}}
             <div class="flex justify-between items-center my-2">
