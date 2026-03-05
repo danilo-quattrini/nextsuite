@@ -6,10 +6,12 @@ use App\Domain\Skill\Services\SkillState\SoftSkillState;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Spatie\Permission\Models\Role;
 
 new #[Lazy]
 class extends Component {
     public bool $showSection = false;
+    public ?string $roleToSearch = '';
     public array $softSkills = [];
     public array $hardSkills = [];
 
@@ -64,6 +66,9 @@ class extends Component {
                     <x-heroicon name="x-circle" size="lg"/>
                 </button>
             </x-slot:action>
+
+            {{--      SEARCH ROLE SECTION      --}}
+            <livewire:filters.search-role wire:model.live="roleToSearch" />
 
             {{--      HARD SKILL SECTION      --}}
             <x-filters.filter-subsection
