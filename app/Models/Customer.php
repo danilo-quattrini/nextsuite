@@ -275,12 +275,14 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     /**
      * Find the customer with reviews greater than a value and skills
+     * @param string $role
      * @param array $skillIds
      * @param  int  $ratingStars
      * @param  int $perPage
      * @return LengthAwarePaginator
      */
     public static function findCustomerWithSkillsAndReviews(
+        string $role,
         array $skillIds,
         int $ratingStars = 0,
         int $perPage = 6
@@ -288,9 +290,13 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
         $skillIds = array_values(array_unique(array_filter($skillIds)));
 
-        $query = static::with(['reviews.author', 'skills'])
+        $query = static::with(['reviews.author', 'skills', 'roles'])
             ->withCount('reviews as reviews_count')
             ->withAvg('reviews as reviews_avg_rating', 'rating');
+
+        if (!empty($role)) {
+            $query->role($role);
+        }
 
         if (!empty($skillIds)) {
             $query->whereIn('id', function ($query) use ($skillIds) {

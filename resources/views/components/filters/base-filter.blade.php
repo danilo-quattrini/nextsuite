@@ -28,9 +28,9 @@ class extends Component {
         $this->selectedSkills[] = $skillId;
     }
     #[On('send-selected-skill')]
-    public function sendSelectedSkills(): void
+    public function sendSelectedSkills(string $roleToSearch): void
     {
-        $this->dispatch('filter-customer', skillIds: $this->selectedSkills);
+        $this->dispatch('filter-customer', roleToSearch: $roleToSearch, skillIds: $this->selectedSkills);
     }
 
     #[On('clear-selected-skill')]

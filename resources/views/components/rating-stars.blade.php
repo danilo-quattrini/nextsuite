@@ -19,9 +19,9 @@ class extends Component {
     public ?string $id = null;
 
     #[On('filter-customer')]
-    public function filter(array $skillIds): void
+    public function filter(string $roleToSearch, array $skillIds): void
     {
-        $this->dispatch('customer-filters-updated', skillIds: $skillIds, ratingStars: $this->rating);
+        $this->dispatch('customer-filters-updated',roleToSearch: $roleToSearch, skillIds: $skillIds, ratingStars: $this->rating);
     }
     #[On('clear-rating')]
     public function clear(): void

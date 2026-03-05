@@ -20,13 +20,16 @@ class CustomerTable extends Component
 
     public array $selectedSkillIds = [];
     public ?int $selectedRatingStars = 0;
+    public ?string $roleToSearch = '';
 
     #[On('customer-filters-updated')]
     public function applyFilters(
+        ?string $roleToSearch,
         ?array $skillIds = [],
         ?int $ratingStars = 0
     ): void
     {
+        $this->roleToSearch = $roleToSearch;
         $this->selectedSkillIds = $skillIds;
         $this->selectedRatingStars = $ratingStars;
 
@@ -36,6 +39,7 @@ class CustomerTable extends Component
     public function render()
     {
         $customers = Customer::findCustomerWithSkillsAndReviews(
+            $this->roleToSearch,
             $this->selectedSkillIds,
             $this->selectedRatingStars
         );

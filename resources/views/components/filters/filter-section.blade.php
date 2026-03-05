@@ -35,16 +35,17 @@ class extends Component {
         $this->showSection = false;
     }
 
-    public function filter()
+    public function filter(): void
     {
-        $this->dispatch('send-selected-skill');
+        $this->dispatch('send-selected-skill', roleToSearch: $this->roleToSearch);
     }
 
     public function clearFilters(): void
     {
+        $this->roleToSearch = '';
         $this->dispatch('clear-selected-skill');
         $this->dispatch('clear-rating');
-        $this->dispatch('customer-filters-updated', skillIds: [], ratingStars: 0);
+        $this->dispatch('customer-filters-updated', roleToSearch: '', skillIds: [], ratingStars: 0);
     }
 };
 ?>
