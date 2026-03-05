@@ -248,7 +248,18 @@
             @endforeach
         </div>
 
-        @if(count($customers) < 7)
+        @if(count($customers) === 0)
+            <x-card.card-container
+                    size="lg"
+            >
+                <x-empty-state
+                        icon="user"
+                        message="No customer available"
+                        description="sorry but at this moment there is no customer here"
+                />
+            </x-card.card-container>
+        @endif
+        @if(count($customers) < 7 && count($customers) !== 0)
             <div class="page-content__pagination">
                 {{ $customers->links('components.pagination') }}
             </div>
