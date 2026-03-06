@@ -15,9 +15,11 @@ class extends Component {
     public int $visibleCount = 3;
     public int $step = 3;
 
-    public function mount(): void
+    public function mount(
+        RoleService $roleService
+    ): void
     {
-        $this->roleList = RoleService::getAllRoleNames();
+        $this->roleList = $roleService->getAllRoleNames();
         $this->resetVisibleCount();
     }
 
