@@ -47,11 +47,15 @@
 }
 
 .page-content__switch{
-    @apply flex justify-between items-center gap-2 p-1 my-4 border-none bg-white border  rounded-md max-w-fit transition-all;
+    @apply flex justify-between items-center gap-2 p-1 my-4 border-none bg-white rounded-md max-w-fit transition-all;
 }
 
 .page-content__switch-buttons{
-    @apply p-2 rounded-md cursor-pointer;
+    @apply p-2 rounded-md cursor-pointer transition delay-75 duration-300 ease-in-out;
+}
+
+.page-content__switch-buttons:hover:not(.bg-primary){
+    @apply ring ring-primary text-primary;
 }
 
 
