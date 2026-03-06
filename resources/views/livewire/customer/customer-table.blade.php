@@ -25,7 +25,7 @@
 
     <div class="page-content__body">
 
-        <div class="flex items-center justify-start gap-4">
+        <div class="flex items-center justify-start gap-2">
             {{-- SWITCH --}}
             <div class="page-content__switch">
                 <button

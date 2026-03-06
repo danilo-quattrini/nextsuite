@@ -30,6 +30,9 @@ class CustomerForm extends Form
     public string $nationality = '';
 
 
+    #[Validate(['required', 'string'])]
+    public string $role = '';
+
     public array $skills = [];
 
     public array $attributes = [];

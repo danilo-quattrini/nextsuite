@@ -107,6 +107,29 @@
 
                                             <x-input-error for="form.dob"/>
                                         </x-form.input-container>
+
+                                        {{-- ROLE --}}
+
+                                        <x-form.input-container>
+                                            <x-form.label-container label="Role" :required="true"/>
+
+                                            <x-form.select-wrapper :error="$errors->has('form.role')">
+                                                <x-form.select-element name="role" id="role" wire:model.defer="form.role">
+                                                    <x-slot:options>
+                                                        <option value="" disabled selected hidden>
+                                                            Select role
+                                                        </option>
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{ $role }}">
+                                                                {{ ucfirst($role) }}
+                                                            </option>
+                                                        @endforeach
+                                                    </x-slot:options>
+                                                </x-form.select-element>
+                                            </x-form.select-wrapper>
+
+                                            <x-input-error for="form.role"/>
+                                        </x-form.input-container>
                                     </div>
                                 </div>
 
