@@ -309,7 +309,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         }
 
         if ($ratingStars > 0) {
-            $query->having('reviews_avg_rating', '>', $ratingStars);
+            $query->having('reviews_avg_rating', '>=', $ratingStars);
         }
 
         return $query
