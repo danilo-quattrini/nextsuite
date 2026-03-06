@@ -15,7 +15,7 @@ class extends Component {
 
     public array $skills = [];
     public array $selectedSkills = [];
-
+    public int $visibleSection = 2;
     public function toggleSkill(int $skillId): void
     {
         if (in_array($skillId, $this->selectedSkills, true)) {
@@ -26,6 +26,16 @@ class extends Component {
         }
 
         $this->selectedSkills[] = $skillId;
+    }
+
+    public function showMore(): void
+    {
+        $this->visibleSection += count($this->skills) - $this->visibleSection;
+    }
+
+    public function showLess(): void
+    {
+        $this->visibleSection = 2;
     }
     #[On('send-selected-skill')]
     public function sendSelectedSkills(string $roleToSearch): void
@@ -42,12 +52,13 @@ class extends Component {
 ?>
 <div class="flex items-center justify-start gap-4">
     @if(!empty($skills))
-        <div class="grid grid-cols-4 gap-4 ">
-            @foreach($skills as $categoryName => $skillValues)
-                <div class="space-y-2 gap-5">
-                    <p class="text-xs uppercase tracking-wide text-primary-grey">
-                        {{ $categoryName }}
-                    </p>
+        <div class="flex flex-col gap-4">
+            @foreach(array_slice($skills, 0, $visibleSection) as $categoryName => $skillValues)
+                <x-card.card-container
+                        title="{{ $categoryName }}"
+                        card-size="sm"
+                        size="sm"
+                >
                     @php
                         $maxNameLength = 0;
                         foreach ($skillValues as $skill) {
@@ -71,19 +82,38 @@ class extends Component {
                                     type="button"
                                     value="{{ $skillId }}"
                                     wire:click="toggleSkill({{ $skillId }})"
-                                    class="px-4 py-1.5 cursor-pointer rounded-md text-sm font-medium border transition
-                                    truncate text-nowrap
+                                    class="btn-white text-sm rounded-md p-2 cursor-pointer truncate text-nowrap
                                         {{ $isSelected
-                                            ? 'bg-primary text-white border-primary'
-                                            : 'bg-white text-black border-outline-grey hover:bg-gray-100'
+                                            ? ' text-primary '
+                                            : 'bg-white text-black border-outline-grey'
                                         }}"
                             >
                                 {{ $skill['name'] }}
                             </button>
                         @endforeach
                     </div>
-                </div>
+                </x-card.card-container>
             @endforeach
+
+            @if(count($skills) > $visibleSection)
+                    <button
+                            wire:click.preserve-scroll="showMore"
+                            wire:transition
+                            @click.stop
+                            class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
+                    >
+                        Show more ({{ count($skills) - $visibleSection }} remaining)
+                    </button>
+                @else
+                    <button
+                            wire:click.preserve-scroll="showLess"
+                            wire:transition
+                            @click.stop
+                            class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
+                    >
+                        Show less
+                    </button>
+            @endif
         </div>
     @endif
 </div>
