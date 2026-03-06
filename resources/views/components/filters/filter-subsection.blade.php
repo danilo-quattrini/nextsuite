@@ -1,7 +1,7 @@
 @props([
     'title' => 'Example'
 ])
-<div class="space-y-4 border-b border-outline-grey/60 pb-3">
+<div class="space-y-4 pb-4">
     <p class="font-semibold uppercase tracking-wideborder-b-black">
         {{ $title }}
     </p>
