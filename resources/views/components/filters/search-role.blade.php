@@ -1,5 +1,6 @@
 <?php
 
+use App\Domain\Role\Services\RoleService;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
@@ -16,12 +17,7 @@ class extends Component {
 
     public function mount(): void
     {
-        if (empty($this->roleList)) {
-            $this->roleList = Role::all()
-                ->pluck('name')
-                ->map(fn($role) => ucfirst($role))
-                ->toArray();
-        }
+        $this->roleList = RoleService::getAllRoleNames();
         $this->resetVisibleCount();
     }
 
