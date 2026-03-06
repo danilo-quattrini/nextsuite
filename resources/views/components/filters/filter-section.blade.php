@@ -5,6 +5,7 @@ use App\Domain\Skill\Services\SkillState\HardSkillState;
 use App\Domain\Skill\Services\SkillState\SoftSkillState;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Transition;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
@@ -15,19 +16,27 @@ class extends Component {
     public array $softSkills = [];
     public array $hardSkills = [];
 
+    public function mount(): void
+    {
+        $skillService = new SkillService(null, new HardSkillState());
+        $skillService->loadAllSkills();
+        $this->hardSkills = $skillService->groupByCategory();
+        $skillService->transitionToState(new SoftSkillState());
+        $skillService->loadAllSkills();
+        $this->softSkills = $skillService->groupByCategory();
+
+    }
+
+    #[On('role-updated')]
+    public function updateRole(string $role): void
+    {
+        $this->roleToSearch = $role;
+    }
+
     #[On('open-section')]
     public function openFilterSection(): void
     {
         $this->showSection = !$this->showSection;
-
-        if (empty($this->hardSkills) && empty($this->softSkills)) {
-            $skillService = new SkillService(null, new HardSkillState());
-            $skillService->loadAllSkills();
-            $this->hardSkills = $skillService->groupByCategory();
-            $skillService->transitionToState(new SoftSkillState());
-            $skillService->loadAllSkills();
-            $this->softSkills = $skillService->groupByCategory();
-        }
     }
 
     public function closeSection(): void
@@ -51,12 +60,20 @@ class extends Component {
 ?>
 
 <div class="my-4">
-    @if($showSection)
+    <div
+            x-data="{ show: @entangle('showSection') }"
+            x-show="show"
+            x-transition:enter="transition ease-out duration-250"
+            x-transition:enter-start="scale-90 -translate-y-4"
+            x-transition:enter-end="scale-100 translate-y-0"
+            x-transition:leave="transition ease-in duration-150"
+            x-transition:leave-start="scale-100 translate-y-0"
+            x-transition:leave-end="scale-90 -translate-y-4"
+    >
         <x-card.card-container
                 title="Filter"
                 subtitle="Filter the customer in base of your preferences"
                 class="text-wrap"
-                wire:transition="filterSection"
         >
             {{--      CLOSE BUTTON      --}}
             <x-slot:action>
@@ -68,30 +85,32 @@ class extends Component {
                 </button>
             </x-slot:action>
 
-            {{--      SEARCH ROLE SECTION      --}}
-            <livewire:filters.search-role wire:model.live="roleToSearch" />
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-4">
 
-            {{--      HARD SKILL SECTION      --}}
-            <x-filters.filter-subsection
-                    title="Hard Skill"
-            >
-                <livewire:filters.base-filter :skills="$hardSkills"/>
-            </x-filters.filter-subsection>
+                {{--      SEARCH ROLE SECTION      --}}
+                <livewire:filters.search-role/>
 
-            {{--      SOFT SKILL SECTION      --}}
-            <x-filters.filter-subsection
-                    title="Soft Skill"
-            >
-                <livewire:filters.base-filter :skills="$softSkills"/>
-            </x-filters.filter-subsection>
+                {{--      HARD SKILL SECTION      --}}
+                <x-filters.filter-subsection
+                        title="Hard Skill"
+                >
+                    <livewire:filters.base-filter :skills="$hardSkills"/>
+                </x-filters.filter-subsection>
 
-            {{--      REVIEW SECTION BUTTON      --}}
-            <x-filters.filter-subsection
-                    title="Rating"
-            >
-                <livewire:rating-stars size="xl" selectable="true"/>
-            </x-filters.filter-subsection>
+                {{--      SOFT SKILL SECTION      --}}
+                <x-filters.filter-subsection
+                        title="Soft Skill"
+                >
+                    <livewire:filters.base-filter :skills="$softSkills"/>
+                </x-filters.filter-subsection>
 
+                {{--      REVIEW SECTION BUTTON      --}}
+                <x-filters.filter-subsection
+                        title="Rating"
+                >
+                    <livewire:rating-stars size="2xl" selectable="true"/>
+                </x-filters.filter-subsection>
+            </div>
             {{--      BUTTON SECTION      --}}
             <div class="flex justify-between items-center my-2">
                 <x-button
@@ -111,5 +130,5 @@ class extends Component {
                 </x-button>
             </div>
         </x-card.card-container>
-    @endif
+    </div>
 </div>
