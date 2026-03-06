@@ -10,10 +10,9 @@ new #[Lazy]
 class extends Component {
 
     public array $roleList = [];
-    #[Modelable]
     public ?string $roleToSearch = '';
-    public int $visibleCount = 4;
-    public int $step = 4;
+    public int $visibleCount = 3;
+    public int $step = 3;
 
     public function mount(): void
     {
@@ -31,14 +30,20 @@ class extends Component {
         $this->visibleCount += $this->step;
     }
 
+    public function showLess(): void
+    {
+        $this->visibleCount = 3;
+    }
+
     public function resetVisibleCount(): void
     {
-        $this->visibleCount = 4;
+        $this->visibleCount = 3;
     }
 
     public function updatedRoleToSearch(): void
     {
-        $this->visibleCount = 4;
+        $this->visibleCount = 3;
+        $this->dispatch('role-updated', role: $this->roleToSearch);
     }
 
     public function setRoleToSearch()
@@ -54,6 +59,7 @@ class extends Component {
         }
 
         $this->roleToSearch = $filtered[0];
+        $this->dispatch('role-updated', role: $this->roleToSearch);
     }
 
     public function getFilteredRoleListProperty(): array
@@ -72,6 +78,7 @@ class extends Component {
     public function setRole(string $role): void
     {
         $this->roleToSearch = $role;
+        $this->dispatch('role-updated', role: $this->roleToSearch);
     }
 };
 ?>
@@ -83,14 +90,15 @@ class extends Component {
         <x-dropdown
                 align="left"
                 width="80"
-                content-classes="flex flex-col p-4 gap-2 bg-white font-medium"
+                content-classes="flex flex-col p-4 gap-2 bg-white font-medium text-sm"
         >
             <x-slot:trigger>
                 <x-input
                         wire:model.live="roleToSearch"
                         wire:keydown.enter="setRoleToSearch"
                         @keydown.enter="open = false"
-                        right-icon="user"
+                        right-icon="magnifying-glass"
+                        size="xl"
                         placeholder="Search the role you want"
                 />
             </x-slot:trigger>
@@ -100,7 +108,7 @@ class extends Component {
                 @forelse(array_slice($filtered, 0, $visibleCount) as $role)
                     <span
                             id="{{ strtolower($role) }}"
-                            class="btn-white rounded-md py-4 px-2 cursor-pointer"
+                            class="btn-white rounded-md p-3 cursor-pointer"
                             wire:click="$dispatch('set-role', { role: '{{ $role }}' })"
                             @click.stop
                             @click="open = false"
@@ -114,10 +122,20 @@ class extends Component {
                 @if(count($filtered) > $visibleCount)
                     <button
                             wire:click="showMore"
+                            wire:transition
                             @click.stop
                             class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
                     >
                         Show more ({{ count($filtered) - $visibleCount }} remaining)
+                    </button>
+                @elseif(count($filtered)  !== 1)
+                    <button
+                            wire:click.preserve-scroll="showLess"
+                            wire:transition
+                            @click.stop
+                            class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
+                    >
+                        Show less
                     </button>
                 @endif
             </x-slot:content>
