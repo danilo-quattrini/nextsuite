@@ -1,6 +1,7 @@
 @props([
     'leftIcon' => null,
     'rightIcon' => null,
+    'size' => 'md',
     'error' => false,
     'placeholder' => '',
 ])
@@ -28,7 +29,7 @@
     @if($leftIcon)
         <x-heroicon
                 :name="$leftIcon"
-                size="md"
+                size="{{ $size }}"
                 variant="outline"
                 class="{{ $iconColor }}"
                 x-bind:class="{ ' text-black': filled && error,
@@ -53,7 +54,7 @@
         @if($rightIcon !== 'eye')
             <x-heroicon
                     :name="$rightIcon"
-                    size="md"
+                    size="{{ $size }}"
                     variant="outline"
                     class="{{ $iconColor }}"
                     x-bind:class="{ ' text-black': filled && error,
@@ -68,7 +69,7 @@
                 <span x-show="!show">
                    <x-heroicon
                            name="eye"
-                           size="md"
+                           size="{{ $size }}"
                            variant="outline"
                            class="{{ $iconColor }}"
                            x-bind:class="{ ' text-black': filled && error,
@@ -79,7 +80,7 @@
                 <span x-show="show">
                     <x-heroicon
                             name="eye-slash"
-                            size="md"
+                            size="{{ $size }}"
                             variant="outline"
                             class="{{ $iconColor }}"
                             x-bind:class="{ ' text-black': filled && error,
