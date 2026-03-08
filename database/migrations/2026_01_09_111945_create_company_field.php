@@ -10,8 +10,10 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('company_field', function (Blueprint $table) {
-            $table->foreignIdFor(Company::class)->constrained('companies');
-            $table->foreignIdFor(Field::class)->constrained('fields');
+            $table->foreignIdFor(Company::class)->constrained('companies')->cascadeOnDelete();
+            $table->foreignIdFor(Field::class)->constrained('fields')->cascadeOnDelete();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
