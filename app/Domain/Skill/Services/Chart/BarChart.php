@@ -92,6 +92,8 @@ class BarChart extends Charts
                     ],
                 ],
                 'x' => [
+                    'min' => 0,
+                    'max' => 100,
                     'ticks' => [
                         'display' => false,
                     ],
