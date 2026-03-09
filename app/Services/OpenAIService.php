@@ -69,7 +69,7 @@ class OpenAIService
         
         return <<<TEXT
                 Write a concise, neutral professional review for the following customer.
-                Customer information:
+                Customer information, note that's section it's going to be inside a webpage:
                 
                 Skills:
                 {$skills}
@@ -99,22 +99,27 @@ class OpenAIService
     protected function openAICall(
         ?string $content = null,
         ?string $prompt = null
-    ): CreateResponse
+    ): ?CreateResponse
     {
-        return OpenAI::chat()->create([
-            'model' => 'gpt-4o',
-            'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => $content,
+        try {
+            return OpenAI::chat()->create([
+                'model' =>  config('openai.model'),
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => $content,
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt,
+                    ],
                 ],
-                [
-                    'role' => 'user',
-                    'content' => $prompt,
-                ],
-            ],
-            'temperature' => 0.3,
-        ]);
+                'temperature' => 0.3,
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return null;
+        }
     }
 
     private function cachedResponse(string $type, string $content, string $prompt): string
@@ -123,6 +128,11 @@ class OpenAIService
 
         return Cache::remember($key, self::CACHE_TTL_SECONDS, function () use ($content, $prompt) {
             $response = $this->openAICall($content, $prompt);
+
+            if (!$response) {
+                return 'Unable to generate content at this time. Please try again later.';
+            }
+
             return trim($response->choices[0]->message->content);
         });
     }
