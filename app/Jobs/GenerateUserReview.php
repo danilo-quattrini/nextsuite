@@ -12,6 +12,9 @@ class GenerateUserReview implements ShouldQueue
     use Queueable;
 
     private UserService $userService;
+    public int $tries = 3;
+    public int $timeout = 300; // Ollama is slower than OpenAI
+    public int $backoff = 5;  // wait 10s between retries
 
     /**
      * Create a new job instance.
