@@ -66,6 +66,9 @@ class DataTable extends Component
         };
     }
 
+    /**
+     * Check if a @param $value it's a DateTime type and convert it into day-month-Year format
+     **/
     private function formatDate($value)
     {
         if ($value instanceof DateTime) {
@@ -73,6 +76,32 @@ class DataTable extends Component
         }
 
         return date('d-m-Y', strtotime($value));
+    }
+
+    /**
+     * Set column visibility
+     **/
+    public function isColumnVisible(array $column): bool
+    {
+        return $column['visible'] ?? true;
+    }
+
+    /**
+     * Hide column on mobile format
+     **/
+    public function isHiddenOnMobile(array $column): bool
+    {
+        return $column['hiddenOnMobile'] ?? false;
+    }
+
+    /**
+     * Count how many visibile columns are available.
+     **/
+    public function getVisibleColumnsCount(): int
+    {
+        return collect($this->columns)
+                ->filter(fn($col) => $this->isColumnVisible($col))
+                ->count() + (count($this->actions) > 0 ? 1 : 0);
     }
     /**
      * Get the view / contents that represent the component.
