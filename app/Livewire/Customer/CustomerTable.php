@@ -3,9 +3,10 @@
 namespace App\Livewire\Customer;
 
 use App\Models\Customer;
-use App\Models\Skill;
 use App\Traits\DeleteModal;
 use App\Traits\WithReview;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -36,15 +37,18 @@ class CustomerTable extends Component
         $this->resetPage();
     }
 
-    public function render()
+    #[Computed]
+    public function customers(): LengthAwarePaginator
     {
-        $customers = Customer::findCustomerWithSkillsAndReviews(
+        return Customer::findCustomerWithSkillsAndReviews(
             $this->roleToSearch,
             $this->selectedSkillIds,
             $this->selectedRatingStars
         );
-        return view('livewire.customer.customer-table', [
-            'customers' => $customers
-        ]);
+    }
+
+    public function render()
+    {
+        return view('livewire.customer.customer-table');
     }
 }
