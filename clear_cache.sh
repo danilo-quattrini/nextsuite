@@ -19,6 +19,10 @@ php artisan event:cache
 
 echo "Rebuild the caches!"
 
+# Rebuild the queue
+php artisan queue:flush
+php artisan queue:clear redis
+
 # Verify cache was rebuilt
 ls -la bootstrap/cache/
 echo "Check if the cash as been rebuilt!"
