@@ -25,7 +25,25 @@ class DataTable extends Component
         public ?string $photoField = null,
         public ?string $nameField = null
 
-) {}
+    ) {}
+
+
+    /**
+     * Get the value for a specific column from a row
+     */
+    public function getColumnValue($row, array $column)
+    {
+        $key = $column['key'];  // e.g., 'company.name'
+
+        // Check if it's a relationship (has a dot)
+        if (str_contains($key, '.')) {
+            // Use Laravel's data_get helper
+            return data_get($row, $key);
+        }
+
+        // Simple field
+        return $row->$key ?? null;
+    }
 
     /**
      * Get the view / contents that represent the component.
