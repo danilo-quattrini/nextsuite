@@ -42,6 +42,52 @@ class CustomerTable extends Component
                 'hiddenOnMobile' => false,
 
             ],
+            [
+                'key' => 'phone',
+                'label' => 'Phone',
+                'icon' => 'phone',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'dob',
+                'label' => 'DOB',
+                'icon' => 'calendar-days',
+                'type' => 'date',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'gender',
+                'label' => 'Gender',
+                'icon' => 'user-circle',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'nationality',
+                'label' => 'Nationality',
+                'icon' => 'globe-europe-africa',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'reviews_avg_rating',
+                'label' => 'Reviews',
+                'icon' => 'star',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+                'format' => function($value, $row) {
+                    $rating = number_format($value ?? 0, 1);
+                    $count = $row->reviews_count ?? 0;
+                    return '<div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-secondary-warning fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span>' . $rating . ' (' . $count . ')</span>
+                    </div>';
+                }
+            ]
         ];
     }
     #[Computed]
