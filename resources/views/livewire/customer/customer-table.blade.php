@@ -16,7 +16,7 @@
                 <div class="page-content__stats">
                     <div class="page-content__stat-card">
                         <p class="page-content__stat-label">Customers</p>
-                        <p class="page-content__stat-value">{{ $customers->total() }}</p>
+                        <p class="page-content__stat-value">{{ $this->customers->total() }}</p>
                     </div>
                 </div>
             </div>
@@ -57,6 +57,14 @@
         {{-- FILTER SECTION --}}
         <livewire:filters.filter-section />
 
+        <x-data-table
+                :table-data="$this->customers"
+                :columns="$this->tableColumns"
+                :actions="$this->tableActions"
+                resource-type="customer"
+                photo-field="profile_photo_url"
+                name-field="full_name"
+        />
         {{-- TABLE VIEW --}}
         <div
                 x-show="$store.views.current === 'table'"
@@ -126,7 +134,7 @@
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-outline-grey">
-                    @foreach($customers as $customer)
+                    @foreach($this->customers as $customer)
                         <tr
                                 class="bg-white hover:bg-outline-grey/60 transition"
                         >
@@ -243,12 +251,12 @@
                 x-transition
                 class="page-content__grid"
         >
-            @foreach($customers as $customer)
+            @foreach($this->customers as $customer)
                 <x-user-card :user="$customer" href="customer.show" />
             @endforeach
         </div>
 
-        @if(count($customers) === 0)
+        @if(count($this->customers) === 0)
             <x-card.card-container
                     size="lg"
             >
@@ -259,9 +267,9 @@
                 />
             </x-card.card-container>
         @endif
-        @if(count($customers) < 7 && count($customers) !== 0)
+        @if(count($this->customers) < 7 && count($this->customers) !== 0)
             <div class="page-content__pagination">
-                {{ $customers->links('components.pagination') }}
+                {{ $this->customers->links('components.pagination') }}
             </div>
         @endif
     </div>

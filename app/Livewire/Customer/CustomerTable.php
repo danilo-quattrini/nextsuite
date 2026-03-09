@@ -23,6 +23,23 @@ class CustomerTable extends Component
     public ?int $selectedRatingStars = 0;
     public ?string $roleToSearch = '';
 
+    #[Computed]
+    public function tableColumns(): array
+    {
+        return [
+            ['key' => 'full_name', 'label' => 'Name'],
+            ['key' => 'email', 'label' => 'Email'],
+        ];
+    }
+    #[Computed]
+    public function tableActions(): array
+    {
+        return [
+            ['key' => 'full_name', 'label' => 'Name'],
+            ['key' => 'email', 'label' => 'Email'],
+        ];
+    }
+
     #[On('customer-filters-updated')]
     public function applyFilters(
         ?string $roleToSearch,
