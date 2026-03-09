@@ -18,6 +18,15 @@
                             </th>
                         @endif
                     @endforeach
+
+                    @if(count($actions) > 0)
+                        <th class="table-head__container">
+                            <div class="table-head__content">
+                                <x-heroicon name="ellipsis-horizontal" size="sm"/>
+                                <span>Actions</span>
+                            </div>
+                        </th>
+                    @endif
                 </tr>
             </thead>
         </table>
