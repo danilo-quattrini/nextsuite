@@ -27,8 +27,21 @@ class CustomerTable extends Component
     public function tableColumns(): array
     {
         return [
-            ['key' => 'full_name', 'label' => 'Name'],
-            ['key' => 'email', 'label' => 'Email'],
+            [
+                'key' => 'full_name',
+                'label' => 'User',
+                'icon' => 'user',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+            ],
+            [
+                'key' => 'email',
+                'label' => 'Email',
+                'icon' => 'envelope',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+
+            ],
         ];
     }
     #[Computed]
