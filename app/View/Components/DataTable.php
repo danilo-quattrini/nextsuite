@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use DateTime;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
@@ -33,18 +34,46 @@ class DataTable extends Component
      */
     public function getColumnValue($row, array $column)
     {
-        $key = $column['key'];  // e.g., 'company.name'
+        $key = $column['key'];
 
-        // Check if it's a relationship (has a dot)
         if (str_contains($key, '.')) {
-            // Use Laravel's data_get helper
             return data_get($row, $key);
         }
 
-        // Simple field
         return $row->$key ?? null;
     }
 
+    /**
+     * Format the value from a column function. If it has it.
+    **/
+    public function formatValue($value, array $column): string
+    {
+        if ($value === null) {
+            return '—';
+        }
+
+        if (isset($column['format']) && is_callable($column['format'])) {
+            return $column['format']($value);
+        }
+
+
+        $type = $column['type'] ?? 'text';
+
+        return match($type) {
+            'date' => $this->formatDate($value),
+            'number' => number_format($value, 0),
+            default => (string) $value,
+        };
+    }
+
+    private function formatDate($value)
+    {
+        if ($value instanceof DateTime) {
+            return $value->format('d-m-Y');
+        }
+
+        return date('d-m-Y', strtotime($value));
+    }
     /**
      * Get the view / contents that represent the component.
      */
