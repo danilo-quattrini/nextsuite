@@ -31,4 +31,11 @@
             </thead>
         </table>
     </div>
+
+    {{-- Pagination --}}
+    @if($tableData instanceof LengthAwarePaginator)
+        <div class="page-content__pagination">
+            {{ $tableData->links('components.pagination') }}
+        </div>
+    @endif
 </div>
