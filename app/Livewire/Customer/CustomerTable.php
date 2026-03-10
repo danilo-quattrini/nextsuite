@@ -73,6 +73,19 @@ class CustomerTable extends Component
                 'hiddenOnMobile' => true,
             ],
             [
+                'key' => 'roles',
+                'label' => 'Roles',
+                'icon' => 'user-circle',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+                'format' => function ($roles) {
+                    foreach ($roles as $role){
+                        return '<span>' . ucfirst($role->name) . ' </span>';
+                    }
+                    return '---';
+                }
+            ],
+            [
                 'key' => 'reviews_avg_rating',
                 'label' => 'Reviews',
                 'icon' => 'star',
