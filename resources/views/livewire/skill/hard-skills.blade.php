@@ -49,24 +49,50 @@
         </div>
 
         {{-- SHOW MORE & LESS BUTTONS --}}
-        @if(count($this->hardSkills) > $visibleCount)
-            <button
-                    wire:click.preserve-scroll="showMore"
-                    wire:transition
-                    @click.stop
-                    class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
-            >
-                Show more ({{ count($this->hardSkills) - $visibleCount }} remaining)
-            </button>
-        @elseif(count($this->hardSkills) !== 1 && $hardSkills->isNotEmpty())
-            <button
-                    wire:click.preserve-scroll="showLess"
-                    wire:transition
-                    @click.stop
-                    class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
-            >
-                Show less
-            </button>
-        @endif
+        @if($this->hasMore()  || $this->canShowLess())
+            <div class="skills-pagination">
+                @if($this->hasMore)
+                    <div class="skills-pagination__info">
+                        Showing {{ $this->visibleSkills->count() }} out of {{ $this->hardSkills->count() }} skills
+                    </div>
+
+                    <div class="skills-pagination__actions">
+                        <x-button
+                                variant="white"
+                                size="auto"
+                                wire:click="showMore"
+                                wire:loading.attr="disabled"
+                                wire:transition
+                                @click.stop
+                        >
+                            Show {{ min($incrementBy, $this->remainingCount) }} More
+                            <span class="skills-pagination__count">
+                                    ({{ $this->remainingCount }} remaining)
+                            </span>
+                        </x-button>
+
+                        <x-button
+                            variant="white"
+                            size="auto"
+                            wire:click="showAll"
+                            wire:loading.attr="disabled"
+                        >
+                            Show All
+                        </x-button>
+                    </div>
+                @endif
+
+                @if($this->canShowLess)
+                    <x-button
+                            variant="white"
+                            size="auto"
+                            wire:click="showLess"
+                            wire:loading.attr="disabled"
+                    >
+                        Show less
+                    </x-button>
+                @endif
+            </div>
+       @endif
     @endif
 </x-card.card-container>
