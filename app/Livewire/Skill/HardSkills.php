@@ -21,6 +21,8 @@ class HardSkills extends Component
     public ?SkillAssignable $user = null;
 
     public int $visibleCount = 6;
+    public int $initialVisible = 6;
+    public int $incrementBy = 6;
 
     #[Computed]
     public function hardSkills(): Collection
@@ -30,8 +32,10 @@ class HardSkills extends Component
             ->getSkills();
     }
 
+    // ======== HELPER METHODS ==========
     /**
-     * Get all the visible skill that has been declared in visibleCount
+     * Take a certain number of items in the collection of hardSkills
+     * @return Collection
      */
     #[Computed]
     public function visibleSkills(): Collection
@@ -39,6 +43,64 @@ class HardSkills extends Component
         return $this->hardSkills->take($this->visibleCount);
     }
 
+    /**
+     * Check if there is more skill in the collection
+     * @return bool
+     */
+    #[Computed]
+    public function hasMore(): bool
+    {
+        return $this->hardSkills->count() > $this->visibleCount;
+    }
+
+    /**
+     * Counter to show how many hardSkill remain to show
+     * @return int
+     */
+    #[Computed]
+    public function remainingCount(): int
+    {
+        return max(0, $this->hardSkills->count() - $this->visibleCount);
+    }
+
+    /**
+     * Check if it can hide all the skill, that means it has been show all the hardSkill
+     * @return bool
+     */
+    #[Computed]
+    public function canShowLess(): bool
+    {
+        return $this->visibleCount > $this->initialVisible
+            && $this->hardSkills->count() > 1;
+    }
+
+    /**
+     * Show more skills
+     */
+    public function showMore(): void
+    {
+        $remaining = $this->remainingCount;
+
+        if ($remaining > 0) {
+            $this->visibleCount += min($this->incrementBy, $remaining);
+        }
+    }
+
+    /**
+     * Show fewer skills
+     */
+    public function showLess(): void
+    {
+        $this->visibleCount = $this->initialVisible;
+    }
+
+    /**
+     * Show all skills at once
+     */
+    public function showAll(): void
+    {
+        $this->visibleCount = $this->hardSkills->count();
+    }
     /**
      * Get skill service instance
      */
