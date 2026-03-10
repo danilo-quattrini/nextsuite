@@ -113,8 +113,9 @@ class HardSkills extends Component
     {
         return <<<'HTML'
                 <x-card.card-container title="Hard Skills">
-                    <div class="flex items-center justify-center py-12">
-                        <x-spinner size="lg" label="Loading hard skills..." />
+                    <div class="skills-loading">
+                        <x-spinner size="lg" />
+                        <span class="skills-loading__text">Updating skills...</span>
                     </div>
                 </x-card.card-container>
         HTML;
