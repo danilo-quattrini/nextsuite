@@ -1,3 +1,4 @@
+@php use Illuminate\Pagination\LengthAwarePaginator; @endphp
 <div
         x-data="tableView('table')"
         class="page-content__container"
@@ -67,7 +68,7 @@
                 x-transition:leave-start="opacity-100 scale-100 translate-y-0"
                 x-transition:leave-end="opacity-0 scale-95 -translate-y-3"
         >
-            <livewire:filters.filter-section />
+            <livewire:filters.filter-section/>
         </div>
         {{-- TABLE VIEW --}}
         <div
@@ -93,11 +94,15 @@
                 class="page-content__grid"
         >
             @foreach($this->customers as $customer)
-                <x-user-card :user="$customer" href="customer.show" />
+                <x-user-card :user="$customer" href="customer.show"/>
             @endforeach
         </div>
+        @if(count($this->customers) != 0 && $this->customers instanceof LengthAwarePaginator)
+            <div class="page-content__pagination">
+                {{ $this->customers->links('components.pagination', data: ['scrollTo' => false] ) }}
+            </div>
+        @endif
     </div>
-
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
     <x-popup.review-popup :show-modal="$showModal" :rating="$rating"/>
 </div>

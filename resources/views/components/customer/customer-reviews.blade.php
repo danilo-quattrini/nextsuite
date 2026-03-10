@@ -85,7 +85,7 @@ class extends Component {
         >
             Show more ({{ count($this->reviews) - $visibleSection }} remaining)
         </button>
-    @else
+    @elseif(count($this->reviews) !== 1 && $this->reviews->isNotEmpty())
         <button
                 wire:click.preserve-scroll="showLess"
                 wire:transition
