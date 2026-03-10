@@ -47,7 +47,7 @@
             {{-- FILTERS --}}
             <x-button
                     size="auto"
-                    wire:click="dispatch('open-section')"
+                    x-on:click="$wire.openFilterSection()"
             >
                 <x-heroicon name="funnel" size="md"/>
                 Filter
@@ -55,8 +55,20 @@
         </div>
 
         {{-- FILTER SECTION --}}
-        <livewire:filters.filter-section />
-
+        <div
+                x-data="{ show: false }"
+                x-on:toggle-filter-section.window="show = !show"
+                x-show="show"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300 transform"
+                x-transition:enter-start="opacity-0 scale-95 -translate-y-3"
+                x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                x-transition:leave="transition ease-in duration-200 transform"
+                x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 scale-95 -translate-y-3"
+        >
+            <livewire:filters.filter-section />
+        </div>
         {{-- TABLE VIEW --}}
         <div
                 x-show="$store.views.current === 'table'"

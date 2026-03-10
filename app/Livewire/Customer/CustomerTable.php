@@ -22,6 +22,7 @@ class CustomerTable extends Component
     public array $selectedSkillIds = [];
     public ?int $selectedRatingStars = 0;
     public ?string $roleToSearch = '';
+    public bool $showFilterSection = false;
 
     #[Computed]
     public function tableColumns(): array
@@ -118,6 +119,11 @@ class CustomerTable extends Component
                 'color' => 'warning',
             ]
         ];
+    }
+
+    public function openFilterSection(): void
+    {
+        $this->dispatch('toggle-filter-section');
     }
 
     #[On('customer-filters-updated')]
