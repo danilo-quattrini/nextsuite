@@ -6,7 +6,7 @@
         </x-tag>
     @endif
 
-    {{-- HARD SKILL MODAL   --}}
+    {{-- HARD SKILL MODAL --}}
     <x-slot:action>
         <x-button
                 size="auto"
@@ -19,6 +19,7 @@
 
     <livewire:skill-modal :user="$user"/>
 
+    {{-- EMPTY STATE FOR THE SECTION --}}
     @if($this->hardSkills->isEmpty())
         <x-empty-state
             icon="academic-cap"
@@ -37,11 +38,17 @@
             </x-slot:action>
         </x-empty-state>
     @else
+        {{-- HARD SKILL GRID FOR CARDS --}}
         <div class="skills-grid">
-            @foreach($this->hardSkills as $skill)
-                <x-card.skill-card :skill="$skill"/>
+            @foreach($this->visibleSkills as $skill)
+                <x-card.skill-card
+                        :skill="$skill"
+                        wire:key="skill-{{ $skill->id }}"
+                />
             @endforeach
         </div>
+
+        {{-- SHOW MORE & LESS BUTTONS --}}
         @if(count($this->hardSkills) > $visibleCount)
             <button
                     wire:click.preserve-scroll="showMore"

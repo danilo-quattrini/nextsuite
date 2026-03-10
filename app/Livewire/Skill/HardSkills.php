@@ -20,7 +20,7 @@ class HardSkills extends Component
 {
     public ?SkillAssignable $user = null;
 
-    public int $visibleSection = 6;
+    public int $visibleCount = 6;
 
     #[Computed]
     public function hardSkills(): Collection
@@ -28,6 +28,15 @@ class HardSkills extends Component
         return $this->getSkillService()
             ->loadSkillFromAssignable()
             ->getSkills();
+    }
+
+    /**
+     * Get all the visible skill that has been declared in visibleCount
+     */
+    #[Computed]
+    public function visibleSkills(): Collection
+    {
+        return $this->hardSkills->take($this->visibleCount);
     }
 
     /**
