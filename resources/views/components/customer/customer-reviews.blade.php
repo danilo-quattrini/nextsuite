@@ -12,6 +12,7 @@ class extends Component {
     use WithReview;
 
     public ?Customer $customer = null;
+    public int $visibleSection = 2;
 
     #[Computed]
     public function reviews()
@@ -31,6 +32,15 @@ class extends Component {
         ];
     }
 
+    public function showMore(): void
+    {
+        $this->visibleSection += count($this->reviews) - $this->visibleSection;
+    }
+
+    public function showLess(): void
+    {
+        $this->visibleSection = 2;
+    }
     public function placeholder(): string
     {
         return <<<'HTML'
@@ -57,7 +67,7 @@ class extends Component {
         </x-button>
     </x-slot:action>
 
-    @forelse($customer->reviews as $review)
+    @forelse($this->reviews->slice(0, $visibleSection) as $review)
         <x-card.review-card :review="$review"/>
     @empty
         <x-empty-state
@@ -66,4 +76,23 @@ class extends Component {
                 description="Be the first to review this customer"
         />
     @endforelse
+    @if(count($this->reviews) > $visibleSection)
+        <button
+                wire:click.preserve-scroll="showMore"
+                wire:transition
+                @click.stop
+                class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
+        >
+            Show more ({{ count($this->reviews) - $visibleSection }} remaining)
+        </button>
+    @else
+        <button
+                wire:click.preserve-scroll="showLess"
+                wire:transition
+                @click.stop
+                class="text-xs text-primary-grey hover:text-primary cursor-pointer transition-colors mt-1 px-2"
+        >
+            Show less
+        </button>
+    @endif
 </x-card.card-container>
