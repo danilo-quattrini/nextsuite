@@ -24,7 +24,8 @@ class DataTable extends Component
         public array $actions = [],
         public string $resourceType = 'item',
         public ?string $photoField = null,
-        public ?string $nameField = null
+        public ?string $nameField = null,
+        public string $primaryKey = 'id'
 
     ) {}
 
@@ -92,6 +93,42 @@ class DataTable extends Component
     public function isHiddenOnMobile(array $column): bool
     {
         return $column['hiddenOnMobile'] ?? false;
+    }
+
+    /**
+     * Get an action route for a row
+     */
+    public function getActionRoute(array $action, $row): ?string
+    {
+        if (!isset($action['route'])) {
+            return null;
+        }
+
+        $route = $action['route'];
+
+        // If it's a callable, call it with the row
+        if (is_callable($route)) {
+            return $route($row);
+        }
+
+        // If it's a string, use it as route name with row as parameter
+        return route($route, $row);
+    }
+
+    /**
+     * Check if the user has permission for action
+     */
+    public function canPerformAction(array $action, $row): bool
+    {
+        if (!isset($action['permission'])) {
+            return true;
+        }
+
+        if (is_callable($action['permission'])) {
+            return $action['permission']($row);
+        }
+
+        return auth()->user()?->can($action['permission']) ?? false;
     }
 
     /**
