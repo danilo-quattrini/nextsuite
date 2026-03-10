@@ -19,6 +19,14 @@
 
     <livewire:skill-modal :user="$user"/>
 
+    {{-- LOADING STATE --}}
+    @if($isLoading)
+        <div class="skills-loading">
+            <x-spinner size="lg" />
+            <span class="skills-loading__text">Updating skills...</span>
+        </div>
+    @endif
+
     {{-- EMPTY STATE FOR THE SECTION --}}
     @if($this->hardSkills->isEmpty())
         <x-empty-state

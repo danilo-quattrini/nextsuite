@@ -188,3 +188,19 @@
     color: var(--color-primary-grey);
     margin-left: var(--spacing-xxs);
 }
+
+/* Skills Loading State */
+.skills-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-md);
+}
+
+.skills-loading__text {
+    font-size: var(--text-base);
+    color: var(--color-primary-grey);
+    font-weight: var(--font-weight-medium);
+}
