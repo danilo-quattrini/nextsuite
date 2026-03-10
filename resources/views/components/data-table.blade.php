@@ -59,6 +59,68 @@
                             </td>
                         @endif
                     @endforeach
+
+                    @if(count($actions) > 0)
+                        <td class="relative p-6 bg-white">
+                            <x-form.dropdown-button align="right">
+                                <x-slot:trigger>
+                                    <x-button
+                                            type="button"
+                                            variant="white"
+                                            aria-label="{{ ucfirst($resourceType) }} actions"
+                                    >
+                                        <x-heroicon name="ellipsis-vertical" />
+                                    </x-button>
+                                </x-slot:trigger>
+
+                                <x-slot:content>
+                                    <div class="flex-col items-center space-y-3">
+                                        <div class="flex flex-col space-y-2 min-w-40">
+                                            @foreach($actions as $action)
+                                                @if($canPerformAction($action, $row))
+                                                    @php
+                                                        $route = $getActionRoute($action, $row);
+                                                        $colorClass = match($action['color'] ?? 'default') {
+                                                            'danger', 'error' => 'text-secondary-error hover:bg-secondary-error-100',
+                                                            'warning' => 'text-secondary-warning hover:bg-secondary-warning-100',
+                                                            'success' => 'text-secondary-success hover:bg-secondary-success-100',
+                                                            'primary' => 'text-primary hover:bg-secondary',
+                                                            default => 'text-primary-grey hover:bg-outline-grey',
+                                                        };
+                                                    @endphp
+
+                                                    @if($route)
+                                                        {{-- Link action --}}
+                                                        <a
+                                                                href="{{ $route }}"
+                                                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm transition {{ $colorClass }}"
+                                                        >
+                                                            @if(isset($action['icon']))
+                                                                <x-heroicon :name="$action['icon']" />
+                                                            @endif
+                                                            <span>{{ $action['label'] }}</span>
+                                                        </a>
+                                                    @elseif(isset($action['event']))
+                                                        {{-- Event action --}}
+                                                        <button
+                                                                type="button"
+                                                                wire:click.prevent="$dispatch('{{ $action['event'] }}', { id: {{ $row->{$primaryKey} }}, type: '{{ $resourceType }}' })"
+                                                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm cursor-pointer transition {{ $colorClass }}"
+                                                        >
+                                                            @if(isset($action['icon']))
+                                                                <x-heroicon :name="$action['icon']" />
+                                                            @endif
+                                                            <span>{{ $action['label'] }}</span>
+                                                        </button>
+                                                    @endif
+                                                @endif
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                </x-slot:content>
+                            </x-form.dropdown-button>
+                        </td>
+                    @endif
                 </tr>
             @empty
                 <tr>
