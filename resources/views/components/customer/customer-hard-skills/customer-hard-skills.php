@@ -1,10 +1,11 @@
 <?php
 
 use App\Domain\Skill\Services\SkillAssignmentService;
+use App\Domain\Skill\Services\SkillService;
+use App\Domain\Skill\Services\SkillState\HardSkillState;
 use App\Models\Customer;
 use App\Models\Skill;
 use Illuminate\Support\Collection;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -13,23 +14,24 @@ new #[Lazy]
 class extends Component {
     public ?Customer $customer = null;
     public ?Collection $hardSkills = null;
+    public int $visibleSection = 6;
 
     public function mount(): void
     {
-        $this->loadSkill();
-        $this->getHardSkills();
+        $skillService = new SkillService($this->customer, new HardSkillState());
+        $this->hardSkills = $skillService->loadSkillFromAssignable()->getSkills();
     }
 
-    public function loadSkill(): void
+    public function showMore(): void
     {
-        $this->customer->load('skills.category.fields');
+        $this->visibleSection += count($this->hardSkills) - $this->visibleSection;
+        $this->updateHardSkillModel();
     }
 
-    public function getHardSkills(): void
+    public function showLess(): void
     {
-        $this->hardSkills = $this->customer->skills
-            ->filter(fn($skill) => $skill->category?->type->value !== 'soft_skill')
-            ->values();
+        $this->visibleSection = 2;
+        $this->updateHardSkillModel();
     }
 
     #[On('skill-added')]
@@ -59,8 +61,8 @@ class extends Component {
 
     public function updateHardSkillModel(): void
     {
-        $this->loadSkill();
-        $this->getHardSkills();
+        $skillService = new SkillService($this->customer, new HardSkillState());
+        $this->hardSkills = $skillService->loadSkillFromAssignable()->getSkills();
     }
 
     public function placeholder(): string
@@ -74,38 +76,3 @@ class extends Component {
         HTML;
     }
 };
-?>
-
-<x-card.card-container title="Hard Skills">
-    {{--  COUNTER  --}}
-    @if($hardSkills->count() > 0)
-        <x-tag variant="white" size="lg">
-            {{ $hardSkills->count() }} {{ Str::plural('skill', $hardSkills->count()) }}
-        </x-tag>
-    @endif
-
-    <x-slot:action>
-        <x-button
-                size="auto"
-                wire:click="$dispatch('open-hard-skill-modal')"
-        >
-            <x-heroicon name="plus"/>
-            New Skill
-        </x-button>
-    </x-slot:action>
-
-    <livewire:skill-modal :user="$customer"/>
-    @if($hardSkills->isEmpty())
-        <x-empty-state
-                icon="academic-cap"
-                message="No hard skills added yet"
-                description="Add technical skills and expertise to showcase capabilities"
-        />
-    @else
-        <div class="skills-grid">
-            @foreach($hardSkills as $skill)
-                <x-card.skill-card :skill="$skill"/>
-            @endforeach
-        </div>
-    @endif
-</x-card.card-container>
