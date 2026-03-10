@@ -25,7 +25,8 @@ class DataTable extends Component
         public string $resourceType = 'item',
         public ?string $photoField = null,
         public ?string $nameField = null,
-        public string $primaryKey = 'id'
+        public string $primaryKey = 'id',
+        public string $emptyMessage = 'Nothing to see there right now',
 
     ) {}
 

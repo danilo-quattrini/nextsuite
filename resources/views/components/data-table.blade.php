@@ -127,8 +127,8 @@
                     <td colspan="{{ $getVisibleColumnsCount() }}" class="p-8 text-center bg-white">
                         <x-empty-state
                                 icon="inbox"
-                                message="No customer available"
-                                description="sorry but at this moment there is no customer here"
+                                message="No {{ $resourceType }} it's availabe or have been found"
+                                description="{{ $emptyMessage }}"
                         />
                     </td>
                 </tr>
