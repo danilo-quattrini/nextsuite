@@ -117,12 +117,17 @@ new class extends Component {
                 icon="star"
                 message="No soft skill added yet"
                 description="Add a skill schema to this customer"
-        />
-        <div class="flex justify-center items-center">
-            <x-button href="{{ route('skill-schema.create', $customer) }}" size="large">
-                Create Schema
-            </x-button>
-        </div>
+        >
+         <x-slot:action>
+             <x-button
+                     href="{{ route('skill-schema.create', $customer) }}"
+                     size="auto"
+             >
+                 <x-heroicon size="lg" name="plus"/>
+                 Create Schema
+             </x-button>
+         </x-slot:action>
+        </x-empty-state>
     @else
         <livewire:card.chart-card :data="$softSkills"/>
     @endif
