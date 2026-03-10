@@ -9,8 +9,8 @@
     <body class="page">
         @php
             $src = ' ';
-            if(is_file('storage/customers-profile-photos/' . $subject->profile_photo_url)){
-                $path = public_path('storage/customers-profile-photos/' . $subject->profile_photo_url);
+            if(is_file('storage/customer-profile-photos/' . $subject->profile_photo_url)){
+                $path = public_path('storage/customer-profile-photos/' . $subject->profile_photo_url);
                 $type = pathinfo($path, PATHINFO_EXTENSION);
                 $base64 = base64_encode(file_get_contents($path));
                 $src = "data:image/{$type};base64,{$base64}";

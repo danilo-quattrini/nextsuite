@@ -36,7 +36,7 @@
                                         <x-profile-image
                                             :src="$customer->profile_photo_url"
                                             :name="$customer->full_name"
-                                            directory="customers-profile-photos"
+                                            directory="customer-profile-photos"
                                             size="custom"
                                             class="page-content__avatar-image"
                                         />

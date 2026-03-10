@@ -52,7 +52,7 @@ class EditCustomer extends Component
         if($this->customer_photo != null) {
             $imageName = strtolower(str_replace(' ', '_',
                     $this->form->full_name)).'.'.$this->customer_photo->extension();
-            $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
+            $this->customer_photo->storeAs('customer-profile-photos', $imageName, 'public');
         }
 
         $customer = $this->customer->update([
