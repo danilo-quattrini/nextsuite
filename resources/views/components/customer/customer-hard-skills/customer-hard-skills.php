@@ -69,8 +69,8 @@ class extends Component {
     {
         return <<<'HTML'
                 <x-card.card-container title="Hard Skills">
-                    <div class="flex items-center justify-center py-8">
-                        <x-spinner size="lg" label="Loading reviews"/>
+                    <div class="flex items-center justify-center py-12">
+                        <x-spinner size="lg" label="Loading hard skills..." />
                     </div>
                 </x-card.card-container>
         HTML;
