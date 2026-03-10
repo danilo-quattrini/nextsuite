@@ -70,6 +70,7 @@
                     resource-type="customer"
                     photo-field="profile_photo_url"
                     name-field="full_name"
+                    empty-message="Sorry but at the moment the customer you search it is not there"
             />
         </div>
 
@@ -83,23 +84,6 @@
                 <x-user-card :user="$customer" href="customer.show" />
             @endforeach
         </div>
-
-        @if(count($this->customers) === 0)
-            <x-card.card-container
-                    size="lg"
-            >
-                <x-empty-state
-                        icon="user"
-                        message="No customer available"
-                        description="sorry but at this moment there is no customer here"
-                />
-            </x-card.card-container>
-        @endif
-        @if(count($this->customers) < 7 && count($this->customers) !== 0)
-            <div class="page-content__pagination">
-                {{ $this->customers->links('components.pagination') }}
-            </div>
-        @endif
     </div>
 
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
