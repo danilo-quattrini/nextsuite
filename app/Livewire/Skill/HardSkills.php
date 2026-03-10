@@ -6,13 +6,14 @@ use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Domain\Skill\Services\SkillService;
 use App\Domain\Skill\Services\SkillState\HardSkillState;
-use App\Models\Customer;
 use App\Models\Skill;
 use Auth;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Lazy;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 #[Lazy]
@@ -23,6 +24,8 @@ class HardSkills extends Component
     public int $visibleCount = 6;
     public int $initialVisible = 6;
     public int $incrementBy = 6;
+
+    public bool $isLoading = false;
 
     #[Computed]
     public function hardSkills(): Collection
@@ -43,6 +46,7 @@ class HardSkills extends Component
         return $this->hardSkills->take($this->visibleCount);
     }
 
+    // ======== PAGINATION METHODS ==========
     /**
      * Check if there is more skill in the collection
      * @return bool
@@ -101,6 +105,79 @@ class HardSkills extends Component
     {
         $this->visibleCount = $this->hardSkills->count();
     }
+
+    // ======== SKILL OPERATINO METHODS ==========
+    /**
+     * Handle skill addition from modal
+     */
+    #[On('skill-added')]
+    public function addSkillToUser(
+        int $skillId,
+        int $skillLevel,
+        ?int $skillYears = null
+    ): void {
+        $this->isLoading = true;
+
+        try {
+            $skill = Skill::findOrFail($skillId);
+
+            // Validate skill type
+            if ($skill->isSoftSkill()) {
+                $this->dispatch('notify', [
+                    'type' => 'error',
+                    'message' => 'Cannot add soft skill to hard skills section.'
+                ]);
+                return;
+            }
+
+            // Check if skill already exists
+            if ($this->user->skills()->where('skill_id', $skillId)->exists()) {
+
+                $this->dispatch('notify', [
+                    'type' => 'warning',
+                    'message' => 'This skill has already been added.'
+                ]);
+                return;
+            }
+
+            // Assign the skill
+            app(SkillAssignmentService::class)->assign(
+                model: $this->user,
+                evaluator: Auth::user(),
+                skillId: $skillId,
+                skillLevel: $skillLevel,
+                skillYears: $skillYears
+            );
+
+            // Refresh the computed property
+            unset($this->hardSkills);
+
+            $this->dispatch('notify', [
+                'type' => 'success',
+                'message' => "Successfully added {$skill->name}!"
+            ]);
+
+            session()->flash('status', 'Skill added successfully!');
+
+        } catch (Exception $e) {
+            Log::error('Failed to add hard skill to user', [
+                'user_id' => $this->user->id,
+                'skill_id' => $skillId,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            $this->dispatch('notify', [
+                'type' => 'error',
+                'message' => 'Failed to add skill. Please try again.'
+            ]);
+
+            session()->flash('error', 'Failed to add skill: '.$e->getMessage());
+        } finally {
+            $this->isLoading = false;
+        }
+    }
+
     /**
      * Get skill service instance
      */

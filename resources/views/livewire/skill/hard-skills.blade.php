@@ -71,7 +71,6 @@
                                 wire:click="showMore"
                                 wire:loading.attr="disabled"
                                 wire:transition
-                                @click.stop
                         >
                             Show {{ min($incrementBy, $this->remainingCount) }} More
                             <span class="skills-pagination__count">
