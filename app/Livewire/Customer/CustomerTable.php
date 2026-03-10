@@ -94,8 +94,30 @@ class CustomerTable extends Component
     public function tableActions(): array
     {
         return [
-            ['key' => 'full_name', 'label' => 'Name'],
-            ['key' => 'email', 'label' => 'Email'],
+            [
+                'label' => 'View Customer',
+                'icon' => 'information-circle',
+                'route' => 'customer.show',
+                'color' => 'primary',
+            ],
+            [
+                'label' => 'Edit customer',
+                'icon' => 'pencil-square',
+                'route' => 'customer.edit',
+                'color' => 'default',
+            ],
+            [
+                'label' => 'Delete',
+                'icon' => 'trash',
+                'event' => 'delete-element',
+                'color' => 'danger',
+            ],
+            [
+                'label' => 'Review',
+                'icon' => 'star',
+                'event' => 'review-user',
+                'color' => 'warning',
+            ]
         ];
     }
 
