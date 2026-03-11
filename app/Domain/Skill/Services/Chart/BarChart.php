@@ -15,11 +15,11 @@ class BarChart extends Charts
             if ($value === 0) {
                 return '#d1d5db'; // gray — No level
             } elseif ($value < 50) {
-                return '#FF4B5A'; // red — Bad
+                return 'oklch(70% 0.22 20)'; // red — Bad
             } elseif ($value < 100) {
-                return '#F4BE5E'; // yellow — Good
+                return 'oklch(90% 0.14 75)'; // yellow — Good
             } else {
-                return '#7CE7AC'; // green — Expert
+                return 'oklch(85% 0.12 155)'; // green — Expert
             }
         }, $data);
     }
