@@ -1,5 +1,5 @@
 @props([
-    '$showDeleteModal' => false
+    'showDeleteModal' => false
 ])
 @if($showDeleteModal)
     {{-- WARNING POP --}}
