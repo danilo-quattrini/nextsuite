@@ -41,6 +41,12 @@ class extends Component {
                 </x-card.card-container>
         HTML;
     }
+
+    public function updateAttribute(): void
+    {
+        $this->customer->load('attributes');
+        $this->userAttributes = $this->customer->attributes;
+    }
 };
 ?>
 
