@@ -52,6 +52,8 @@
                 <x-card.skill-card
                         :skill="$skill"
                         wire:key="skill-{{ $skill->id }}"
+                        :user="$user"
+                        :editable="true"
                 />
             @endforeach
         </div>
