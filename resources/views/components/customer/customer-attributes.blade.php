@@ -16,7 +16,7 @@ class extends Component {
 
     public function mount(): void
     {
-        $this->userAttributes = $this->customer->attributes;
+        $this->updateAttribute();
     }
 
     #[On('attribute-selected')]
@@ -28,7 +28,7 @@ class extends Component {
             $value
         );
 
-        $this->userAttributes = $this->customer->attributes;
+        $this->updateAttribute();
     }
 
     public function placeholder(): string
