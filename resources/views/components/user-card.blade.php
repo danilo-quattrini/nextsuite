@@ -17,7 +17,7 @@
                 <x-profile-image
                         :src="$user?->profile_photo_url"
                         :name="$user->full_name"
-                        directory="{{ $modelName }}s-profile-photos"
+                        directory="{{ $modelName }}-profile-photos"
                         size="custom"
                         class="page-content__avatar-image"
                 />
