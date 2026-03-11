@@ -14,6 +14,8 @@ class extends Component {
     public ?Customer $customer = null;
     public ?Collection $userAttributes = null;
 
+    public bool $isLoading = false;
+
     public function mount(): void
     {
         $this->updateAttribute();
@@ -31,12 +33,28 @@ class extends Component {
         $this->updateAttribute();
     }
 
+    #[On('remove-attribute')]
+    public function removeAttribute(int $attributeId): void
+    {
+        $this->isLoading = true;
+
+        app(AttributeAssignableService::class)->remove(
+            model: $this->customer,
+            id: $attributeId
+        );
+
+        $this->updateAttribute();
+
+        $this->isLoading = false;
+    }
+
     public function placeholder(): string
     {
         return <<<'HTML'
                 <x-card.card-container title="Attributes">
-                    <div class="flex items-center justify-center py-8">
-                        <x-spinner size="lg" label="Loading attributes"/>
+                     <div class="skills-loading">
+                        <x-spinner size="lg" />
+                        <span class="skills-loading__text">Updating attributes...</span>
                     </div>
                 </x-card.card-container>
         HTML;
@@ -51,17 +69,50 @@ class extends Component {
 ?>
 
 <x-card.card-container title="Attributes">
-    <x-slot:action>
-        @livewire('attribute.attribute-modal')
-    </x-slot:action>
 
-    @forelse($userAttributes as $attribute)
-        <p><strong>{{ $attribute->name}}</strong>: {{ $attribute->pivot?->value }}</p>
-    @empty
-        <x-empty-state
-                icon="adjustments-horizontal"
-                message="No attribute yet"
-                description="Add an attribute to this customer"
-        />
-    @endforelse
+    @if($isLoading)
+        <div class="skills-loading">
+            <x-spinner size="lg" />
+            <span class="skills-loading__text">Updating attributes...</span>
+        </div>
+    @else
+        @if($userAttributes->isNotEmpty())
+            <x-slot:action>
+                @livewire('attribute.attribute-modal')
+            </x-slot:action>
+        @endif
+
+        @forelse($userAttributes as $attribute)
+            <x-card.card-container
+                    title="{{ $attribute->name}}"
+                    size="lg"
+                    card-size="sm"
+            >
+                <x-slot:action>
+                    <x-button
+                            variant="error"
+                            size="auto"
+                            wire:click.prevent="removeAttribute({{ $attribute->id }})"
+                    >
+                        <x-heroicon name="trash" size="lg"/>
+                    </x-button>
+                </x-slot:action>
+                <span
+                        class="text-lg font-light leading-none"
+                >
+                    {{ trim(ucfirst($attribute->pivot?->value)) }}
+                </span>
+            </x-card.card-container>
+        @empty
+            <x-empty-state
+                    icon="adjustments-horizontal"
+                    message="No attribute yet"
+                    description="Add an attribute to this customer"
+            >
+                <x-slot:action>
+                    @livewire('attribute.attribute-modal')
+                </x-slot:action>
+            </x-empty-state>
+        @endforelse
+    @endif
 </x-card.card-container>

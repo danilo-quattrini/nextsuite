@@ -243,6 +243,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         ]);
     }
 
+    // ====== ATTRIBUTE OPERATION =====
+
     /**
      * Add an attribute to a customer, syncWithoutDetaching = remove already existing record and add new ones.
      */
