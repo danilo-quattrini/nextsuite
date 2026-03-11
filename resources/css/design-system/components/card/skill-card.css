@@ -12,13 +12,6 @@
     transition: all var(--transition-base);
     height: 100%;
 }
-
-.skill-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    transform: translateY(-2px);
-}
-
 /* Header */
 .skill-card__header {
     display: flex;
@@ -32,6 +25,7 @@
 .skill-card__title-wrapper {
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     gap: var(--spacing-sm);
     flex: 1;
     min-width: 0;
