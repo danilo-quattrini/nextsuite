@@ -27,9 +27,9 @@
                         <x-form.step-progress-bar
                                 :current="$step"
                                 :steps="[
-                    ['key' => 1, 'label' => 'Edit Profile'],
-                    ['key' => 2, 'label' => 'Edit Details'],
-                ]"
+                                        ['key' => 1, 'label' => 'Edit Profile'],
+                                        ['key' => 2, 'label' => 'Edit Details'],
+                                ]"
                         />
 
                         <x-form.container>
@@ -39,31 +39,28 @@
                                     <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
                                         <div class="flex flex-col items-start gap-4">
                                             <label
-                                                    for="customer_photo"
+                                                    for="new_customer_photo"
                                                     class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
                                             >
-                                                @if ($customer_photo)
-                                                    <img
-                                                            src="{{ $customer_photo->temporaryUrl() }}"
-                                                            class="absolute inset-0 w-full h-full object-cover"
-                                                            alt="Customer Photo Preview"
-                                                    />
-                                                @else
-                                                    <x-heroicon name="user-plus" variant="outline" size="xl"
-                                                                class="text-primary"/>
-                                                @endif
+
+                                                <x-profile-image
+                                                        :src="$newCustomerPhoto ? $newCustomerPhoto->temporaryUrl() : $oldCustomerPhoto"
+                                                        :name="$form->full_name ?? 'Random User'"
+                                                        directory="customer-profile-photos"
+                                                        size="lg"
+                                                />
 
                                                 <input
-                                                        id="customer_photo"
+                                                        id="new_customer_photo"
                                                         type="file"
-                                                        wire:model.defer="customer_photo"
+                                                        wire:model.defer="newCustomerPhoto"
                                                         class="hidden"
                                                 />
                                             </label>
-                                            <x-input-error for="customer_photo"/>
+                                            <x-input-error for="new_customer_photo"/>
                                         </div>
 
-                                        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-6">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-lg">
                                             {{-- FULL NAME --}}
                                             <x-form.input-container>
                                                 <x-form.label-container label="Full Name" :required="true"/>
@@ -109,6 +106,29 @@
                                                 />
 
                                                 <x-input-error for="form.dob"/>
+                                            </x-form.input-container>
+
+                                            {{-- ROLE --}}
+
+                                            <x-form.input-container>
+                                                <x-form.label-container label="Role" :required="true"/>
+
+                                                <x-form.select-wrapper :error="$errors->has('form.role')">
+                                                    <x-form.select-element name="role" id="role" wire:model.defer="form.role">
+                                                        <x-slot:options>
+                                                            <option value="{{$form->role }}" selected>
+                                                                {{ ucfirst($form->role) }}
+                                                            </option>
+                                                            @foreach ($roles as $role)
+                                                                <option value="{{ $role }}">
+                                                                    {{ ucfirst($role) }}
+                                                                </option>
+                                                            @endforeach
+                                                        </x-slot:options>
+                                                    </x-form.select-element>
+                                                </x-form.select-wrapper>
+
+                                                <x-input-error for="form.role"/>
                                             </x-form.input-container>
                                         </div>
                                     </div>
