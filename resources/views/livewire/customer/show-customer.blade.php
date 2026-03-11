@@ -63,7 +63,7 @@
     </div>
 
     {{-- HARD SKILLS --}}
-    <livewire:customer.customer-hard-skills :customer="$customer" />
+    <livewire:skill.hard-skills :user="$customer"/>
 
     {{-- SOFT SKILL  --}}
     <livewire:customer.customer-soft-skills :customer="$customer" />
