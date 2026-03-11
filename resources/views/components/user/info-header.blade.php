@@ -42,7 +42,7 @@ new class extends Component {
         <x-profile-image
                 :src="$user?->profile_photo_url"
                 :name="$user?->full_name ?? 'Random User'"
-                directory="{{ $this->modelName }}s-profile-photos"
+                directory="{{ $this->modelName }}-profile-photos"
                 size="custom"
                 class="user-view__avatar"
         />
