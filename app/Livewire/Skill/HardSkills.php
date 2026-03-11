@@ -179,6 +179,41 @@ class HardSkills extends Component
     }
 
     /**
+     * Remove a skill from the user
+     */
+    public function removeSkill(int $skillId): void
+    {
+
+        try {
+            $this->user->skills()->detach($skillId);
+
+            unset($this->hardSkills);
+
+            $this->dispatch('notify', [
+                'type' => 'success',
+                'message' => 'Skill removed successfully!'
+            ]);
+
+        } catch (Exception $e) {
+            Log::error('Failed to remove hard skill', [
+                'user_id' => $this->user->id,
+                'skill_id' => $skillId,
+                'error' => $e->getMessage()
+            ]);
+
+            $this->dispatch('notify', [
+                'type' => 'error',
+                'message' => 'Failed to remove skill.'
+            ]);
+        }
+    }
+
+    /**
+     * Update skill level or years
+     * TODO
+     */
+
+    /**
      * Get skill service instance
      */
     private function getSkillService(): SkillService
