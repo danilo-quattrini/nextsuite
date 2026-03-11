@@ -1,12 +1,4 @@
 <div>
-    <x-button
-            size="large"
-            wire:click="$set('showModal', true)"
-    >
-        <x-heroicon name="plus"/>
-        New Attribute
-    </x-button>
-
     @if($showModal)
         <x-popup-box modal="showModal">
 
@@ -135,7 +127,7 @@
                 <x-button
                         type="button"
                         size="large"
-                        wire:click="addAttribute"
+                        wire:click="save"
                 >
                     New Attribute
                 </x-button>

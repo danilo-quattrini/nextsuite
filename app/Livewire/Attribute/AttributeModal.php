@@ -13,6 +13,8 @@ use Livewire\Component;
 class AttributeModal extends Component
 {
     public bool $showModal = false;
+    public string $mode = 'add';
+
     public ?int $selectedAttributeId = null;
     public ?int $selectedCategoryId = null;
 
@@ -56,6 +58,17 @@ class AttributeModal extends Component
         return view('livewire.attribute.attribute-modal');
     }
 
+    /**
+     * Open in add mode
+     */
+    #[On('open-add-attribute')]
+    public function openForAdd(): void
+    {
+        $this->resetForm();
+        $this->mode      = 'add';
+        $this->showModal = true;
+    }
+
     public function updatedSelectedCategoryId($categoryId): void
     {
         $this->customerAttributes = Category::getAttributesWithCategoryId($categoryId);
@@ -70,39 +83,20 @@ class AttributeModal extends Component
 
     public function attributeInputConfig(): array
     {
-        if (! $this->attribute) {
+        if (!$this->attribute) {
             return [];
         }
 
         return match ($this->attribute->type) {
-            AttributeType::STRING => [
-                'component' => 'input',
-                'type' => 'text',
-            ],
-
-            AttributeType::NUMBER => [
-                'component' => 'input',
-                'type' => 'number',
-            ],
-
-            AttributeType::DATE => [
-                'component' => 'input',
-                'type' => 'date',
-            ],
-
-            AttributeType::BOOLEAN => [
-                'component' => 'radio',
-                'options' => $this->attribute->options,
-            ],
-
-            AttributeType::SELECT => [
-                'component' => 'select',
-                'options' => $this->attribute->options,
-            ],
+            AttributeType::STRING  => ['component' => 'input', 'type' => 'text'],
+            AttributeType::NUMBER  => ['component' => 'input', 'type' => 'number'],
+            AttributeType::DATE    => ['component' => 'input', 'type' => 'date'],
+            AttributeType::BOOLEAN => ['component' => 'radio',  'options' => $this->attribute->options],
+            AttributeType::SELECT  => ['component' => 'select', 'options' => $this->attribute->options],
         };
     }
 
-    public function addAttribute(): void
+    public function save(): void
     {
         $this->validate();
         

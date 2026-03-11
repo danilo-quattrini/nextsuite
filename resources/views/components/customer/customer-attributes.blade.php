@@ -24,6 +24,8 @@ class extends Component {
     #[On('attribute-selected')]
     public function addAttributeToCustomer(Attribute $attribute, mixed $value): void
     {
+        $this->isLoading = true;
+
         app(AttributeAssignableService::class)->assign(
             $this->customer,
             $attribute,
@@ -31,6 +33,8 @@ class extends Component {
         );
 
         $this->updateAttribute();
+
+        $this->isLoading = false;
     }
 
     #[On('remove-attribute')]
@@ -78,7 +82,12 @@ class extends Component {
     @else
         @if($userAttributes->isNotEmpty())
             <x-slot:action>
-                @livewire('attribute.attribute-modal')
+                <x-button
+                        size="auto"
+                        wire:click="$dispatch('open-add-attribute')"
+                >
+                    <x-heroicon size="lg" name="plus"/>
+                </x-button>
             </x-slot:action>
         @endif
 
@@ -110,9 +119,17 @@ class extends Component {
                     description="Add an attribute to this customer"
             >
                 <x-slot:action>
-                    @livewire('attribute.attribute-modal')
+                    <x-button
+                            size="auto"
+                            wire:click="$dispatch('open-add-attribute')"
+                    >
+                        <x-heroicon size="lg" name="plus"/>
+                        New attribute
+                    </x-button>
                 </x-slot:action>
             </x-empty-state>
         @endforelse
     @endif
+
+    @livewire('attribute.attribute-modal')
 </x-card.card-container>
