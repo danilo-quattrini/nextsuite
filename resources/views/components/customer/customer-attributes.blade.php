@@ -98,13 +98,26 @@ class extends Component {
                     card-size="sm"
             >
                 <x-slot:action>
-                    <x-button
-                            variant="error"
-                            size="auto"
-                            wire:click.prevent="removeAttribute({{ $attribute->id }})"
-                    >
-                        <x-heroicon name="trash" size="lg"/>
-                    </x-button>
+                    {{-- DELETE AND EDIT BUTTONS --}}
+                    <div class="flex justify-between items-center gap-sm">
+                        <x-button
+                                variant="disable"
+                                size="auto"
+                                wire:click="$dispatch('open-edit-attribute',{
+                                    attributeId: {{ $attribute->id }},
+                                    userId: {{ $customer->id }}
+                                })"
+                        >
+                            <x-heroicon name="pencil-square" size="lg"/>
+                        </x-button>
+                        <x-button
+                                variant="error"
+                                size="auto"
+                                wire:click="removeAttribute({{ $attribute->id }})"
+                        >
+                            <x-heroicon name="trash" size="lg"/>
+                        </x-button>
+                    </div>
                 </x-slot:action>
                 <span
                         class="text-lg font-light leading-none"

@@ -6,6 +6,7 @@ namespace App\Livewire\Attribute;
 use App\Enums\AttributeType;
 use App\Models\Attribute;
 use App\Models\Category;
+use App\Models\Customer;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -69,6 +70,30 @@ class AttributeModal extends Component
         $this->showModal = true;
     }
 
+    /**
+     * Open in edit mode, pre-filling the current value
+     */
+    #[On('open-edit-attribute')]
+    public function openForEdit(
+        int $attributeId,
+        int $userId
+    ): void {
+        $this->resetForm();
+        $this->mode = 'edit';
+        $this->attribute = Attribute::getAttributeById($attributeId);
+
+        $this->value = Customer::find($userId)
+            ->getAssignableAttribute(key: $attributeId)
+            ?->pivot
+            ?->value;
+
+        $this->selectedCategoryId  = $this->attribute->category_id;
+        $this->customerAttributes  = Category::getAttributesWithCategoryId($this->attribute->category_id);
+        $this->selectedAttributeId = $this->attribute->id;
+
+        $this->showModal = true;
+    }
+
     public function updatedSelectedCategoryId($categoryId): void
     {
         $this->customerAttributes = Category::getAttributesWithCategoryId($categoryId);
@@ -122,6 +147,7 @@ class AttributeModal extends Component
     private function resetForm(): void
     {
         $this->reset([
+            'mode',
             'showModal',
             'selectedAttributeId',
             'selectedCategoryId',

@@ -23,7 +23,10 @@
                     <x-form.select-wrapper :error="$errors->has('selectedCategoryId')">
                         <x-form.select-element wire:model.live="selectedCategoryId">
                             <x-slot:options>
-                                <option value="" hidden> Select a category</option>
+                                @if($mode === 'add')
+                                    <option value="" hidden>Select a category</option>
+                                @endif
+
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}">
                                         {{ $category->name }}
@@ -44,7 +47,10 @@
                         <x-form.select-wrapper :error="$errors->has('selectedAttributeId')">
                             <x-form.select-element wire:model.live="selectedAttributeId">
                                 <x-slot:options>
-                                    <option value="" hidden>Select attribute</option>
+                                    @if($mode === 'add')
+                                        <option value="" hidden>Select attribute</option>
+                                    @endif
+
                                     @foreach ($customerAttributes as $attributes)
                                         <option value="{{ $attributes->id }}">
                                             {{ $attributes->name }}
@@ -78,8 +84,9 @@
                             <x-form.select-wrapper>
                                 <x-form.select-element wire:model.defer="value">
                                     <x-slot:options>
-                                        <option value="" hidden>Select</option>
-
+                                        @if($mode === 'add')
+                                            <option value="" hidden>Select value</option>
+                                        @endif
                                         @foreach ($config['options'] as $value => $label)
                                             <option value="{{ $value }}">
                                                 {{ $label }}
