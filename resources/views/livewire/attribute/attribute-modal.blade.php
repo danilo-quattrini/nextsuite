@@ -136,7 +136,7 @@
                         size="large"
                         wire:click="save"
                 >
-                    New Attribute
+                    {{ $mode === 'add' ? __('Assign') : __('Edit') }}
                 </x-button>
             </div>
 

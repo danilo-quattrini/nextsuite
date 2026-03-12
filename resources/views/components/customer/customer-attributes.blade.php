@@ -21,7 +21,7 @@ class extends Component {
         $this->updateAttribute();
     }
 
-    #[On('attribute-selected')]
+    #[On('attribute-added')]
     public function addAttributeToCustomer(Attribute $attribute, mixed $value): void
     {
         $this->isLoading = true;

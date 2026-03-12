@@ -12,7 +12,6 @@ class AttributeAssignableService
     /**
      * Assign an attribute from an AttributeAssignable model.
      */
-
     public function assign(
         AttributeAssignable $model,
         Attribute $attribute,

@@ -51,7 +51,7 @@ class CreateCustomer extends Component
         ]);
     }
 
-    #[On('attribute-selected')]
+    #[On('attribute-added')]
     public function attributeSelected(Attribute $attribute, mixed $value): void
     {
         $this->form->addAttribute($attribute, $value);
