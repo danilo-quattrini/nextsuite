@@ -258,6 +258,19 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     }
 
     /**
+     * Get the attribute owned by the customer though the id.
+     * @param  int  $key
+     * @return Attribute|null
+     */
+    public function getAssignableAttribute(int $key): ?Attribute
+    {
+        return $this->attributes()
+            ->wherePivot('attribute_id', $key)
+            ->first();
+    }
+
+    // ====== HEAVY OPERATION =====
+    /**
      * Find the customer with reviews and save them inside the cache
      * @param  int  $id
      * @return Customer|null

@@ -7,4 +7,5 @@ use App\Models\Attribute;
 interface AttributeAssignable
 {
     public function addAttribute(Attribute $attribute, mixed $value): void;
+    public function getAssignableAttribute(int $key): ?Attribute;
 }
