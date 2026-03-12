@@ -124,9 +124,12 @@ class AttributeModal extends Component
     public function save(): void
     {
         $this->validate();
-        
-        $this->dispatch('attribute-selected', attribute: $this->attribute, value: $this->value);
-        
+
+        match ($this->mode) {
+            'add'  => $this->dispatch('attribute-added', attribute: $this->attribute, value: $this->value),
+            'edit' => $this->dispatch('attribute-updated', attributeId: $this->attribute->id, value: $this->value),
+        };
+
         $this->closeModal();
 
     }
