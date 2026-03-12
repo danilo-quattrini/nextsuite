@@ -57,19 +57,18 @@ class extends Component {
         ?int $originalAttributeId,
         Attribute $attribute,
         $value
-    ): void
-    {
+    ): void {
         $this->isLoading = true;
 
         $service = app(AttributeAssignableService::class);
 
-        if($originalAttributeId === $attribute->id){
+        if ($originalAttributeId === $attribute->id) {
             $service->edit(
                 model: $this->customer,
                 attribute: $attribute,
                 value: $value
             );
-        }else{
+        } else {
             $service->replace(
                 model: $this->customer,
                 oldAttributeId: $originalAttributeId,
@@ -78,11 +77,11 @@ class extends Component {
             );
         }
 
-
         $this->updateAttribute();
 
         $this->isLoading = false;
     }
+
     public function placeholder(): string
     {
         return <<<'HTML'
@@ -107,7 +106,7 @@ class extends Component {
 
     @if($isLoading)
         <div class="skills-loading">
-            <x-spinner size="lg" />
+            <x-spinner size="lg"/>
             <span class="skills-loading__text">Updating attributes...</span>
         </div>
     @else

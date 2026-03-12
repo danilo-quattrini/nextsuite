@@ -7,8 +7,11 @@ use Livewire\Component;
 
 new class extends Component {
     public ?Model $user = null;
+
     public bool $hasReview = false;
     public bool $hasSoftSkill = false;
+    public bool $hasRole = false;
+
     public bool $showInfo = true;
     public ?string $modelType = '';
     public ?string $modelName = '';
@@ -25,6 +28,7 @@ new class extends Component {
     {
         $this->modelType = get_class($this->user);
         $this->modelName = strtolower(class_basename($this->modelType));
+        $this->hasRole = method_exists(get_class($this->user), 'roles');
     }
 
     #[Computed]
@@ -58,6 +62,13 @@ new class extends Component {
                     @endif
                 @endisland
             </div>
+            @if($hasRole)
+                <x-tag
+                        variant="white"
+                >
+                    {{ ucfirst($user?->getRoleNames()->first()) }}
+                </x-tag>
+            @endif
             @if($hasReview)
                 @php
                     $reviewCounter = $user?->reviews_count;

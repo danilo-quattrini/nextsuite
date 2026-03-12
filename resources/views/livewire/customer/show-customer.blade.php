@@ -68,6 +68,8 @@
     {{-- SOFT SKILL  --}}
     <livewire:customer.customer-soft-skills :customer="$customer" />
 
+    <livewire:skill-modal :user="$customer"/>
+
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
     <x-popup.review-popup :show-modal="$showModal" :rating="$rating" />
 </div>

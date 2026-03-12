@@ -18,8 +18,7 @@ new class extends Component {
             'Phone' => $this->customer->phone ?? 'N.A',
             'Date of birth' => $this->customer->dob->format('d/m/Y') ?? 'N.A',
             'Gender' => $this->customer->gender ?? 'N.A',
-            'Nationality' => $this->customer->nationality ?? 'N.A',
-            'Role' =>  ucfirst($this->customer->getRoleNames()->first()) ?? 'N.A'
+            'Nationality' => $this->customer->nationality ?? 'N.A'
         ];
     }
 };

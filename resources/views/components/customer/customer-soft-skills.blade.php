@@ -104,13 +104,12 @@ new class extends Component {
                     size="auto"
                     wire:click="$dispatch('open-soft-skill-modal')"
             >
-                <x-heroicon name="plus"/>
-                New Skill
+                <x-heroicon size="lg" name="plus"/>
             </x-button>
         @endif
     </x-slot:action>
 
-    <livewire:skill-modal :user="$customer"/>
+    {{--    <livewire:skill-modal :user="$customer"/>--}}
 
     @if($softSkills->isEmpty())
         <x-empty-state
