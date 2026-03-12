@@ -54,17 +54,30 @@ class extends Component {
 
     #[On('attribute-updated')]
     public function updatedAttribute(
-        int $attributeId,
+        ?int $originalAttributeId,
+        Attribute $attribute,
         $value
     ): void
     {
         $this->isLoading = true;
 
-        app(AttributeAssignableService::class)->edit(
-            model: $this->customer,
-            id: $attributeId,
-            value: $value
-        );
+        $service = app(AttributeAssignableService::class);
+
+        if($originalAttributeId === $attribute->id){
+            $service->edit(
+                model: $this->customer,
+                attribute: $attribute,
+                value: $value
+            );
+        }else{
+            $service->replace(
+                model: $this->customer,
+                oldAttributeId: $originalAttributeId,
+                newAttribute: $attribute,
+                newValue: $value
+            );
+        }
+
 
         $this->updateAttribute();
 

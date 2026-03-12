@@ -18,6 +18,7 @@ class AttributeModal extends Component
 
     public ?int $selectedAttributeId = null;
     public ?int $selectedCategoryId = null;
+    public ?int $originalAttributeId = null;
 
     public Collection $categories;
     public Collection $customerAttributes;
@@ -80,6 +81,7 @@ class AttributeModal extends Component
     ): void {
         $this->resetForm();
         $this->mode = 'edit';
+        $this->originalAttributeId = $attributeId;
         $this->attribute = Attribute::getAttributeById($attributeId);
 
         $this->value = Customer::find($userId)
@@ -126,8 +128,17 @@ class AttributeModal extends Component
         $this->validate();
 
         match ($this->mode) {
-            'add'  => $this->dispatch('attribute-added', attribute: $this->attribute, value: $this->value),
-            'edit' => $this->dispatch('attribute-updated', attributeId: $this->attribute->id, value: $this->value),
+            'add'  => $this->dispatch(
+                'attribute-added',
+                attribute: $this->attribute,
+                value: $this->value
+            ),
+            'edit' => $this->dispatch(
+                'attribute-updated',
+                originalAttributeId: $this->originalAttributeId,
+                attribute: $this->attribute,
+                value: $this->value
+            ),
         };
 
         $this->closeModal();
