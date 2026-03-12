@@ -12,21 +12,8 @@ class CustomerRoleSeeder extends Seeder
 
     public function run(): void
     {
-        $roles = $this->loadRolesData();
-        $this->createRole($roles);
+        $roles = json_decode(file_get_contents(database_path(self::ROLE_JSON_PATH)), true);
         $this->assignRoleToCustomer($roles);
-    }
-
-    private function loadRolesData()
-    {
-        return json_decode(file_get_contents(database_path(self::ROLE_JSON_PATH)), true);
-    }
-
-    public function createRole(array $roles): void
-    {
-        foreach ($roles as $role) {
-            Role::create($role);
-        }
     }
 
     private function assignRoleToCustomer(array $roles): void
