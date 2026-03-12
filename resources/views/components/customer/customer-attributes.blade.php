@@ -52,6 +52,24 @@ class extends Component {
         $this->isLoading = false;
     }
 
+    #[On('attribute-updated')]
+    public function updatedAttribute(
+        int $attributeId,
+        $value
+    ): void
+    {
+        $this->isLoading = true;
+
+        app(AttributeAssignableService::class)->edit(
+            model: $this->customer,
+            id: $attributeId,
+            value: $value
+        );
+
+        $this->updateAttribute();
+
+        $this->isLoading = false;
+    }
     public function placeholder(): string
     {
         return <<<'HTML'
