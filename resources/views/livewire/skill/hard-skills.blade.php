@@ -12,12 +12,9 @@
                 size="auto"
                 wire:click="$dispatch('open-hard-skill-modal')"
         >
-            <x-heroicon name="plus"/>
-            New Skill
+            <x-heroicon size="lg" name="plus"/>
         </x-button>
     </x-slot:action>
-
-    <livewire:skill-modal :user="$user"/>
 
     {{-- LOADING STATE --}}
     @if($isLoading)
@@ -48,7 +45,7 @@
     @else
         {{-- HARD SKILL GRID FOR CARDS --}}
         <div class="skills-grid">
-            @foreach($this->visibleSkills as $skill)
+            @foreach($this->visibleItems as $skill)
                 <x-card.skill-card
                         :skill="$skill"
                         wire:key="skill-{{ $skill->id }}"
@@ -63,7 +60,7 @@
             <div class="skills-pagination">
                 @if($this->hasMore)
                     <div class="skills-pagination__info">
-                        Showing {{ $this->visibleSkills->count() }} out of {{ $this->hardSkills->count() }} skills
+                        Showing {{ $this->visibleItems->count() }} out of {{ $this->hardSkills->count() }} skills
                     </div>
 
                     <div class="skills-pagination__actions">
