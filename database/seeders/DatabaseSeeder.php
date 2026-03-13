@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             AttributeCustomerSeeder::class,
             TemplateSeeder::class,
             RoleSeeder::class,
+            RoleFieldSeeder::class,
             CustomerRoleSeeder::class
         ]);
     }
