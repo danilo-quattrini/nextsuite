@@ -3,8 +3,9 @@
 namespace App\Domain\Role\Services;
 
 use Illuminate\Cache\Repository as Cache;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Traits\HasRoles;
 
 class RoleService
 {
@@ -12,27 +13,28 @@ class RoleService
     private const int CACHE_TTL =  3600;
 
     public function __construct(
-        private readonly ?Cache $cache,
-        private readonly ?Model $user
+        private readonly ?Cache $cache
     ) {}
+
     /**
      * Get all the roles from the user
+     * @param  Authenticatable  $user
      * @return array
-     **/
-    public function getUserRoles(): array
+     */
+    public function getUserRoleNames(Authenticatable $user): array
     {
-        if(method_exists($this->user,'roles')){
-            return $this->user
-                ?->roles
+        $this->assertHasRoles($user);
+        return $this->cache->tags([self::CACHE_KEY])->remember(
+            self::CACHE_KEY . ":user:{$user->getAuthIdentifier()}:roles",
+            self::CACHE_TTL,
+            fn() => $user->roles
                 ->pluck('name')
                 ->map(fn($role) => ucfirst($role))
-                ->toArray();
-        }else{
-            return [];
-        }
+                ->toArray()
+        );
     }
     /**
-     * Get all the role available
+     * Get all the role available in the system.
      * @return array
      **/
     public function getAllRoleNames(): array
