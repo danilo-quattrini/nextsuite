@@ -15,9 +15,9 @@ class UserSeeder extends Seeder
     {
         User::factory(2)->create(new Sequence(
             [
-            'full_name' => 'Danilo Quattrini',
-            'email' => 'daniloquattrini.com@gmail.com',
-            'password' => 'danilo2003',
+                'full_name' => 'Danilo Quattrini',
+                'email' => 'daniloquattrini.com@gmail.com',
+                'password' => 'danilo2003',
             ],
             [
                 'full_name' => 'William Properzi',

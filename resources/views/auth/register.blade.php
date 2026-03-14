@@ -55,7 +55,21 @@
 
             {{-- TERM & PRIVACY --}}
             <div class="my-10 flex flex-1 justify-between w-full">
-                <x-radio name="terms" value="agree" required>
+                <x-toggle-container>
+                    <x-slot:element>
+                        <x-form.checkbox
+                                id="terms"
+                                name="terms"
+                                value="on"
+                                size="md"
+                                wrap=true
+                        />
+                    </x-slot:element>
+
+                    <x-slot:span>
+
+                    </x-slot:span>
+
                     I agree to the
                     <a href="{{ route('terms.show') }}" target="_blank">
                         <x-span-link>{{ __('Terms, Conditions') }}</x-span-link>
@@ -64,8 +78,10 @@
                     <a href="{{ route('policy.show') }}" target="_blank">
                         <x-span-link>{{ __('Privacy Policy') }}</x-span-link>
                     </a>
-                    <span class="text-secondary-error m-0.5">*</span>
-                </x-radio>
+                    <span class="text-secondary-error ml-0.5">*</span>
+                    <x-input-error for="terms"/>
+                </x-toggle-container>
+
                 <a href="{{route('login')}}">
                     <x-span-link>{{ __('Already have an account?') }}</x-span-link>
                 </a>
