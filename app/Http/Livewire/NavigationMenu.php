@@ -31,7 +31,7 @@ class NavigationMenu extends Component
     {
         $roles = $this->roleService->getUserRoleNames(Auth::user());
 
-        return $roles[0] ?? 'No Role';
+        return $roles[0] ?: 'No Role';
     }
     /**
      * Render the component.
