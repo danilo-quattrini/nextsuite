@@ -137,6 +137,13 @@
                                 <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
                                     <x-form.label-container label="Attributes"/>
 
+                                    <x-button
+                                            size="auto"
+                                            wire:click="$dispatch('open-add-attribute')"
+                                    >
+                                        <x-heroicon size="lg" name="plus"/>
+                                    </x-button>
+                                    
                                     <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
 
                                     <x-form.input-container>
