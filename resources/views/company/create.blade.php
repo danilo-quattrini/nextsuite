@@ -1,22 +1,27 @@
 <x-app-layout>
-    <div class="flex w-full mx-auto justify-center items-center">
+    <div class="page-content__container">
 
         {{--  Content  --}}
-        <div class="flex-col space-y-6">
+        <div class="page-content__hero">
+            <div class="page-content__hero-inner">
+                <div class="page-content__hero-row">
+                    <div class="page-content__hero-copy">
+                        <h2 class="page-content__title">
+                            {{ __('Create Company') }}
+                        </h2>
+                        <p class="page-content__subtitle">
+                            {{__('Create your first company in a few step!')}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-            {{--  Page Header  --}}
-            <h1 class="text-2xl font-bold text-black">
-                {{ __('New Company') }}
-            </h1>
-
-            <p class="text-sm text-primary-grey">
-                {{__('Create your first company!')}}
-            </p>
-
-            {{--  Form  --}}
-            <x-form.container>
+        <div class="page-content__body">
+            <x-card.card-container>
+                {{--  Form  --}}
                 @livewire('create-company')
-            </x-form.container>
+            </x-card.card-container>
         </div>
     </div>
 </x-app-layout>
