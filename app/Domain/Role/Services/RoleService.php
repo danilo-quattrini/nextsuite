@@ -48,4 +48,16 @@ class RoleService
                 ->toArray();
         });
     }
+
+    /**
+     * Ensure the model uses Spatie's HasRoles trait before calling role methods.
+     */
+    private function assertHasRoles(Authenticatable $user): void
+    {
+        if (!in_array(HasRoles::class, class_uses_recursive($user))) {
+            throw new \LogicException(
+                class_basename($user) . ' must use the HasRoles trait to use RoleService.'
+            );
+        }
+    }
 }
