@@ -1,0 +1,25 @@
+[
+  { "name": "attribute.assign",  "guard_name": "web", "description": "Assign a new attribute" },
+  { "name": "attribute.read",    "guard_name": "web", "description": "View attributes" },
+  { "name": "attribute.update",  "guard_name": "web", "description": "Update an existing attribute" },
+  { "name": "attribute.delete",  "guard_name": "web", "description": "Delete an attribute" },
+
+  { "name": "skill.assign",      "guard_name": "web", "description": "Assign a new skill" },
+  { "name": "skill.read",        "guard_name": "web", "description": "View skills" },
+  { "name": "skill.update",      "guard_name": "web", "description": "Update an existing skill" },
+  { "name": "skill.delete",      "guard_name": "web", "description": "Delete a skill" },
+
+  { "name": "review.create",     "guard_name": "web", "description": "Create a new review" },
+  { "name": "review.read",       "guard_name": "web", "description": "View reviews" },
+  { "name": "review.update",     "guard_name": "web", "description": "Update an existing review" },
+  { "name": "review.delete",     "guard_name": "web", "description": "Delete a review" },
+
+  { "name": "skill_schema.create", "guard_name": "web", "description": "Create a new skill_schema" },
+  { "name": "skill_schema.update", "guard_name": "web", "description": "Update an existing skill_schema" },
+  { "name": "skill_schema.delete", "guard_name": "web", "description": "Delete an skill_schema" },
+
+  { "name": "customer.create",   "guard_name": "web", "description": "Create a new customer" },
+  { "name": "customer.read",     "guard_name": "web", "description": "View customers" },
+  { "name": "customer.update",   "guard_name": "web", "description": "Update an existing customer" },
+  { "name": "customer.delete",   "guard_name": "web", "description": "Delete a customer" }
+]
