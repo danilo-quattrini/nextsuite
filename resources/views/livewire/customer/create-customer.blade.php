@@ -35,10 +35,10 @@
                         @if ($step === 1)
                             <div wire:key="customer-step-1" class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
-                                    <div class="flex flex-col items-start gap-4">
+                                    <div class="flex flex-col items-start justify-center">
                                         <label
                                                 for="customer_photo"
-                                                class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
+                                                class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
                                         >
                                             @if ($customer_photo)
                                                 <img
@@ -47,7 +47,7 @@
                                                         alt="Customer Photo Preview"
                                                 />
                                             @else
-                                                <x-heroicon name="user-plus" variant="outline" size="xl" class="text-primary"/>
+                                                <x-heroicon name="user-plus" variant="outline" size="3xl" class="text-primary"/>
                                             @endif
 
                                             <input
