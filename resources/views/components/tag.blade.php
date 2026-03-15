@@ -65,7 +65,7 @@
 {{-- Leading Content --}}
 @if($icon && $iconPosition === 'leading')
     <span class="tag__icon tag__icon--leading">
-            <x-dynamic-component :component="$icon" class="tag__icon-svg" />
+            <x-heroicon :name="$icon" class="tag__icon-svg" />
     </span>
 @endif
 
