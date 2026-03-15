@@ -1,13 +1,13 @@
 .user-view{
-    @apply container mx-auto px-6 py-8 space-y-8 relative;
+    @apply container mx-auto px-sm py-lg space-y-lg relative;
 }
 
 .user-view__header{
-    @apply flex items-center justify-between gap-6;
+    @apply flex items-center justify-between gap-md;
 }
 
 .user-view__identity{
-    @apply flex items-center gap-6;
+    @apply flex items-center gap-md;
 }
 
 .user-view__avatar{

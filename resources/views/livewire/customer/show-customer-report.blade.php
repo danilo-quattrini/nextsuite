@@ -1,7 +1,13 @@
 <div class="user-view">
     {{-- HEADER --}}
-    <livewire:user.info-header :user="$customer" has-review="true"/>
 
+    {{--  USER INFO SECTION  --}}
+    <div class="user-view__header">
+        <livewire:user.info-header
+                :user="$customer"
+                has-review="true"
+        />
+    </div>
 
     {{-- QUICK STATS --}}
     <section class="user-view__stats">
