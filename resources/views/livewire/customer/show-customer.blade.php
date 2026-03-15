@@ -1,7 +1,7 @@
-<div class="container mx-auto px-6 py-8 space-y-8">
+<div class="user-view">
 
     {{-- HEADER --}}
-    <div class="flex items-center justify-between">
+    <div class="user-view__header">
         {{--  USER INFO SECTION  --}}
         <livewire:user.info-header
                 :user="$customer"
