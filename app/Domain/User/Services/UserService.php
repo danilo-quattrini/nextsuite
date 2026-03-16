@@ -116,7 +116,7 @@ class UserService
      *
      * Get from the cache the field if exists, then it will
      * check, if the cache contains the field, it will return
-     * the value from the cache and assign it to the field attribute
+     * the value from the cache and assign it to the field attribute,
      * otherwise it will return an empty string.
      *
      * @return  string generated field suggestion string
@@ -161,7 +161,7 @@ class UserService
     public function setField(string $field): self
     {
         $this->field = $field;
-        Cache::put($this->fieldCacheKey(), self::FIELD_TTL_SECONDS);
+        Cache::put($this->fieldCacheKey(), $field,  self::FIELD_TTL_SECONDS);
         return $this;
     }
 
