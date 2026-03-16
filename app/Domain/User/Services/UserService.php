@@ -43,11 +43,19 @@ class UserService
 
 
     /**
-     * Get the SkillAssignable skills
+     * Get all the SkillAssignable model skills into an array
      * */
     public function getSkills(): array
     {
         return   $this->getUser()->getSkills()->toArray();
+    }
+
+    /**
+     * Get all the AttributeAssignable model attributes into an array
+     * */
+    public function getAttributes(): array
+    {
+        return   $this->getUser()->getAssignableAttributes()->toArray();
     }
 
     /**
