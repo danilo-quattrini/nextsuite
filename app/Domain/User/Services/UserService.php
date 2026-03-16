@@ -4,6 +4,7 @@ namespace App\Domain\User\Services;
 
 use App\Domain\Attribute\Contracts\AttributeAssignable;
 use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Jobs\GenerateUserFieldSuggestJob;
 use App\Jobs\GenerateUserReview;
 use Illuminate\Support\Facades\Cache;
 
@@ -43,6 +44,20 @@ class UserService
         GenerateUserReview::dispatch($this);
     }
 
+    /**
+     * Get the review made from the OpenAI service in base of user info
+     * */
+    public function generateUserFieldSuggest(): void
+    {
+        if (!$this->hasSkill() && $this->hasUser()) {
+            return;
+        }
+
+        GenerateUserFieldSuggestJob::dispatch($this);
+    }
+
+
+    // ====== GETTERS ======
 
     /**
      * Get all the SkillAssignable model skills into an array
