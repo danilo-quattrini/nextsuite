@@ -18,6 +18,8 @@ class UserService
         private ?string $field = null
     ) {}
 
+    // ====== GENERATION METHODS ======
+
     /**
      * Get the review made from the OpenAI service in base of user info
      * */
@@ -75,14 +77,6 @@ class UserService
     }
 
     /**
-     * Check if the user it's been initialized or not
-     * */
-    private function hasUser(): bool
-    {
-        return $this->user !== null;
-    }
-
-    /**
      * Get the review of the user if he/she has it
      * */
     public function getReview(): string
@@ -101,6 +95,19 @@ class UserService
     }
 
     /**
+     * Get the field suggestion of the user if he/she has it
+     * */
+    public function getField(): string
+    {
+        if ($this->field) {
+            return $this->field;
+        }
+        return '';
+    }
+
+    // ====== SETTERS ======
+
+    /**
      * Get the review of the user if he/she has it
      * */
     public function setReview(string $review): self
@@ -110,6 +117,17 @@ class UserService
         Cache::forget($this->reviewCacheKey().':generating');
         return $this;
     }
+
+    /**
+     * Get the review of the user if he/she has it
+     * */
+    public function setField(string $field): self
+    {
+        $this->field = $field;
+        return $this;
+    }
+
+    // ====== HELPER METHODS ======
     /**
      * Check if the user relation with skill exists
      * */
@@ -129,5 +147,13 @@ class UserService
             : 'unknown';
 
         return "user-review:{$class}:{$id}";
+    }
+
+    /**
+     * Check if the user it's been initialized or not
+     * */
+    private function hasUser(): bool
+    {
+        return $this->user !== null;
     }
 }
