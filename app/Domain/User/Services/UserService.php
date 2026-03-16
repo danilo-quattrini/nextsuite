@@ -13,6 +13,8 @@ class UserService
     private const int REVIEW_TTL_SECONDS = 21600;
     private const int REVIEW_LOCK_TTL_SECONDS = 600;
 
+    private const int FIELD_TTL_SECONDS = 21600;
+
     public function __construct(
         private readonly SkillAssignable | AttributeAssignable $user,
         private ?string $review = null,
@@ -110,12 +112,26 @@ class UserService
     }
 
     /**
-     * Get the field suggestion of the user if he/she has it
+     * Get the field suggestion of the user if he/she has it.
+     *
+     * Get from the cache the field if exists, then it will
+     * check, if the cache contains the field, it will return
+     * the value from the cache and assign it to the field attribute
+     * otherwise it will return an empty string.
+     *
+     * @return  string generated field suggestion string
      * */
     public function getField(): string
     {
         if ($this->field) {
             return $this->field;
+        }
+
+        $cached = Cache::get($this->fieldCacheKey());
+
+        if (is_string($cached) && $cached !== '') {
+            $this->field = $cached;
+            return $cached;
         }
         return '';
     }
@@ -135,10 +151,17 @@ class UserService
 
     /**
      * Get the review of the user if he/she has it
-     * */
+     *
+     * Save the field in the attribute field and save it
+     * inside the cache.
+     *
+     * @param  string  $field to save
+     * @return self
+     */
     public function setField(string $field): self
     {
         $this->field = $field;
+        Cache::put($this->fieldCacheKey(), self::FIELD_TTL_SECONDS);
         return $this;
     }
 
