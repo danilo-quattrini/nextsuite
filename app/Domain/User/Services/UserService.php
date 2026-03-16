@@ -22,7 +22,7 @@ class UserService
      * */
     public function generateUserReview(): void
     {
-        if (!$this->hasSkill()) {
+        if (!$this->hasSkill() && $this->hasUser()) {
             return;
         }
 
@@ -66,11 +66,11 @@ class UserService
     }
 
     /**
-     * Check if the user it's not empty
+     * Check if the user it's been initialized or not
      * */
-    private function isNotEmpty(): bool
+    private function hasUser(): bool
     {
-        return !empty($this->user);
+        return $this->user !== null;
     }
 
     /**
