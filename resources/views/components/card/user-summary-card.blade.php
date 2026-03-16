@@ -19,6 +19,8 @@ class extends Component {
 
     public function mount(): void
     {
+        if(!$this->user) return;
+
         if ($this->user->hasSkill()) {
             $userService = new UserService($this->user);
             $this->summary = $userService->getReview();
