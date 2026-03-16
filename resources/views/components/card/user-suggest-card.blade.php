@@ -1,10 +1,75 @@
 <?php
 
+use App\Domain\Skill\Contracts\SkillAssignable;
+use App\Domain\User\Factory\UserServiceFactory;
+use App\Domain\User\Services\UserService;
+use Livewire\Attributes\Lazy;
 use Livewire\Component;
 
-new class extends Component
-{
-    //
+new #[Lazy]
+class extends Component {
+    public ?SkillAssignable $user = null;
+    public ?string $field = '';
+
+    /**
+     * Load the UserServiceFactory to return the instance of UserService, with make method,
+     * then it will the field from the service.
+     *
+     * The field it's empty that means it generates a new one, otherwise,
+     * it will take the one from the getField() method.
+     * */
+    public function mount(
+        UserServiceFactory $factory
+    ): void
+    {
+        if(!$this->user || !$this->user->hasSkill()) return ;
+
+
+        $userService = $factory->make($this->user);
+        $field = $userService->getField();
+
+        if($field === ''){
+            $userService->generateUserFieldSuggest();
+        }else{
+            $this->field = $field;
+        }
+    }
+
+    /**
+     * This method acts as the mount, but it will be used by
+     * livewire to check if the field has been generated from the
+     * AI or not.
+     * */
+    public function checkField(UserServiceFactory $factory): void
+    {
+        if ($this->field !== null) return; // already loaded
+
+        $userService = $factory->make($this->user);
+        $field = $userService->getField();
+
+        if ($field !== '') {
+            $this->field = $field; // triggers re-render automatically
+        }
+    }
+
+    /**
+     * Placeholder method to show when the response of OpenAI's working.
+     * */
+    public function placeholder(): string
+    {
+        return <<<'HTML'
+                <x-card.card-container
+                        title="Field Suggested"
+                        subtitle="That's a suggestion made by the AI in which field the user can ber"
+                >
+                    <div class="summary-skeleton">
+                        <div class="skeleton-line"></div>
+                        <div class="skeleton-line skeleton-line--short"></div>
+                        <div class="skeleton-line"></div>
+                    </div>
+                </x-card.card-container>
+        HTML;
+    }
 };
 ?>
 
