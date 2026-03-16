@@ -143,25 +143,13 @@ class UserService
     }
 
     // ====== HELPER METHODS ======
+
     /**
      * Check if the user relation with skill exists
      * */
     private function hasSkill(): bool
     {
         return $this->user->hasSkill();
-    }
-
-    private function reviewCacheKey(): string
-    {
-        $class = method_exists($this->user, 'getMorphClass')
-            ? $this->user->getMorphClass()
-            : get_class($this->user);
-
-        $id = method_exists($this->user, 'getKey')
-            ? (string) $this->user->getKey()
-            : 'unknown';
-
-        return "user-review:{$class}:{$id}";
     }
 
     /**
@@ -171,4 +159,46 @@ class UserService
     {
         return $this->user !== null;
     }
+
+    // ====== CACHE KEY GENERATOR METHODS ======
+
+    /**
+     * Compose a string that will be the key for the cache of the review generated
+     * @return string a string that indicates the key of the cache
+     * */
+    private function reviewCacheKey(): string
+    {
+        list($class, $id) = $this->getMorphClassAndId();
+
+        return "user-review:{$class}:{$id}";
+    }
+
+    /**
+     * Compose a string that will be the key for the cache of the field suggestion generated
+     * @return string a string that indicates the key of the cache
+     * */
+    private function fieldCacheKey(): string
+    {
+        list($class, $id) = $this->getMorphClassAndId();
+
+        return "user-field:{$class}:{$id}";
+    }
+
+    /**
+     * Function to return the class the id from the user.
+     * @return array with the class and the id of the user.
+     * */
+    public function getMorphClassAndId(): array
+    {
+        $class = method_exists($this->getUser(), 'getMorphClass')
+            ? $this->getUser()->getMorphClass()
+            : get_class($this->getUser());
+
+        $id = method_exists($this->getUser(), 'getKey')
+            ? (string) $this->getUser()->getKey()
+            : 'unknown';
+        return array($class, $id);
+    }
+
+
 }
