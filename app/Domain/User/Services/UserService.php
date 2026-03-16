@@ -14,7 +14,8 @@ class UserService
 
     public function __construct(
         private readonly SkillAssignable | AttributeAssignable $user,
-        private ?string $review = ''
+        private ?string $review = null,
+        private ?string $field = null
     ) {}
 
     /**
