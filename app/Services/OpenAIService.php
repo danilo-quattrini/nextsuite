@@ -24,6 +24,21 @@ class OpenAIService
     }
 
     /**
+     * Generate a field suggestion for a customer.
+     * The prompt it's been built from a separate method buildFieldSuggestionPrompt
+     */
+    public function generateFieldSuggestion(?array $data = []): string
+    {
+        $prompt = $this->buildFieldSuggestionPrompt($data);
+
+        return $this->cachedResponse(
+            'field',
+                'You are a career analyst assistant. Based on the professional profile below, suggest the single most suitable professional field for this person.',
+                $prompt
+        );
+    }
+
+    /**
      * Generate a short professional summary for a customer
      */
     public function generateCustomerSummary(array $data): string
@@ -35,6 +50,38 @@ class OpenAIService
             'You write short professional summaries for documents.',
             $prompt
         );
+    }
+
+    private function buildFieldSuggestionPrompt(?array $data): string
+    {
+        $skills = collect($data['skills'])
+            ->map(fn($s) => "  - {$s['name']}: {$s['level']} out of 100, type: {$s['type']}")
+            ->join("\n");
+
+        $attributes = collect($data['attributes'])
+            ->map(fn($s) => "  - {$s['name']},  value: {$s['value']}, type: {$s['type']}")
+            ->join("\n");
+
+        $reviews = collect($data['ratings'])
+            ->map(fn($s) => "  - {$s['rating']} out of 5, comment: {$s['comment']}")
+            ->join("\n");
+
+        return <<<PROMPT
+        You are a career analyst assistant. Based on the professional profile below, 
+        suggest the single most suitable professional field for this person.
+        
+        --- PROFILE ---
+        Skills: {$skills}
+        Attributes: {$attributes}
+        Reviews from others: {$reviews}
+        --- END PROFILE ---
+        
+        Respond in the following JSON format only, no extra text:
+        {
+          "suggested_field": "<Field Name>",
+          "description": "<One or two sentences explaining why this field fits the person.>"
+        }
+        PROMPT;
     }
 
     /**
@@ -136,4 +183,5 @@ class OpenAIService
             return trim($response->choices[0]->message->content);
         });
     }
+
 }
