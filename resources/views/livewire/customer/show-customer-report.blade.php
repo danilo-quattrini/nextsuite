@@ -11,14 +11,13 @@
 
     {{-- QUICK STATS --}}
     <section class="user-view__stats">
-        {{-- CUSTOMER SUMMARY --}}
+
+        {{-- USER SUMMARY OVERVIEW --}}
         <livewire:card.user-summary-card :user="$customer" />
 
-        <div class="user-view__stat-card">
-            <p class="user-view__stat-label">Documents created</p>
-            <p class="user-view__stat-value">18</p>
-            <p class="user-view__stat-hint">Last 90 days</p>
-        </div>
+        {{-- USER FIELD SUGGESTION --}}
+       <livewire:card.user-suggest-card :user="$customer"/>
+
         <div class="user-view__stat-card">
             <p class="user-view__stat-label">Response time</p>
             <p class="user-view__stat-value">2.4h</p>
