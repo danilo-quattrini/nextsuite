@@ -269,6 +269,29 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             ->first();
     }
 
+    /**
+     * Get all the attributest owned
+     * @return Collection of attributes
+    **/
+    public function getAssignableAttributes(): Collection
+    {
+        if (!$this->relationLoaded('attributes.category')) {
+            $this->load(['attributes.category']);
+        }
+
+        $attributes = $this->getRelation('attributes');
+
+        if (!$attributes || $attributes->isEmpty()) {
+            return collect();
+        }
+
+        return $attributes->map(fn($attribute) => [
+            'name' => $attribute->name,
+            'value' => $attribute->pivot->value,
+            'type' => $attribute->category?->type?->value
+        ]);
+    }
+
     // ====== HEAVY OPERATION =====
     /**
      * Find the customer with reviews and save them inside the cache
