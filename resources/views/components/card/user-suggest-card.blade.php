@@ -10,6 +10,7 @@ new #[Lazy]
 class extends Component {
     public ?SkillAssignable $user = null;
     public ?string $field = '';
+    public bool $isGenerating = false;
 
     /**
      * Load the UserServiceFactory to return the instance of UserService, with make method,
@@ -30,6 +31,7 @@ class extends Component {
 
         if($field === ''){
             $userService->generateUserFieldSuggest();
+            $this->isGenerating = $this->field === '';
         }else{
             $this->field = $field;
         }
@@ -40,16 +42,16 @@ class extends Component {
      * livewire to check if the field has been generated from the
      * AI or not.
      * */
-    public function checkField(UserServiceFactory $factory): void
+    public function refreshFieldSuggestion(UserServiceFactory $factory): void
     {
-        if ($this->field !== null) return; // already loaded
+        if ($this->field !== null) {
+            $this->isGenerating = false;
+            return;
+        }
 
         $userService = $factory->make($this->user);
-        $field = $userService->getField();
-
-        if ($field !== '') {
-            $this->field = $field; // triggers re-render automatically
-        }
+        $this->field = $userService->getField();
+        $this->isGenerating = $this->field === '';
     }
 
     /**
