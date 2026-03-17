@@ -17,12 +17,7 @@
 
         {{-- USER FIELD SUGGESTION --}}
        <livewire:card.user-suggest-card :user="$customer"/>
-
-        <div class="user-view__stat-card">
-            <p class="user-view__stat-label">Response time</p>
-            <p class="user-view__stat-value">2.4h</p>
-            <p class="user-view__stat-hint">Top 20%</p>
-        </div>
+        
     </section>
 
 
