@@ -26,10 +26,20 @@ class CreateCompany extends Component
     public ?string $city = null;
     public ?string $postal_code = null;
     public string $phone =  '';
-    public $business_photo;
+    public $company_photo;
     public $fields;
     public array $selectedFields = [];
     public ?int $owner_id = null;
+
+    public function mount(): void
+    {
+        $this->fields = Field::all();
+    }
+
+    public function render()
+    {
+        return view('livewire.create-company');
+    }
 
     public function toggleFieldDropdown(): void
     {
@@ -47,57 +57,39 @@ class CreateCompany extends Component
         $this->showFieldDropdown = false;
     }
 
-    public function mount(): void
-    {
-        $this->fields = Field::all(); // assign values
-    }
-
-    public function render()
-    {
-        return view('livewire.create-company');
-    }
-
     protected function rules(): array
     {
         return [
-            'business_photo' => 'nullable|image|max:2048',
+            'company_photo' => 'nullable|image|max:2048',
             'name' => 'required|min:5|max:255|unique:companies',
             'website' => 'nullable|url|max:255',
-            'email' => 'nullable|email|max:255',
-            'vat_number' => 'nullable|string|max:255',
+            'email' => 'email|max:255',
+            'vat_number' => 'string|max:255',
             'address_line' => 'nullable|string|max:255',
             'city' => 'nullable|string|max:255',
-            'postal_code' => 'nullable|string|max:255',
             'phone' => 'required|string',
-            'fields' => 'required',
             'selectedFields' => 'required|min:1',
             'owner_id' => 'nullable|exists:users,id',
         ];
     }
+
     protected function stepRules(): array
     {
-        return $this->rulesForStep();
-    }
-
-    private function rulesForStep(): array
-    {
-
         return  [
             1 => [
-                'business_photo' => 'nullable|image|max:2048',
+                'company_photo' => 'nullable|image|max:2048',
                 'name' => 'required|min:5|max:255|unique:companies',
                 'website' => 'nullable|url|max:255',
-                'email' => 'nullable|email|max:255',
-                'vat_number' => 'nullable|string|max:255',
+                'email' => 'email|max:255',
+                'vat_number' => 'string|max:255',
             ],
 
             2 => [
                 'address_line' => 'nullable|string|max:255',
                 'city' => 'nullable|string|max:255',
-                'postal_code' => 'nullable|string|max:255',
                 'phone' => 'required|string',
                 'selectedFields' => 'required|min:1',
-                'owner_id' => 'nullable|exists:users,id',
+                'owner_id' => 'exists:users,id',
             ]
         ];
     }
@@ -106,9 +98,10 @@ class CreateCompany extends Component
     {
         $validated = $this->validate();
 
-        if($this->business_photo) {
-            $imageName = strtolower(str_replace(' ', '_', $this->name)).'.'.$this->business_photo->extension();
-            $this->business_photo->storeAs('business-profile-photos', $imageName, 'public');
+
+        if($this->company_photo) {
+            $imageName = strtolower(str_replace(' ', '_', $this->name)).'.'.$this->company_photo->extension();
+            $this->company_photo->storeAs('business-profile-photos', $imageName, 'public');
         }
 
         $userId = $validated['owner_id'] ?? auth()->id();
@@ -116,24 +109,24 @@ class CreateCompany extends Component
         $company = Company::create([
             'name' => $validated['name'],
             'website' => $validated['website'] ?? null,
-            'email' => $validated['email'] ?? null,
-            'vat_number' => $validated['vat_number'] ?? null,
+            'email' => $validated['email'],
+            'vat_number' => $validated['vat_number'],
             'address_line' => $validated['address_line1'] ?? null,
             'city' => $validated['city'] ?? null,
-            'postal_code' => $validated['postal_code'] ?? null,
             'phone' => $validated['phone'],
-            'business_photo' => $imageName ?? null,
+            'company_photo' => $imageName ?? null,
             'owner_id' => $userId,
         ]);
+
 
         $company->fields()->sync(
             array_keys($this->selectedFields)
         );
 
-        if(auth()->check()) {
-            $this->redirect(route('company.show'));
-        }else{
-            $this->redirect(route('login'));
-        }
+        $this->redirect(
+            auth()->check()
+                ? route('company.show')
+                : route('login')
+        );
     }
 }
