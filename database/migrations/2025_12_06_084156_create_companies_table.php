@@ -17,15 +17,16 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('website')->nullable();
-            $table->string('email')->nullable();
-            $table->string('vat_number')->nullable();
+            $table->string('email');
+            $table->string('vat_number');
             $table->string('address_line')->nullable();
             $table->string('city')->nullable();
             $table->string('postal_code')->nullable();
-            $table->string('business_photo')->nullable();
+            $table->string('company_photo')->nullable();
             $table->string('phone');
             $table->foreignIdFor(User::class, 'owner_id')
                 ->constrained('users');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
