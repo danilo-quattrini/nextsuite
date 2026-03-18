@@ -5,7 +5,7 @@ use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Modelable;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 new #[Lazy]
 class extends Component {
