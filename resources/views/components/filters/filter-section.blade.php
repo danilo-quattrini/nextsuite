@@ -7,7 +7,7 @@ use Livewire\Attributes\Lazy;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Transition;
 use Livewire\Component;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 new #[Lazy]
 class extends Component {

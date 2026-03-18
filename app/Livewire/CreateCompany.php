@@ -6,6 +6,7 @@ use App\Models\Company;
 use App\Models\Field;
 use App\Traits\ArrayOperation;
 use App\Traits\WithStep;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -14,8 +15,6 @@ class CreateCompany extends Component
     use WithFileUploads;
     use WithStep;
     use ArrayOperation;
-
-    public bool $showFieldDropdown = false;
 
     public string $name;
     public ?string $trade_name = null;
@@ -41,11 +40,6 @@ class CreateCompany extends Component
         return view('livewire.create-company');
     }
 
-    public function toggleFieldDropdown(): void
-    {
-        $this->showFieldDropdown = ! $this->showFieldDropdown;
-    }
-
     public function selectField(int $fieldId): void
     {
         $this->toggleItem(
@@ -53,8 +47,16 @@ class CreateCompany extends Component
             key: $fieldId,
             sourceProperty: 'fields'
         );
+    }
 
-        $this->showFieldDropdown = false;
+    #[On('tag-dismissed')]
+    public function removeSelectedField($value): void
+    {
+        $id = $this->fields->whereIn('name', $value)->first()->id;
+        $this->removeArrayItem(
+            property: 'selectedFields',
+            key: $id,
+       );
     }
 
     protected function rules(): array
@@ -66,8 +68,8 @@ class CreateCompany extends Component
             'email' => 'email|max:255',
             'vat_number' => 'string|max:255',
             'address_line' => 'nullable|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'phone' => 'required|string',
+            'city' => 'string|max:255',
+            'phone' => 'required|string|max:50',
             'selectedFields' => 'required|min:1',
             'owner_id' => 'nullable|exists:users,id',
         ];
@@ -86,7 +88,7 @@ class CreateCompany extends Component
 
             2 => [
                 'address_line' => 'nullable|string|max:255',
-                'city' => 'nullable|string|max:255',
+                'city' => 'string|max:255',
                 'phone' => 'required|string',
                 'selectedFields' => 'required|min:1',
                 'owner_id' => 'exists:users,id',
