@@ -83,7 +83,7 @@ class extends Component {
             <div class="space-y-3">
                 @foreach($summaryLines as $line)
                     @if(trim($line) !== '')
-                        <p class="indent-0">{{ $line }}</p>
+                        <p class="indent-0 text-lg text-wrap">{{ $line }}</p>
                     @endif
                 @endforeach
             </div>
