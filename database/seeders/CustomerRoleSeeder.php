@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Customer;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
 
 class CustomerRoleSeeder extends Seeder
 {

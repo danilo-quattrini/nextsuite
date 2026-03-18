@@ -4,12 +4,11 @@ namespace Database\Seeders;
 
 use App\Models\Field;
 use Illuminate\Database\Seeder;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 
 /**
  * The logic is: owner, admin, employee, and viewer get all fields since they're generic roles.
- * manager, accountant,
- * and support are scoped to the fields that are relevant to their function.
+ * manager, accountant,and support are scoped to the fields that are relevant to their function.
  **/
 
 class RoleFieldSeeder extends Seeder

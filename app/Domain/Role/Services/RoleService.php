@@ -4,7 +4,7 @@ namespace App\Domain\Role\Services;
 
 use Illuminate\Cache\Repository as Cache;
 use Illuminate\Contracts\Auth\Authenticatable;
-use Spatie\Permission\Models\Role;
+use App\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class RoleService
