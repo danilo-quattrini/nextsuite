@@ -58,7 +58,7 @@ new class extends Component {
                 </h1>
                 @island
                     @if(!empty($softSkillsAverage))
-                        <x-average-tag size="large" :value="$softSkillsAverage"/>
+                        <x-average-tag :value="$softSkillsAverage"/>
                     @endif
                 @endisland
             </div>

@@ -93,7 +93,7 @@ new class extends Component {
 >
     {{--  COUNTER  --}}
     @if($softSkills->count() > 0)
-        <x-tag variant="white" size="lg">
+        <x-tag variant="white">
             {{ $softSkills->count() }} {{ Str::plural('skill', $softSkills->count()) }}
         </x-tag>
     @endif

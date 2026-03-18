@@ -51,11 +51,11 @@
                                     </div>
                                 </div>
                                 @if($hasDocuments)
-                                    <x-tag variant="green" size="auto">
+                                    <x-tag variant="green">
                                         Has documents
                                     </x-tag>
                                 @else
-                                    <x-tag variant="yellow" size="auto">
+                                    <x-tag variant="yellow">
                                         No documents yet
                                     </x-tag>
                                 @endif

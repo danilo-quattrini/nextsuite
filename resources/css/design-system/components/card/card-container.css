@@ -11,7 +11,7 @@
 }
 
 .card-subtitle{
-    @apply  font-light text-sm text-primary-grey text-ellipsis;
+    @apply font-light text-base text-primary-grey text-ellipsis;
 }
 
 .card-title--sm{

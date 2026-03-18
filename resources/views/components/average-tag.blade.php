@@ -1,6 +1,6 @@
 @props([
     'value' => null,
-    'size' => 'default',
+    'size' => 'md',
     'empty' => '—',
     'variant' => null,
 ])

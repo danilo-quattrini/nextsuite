@@ -1,7 +1,7 @@
 <x-card.card-container title="Hard Skills">
     {{--  COUNTER  --}}
     @if($this->hardSkills->count() > 0)
-        <x-tag variant="white" size="md">
+        <x-tag variant="white">
             {{ $this->hardSkills->count() }} {{ Str::plural('skill', $this->hardSkills->count()) }}
         </x-tag>
     @endif

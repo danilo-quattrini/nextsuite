@@ -75,7 +75,7 @@ class extends Component {
                     <div class="user-view__field-list">
                         <div class="user-view__field-summary">
                             <h3>{{ $skillName }}</h3>
-                            <x-average-tag size="large" :value="$group['average']"/>
+                            <x-average-tag :value="$group['average']"/>
                         </div>
                         @foreach(collect($group['skills'] ?? []) as $skill)
                             <div class="user-view__field-item">
