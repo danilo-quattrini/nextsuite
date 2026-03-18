@@ -18,10 +18,10 @@
         </div>
 
         <div class="page-content__body">
-            <x-card.card-container>
+            <div class="page-content__card">
                 {{--  Form  --}}
                 @livewire('create-company')
-            </x-card.card-container>
+            </div>
         </div>
     </div>
 </x-app-layout>
