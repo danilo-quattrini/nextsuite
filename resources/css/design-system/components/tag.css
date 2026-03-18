@@ -2,7 +2,7 @@
    TAG BASE CLASS
    ======================================== */
 .tag {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
