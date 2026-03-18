@@ -1,6 +1,6 @@
 @props([
     'variant' => 'primary',
-    'size' => 'default',
+    'size' => 'md',
     'outlined' => false,
     'rounded' => 'default',
     'clickable' => false,
@@ -28,7 +28,7 @@
     $sizes = [
         'xs' => 'tag-size-xs',
         'sm' => 'tag-size-sm',
-        'default' => 'tag-size-default',
+        'md' => 'tag-size-md',
         'lg' => 'tag-size-lg',
         'xl' => 'tag-size-xl',
     ];
@@ -98,10 +98,14 @@
     <button
             type="button"
             class="tag__dismiss"
-            wire:click="$parent.$dispatch('tag-dismissed', { value: '{{ $slot }}' })"
+            wire:click="$dispatch('tag-dismissed', { value: '{{ $slot }}' })"
             aria-label="Dismiss"
     >
-        <x-heroicon name="x-mark" variant="solid" class="tag__dismiss-icon" />
+        <x-heroicon
+                name="x-mark"
+                variant="solid"
+                size="{{ $size }}"
+        />
     </button>
 @endif
 </{{ $component }}>

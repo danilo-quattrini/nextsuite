@@ -2,7 +2,7 @@
    TAG BASE CLASS
    ======================================== */
 .tag {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--spacing-xs);
@@ -21,8 +21,6 @@
     color: var(--tag-color, var(--color-white));
 
     transition: all var(--transition-base);
-    white-space: nowrap;
-    text-decoration: none;
     cursor: default;
 }
 
@@ -56,9 +54,9 @@
 
 .tag__dismiss {
     flex-shrink: 0;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: right;
     margin-left: var(--spacing-xxs);
     padding: 0;
     background: transparent;
@@ -67,17 +65,11 @@
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
     color: currentColor;
-    opacity: 0.7;
 }
 
 .tag__dismiss:hover {
     opacity: 1;
     background-color: rgba(0, 0, 0, 0.1);
-}
-
-.tag__dismiss-icon {
-    width: 0.875em;
-    height: 0.875em;
 }
 
 /* ========================================
@@ -99,7 +91,7 @@
     --tag-icon-size: 14px;
 }
 
-.tag-size-default {
+.tag-size-md {
     --tag-height: 32px;
     --tag-padding-y: var(--spacing-xs);
     --tag-padding-x: var(--spacing-md);
