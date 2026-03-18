@@ -1,6 +1,6 @@
 <form wire:submit.prevent="submit" enctype="multipart/form-data">
     @csrf
-    <div class="max-w-5xl mx-auto space-y-8">
+    <div class="max-w-full mx-auto p-xl space-y-2xl">
         <x-form.step-progress-bar
                 :current="$step"
                 :steps="[
@@ -12,53 +12,79 @@
         <x-form.container>
             {{-- ================= STEP 1 ================= --}}
             @if ($step === 1)
-                <div wire:key="company-step-1" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
+                <div wire:key="company-step-1" class="space-y-lg">
+
+                    <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-lg">
 
                         <!-- AVATAR UPLOAD WRAPPER -->
-                        <div class="flex flex-col items-start gap-4">
-                            <label for="business_photo" class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center">
+                        <div class="flex flex-col items-start justify-center">
+                            <label for="company_photo" class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center">
                                 <!-- Preview -->
-                                @if ($business_photo)
+                                @if ($company_photo)
                                     <img id="businessPhotoPreview"
-                                         src="{{ $business_photo->temporaryUrl() }}"
-                                         class="absolute inset-0 w-full h-full object-cover" alt="Business Photo Preview" />
+                                         src="{{ $company_photo->temporaryUrl() }}"
+                                         class="absolute inset-0 w-full h-full object-cover"
+                                         alt="Company Photo Preview"
+                                    />
                                 @else
                                     <!-- Default icon -->
-                                    <x-heroicon name="building-office-2" variant="outline" size="xl" id="placeholderIcon" class="text-primary" />
+                                    <x-heroicon
+                                            name="building-office-2"
+                                            id="placeholderIcon"
+                                            variant="outline"
+                                            size="3xl"
+                                            class="text-primary"
+                                    />
                                 @endif
-                                <input id="business_photo" name="business_photo" wire:model="business_photo" type="file" class="hidden" />
+                                <input id="company_photo" name="company_photo" wire:model="company_photo" type="file" class="hidden" />
                             </label>
-                            <x-input-error for="business_photo"/>
+
+                            {{--  ERROR MESSAGE --}}
+                            <x-input-error for="company_photo"/>
                         </div>
 
-                        <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-6">
-                                <!-- COMPANY NAME -->
-                                <x-form.input-container>
-                                    <x-form.label-container label="{{ __('Name') }}" :required="true"/>
-                                    <x-input id="name" name="name" wire:model="name" autofocus autocomplete="name" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')" />
-                                    <x-input-error for="name"/>
-                                </x-form.input-container>
+                        {{--  INPUT FIELDS  --}}
+                        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-md">
 
-                                <!-- COMPANY EMAIL -->
-                                <x-form.input-container>
-                                    <x-form.label-container label="{{ __('Email') }}" :required="true"/>
-                                    <x-input id="email" name="email" wire:model="email" autocomplete="email" type="text" right-icon="envelope" placeholder="revelopsrl.com@gmail.com" :error="$errors->has('email')" />
-                                    <x-input-error for="email"/>
-                                </x-form.input-container>
+                            <!-- COMPANY NAME -->
+                            <x-form.input-container size="auto">
+                                <x-form.label-container label="{{ __('Company Name') }}" :required="true"/>
+                                <x-input id="name" name="name" wire:model="name" autofocus autocomplete="name" type="text" right-icon="building-office-2" placeholder="Revelop S.R.L" :error="$errors->has('name')" />
+                                <x-input-error for="name"/>
+                            </x-form.input-container>
 
-                                <!-- COMPANY VAT -->
-                                <x-form.input-container class="col-span-2 w-full">
-                                    <x-form.label-container label="{{ __('VAT Number') }}" :required="true"/>
-                                    <x-input id="vat_number" name="vat_number" wire:model="vat_number" type="text" right-icon="identification" placeholder="ABC1234567890" :error="$errors->has('vat_number')" />
-                                    <x-input-error for="vat_number"/>
-                                </x-form.input-container>
+                            <!-- COMPANY EMAIL -->
+                            <x-form.input-container size="auto">
+                                <x-form.label-container label="{{ __('Email') }}" :required="true"/>
+                                <x-input id="email" name="email" wire:model="email" autocomplete="email" type="text" right-icon="envelope" placeholder="revelopsrl.com@gmail.com" :error="$errors->has('email')" />
+                                <x-input-error for="email"/>
+                            </x-form.input-container>
+
+                            <!-- COMPANY WEBSITE -->
+                            <x-form.input-container  size="auto">
+                                <x-form.label-container label="{{ __('Website') }}"/>
+                                <x-input id="website" name="website" wire:model="website" type="text" right-icon="globe-alt" placeholder="https://example.com" :error="$errors->has('website')" />
+                                <x-input-error for="website"/>
+                            </x-form.input-container>
+
+                            <!-- COMPANY VAT -->
+                            <x-form.input-container size="auto">
+                                <x-form.label-container label="{{ __('VAT Number') }}" :required="true"/>
+                                <x-input id="vat_number" name="vat_number" wire:model="vat_number" type="text" right-icon="identification" placeholder="ABC1234567890" :error="$errors->has('vat_number')" />
+                                <x-input-error for="vat_number"/>
+                            </x-form.input-container>
+
+                            <!-- NEXT STEP BUTTON -->
+                            <div class="col-start-1 lg:col-start-2">
+                                <x-button
+                                        size="full"
+                                        wire:click="nextStep"
+                                >
+                                    Next
+                                </x-button>
+                            </div>
+
                         </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <x-button size="large" wire:click="nextStep">
-                            Next
-                        </x-button>
                     </div>
                 </div>
                 {{-- ================= STEP 2 ================= --}}
