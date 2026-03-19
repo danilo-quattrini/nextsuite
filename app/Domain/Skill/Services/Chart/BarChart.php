@@ -9,6 +9,21 @@ use Illuminate\Support\Str;
 class BarChart extends Charts
 {
 
+    public function mapChartColors(array $data): array
+    {
+        return array_map(function ($value) {
+            if ($value === 0) {
+                return '#d1d5db'; // gray — No level
+            } elseif ($value < 50) {
+                return 'oklch(70% 0.22 20)'; // red — Bad
+            } elseif ($value < 100) {
+                return 'oklch(90% 0.14 75)'; // yellow — Good
+            } else {
+                return 'oklch(85% 0.12 155)'; // green — Expert
+            }
+        }, $data);
+    }
+
     public function buildChart(string $name, array $labels, array $data): Builder
     {
         $chartId = 'chart' . Str::studly(Str::slug($name, '_'));
@@ -77,6 +92,8 @@ class BarChart extends Charts
                     ],
                 ],
                 'x' => [
+                    'min' => 0,
+                    'max' => 100,
                     'ticks' => [
                         'display' => false,
                     ],

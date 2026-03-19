@@ -1,13 +1,16 @@
-<div class="container mx-auto px-6 py-8 space-y-8">
+<div class="user-view">
 
     {{-- HEADER --}}
-    <div class="flex items-center justify-between">
+    <div class="user-view__header">
+        {{--  USER INFO SECTION  --}}
         <livewire:user.info-header
                 :user="$customer"
                 :has-review="true"
                 :has-soft-skill="true"
                 :show-info="false"
         />
+
+        {{--  DELETE OPERATION ON CUSTOMER TRIGGER BUTTON & DROPDWON   --}}
         <x-form.dropdown-button align="right">
             <x-slot:trigger>
                 <x-button
@@ -63,11 +66,16 @@
     </div>
 
     {{-- HARD SKILLS --}}
-    <livewire:customer.customer-hard-skills :customer="$customer" />
+    <livewire:skill.hard-skills :user="$customer"/>
 
     {{-- SOFT SKILL  --}}
     <livewire:customer.customer-soft-skills :customer="$customer" />
 
+    <livewire:skill-modal :user="$customer"/>
+
+    {{-- DELETE MODAL --}}
     <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
-    <x-popup.review-popup :show-review-modal="$showReviewModal" :rating="$rating" />
+
+    {{-- REVIEW MODAL --}}
+    <x-popup.review-popup :show-modal="$showModal" :rating="$rating" />
 </div>

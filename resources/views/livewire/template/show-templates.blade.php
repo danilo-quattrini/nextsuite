@@ -109,7 +109,7 @@
                     <x-heroicon
                             name="document-plus"
                             class="mx-auto text-primary-grey group-hover:text-black transition duration-300 ease-in-out"
-                            size="xxl"
+                            size="2xl"
                     />
 
                     <h4 class="text-primary-grey group-hover:text-black transition duration-300 ease-in-out">

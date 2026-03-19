@@ -12,7 +12,7 @@ return [
     | and organization on your OpenAI dashboard, at https://openai.com.
     */
 
-    'api_key' => env('OPENAI_API_KEY'),
+    'api_key' => env('OPENAI_API_KEY', 'ollama'),
     'organization' => env('OPENAI_ORGANIZATION'),
 
     /*
@@ -34,7 +34,17 @@ return [
     | Here you may specify your OpenAI API base URL used to make requests. This
     | is needed if using a custom API endpoint. Defaults to: api.openai.com/v1
     */
-    'base_uri' => env('OPENAI_BASE_URL'),
+    'base_uri' => env('OPENAI_BASE_URL', 'http://10.0.21.48:11434/v1'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | OpenAI Model
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify your OpenAI model. This is used when making
+    | requests. Defaults to: gpt-3.5-turbo
+    */
+    'model' => env('OPENAI_MODEL', 'gemma2:2b'),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,5 +55,5 @@ return [
     | for a response. By default, the client will time out after 30 seconds.
     */
 
-    'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 30),
+    'request_timeout' => env('OPENAI_REQUEST_TIMEOUT', 120),
 ];

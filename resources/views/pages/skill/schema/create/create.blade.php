@@ -7,7 +7,31 @@
 >
     <div class="page-content__card">
         <div class="user-view">
-            <livewire:user.info-header :user="$customer"/>
+            <div class="flex justify-between items-center">
+                <livewire:user.info-header
+                        :user="$customer"
+                        :has-review="true"
+                        :has-soft-skill="false"
+                />
+                <x-card.card-container
+                        title="Legenda"
+                        card-size="md"
+                        size="xl"
+                        icon="information-circle"
+                >
+                    <ul class="max-w-80">
+                        <li><span class="font-medium text-secondary-error">Bad</span>: Does not meet the basic
+                            requirements
+                        </li>
+                        <li><span class="font-medium text-secondary-warning ">Good</span>: Meets requirements but has
+                            room for improvement
+                        </li>
+                        <li><span class="font-medium text-secondary-success">Expert</span>: Exceeds expectations with
+                            exceptional skill
+                        </li>
+                    </ul>
+                </x-card.card-container>
+            </div>
             <form wire:submit.prevent="create" enctype="multipart/form-data">
                 @csrf
                 <x-form.container>

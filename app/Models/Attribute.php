@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\AttributeType;
-use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -59,6 +58,15 @@ class Attribute extends Model
         ];
     }
 
+    /**
+     * Find and get the attribute by the $key
+     * @param  int|null  $key
+     * @return Attribute
+     */
+    public static function getAttributeById(?int $key = null): self
+    {
+        return static::with('category')->findOrFail($key);
+    }
     public function isSelectable(): bool
     {
         return $this->type === AttributeType::SELECT;

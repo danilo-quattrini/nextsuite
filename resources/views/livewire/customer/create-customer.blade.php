@@ -35,10 +35,10 @@
                         @if ($step === 1)
                             <div wire:key="customer-step-1" class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
-                                    <div class="flex flex-col items-start gap-4">
+                                    <div class="flex flex-col items-start justify-center">
                                         <label
                                                 for="customer_photo"
-                                                class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
+                                                class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
                                         >
                                             @if ($customer_photo)
                                                 <img
@@ -47,7 +47,7 @@
                                                         alt="Customer Photo Preview"
                                                 />
                                             @else
-                                                <x-heroicon name="user-plus" variant="outline" size="xl" class="text-primary"/>
+                                                <x-heroicon name="user-plus" variant="outline" size="3xl" class="text-primary"/>
                                             @endif
 
                                             <input
@@ -107,6 +107,29 @@
 
                                             <x-input-error for="form.dob"/>
                                         </x-form.input-container>
+
+                                        {{-- ROLE --}}
+
+                                        <x-form.input-container>
+                                            <x-form.label-container label="Role" :required="true"/>
+
+                                            <x-form.select-wrapper :error="$errors->has('form.role')">
+                                                <x-form.select-element name="role" id="role" wire:model.defer="form.role">
+                                                    <x-slot:options>
+                                                        <option value="" disabled selected hidden>
+                                                            Select role
+                                                        </option>
+                                                        @foreach ($roles as $role)
+                                                            <option value="{{ $role }}">
+                                                                {{ ucfirst($role) }}
+                                                            </option>
+                                                        @endforeach
+                                                    </x-slot:options>
+                                                </x-form.select-element>
+                                            </x-form.select-wrapper>
+
+                                            <x-input-error for="form.role"/>
+                                        </x-form.input-container>
                                     </div>
                                 </div>
 
@@ -114,6 +137,13 @@
                                 <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
                                     <x-form.label-container label="Attributes"/>
 
+                                    <x-button
+                                            size="auto"
+                                            wire:click="$dispatch('open-add-attribute')"
+                                    >
+                                        <x-heroicon size="lg" name="plus"/>
+                                    </x-button>
+                                    
                                     <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
 
                                     <x-form.input-container>
@@ -206,7 +236,14 @@
                                     <x-skill.skill-card-view :skills="$form->skills" :hide-soft-skills="true" />
 
                                     <x-form.input-container>
-                                        @livewire('skill-modal', ['hideSoftSkills' => true])
+                                        <x-button
+                                                size="auto"
+                                                wire:click="$dispatch('open-hard-skill-modal')"
+                                        >
+                                            <x-heroicon name="plus"/>
+                                            New Skill
+                                        </x-button>
+                                        <livewire:skill-modal />
                                     </x-form.input-container>
                                 </div>
 

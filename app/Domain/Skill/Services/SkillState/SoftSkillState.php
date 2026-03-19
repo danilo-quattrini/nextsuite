@@ -2,8 +2,10 @@
 
 namespace App\Domain\Skill\Services\SkillState;
 
+use App\Domain\Skill\Contracts\SkillAssignable;
 use App\Models\Skill;
 use App\Models\User;
+use Illuminate\Support\Collection;
 
 class SoftSkillState extends SkillState
 {
@@ -39,7 +41,7 @@ class SoftSkillState extends SkillState
             } else {
                 $skills = Skill::with('category')
                     ->whereHas('category', function ($query) {
-                        $query->where('type', 'soft_skill');
+                        $query->where('type',  'soft_skill');
                     })
                     ->get();
             }
@@ -47,6 +49,35 @@ class SoftSkillState extends SkillState
 
         $this->skillService->setSkills($skills);
 
+        return $this;
+    }
+
+    public function loadSkillFromAssignable(?SkillAssignable $assignable = null): SkillState
+    {
+        if($assignable === null && !$assignable?->skills()->exists()){
+            return $this;
+        }
+
+        $skills = $assignable->skills()
+            ->with('category')
+            ->get()
+            ->filter(fn($skill) => $skill->isSoftSkill())
+            ->values();
+
+        $this->skillService->setSkills($skills);
+        return $this;
+    }
+
+    public function loadAllSkills(): self
+    {
+
+        $skills = Skill::with('category')
+            ->whereHas('category', function ($query) {
+                $query->where('type', 'soft_skill');
+            })
+            ->get();
+
+        $this->skillService->setSkills($skills);
         return $this;
     }
 }

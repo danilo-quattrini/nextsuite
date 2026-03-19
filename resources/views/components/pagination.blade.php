@@ -35,7 +35,7 @@
                             @else
                                 <a
                                     href="{{ $url }}"
-                                    class="w-9 h-9 flex items-center justify-center rounded-md text-black hover:bg-outline-grey transition font-semibold"
+                                    class="w-9 h-9 flex items-center justify-center rounded-md text-black hover:border hover:border-primary hover:text-primary transition font-semibold"
                                 >
                                     {{ $page }}
                                 </a>

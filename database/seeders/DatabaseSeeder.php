@@ -2,9 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Attribute;
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +12,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            RoleSeeder::class,
+            RoleFieldSeeder::class,
+            PermissionSeeder::class,
+            RolePermissionSeeder::class,
             UserSeeder::class,
             CategorySeeder::class,
             FieldSeeder::class,
@@ -24,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             SkillCustomersSeeder::class,
             AttributeCustomerSeeder::class,
-            TemplateSeeder::class
+            TemplateSeeder::class,
+            CustomerRoleSeeder::class
         ]);
     }
 }

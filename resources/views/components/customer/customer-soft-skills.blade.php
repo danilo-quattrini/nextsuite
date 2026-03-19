@@ -93,28 +93,40 @@ new class extends Component {
 >
     {{--  COUNTER  --}}
     @if($softSkills->count() > 0)
-        <x-tag variant="white" size="lg">
+        <x-tag variant="white">
             {{ $softSkills->count() }} {{ Str::plural('skill', $softSkills->count()) }}
         </x-tag>
     @endif
 
     <x-slot:action>
         @if($skillSchemaExists)
-            <livewire:skill-modal :hide-hard-skills="true" :user="$customer"/>
+            <x-button
+                    size="auto"
+                    wire:click="$dispatch('open-soft-skill-modal')"
+            >
+                <x-heroicon size="lg" name="plus"/>
+            </x-button>
         @endif
     </x-slot:action>
+
+    {{--    <livewire:skill-modal :user="$customer"/>--}}
 
     @if($softSkills->isEmpty())
         <x-empty-state
                 icon="star"
                 message="No soft skill added yet"
                 description="Add a skill schema to this customer"
-        />
-        <div class="flex justify-center items-center">
-            <x-button href="{{ route('skill-schema.create', $customer) }}" size="large">
-                Create Skill
-            </x-button>
-        </div>
+        >
+         <x-slot:action>
+             <x-button
+                     href="{{ route('skill-schema.create', $customer) }}"
+                     size="auto"
+             >
+                 <x-heroicon size="lg" name="plus"/>
+                 Create Schema
+             </x-button>
+         </x-slot:action>
+        </x-empty-state>
     @else
         <livewire:card.chart-card :data="$softSkills"/>
     @endif

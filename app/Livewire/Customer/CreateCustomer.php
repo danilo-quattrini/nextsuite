@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customer;
 
+use App\Domain\Role\Services\RoleService;
 use App\Domain\Skill\Services\SkillAssignmentService;
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Attribute;
@@ -31,20 +32,26 @@ class CreateCustomer extends Component
     public $customer_photo;
 
     public array $nationalities = [];
+    public array $roles = [];
 
-    public function mount(NationalityService $nationalityService): void
+    public function mount(
+        NationalityService $nationalityService,
+        RoleService $roleService
+    ): void
     {
       $this->nationalities = $nationalityService->all();
+      $this->roles = $roleService->getAllRoleNames();
     }
 
     public function render(): View
     {
         return view('livewire.customer.create-customer', [
                 'nationalities' => $this->nationalities,
+                'roles' => $this->roles
         ]);
     }
 
-    #[On('attribute-selected')]
+    #[On('attribute-added')]
     public function attributeSelected(Attribute $attribute, mixed $value): void
     {
         $this->form->addAttribute($attribute, $value);
@@ -67,7 +74,7 @@ class CreateCustomer extends Component
         if($this->customer_photo != null) {
             $imageName = strtolower(str_replace(' ', '_',
                     $this->form->full_name)).'.'.$this->customer_photo->extension();
-            $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
+            $this->customer_photo->storeAs('customer-profile-photos', $imageName, 'public');
         }
 
         $customer = Customer::create([
@@ -89,6 +96,8 @@ class CreateCustomer extends Component
         }
 
         $this->saveAttribute($customer);
+
+        $customer->assignRole(['name' => $this->form->role]);
 
         Activity::all()->last();
 

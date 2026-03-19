@@ -39,7 +39,11 @@ const softSkillBarLabels = {
             ctx.textBaseline = 'top';
             ctx.font = `600 ${valueFontSize}px ${Chart.defaults.font.family}`;
             ctx.fillStyle = valueColor;
-            ctx.fillText(String(value), x, bottomY);
+            const valueLabel = value === 0 ? 'No level'
+                : value < 50  ? 'Bad'
+                    : value < 100 ? 'Good'
+                        : 'Expert';
+            ctx.fillText(valueLabel, x, bottomY);
         });
         ctx.restore();
     },

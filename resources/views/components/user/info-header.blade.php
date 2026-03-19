@@ -7,8 +7,11 @@ use Livewire\Component;
 
 new class extends Component {
     public ?Model $user = null;
+
     public bool $hasReview = false;
     public bool $hasSoftSkill = false;
+    public bool $hasRole = false;
+
     public bool $showInfo = true;
     public ?string $modelType = '';
     public ?string $modelName = '';
@@ -25,6 +28,7 @@ new class extends Component {
     {
         $this->modelType = get_class($this->user);
         $this->modelName = strtolower(class_basename($this->modelType));
+        $this->hasRole = method_exists(get_class($this->user), 'roles');
     }
 
     #[Computed]
@@ -42,7 +46,7 @@ new class extends Component {
         <x-profile-image
                 :src="$user?->profile_photo_url"
                 :name="$user?->full_name ?? 'Random User'"
-                directory="{{ $this->modelName }}s-profile-photos"
+                directory="{{ $this->modelName }}-profile-photos"
                 size="custom"
                 class="user-view__avatar"
         />
@@ -54,21 +58,37 @@ new class extends Component {
                 </h1>
                 @island
                     @if(!empty($softSkillsAverage))
-                        <x-average-tag size="large" :value="$softSkillsAverage"/>
+                        <x-average-tag :value="$softSkillsAverage"/>
                     @endif
                 @endisland
             </div>
+            @if($hasRole)
+                <x-tag
+                        variant="white"
+                >
+                    {{ ucfirst($user?->getRoleNames()->first()) }}
+                </x-tag>
+            @endif
             @if($hasReview)
+                @php
+                    $reviewCounter = $user?->reviews_count;
+                    $reviewWord = $user?->reviews_count === 1 ? 'review' : 'reviews';
+                    $review = trim($reviewCounter . ' ' . $reviewWord)
+                @endphp
                 <div class="user-view__rating">
                     <x-heroicon variant="solid" name="star" class="text-secondary-warning"/>
-                    <span>{{ number_format($user->reviews_avg_rating ?? 0, 1) }}</span>
-                    <span>({{ $user?->reviews_count }} reviews)</span>
+                    <span>{{ number_format($user->reviews_avg_rating ?? 0, 1)  }} / 5</span>
+                    <span>({{ $review }})</span>
                 </div>
             @endif
 
             @if($showInfo)
-                <p class="user-view__subtitle">{{ $user->email ?? 'example@gmail.com' }}</p>
-                <p class="user-view__subtitle">{{ $user->phone ?? '+12 1234566789'  }}</p>
+                <x-user.user-view-subtitle icon="envelope">
+                    {{ $user->email ?? 'example@gmail.com' }}
+                </x-user.user-view-subtitle>
+                <x-user.user-view-subtitle icon="phone">
+                    {{ $user->phone ?? '+(123) 1234567890' }}
+                </x-user.user-view-subtitle>
             @endif
         </div>
     </div>

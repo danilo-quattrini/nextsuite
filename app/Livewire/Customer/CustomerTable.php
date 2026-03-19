@@ -5,6 +5,9 @@ namespace App\Livewire\Customer;
 use App\Models\Customer;
 use App\Traits\DeleteModal;
 use App\Traits\WithReview;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,10 +19,152 @@ class CustomerTable extends Component
 
     protected string $paginationTheme = 'tailwind';
 
+    public array $selectedSkillIds = [];
+    public ?int $selectedRatingStars = 0;
+    public ?string $roleToSearch = '';
+    public bool $showFilterSection = false;
+
+    #[Computed]
+    public function tableColumns(): array
+    {
+        return [
+            [
+                'key' => 'full_name',
+                'label' => 'User',
+                'icon' => 'user',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+            ],
+            [
+                'key' => 'email',
+                'label' => 'Email',
+                'icon' => 'envelope',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+
+            ],
+            [
+                'key' => 'phone',
+                'label' => 'Phone',
+                'icon' => 'phone',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'dob',
+                'label' => 'DOB',
+                'icon' => 'calendar-days',
+                'type' => 'date',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'gender',
+                'label' => 'Gender',
+                'icon' => 'user-circle',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'nationality',
+                'label' => 'Nationality',
+                'icon' => 'globe-europe-africa',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+            ],
+            [
+                'key' => 'roles',
+                'label' => 'Roles',
+                'icon' => 'user-circle',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+                'format' => function ($roles) {
+                    foreach ($roles as $role){
+                        return '<span>' . ucfirst($role->name) . ' </span>';
+                    }
+                    return '---';
+                }
+            ],
+            [
+                'key' => 'reviews_avg_rating',
+                'label' => 'Reviews',
+                'icon' => 'star',
+                'visible' => true,
+                'hiddenOnMobile' => true,
+                'format' => function($value) {
+                    $rating = number_format($value ?? 0, 1);
+                    return '<div class="flex items-center gap-2">
+                        <svg class="w-5 h-5 text-secondary-warning fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span>' . $rating . ' </span>
+                    </div>';
+                }
+            ]
+        ];
+    }
+    #[Computed]
+    public function tableActions(): array
+    {
+        return [
+            [
+                'label' => 'View Customer',
+                'icon' => 'information-circle',
+                'route' => 'customer.show',
+                'color' => 'primary',
+            ],
+            [
+                'label' => 'Edit customer',
+                'icon' => 'pencil-square',
+                'route' => 'customer.edit',
+                'color' => 'default',
+            ],
+            [
+                'label' => 'Delete',
+                'icon' => 'trash',
+                'event' => 'delete-element',
+                'color' => 'danger',
+            ],
+            [
+                'label' => 'Review',
+                'icon' => 'star',
+                'event' => 'review-user',
+                'color' => 'warning',
+            ]
+        ];
+    }
+
+    public function openFilterSection(): void
+    {
+        $this->dispatch('toggle-filter-section');
+    }
+
+    #[On('customer-filters-updated')]
+    public function applyFilters(
+        ?string $roleToSearch,
+        ?array $skillIds = [],
+        ?int $ratingStars = 0
+    ): void
+    {
+        $this->roleToSearch = $roleToSearch;
+        $this->selectedSkillIds = $skillIds;
+        $this->selectedRatingStars = $ratingStars;
+
+        $this->resetPage();
+    }
+
+    #[Computed]
+    public function customers(): LengthAwarePaginator
+    {
+        return Customer::findCustomerWithSkillsAndReviews(
+            $this->roleToSearch,
+            $this->selectedSkillIds,
+            $this->selectedRatingStars
+        );
+    }
+
     public function render()
     {
-        return view('livewire.customer.customer-table', [
-            'customers' => Customer::getCustomersWithReviews()
-        ]);
+        return view('livewire.customer.customer-table');
     }
 }

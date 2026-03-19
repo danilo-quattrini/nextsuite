@@ -2,21 +2,40 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use OpenAI\Laravel\Facades\OpenAI;
 use OpenAI\Responses\Chat\CreateResponse;
 
 class OpenAIService
 {
+    private const int CACHE_TTL_SECONDS = 21600;
     /**
      * Generate a review for a customer
      */
-    public function generateReview(string $name): string
+    public function generateReview(?array $data = []): string
     {
-        $prompt = $this->buildReviewPrompt($name);
+        $prompt = $this->buildReviewPrompt($data);
 
-        $response = $this->openAICall('You write a review for a customer show web page.', $prompt);
+        return $this->cachedResponse(
+            'review',
+            'You write a review for a customer show web page.',
+            $prompt
+        );
+    }
 
-        return trim($response->choices[0]->message->content);
+    /**
+     * Generate a field suggestion for a customer.
+     * The prompt it's been built from a separate method buildFieldSuggestionPrompt
+     */
+    public function generateFieldSuggestion(?array $data = []): string
+    {
+        $prompt = $this->buildFieldSuggestionPrompt($data);
+
+        return $this->cachedResponse(
+            'field',
+                'You are a career analyst assistant. Based on the professional profile below, suggest the single most suitable professional field for this person.',
+                $prompt
+        );
     }
 
     /**
@@ -26,9 +45,43 @@ class OpenAIService
     {
         $prompt = $this->buildSummaryPrompt($data);
 
-        $response = $this->openAICall('You write short professional summaries for documents.', $prompt);
+        return $this->cachedResponse(
+            'summary',
+            'You write short professional summaries for documents.',
+            $prompt
+        );
+    }
 
-        return trim($response->choices[0]->message->content);
+    private function buildFieldSuggestionPrompt(?array $data): string
+    {
+        $skills = collect($data['skills'])
+            ->map(fn($s) => "  - {$s['name']}: {$s['level']} out of 100, type: {$s['type']}")
+            ->join("\n");
+
+        $attributes = collect($data['attributes'])
+            ->map(fn($s) => "  - {$s['name']},  value: {$s['value']}, type: {$s['type']}")
+            ->join("\n");
+
+        $reviews = collect($data['ratings'])
+            ->map(fn($s) => "  - {$s['rating']} out of 5, comment: {$s['comment']}")
+            ->join("\n");
+
+        return <<<PROMPT
+        You are a career analyst assistant. Based on the professional profile below, 
+        suggest the single most suitable professional field for this person.
+        
+        --- PROFILE ---
+        Skills: {$skills}
+        Attributes: {$attributes}
+        Reviews from others: {$reviews}
+        --- END PROFILE ---
+        
+        Respond in the following JSON format only, no extra text:
+        {
+          "suggested_field": "<Field Name>",
+          "description": "<One or two sentences explaining why this field fits the person.>"
+        }
+        PROMPT;
     }
 
     /**
@@ -51,19 +104,39 @@ class OpenAIService
     /**
      * Build a safe, deterministic prompt
      */
-    protected function buildReviewPrompt(string $name): string
+    protected function buildReviewPrompt(?array $data = []): string
     {
+        $skills = collect($data['skills'])
+            ->map(fn($s) => "  - {$s['name']}: {$s['level']} out of 100, type: {$s['type']}")
+            ->join("\n");
+
+        $ratings = collect($data['ratings'])
+            ->map(fn($s) => "  - {$s['rating']} out of 5, comment: {$s['comment']}")
+            ->join("\n");
+        
         return <<<TEXT
-                Write a concise review on this user.
+                Write a concise, neutral professional review for the following customer.
+                Customer information, note that's section it's going to be inside a webpage:
                 
-                User information:
-                - Name: {$name}
-                - Hard skills: name: Php - level: 25 out of 100
-                - Soft skills: name: Communication - level: 50 out of 100
-                - Review avg: 3.4 out of 5
+                Skills:
+                {$skills}
                 
-                The tone must be neutral and suitable, but also should ,
-                advice in which field the user it's suitable for.
+                Ratings: 
+                {$ratings}
+                
+                Ratings instruction:
+                - Only consider ratings with a meaningful comment attached.
+                - For ratings below 3, ensure the comment provides a substantial reason; otherwise, do not evaluate it.
+                - Do not consider any ratings with comment, where there are bad words.
+                
+                Review Instructions:
+                - Keep the tone neutral and professional.
+                - Highlight the customer's strongest areas but with partiality tone.
+                - Point out areas that could be improved.
+                - Empathise with the bold HTML element, that parts who can be relevant for
+                someone who read the Review.
+                - Suggest which professional fields or roles this person would be best suited for.
+                - Keep the response under 100 words.
                 TEXT;
     }
 
@@ -73,21 +146,42 @@ class OpenAIService
     protected function openAICall(
         ?string $content = null,
         ?string $prompt = null
-    ): CreateResponse
+    ): ?CreateResponse
     {
-        return OpenAI::chat()->create([
-            'model' => 'gpt-4o',
-            'messages' => [
-                [
-                    'role' => 'system',
-                    'content' => $content,
+        try {
+            return OpenAI::chat()->create([
+                'model' =>  config('openai.model'),
+                'messages' => [
+                    [
+                        'role' => 'system',
+                        'content' => $content,
+                    ],
+                    [
+                        'role' => 'user',
+                        'content' => $prompt,
+                    ],
                 ],
-                [
-                    'role' => 'user',
-                    'content' => $prompt,
-                ],
-            ],
-            'temperature' => 0.3,
-        ]);
+                'temperature' => 0.3,
+            ]);
+        } catch (\Exception $e) {
+            report($e);
+            return null;
+        }
     }
+
+    private function cachedResponse(string $type, string $content, string $prompt): string
+    {
+        $key = "openai:{$type}:" . sha1($content . '|' . $prompt);
+
+        return Cache::remember($key, self::CACHE_TTL_SECONDS, function () use ($content, $prompt) {
+            $response = $this->openAICall($content, $prompt);
+
+            if (!$response) {
+                return 'Unable to generate content at this time. Please try again later.';
+            }
+
+            return trim($response->choices[0]->message->content);
+        });
+    }
+
 }

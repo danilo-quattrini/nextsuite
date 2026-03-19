@@ -28,14 +28,17 @@
         "propaganistas/laravel-phone": "^6.0",
         "rinvex/countries": "^9.1",
         "salahhusa9/laravel-updater": "dev-Add-Bitbucket-repository-support",
-        "spatie/laravel-activitylog": "^4.11"
+        "spatie/laravel-activitylog": "^4.11",
+        "spatie/laravel-permission": "^7.2"
     },
     "require-dev": {
+        "andyabih/laravel-to-uml": "^1.0",
         "barryvdh/laravel-debugbar": "^3.16",
         "laravel/boost": "^1.8",
         "laravel/pail": "^1.2.2",
         "laravel/pint": "^1.24",
         "laravel/sail": "^1.41",
+        "laravel/telescope": "^5.17",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
         "pestphp/pest": "^4.1",
@@ -97,7 +100,9 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": []
+            "dont-discover": [
+              "laravel/telescope"
+            ]
         }
     },
     "config": {

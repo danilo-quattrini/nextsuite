@@ -23,10 +23,10 @@
     ];
 
     $sizes = [
-        'default' => 'w-[72px] h-[38px]',
-        'large' => 'w-[150px] h-[38px]',
-        'auto' => 'px-4 py-2 h-[38px]',
-        'full' => 'w-full h-[38px]'
+        'default' => 'w-[72px] h-[40px]',
+        'large' => 'w-[150px] h-[40px]',
+        'auto' => 'px-4 py-2 h-[40px]',
+        'full' => 'w-full h-[40px]'
     ];
 
     $classes = trim(implode(' ', [

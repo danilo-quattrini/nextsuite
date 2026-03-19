@@ -11,17 +11,22 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Route;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Permission\Traits\HasRoles;
 
 class Customer extends Model implements SkillAssignable, AttributeAssignable
 {
-    use HasFactory, SoftDeletes, LogsActivity;
+    use HasFactory, HasRoles, SoftDeletes, LogsActivity;
 
-    private const string CACHE_KEY = 'customers_';
-    private const int CACHE_TTL = 60;
+    protected string $guard_name = 'web';
+    private const string CACHE_KEY = 'customers';
+    private const int CACHE_TTL = 3600;
 
     protected $fillable = [
         'profile_photo_url',
@@ -44,39 +49,47 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
     protected static function booted(): void
     {
-        // Clear cache when customer is created
-        static::created(function () {
-            self::clearReportCache();
-        });
-
-        // Clear cache when customer is updated
-        static::updated(function () {
-            self::clearReportCache();
-        });
-
-        // Clear cache when customer is deleted
-        static::deleted(function () {
-            self::clearReportCache();
-        });
+        static::created(fn() => self::clearAllContexts());
+        static::updated(fn() => self::clearAllContexts());
+        static::deleted(fn() => self::clearAllContexts());
     }
 
-    public static function clearAllContexts(): void
+    // ==================== CACHE OPERATION ====================
+
+    protected static function clearAllContexts(): void
     {
-        Cache::flush();
+        Cache::tags([self::CACHE_KEY])->flush();
     }
 
-    protected static function clearReportCache(string $context = 'table'): void
+
+    /**
+     * Clear cache for a specific customer
+     * Called by Review model when review is added/updated/deleted
+     */
+    public static function clearModelCache(
+        ?int $id = null
+    ): void
     {
-        if ($context === null) {
-            self::clearAllContexts();
+        if(!$id){
             return;
         }
+        $keys = [
+            self::CACHE_KEY . ':' . $id . ':with_reviews',
+            self::CACHE_KEY . ':' . $id . ':with_review_stats',
+            self::CACHE_KEY . ':' . $id . ':details',
+        ];
 
-        for ($i = 1; $i <= 100; $i++) {
-            Cache::forget(self::CACHE_KEY . $context . '_page_' . $i);
+        foreach ($keys as $key){
+            Cache::tags([self::CACHE_KEY])->forget($key);
         }
-    }
 
+        self::clearAllContexts();
+    }
+    // ==================== RELATIONSHIPS ====================
+
+    /**
+     * Get the skills from the Skill model.
+     */
     public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'skill_customers', 'customer_id', 'skill_id')
@@ -123,11 +136,15 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         return $this->morphMany(Document::class, 'documentable');
     }
 
-
+    /**
+     * Get user skill scheme.
+     */
     public function skillSchema(): MorphMany
     {
         return $this->morphMany(SkillSchema::class, 'assignable');
     }
+
+    // ==================== HELPER METHODS ====================
 
     /**
      * Add a skill to a customer
@@ -160,7 +177,9 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         }
     }
 
-
+    /**
+     * Remove a skill with a specific id from the customer
+     */
     public function removeSkill(int $skillId): void
     {
         $skill = Skill::findOrFail($skillId);
@@ -173,24 +192,59 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $this->skills()->detach($skillId);
         }
     }
+
     /**
      * Check if customer has a specific skill assigned
      */
-    public function hasSkill(int $skillId): bool
+    public function skillExists(int $skillId): bool
     {
         return $this->skills()->where('skill_id', $skillId)->exists();
     }
 
     /**
+     * Check if customer has a relation with the skill model.
+     */
+    public function hasSkill(): bool
+    {
+        return $this->skills()->exists();
+    }
+
+    /**
      * Get skills grouped by category
      */
-    public function skillsByCategory()
+    public function skillsByCategory(): Collection
     {
-        return $this->skills()
-            ->with('category')
-            ->get()
+        if (!$this->relationLoaded('skills.category')) {
+            $this->load(['skills.category']);
+        }
+
+        return $this->skills
+            ->filter(fn($skill) => $skill->category !== null)
             ->groupBy('category.name');
     }
+
+    /**
+     * Get all the skill owned from the customer
+     */
+    public function getSkills(): Collection
+    {
+        if (!$this->relationLoaded('skills.category')) {
+            $this->load(['skills.category']);
+        }
+
+        if ($this->skills->isEmpty()) {
+            return collect();
+        }
+
+        return $this->skills->map(fn($skill) => [
+            'name' => $skill->name,
+            'level' => $skill->pivot->level,
+            'type' => $skill->category?->type?->value
+        ]);
+    }
+
+    // ====== ATTRIBUTE OPERATION =====
+
     /**
      * Add an attribute to a customer, syncWithoutDetaching = remove already existing record and add new ones.
      */
@@ -203,12 +257,125 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         ]);
     }
 
-    public function getActivitylogOptions(): LogOptions
+    /**
+     * Get the attribute owned by the customer though the id.
+     * @param  int  $key
+     * @return Attribute|null
+     */
+    public function getAssignableAttribute(int $key): ?Attribute
     {
-        return LogOptions::defaults()
-            ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
+        return $this->attributes()
+            ->wherePivot('attribute_id', $key)
+            ->first();
     }
 
+    /**
+     * Get all the attributest owned
+     * @return Collection of attributes
+    **/
+    public function getAssignableAttributes(): Collection
+    {
+        if (!$this->relationLoaded('attributes.category')) {
+            $this->load(['attributes.category']);
+        }
+
+        $attributes = $this->getRelation('attributes');
+
+        if (!$attributes || $attributes->isEmpty()) {
+            return collect();
+        }
+
+        return $attributes->map(fn($attribute) => [
+            'name' => $attribute->name,
+            'value' => $attribute->pivot->value,
+            'type' => $attribute->category?->type?->value
+        ]);
+    }
+
+    // ====== HEAVY OPERATION =====
+    /**
+     * Find the customer with reviews and save them inside the cache
+     * @param  int  $id
+     * @return Customer|null
+     */
+    public static function findCustomerWithReview(
+        int $id
+    ): ?Customer {
+        $key = self::CACHE_KEY . ':' . $id . ':with_reviews';
+
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($id) {
+            return static::with(['reviews.author'], ['skills'])
+                ->withCount('reviews as reviews_count')
+                ->withAvg('reviews as reviews_avg_rating', 'rating')
+                ->findOrFail($id);
+        });
+    }
+
+    /**
+     * Find the customer with reviews greater than a value and skills
+     * @param string $role
+     * @param array $skillIds
+     * @param  int  $ratingStars
+     * @param  int $perPage
+     * @return LengthAwarePaginator
+     */
+    public static function findCustomerWithSkillsAndReviews(
+        string $role,
+        array $skillIds,
+        int $ratingStars = 0,
+        int $perPage = 6
+    ): LengthAwarePaginator {
+
+        $skillIds = array_values(array_unique(array_filter($skillIds)));
+
+        $query = static::with(['reviews.author', 'skills', 'roles'])
+            ->withCount('reviews as reviews_count')
+            ->withAvg('reviews as reviews_avg_rating', 'rating');
+
+        if (!empty($role)) {
+            $query->role($role);
+        }
+
+        if (!empty($skillIds)) {
+            $query->whereIn('id', function ($query) use ($skillIds) {
+                $query->select('customer_id')
+                    ->from('skill_customers')
+                    ->whereIn('skill_id', $skillIds)
+                    ->groupBy('customer_id')
+                    ->havingRaw('COUNT(DISTINCT skill_id) = ?', [count($skillIds)]);
+            });
+        }
+
+        if ($ratingStars > 0) {
+            $query->having('reviews_avg_rating', '>=', $ratingStars);
+        }
+
+        return $query
+            ->orderByDesc('reviews_avg_rating')
+            ->paginate($perPage);
+    }
+
+    /**
+     * Get all the customers owned by a user with saved them inside the cache
+     */
+    public static function getCustomersOwnedByUser(?string $context = null)
+    {
+        $context = $context ?? Route::currentRouteName() ?? 'default';
+        $page = request()->get('page', 1);
+        $userId = Auth::id();
+
+        $key = self::CACHE_KEY . ':owned:' . $userId . ':' . $context . ':page:' . $page;
+
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($userId) {
+            return static::with('user')
+                ->where('user_id', $userId)
+                ->paginate(6);
+        });
+    }
+
+    /**
+     * Get all the customers with reviews and their average, save them inside the cache
+     */
     public static function getCustomersWithReviews(?string $context = null)
     {
         $page = request()->get('page', 1);
@@ -218,22 +385,22 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
             $context = $currentRoute ?: 'default';
         }
 
-        $key = self::CACHE_KEY . $context . '_page_' . $page;
+        $key = self::CACHE_KEY . ':context:' . $context . ':page:' . $page;
 
-        return Cache::remember($key, self::CACHE_TTL, function () {
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
             return static::with('skills')
-                ->withCount([
-                    'reviews as reviews_count' => function ($query) {
-                        $query->where('reviewable_type', 'App\Models\Customer');
-                }
-                ])
-                ->withAvg([
-                    'reviews as reviews_avg_rating' => function($query) {
-                        $query->where('reviewable_type', 'App\Models\Customer');
-                    }
-                ], 'rating')
+                ->withCount('reviews as reviews_count')
+                ->withAvg('reviews as reviews_avg_rating', 'rating')
                 ->paginate(6);
         });
 
+    }
+    /**
+     * Default method to log specific customer details
+     */
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['full_name', 'email', 'company_id', 'user_id']);
     }
 }

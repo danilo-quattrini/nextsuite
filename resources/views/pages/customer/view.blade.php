@@ -18,9 +18,7 @@ new class extends Component {
     #[Computed]
     public function customers(): _IH_Customer_C|LengthAwarePaginator|array
     {
-        return Customer::with('user')
-            ->where('user_id', Auth::user()->id)
-            ->paginate(6);
+        return Customer::getCustomersOwnedByUser();
     }
 };
 ?>

@@ -9,7 +9,7 @@
                         <x-dropdown align="right" width="60">
                             <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-[color:var(--color-black)] bg-[color:var(--color-white)] focus:outline-none focus:bg-[color:var(--color-outline-grey)] active:bg-[color:var(--color-outline-grey)] transition ease-in-out duration-150">
+                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-black bg-(--color-white) focus:outline-none focus:bg-outline-grey active:bg-outline-grey transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
 
                                         <svg class="ms-2 -me-0.5 size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -63,7 +63,7 @@
                                 <div class="flex justify-center items-center gap-4">
                                     <div class="flex flex-col">
                                         <span class="text-sm font-medium">{{ Auth::user()->full_name }}</span>
-                                        <span class="text-xs font-medium text-primary-grey">{{ Auth::user()->company->field->name ?? 'Employee' }}</span>
+                                        <span class="text-xs font-medium text-primary-grey">{{ $this->userRole }}</span>
                                     </div>
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-primary transition">
                                         <x-profile-image

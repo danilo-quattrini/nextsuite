@@ -1,4 +1,4 @@
-@props(['skill'])
+@props(['skill', 'user', 'editable' => false])
 
 <div class="skill-card">
     {{-- Header --}}
@@ -8,6 +8,18 @@
                 <h4 class="skill-card__title">{{ $skill->name }}</h4>
                 <span class="skill-card__subtitle"> {{ $skill->description ?? '' }}</span>
             </div>
+            {{-- Actions Dropdown --}}
+            @if($editable && $user)
+             <div class="flex items-center justify-between">
+                <x-button
+                        variant="error"
+                        size="auto"
+                        wire:click.prevent="$wire.removeSkill({{ $skill->id }})"
+                >
+                    <x-heroicon name="trash" size="lg"/>
+                </x-button>
+             </div>
+            @endif
         </div>
     </div>
 

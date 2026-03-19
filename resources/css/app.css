@@ -23,6 +23,7 @@
 @import "./design-system/components/card/skill-card.css";
 @import "./design-system/components/card/card-container.css";
 @import "./design-system/components/card/review-card.css";
+@import "./design-system/components/spinner.css";
 @import '../../vendor/livewire/flux/dist/flux.css';
 
 @source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views";

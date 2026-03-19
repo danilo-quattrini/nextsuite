@@ -55,7 +55,7 @@
                     'label' => 'Report',
                     'icon' => 'chart-pie',
                     'href' => route('report.index'),
-                    'active' => request()->routeIs('report.index'),
+                    'active' => request()->routeIs(['report.index', 'report.*']),
                 ],
             ],
         ],
@@ -101,7 +101,7 @@
                     'label' => 'Skill Schema',
                     'icon' => 'star',
                     'href' => route('skill-schema'),
-                    'active' => request()->routeIs('skill-schema'),
+                    'active' => request()->routeIs(['skill-schema', 'skill-schema.*']),
                 ],
             ],
         ],
@@ -165,7 +165,7 @@
         <div class="sidebar__company" x-show="!collapsed" x-collapse.duration.50ms>
             <p class="sidebar__welcome">Welcome</p>
             <p class="sidebar__company-name">
-                {{ Auth::user()->company->name ?? Auth::user()->full_name }}
+                {{  $userOrCompanyName }}
             </p>
         </div>
     </div>

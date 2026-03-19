@@ -1,17 +1,17 @@
 .card-container{
-    @apply bg-white border border-outline-grey rounded-md space-y-3 text-black;
+    @apply bg-white border border-outline-grey rounded-md space-y-sm text-black;
 }
 
 .card-head{
-    @apply flex justify-between items-center font-semibold border-b border-b-outline-grey pb-2 text-black;
+    @apply flex justify-between items-center font-semibold border-b border-b-outline-grey pb-xs text-black;
 }
 
 .card-title{
-    @apply font-semibold;
+    @apply font-semibold flex items-center gap-sm;
 }
 
 .card-subtitle{
-    @apply  font-light text-sm text-primary-grey text-ellipsis;
+    @apply font-light text-base text-primary-grey text-ellipsis;
 }
 
 .card-title--sm{

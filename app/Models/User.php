@@ -3,7 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\AttributeAssignment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -11,19 +10,24 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens, HasRoles;
 
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    private const string CACHE_KEY = "user";
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +75,21 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Clear the cache if the user has been created, updated, or deleted.
+     */
+    protected static function booted(): void
+    {
+        static::created(fn() => self::clearAllContexts());
+        static::updated(fn() => self::clearAllContexts());
+        static::deleted(fn() => self::clearAllContexts());
+    }
+
+    protected static function clearAllContexts(): void
+    {
+        Cache::tags([self::CACHE_KEY])->flush();
+    }
+
     public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'owner_id');
@@ -102,5 +121,43 @@ class User extends Authenticatable
             ->using(SkillSchema::class)
             ->withPivot(['default_level'])
             ->withTimestamps();
+    }
+
+    /**
+     * Get the user company if exists.
+     */
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function getCompanyWithUsers(): ?Company
+    {
+        if (!$this->relationLoaded('company')) {
+            $this->load('company.users');
+        }
+        return $this->company;
+    }
+
+    /**
+     * Check if the user has a company.
+     */
+    public function hasCompany(): bool
+    {
+        return $this->company()->exists();
+    }
+
+    /**
+     * Get the cache key.
+     */
+    public function getCacheKey(?int $userId = null): string
+    {
+        $id = $userId ?? Auth::id();
+
+        if (!$id) {
+            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
+        }
+
+        return self::CACHE_KEY . ':' . $id;
     }
 }

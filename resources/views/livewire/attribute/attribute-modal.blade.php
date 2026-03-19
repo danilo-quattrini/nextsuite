@@ -1,14 +1,6 @@
 <div>
-    <x-button
-            size="large"
-            wire:click="$set('showAttributeModal', true)"
-    >
-        <x-heroicon name="plus" />
-        New Attribute
-    </x-button>
-
-    @if($showAttributeModal)
-        <x-popup-box modal="showAttributeModal">
+    @if($showModal)
+        <x-popup-box modal="showModal">
 
             <x-slot:header>
                 <x-authentication-card-logo/>
@@ -26,12 +18,15 @@
             <x-form.container>
                 <x-form.input-container>
 
-                    <x-form.label-container label="Category" />
+                    <x-form.label-container label="Category"/>
 
                     <x-form.select-wrapper :error="$errors->has('selectedCategoryId')">
                         <x-form.select-element wire:model.live="selectedCategoryId">
                             <x-slot:options>
-                                <option value="" hidden> Select a category </option>
+                                @if($mode === 'add')
+                                    <option value="" hidden>Select a category</option>
+                                @endif
+
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}">
                                         {{ $category->name }}
@@ -40,7 +35,7 @@
                             </x-slot:options>
                         </x-form.select-element>
                     </x-form.select-wrapper>
-
+                    <x-input-error for="selectedCategoryId"/>
                 </x-form.input-container>
 
                 {{-- Attribute selection --}}
@@ -48,11 +43,14 @@
                 @if(!empty($selectedCategoryId))
                     <x-form.input-container>
 
-                        <x-form.label-container label="Attribute" />
+                        <x-form.label-container label="Attribute"/>
                         <x-form.select-wrapper :error="$errors->has('selectedAttributeId')">
                             <x-form.select-element wire:model.live="selectedAttributeId">
                                 <x-slot:options>
-                                    <option value="" hidden>Select attribute</option>
+                                    @if($mode === 'add')
+                                        <option value="" hidden>Select attribute</option>
+                                    @endif
+
                                     @foreach ($customerAttributes as $attributes)
                                         <option value="{{ $attributes->id }}">
                                             {{ $attributes->name }}
@@ -61,7 +59,7 @@
                                 </x-slot:options>
                             </x-form.select-element>
                         </x-form.select-wrapper>
-
+                        <x-input-error for="selectedAttributeId"/>
                     </x-form.input-container>
                 @endif
 
@@ -70,7 +68,7 @@
                 @if(!empty($selectedAttributeId))
                     <x-form.input-container>
 
-                        <x-form.label-container label="{{ ucfirst($attribute->name) }}" />
+                        <x-form.label-container label="{{ ucfirst($attribute->name) }}"/>
 
                         @php($config = $this->attributeInputConfig())
 
@@ -86,8 +84,9 @@
                             <x-form.select-wrapper>
                                 <x-form.select-element wire:model.defer="value">
                                     <x-slot:options>
-                                        <option value="" hidden>Select</option>
-
+                                        @if($mode === 'add')
+                                            <option value="" hidden>Select value</option>
+                                        @endif
                                         @foreach ($config['options'] as $value => $label)
                                             <option value="{{ $value }}">
                                                 {{ $label }}
@@ -117,6 +116,7 @@
                                 @endforeach
                             </div>
                         @endif
+                        <x-input-error for="value"/>
                     </x-form.input-container>
                 @endif
             </x-form.container>
@@ -126,7 +126,7 @@
                         type="button"
                         size="large"
                         variant="rest"
-                        wire:click="$set('showAttributeModal', false)"
+                        wire:click="$dispatch('close-modal')"
                 >
                     Cancel
                 </x-button>
@@ -134,9 +134,9 @@
                 <x-button
                         type="button"
                         size="large"
-                        wire:click="addAttribute"
+                        wire:click="save"
                 >
-                    New Attribute
+                    {{ $mode === 'add' ? __('Assign') : __('Edit') }}
                 </x-button>
             </div>
 

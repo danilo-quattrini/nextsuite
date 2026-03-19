@@ -1,0 +1,47 @@
+{
+  "owner": [
+    "attribute.assign",  "attribute.read",  "attribute.update",  "attribute.delete",
+    "skill.assign",      "skill.read",      "skill.update",      "skill.delete",
+    "review.create",     "review.read",     "review.update",     "review.delete",
+    "skill_schema.create", "skill_schema.read", "skill_schema.update", "skill_schema.delete",
+    "customer.create",   "customer.read",   "customer.update",   "customer.delete"
+  ],
+  "admin": [
+    "attribute.assign",  "attribute.read",  "attribute.update",  "attribute.delete",
+    "skill.assign",      "skill.read",      "skill.update",      "skill.delete",
+    "review.create",     "review.read",     "review.update",     "review.delete",
+    "skill_schema.create", "skill_schema.read", "skill_schema.update", "skill_schema.delete",
+    "customer.create",   "customer.read",   "customer.update",   "customer.delete"
+  ],
+  "manager": [
+    "attribute.read",    "attribute.update",
+    "skill.assign",      "skill.read",      "skill.update",
+    "review.create",     "review.read",     "review.update",
+    "skill_schema.create", "skill_schema.read", "skill_schema.update",
+    "customer.create",   "customer.read",   "customer.update"
+  ],
+  "accountant": [
+    "attribute.read",
+    "skill.read",
+    "review.read",
+    "customer.read"
+  ],
+  "employee": [
+    "attribute.read",
+    "skill.read",    "skill.update",
+    "review.create", "review.read",
+    "customer.read"
+  ],
+  "support": [
+    "attribute.read",
+    "skill.read",
+    "review.create", "review.read", "review.update",
+    "customer.create", "customer.read", "customer.update"
+  ],
+  "viewer": [
+    "attribute.read",
+    "skill.read",
+    "review.read",
+    "customer.read"
+  ]
+}

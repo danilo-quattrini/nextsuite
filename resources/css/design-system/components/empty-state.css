@@ -14,3 +14,7 @@
 .empty-state__description {
     @apply text-sm text-primary-grey/70 mt-1;
 }
+
+.empty-state__action{
+    @apply flex justify-center items-center py-4;
+}

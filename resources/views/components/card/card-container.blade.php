@@ -1,5 +1,6 @@
 @props([
     'title' => null,
+    'icon' => null,
     'subtitle' => null,
     'size' => '3xl',
     'cardSize' => 'md'
@@ -25,7 +26,12 @@
         <div class="card-head">
             <div>
                 @if($title)
-                    <span class="card-title {{ $titleSizes[$size] ?? $titleSizes['3xl'] }}">{{ $title }}</span>
+                    <div class="card-title">
+                        @if($icon)
+                            <x-heroicon :name="$icon" :size="$size"/>
+                        @endif
+                        <span class="card-title {{ $titleSizes[$size] ?? $titleSizes['3xl'] }}">{{ $title }}</span>
+                    </div>
                 @endif
                 @if($subtitle)
                     <p class="card-subtitle">{{ $subtitle }}</p>

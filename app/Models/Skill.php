@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Pagination\LengthAwarePaginator;
+use App\Models\Customer;
 
 class Skill extends Model
 {
@@ -18,11 +20,19 @@ class Skill extends Model
         'category_id'
     ];
 
+    // ==================== RELATIONSHIPS ====================
+
+    /**
+     * Get the categories from the Category model.
+     */
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * Get the customers from the Customer model.
+     */
     public function customers(): BelongsToMany
     {
         return $this->belongsToMany(Customer::class, 'skill_customers', 'skill_id', 'customer_id')
@@ -30,6 +40,8 @@ class Skill extends Model
             ->withPivot(['years', 'level', 'notes', 'user_id'])
             ->withTimestamps();
     }
+
+    // ==================== HELPER METHODS ====================
 
     public function isSoftSkill(): bool
     {

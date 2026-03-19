@@ -3,7 +3,7 @@
     'transition' => true
 ])
 <div class="popup"
-     wire:click.self="dispatch('close-modal')"
+     wire:click.self="$dispatch('close-modal')"
 >
     <div class="popup__card">
         <div class=" text-black">

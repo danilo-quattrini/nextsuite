@@ -76,34 +76,13 @@ Route::middleware([
     'verified',
 ])->group(function () {
 
+    /* DASHBOARD ROUTE */
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-});
 
-/* REPORT ROUTES */
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-
-    Route::get('/report', CustomerReport::class)
-        ->name('report.index');
-
-    Route::get('/report/{customer}', ShowCustomerReport::class)
-        ->name('report.show');
-
-});
-
-/* CUSTOMER ROUTES */
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-
+    /* CUSTOMER ROUTES */
     Route::get('/customer/create', CreateCustomer::class)
         ->name('customer.create');
 
@@ -115,28 +94,21 @@ Route::middleware([
 
     Route::get('/customer/edit/{customer}', EditCustomer::class)
         ->name('customer.edit');
-});
 
-/* CHANGELOG ROUTE*/
+    /* REPORT ROUTES */
+    Route::get('/report', CustomerReport::class)
+        ->name('report.index');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/changelog', Changelog::class)->name('changelog');
-});
+    Route::get('/report/{customer}', ShowCustomerReport::class)
+        ->name('report.show');
 
-/* SKILL ROUTES*/
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-
+    /* SKILL SCHEMA ROUTES*/
     Route::livewire('skill-schema', 'pages::customer.view' )
         ->name('skill-schema');
 
     Route::livewire('skill-schema/create/{customer}', 'pages::skill.schema.create')
         ->name('skill-schema.create');
+
+    /* CHANGELOG ROUTE*/
+    Route::get('/changelog', Changelog::class)->name('changelog');
 });

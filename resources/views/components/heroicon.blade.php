@@ -7,11 +7,12 @@
 @php
     // Size mapping
     $sizes = [
-        'sm' => 'w-4 h-4',
-        'md' => 'w-5 h-5',
-        'lg' => 'w-6 h-6',
-        'xl' => 'w-7 h-7',
-        'xxl' => 'w-8 h-8',
+        'sm' => 'w-3 h-3',
+        'md' => 'w-4 h-4',
+        'lg' => 'w-5 h-5',
+        'xl' => 'w-6 h-6',
+        '2xl' => 'w-7 h-7',
+        '3xl' => 'w-8 h-8',
     ];
 
     // Heroicon prefixes based on variant

@@ -2,36 +2,42 @@
 
 namespace App\Livewire\Customer;
 
+use App\Domain\Role\Services\RoleService;
 use App\Livewire\Forms\CustomerForm;
 use App\Models\Customer;
 use App\Services\NationalityService;
 use App\Traits\WithStep;
+use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Spatie\Activitylog\Models\Activity;
+use Storage;
 
 class EditCustomer extends Component
 {
     use WithFileUploads;
     use WithStep;
 
-//    #[Validate('mimes:jpeg,png,jpg,gif', message: 'Customer profile photo should be  one of this formats: jpeg,png,jpg,gif.')]
-//    #[Validate('image', message: 'The file must be an image.')]
-//    #[Validate('max:2048', message: 'Profile image it\'s too large.')]
-    public $customer_photo;
+    public $oldCustomerPhoto;
+    #[Validate('mimes:jpeg,png,jpg,gif', message: 'Customer profile photo should be  one of this formats: jpeg,png,jpg,gif.')]
+    #[Validate('image', message: 'The file must be an image.')]
+    #[Validate('max:2048', message: 'Profile image it\'s too large.')]
+    public $newCustomerPhoto;
 
     public array $nationalities = [];
-
-
+    public array $roles = [];
 
     public Customer $customer;
     public CustomerForm $form;
 
-    public function mount(NationalityService $nationalityService): void
+    public function mount(
+        NationalityService $nationalityService,
+        RoleService $roleService
+    ): void
     {
 
-        $this->form->customer_photo = $this->customer->profile_photo_url ?? null;
+        $this->oldCustomerPhoto = $this->customer->profile_photo_url ?? null;
         $this->form->full_name = $this->customer->full_name;
         $this->form->email = $this->customer->email;
         $this->form->dob = date_format($this->customer->dob, 'Y-m-d');
@@ -39,24 +45,18 @@ class EditCustomer extends Component
         $this->form->nationality = $this->customer->nationality;
         $this->form->phone = $this->customer->phone;
         $this->form->gender = $this->customer->gender;
-    }
-    public function render()
-    {
-        return view('livewire.customer.edit-customer');
+        $this->form->role = $this->customer->roles->first()->name;
+        $this->roles = $roleService->getAllRoleNames();
     }
 
     public function edit(): void
     {
         $this->validate();
 
-        if($this->customer_photo != null) {
-            $imageName = strtolower(str_replace(' ', '_',
-                    $this->form->full_name)).'.'.$this->customer_photo->extension();
-            $this->customer_photo->storeAs('customers-profile-photos', $imageName, 'public');
-        }
+        $imageName = $this->getImageName();
 
-        $customer = $this->customer->update([
-            'profile_photo_url' => $imageName ?? null,
+        $this->customer->update([
+            'profile_photo_url' => $imageName ?? $this->oldCustomerPhoto,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'nationality' => $this->form->nationality,
@@ -65,11 +65,19 @@ class EditCustomer extends Component
             'gender' => $this->form->gender,
         ]);
 
-        Activity::all()->last();
+        $this->customer->syncRoles([$this->form->role]);
 
-        session()->flash('status', 'Update customer ' . $this->form->full_name . ' successfully.');
+        $this->redirect(route('customer.show',  ['customer' => $this->customer->id]), navigate: true);
+    }
 
-        $this->redirect(route('customer.list'), navigate: true);
+    public function getImageName(): ?string
+    {
+        if ($this->newCustomerPhoto != null) {
+            $imageName = strtolower(str_replace(' ', '_',
+                    $this->form->full_name)).'.'.$this->newCustomerPhoto->extension();
+            $this->newCustomerPhoto->storeAs('customer-profile-photos', $imageName, 'public');
+        }
+        return $imageName ?? '';
     }
 
     protected function stepRules(): array
@@ -92,5 +100,10 @@ class EditCustomer extends Component
                 'gender' => ['required'],
             ]
         ];
+    }
+
+    public function render(): View
+    {
+        return view('livewire.customer.edit-customer');
     }
 }

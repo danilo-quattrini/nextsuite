@@ -43,7 +43,7 @@
                     <div>
                         <div class="p-6 flex items-start gap-6">
                             <x-profile-image
-                                :src="$company->business_photo"
+                                :src="$company->company_photo"
                                 :name="$company->name"
                                 directory="business-profile-photos"
                                 size="small"
@@ -92,7 +92,7 @@
 
                             <div class="flex flex-wrap gap-2">
                                 @foreach($company->fields as $fields)
-                                    <x-tag variant="white" size="auto">
+                                    <x-tag variant="white">
                                         {{ $fields->name }}
                                     </x-tag>
                                 @endforeach
