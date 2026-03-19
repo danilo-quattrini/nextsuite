@@ -20,7 +20,7 @@
     "src": "node_modules/intl-tel-input/build/js/utils.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app-DbPiRTug.css",
+    "file": "assets/app-sw3Eascd.css",
     "src": "resources/css/app.css",
     "isEntry": true,
     "name": "app",
@@ -221,7 +221,7 @@
     "src": "resources/fonts/Satoshi-VariableItalic.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-Bg9Zzz99.js",
+    "file": "assets/app-CDOi5fSW.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
