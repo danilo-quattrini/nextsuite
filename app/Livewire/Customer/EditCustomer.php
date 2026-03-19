@@ -11,18 +11,15 @@ use Illuminate\View\View;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Spatie\Activitylog\Models\Activity;
-use Storage;
 
 class EditCustomer extends Component
 {
     use WithFileUploads;
-    use WithStep;
+    use WithStep {
+        nextStep as traitNextStep;
+    }
 
     public $oldCustomerPhoto;
-    #[Validate('mimes:jpeg,png,jpg,gif', message: 'Customer profile photo should be  one of this formats: jpeg,png,jpg,gif.')]
-    #[Validate('image', message: 'The file must be an image.')]
-    #[Validate('max:2048', message: 'Profile image it\'s too large.')]
     public $newCustomerPhoto;
 
     public array $nationalities = [];
@@ -84,7 +81,11 @@ class EditCustomer extends Component
     {
         return  [
             1 => [
-                'full_name' => ['required', 'string', 'min:5'],
+                'full_name' => [
+                    'required',
+                    'string',
+                    'min:5'
+                ],
                 'email' => [
                     'required',
                     'email',
@@ -92,14 +93,41 @@ class EditCustomer extends Component
                     'unique:customers,email,' . $this->customer->id,
                     'unique:users,email,' . ($this->customer->id ?? 'NULL'),
                 ],
-                'dob' => ['required', 'date', 'before:-10 years'],
+                'dob' => [
+                    'required',
+                    'date',
+                    'before:-10 years'
+                ],
             ],
             2 => [
-                'nationality' => ['required', 'string'],
+                'nationality' => [
+                    'required',
+                    'string'
+                ],
                 'phone' => ['required'],
                 'gender' => ['required'],
             ]
         ];
+    }
+
+    public function nextStep(): void
+    {
+        if ($this->step === 1 && $this->newCustomerPhoto !== null) {
+            $this->validate([
+                'newCustomerPhoto' => [
+                    'nullable',
+                    'mimes:jpeg,png,jpg,gif',
+                    'image',
+                    'max:2048'
+                ],
+                [
+                    'newCustomerPhoto.mimes' => 'Photo must be jpeg, png, jpg or gif.',
+                    'newCustomerPhoto.max'   => 'Photo must not exceed 2MB.'
+                ]
+            ]);
+        }
+
+        $this->traitNextStep();
     }
 
     public function render(): View
