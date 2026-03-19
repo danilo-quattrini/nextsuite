@@ -18,6 +18,18 @@ trait WithStep
     abstract protected function stepRules(): array;
 
     /**
+     * Method where we define an array of messages
+     * where the key it's the attributeName.validationRule
+     * and the value it's the message to show if the validation
+     * it's not fulfilled.
+     *
+     * @return array of message for each validation;
+     * */
+    protected function stepValidationMessages(): array
+    {
+        return [];
+    }
+    /**
      * Method that retrive the array of
      * rules from the output of the method stepRules().
      * It will check if the array has been created or not,
@@ -28,15 +40,16 @@ trait WithStep
     public function nextStep(): void
     {
         $rules = $this->stepRules()[$this->step] ?? null;
+        $messages = $this->stepValidationMessages()[$this->step] ?? [];
 
         if (!empty($rules)) {
             $resolvedRules = value($rules);
 
             if (!empty($resolvedRules)) {
                 if (property_exists($this, 'form')) {
-                    $this->form->validate($resolvedRules);
+                    $this->form->validate($resolvedRules, $messages);
                 } else {
-                    $this->validate($resolvedRules);
+                    $this->validate($resolvedRules, $messages);
                 }
             }
         }

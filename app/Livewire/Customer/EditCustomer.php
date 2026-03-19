@@ -8,7 +8,6 @@ use App\Models\Customer;
 use App\Services\NationalityService;
 use App\Traits\WithStep;
 use Illuminate\View\View;
-use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -77,6 +76,7 @@ class EditCustomer extends Component
         return $imageName ?? '';
     }
 
+    // ====== VALIDATION OPERATION =====
     protected function stepRules(): array
     {
         return  [
@@ -96,7 +96,7 @@ class EditCustomer extends Component
                 'dob' => [
                     'required',
                     'date',
-                    'before:-10 years'
+                    'before:-18 years'
                 ],
             ],
             2 => [
@@ -128,6 +128,25 @@ class EditCustomer extends Component
         }
 
         $this->traitNextStep();
+    }
+
+    protected function stepValidationMessages(): array
+    {
+        return [
+            1 => [
+                'full_name.required' => 'Please enter the customer\'s full name.',
+                'full_name.min'      => 'The name must be at least 5 characters.',
+                'email.required'     => 'An email address is required.',
+                'email.unique'       => 'This email is already registered.',
+                'dob.required'       => 'Date of birth is required.',
+                'dob.before'         => 'Customer must be at least 18 years old.',
+            ],
+            2 => [
+                'nationality.required' => 'Please select a nationality.',
+                'phone.required'       => 'A phone number is required.',
+                'gender.required'      => 'Please select a gender.',
+            ]
+        ];
     }
 
     public function render(): View
