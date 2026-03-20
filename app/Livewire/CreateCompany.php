@@ -27,8 +27,10 @@ class CreateCompany extends Component
     public string $phone =  '';
     public $company_photo;
     public $fields;
-    public array $selectedFields = [];
     public ?int $owner_id = null;
+
+    public array $selectedFields = [];
+    public array $selectedRows = [];
 
     public function mount(): void
     {
@@ -73,7 +75,24 @@ class CreateCompany extends Component
             'city' => 'string|max:255',
             'phone' => 'required|string|max:50',
             'selectedFields' => 'required|min:1',
+            'selectedRows'   => 'required|array|min:1',
+            'selectedRows.*' => 'required|integer|distinct',
             'owner_id' => 'nullable|exists:users,id',
+        ];
+    }
+
+    /**
+     * Custom validation messages
+     */
+    protected function messages(): array
+    {
+        return [
+            'selectedRows.required' => 'You should select at least one user for your company.',
+            'selectedRows.min'      => 'You should select at least one user for your company.',
+            // For the wildcard rules, use the exact attribute pattern:
+            'selectedRows.*.required' => 'Each selected user must be valid.',
+            'selectedRows.*.integer'  => 'Each selected user must be valid.',
+            'selectedRows.*.distinct' => 'You cannot select the same user twice.',
         ];
     }
 
