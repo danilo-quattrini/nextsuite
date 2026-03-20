@@ -116,12 +116,12 @@ class EditCustomer extends Component
             $this->validate([
                 'newCustomerPhoto' => [
                     'nullable',
-                    'mimes:jpeg,png,jpg,gif',
+                    'mimes:jpeg,png,jpg,webp',
                     'image',
                     'max:2048'
                 ],
                 [
-                    'newCustomerPhoto.mimes' => 'Photo must be jpeg, png, jpg or gif.',
+                    'newCustomerPhoto.mimes' => 'Photo must be jpeg, png, jpg or webp.',
                     'newCustomerPhoto.max'   => 'Photo must not exceed 2MB.'
                 ]
             ]);
