@@ -4,8 +4,11 @@ namespace App\Livewire;
 
 use App\Models\Company;
 use App\Models\Field;
+use App\Models\User;
 use App\Traits\ArrayOperation;
 use App\Traits\WithStep;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -43,6 +46,17 @@ class CreateCompany extends Component
         return view('livewire.create-company');
     }
 
+    /**
+     * Get all the users from the database
+     * @return  LengthAwarePaginator pagination of the users
+     * */
+    #[Computed]
+    public function users(): LengthAwarePaginator
+    {
+        return User::getUsers();
+    }
+
+    // ==== FIELD OPERATION ====
     public function selectField(int $fieldId): void
     {
         $this->toggleItem(
