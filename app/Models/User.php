@@ -28,6 +28,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     private const string CACHE_KEY = "user";
+    private const int CACHE_TTL = 3600;
 
     /**
      * The attributes that are mass assignable.
