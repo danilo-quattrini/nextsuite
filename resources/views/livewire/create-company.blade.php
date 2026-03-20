@@ -6,6 +6,7 @@
                 :steps="[
                     ['key' => 1, 'label' => 'Company Profile'],
                     ['key' => 2, 'label' => 'Details'],
+                    ['key' => 3, 'label' => 'Invite Employee'],
                 ]"
         />
 
@@ -17,7 +18,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-lg">
 
                         <!-- AVATAR UPLOAD WRAPPER -->
-                        <div class="flex flex-col items-start justify-center">
+                        <div class="flex flex-col items-start justify-center space-y-lg">
                             <label
                                     for="company_photo"
                                     class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
@@ -134,7 +135,7 @@
                                         <x-tag
                                                 variant="white"
                                                 :dismissible="true"
-                                                size="lg"
+                                                size="md"
                                         >
                                             {{ $fields->firstWhere('id', $fieldId)?->name }}
                                         </x-tag>
@@ -200,20 +201,39 @@
                             </x-button>
                         </x-form.input-container>
 
-                        <!-- BUTTTON TO CREATE THE COMPANY -->
-                        <x-form.input-container size="auto" class="col-span-1">
+                        <x-form.input-container size="auto"  class="col-span-1">
                             <x-button
                                     size="full"
-                                    type="submit"
+                                    wire:click="nextStep"
                             >
-                                Create
+                                Next
                             </x-button>
                         </x-form.input-container>
                     </div>
-                    <div class="flex justify-between">
-
-                    </div>
                 </div>
+                {{-- ================= STEP 3 ================= --}}
+            @elseif($step === 3)
+{{--                <x-data-table />--}}
+                <!-- BUTTTON TO GO BACK -->
+                <x-form.input-container size="auto"  class="col-span-1">
+                    <x-button
+                            variant="rest"
+                            size="full"
+                            wire:click="previousStep"
+                    >
+                        Back
+                    </x-button>
+                </x-form.input-container>
+
+                <!-- BUTTTON TO CREATE THE COMPANY -->
+                <x-form.input-container size="auto" class="col-span-1">
+                    <x-button
+                            size="full"
+                            type="submit"
+                    >
+                        Create
+                    </x-button>
+                </x-form.input-container>
             @endif
         </x-form.container>
     </div>
