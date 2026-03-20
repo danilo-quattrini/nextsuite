@@ -59,6 +59,7 @@ class CreateCompany extends Component
        );
     }
 
+    // ====== VALIDATION OPERATION =====
     protected function rules(): array
     {
         return [
@@ -79,16 +80,16 @@ class CreateCompany extends Component
     {
         return  [
             1 => [
-                'company_photo' => 'nullable|image|max:2048',
+                'company_photo' => 'image|max:2048|mimes:jpeg,png,jpg,webp',
                 'name' => 'required|min:5|max:255|unique:companies',
                 'website' => 'nullable|url|max:255',
-                'email' => 'email|max:255',
-                'vat_number' => 'string|max:255',
+                'email' => 'required|email|max:255|unique:companies',
+                'vat_number' => 'required|string|max:255',
             ],
 
             2 => [
                 'address_line' => 'nullable|string|max:255',
-                'city' => 'string|max:255',
+                'city' => 'required|string|max:255',
                 'phone' => 'required|string',
                 'selectedFields' => 'required|min:1',
                 'owner_id' => 'exists:users,id',
@@ -96,6 +97,28 @@ class CreateCompany extends Component
         ];
     }
 
+    protected function stepValidationMessages(): array
+    {
+        return [
+            1 => [
+                'company_photo.mimes' => 'Photo must be jpeg, png, jpg or webp.',
+                'name.required' => 'Please enter the company name.',
+                'name.min'      => 'Company name must be at least 5 characters.',
+                'name.max'      => 'Company name should not be more than 255 characters.',
+                'email.required'     => 'An email address for this company is required.',
+                'email.unique'       => 'This company email is already registered.',
+                'website.url'     => 'Enter a valid URL for this company.',
+                'vat.required'       => 'VAT is required.'
+            ],
+            2 => [
+                'city.required'       => 'The city of the company is required.',
+                'city.string'         => 'You should write a city for your company',
+                'phone.required'      => 'Please add a phone number for this company.'
+            ]
+        ];
+    }
+
+    // ===== SUBMIT OPERATION ====
     public function submit(): void
     {
         $validated = $this->validate();
