@@ -213,27 +213,54 @@
                 </div>
                 {{-- ================= STEP 3 ================= --}}
             @elseif($step === 3)
-{{--                <x-data-table />--}}
-                <!-- BUTTTON TO GO BACK -->
-                <x-form.input-container size="auto"  class="col-span-1">
-                    <x-button
-                            variant="rest"
-                            size="full"
-                            wire:click="previousStep"
-                    >
-                        Back
-                    </x-button>
-                </x-form.input-container>
+                <div wire:key="company-step-3" class="space-y-6">
 
-                <!-- BUTTTON TO CREATE THE COMPANY -->
-                <x-form.input-container size="auto" class="col-span-1">
-                    <x-button
-                            size="full"
-                            type="submit"
-                    >
-                        Create
-                    </x-button>
-                </x-form.input-container>
+                    <!-- TABLE WITH THE USERS -->
+                    <x-data-table
+                            :table-data="$this->users"
+                            :columns="$this->tableColumns"
+                            photo-field="profile_photo_url"
+                            name-field="full_name"
+                            empty-message="Sorry but nothing it is there not there"
+                    />
+
+                    {{--   ERROR DROPDOWN FIELDS --}}
+                    <x-input-error for="selectedRows"/>
+                    {{-- Catches any wildcard errors --}}
+                    @error('selectedRows.*')
+                    <span class="text-secondary-error text-sm">{{ $message }}</span>
+                    @enderror
+
+
+                    @if(count($this->users) != 0)
+                        <div class="page-content__pagination">
+                            {{ $this->users->links('components.pagination') }}
+                        </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-md">
+                        <!-- BUTTON TO GO BACK -->
+                        <x-form.input-container size="auto"  class="col-span-1">
+                            <x-button
+                                    variant="rest"
+                                    size="full"
+                                    wire:click="previousStep"
+                            >
+                                Back
+                            </x-button>
+                        </x-form.input-container>
+
+                        <!-- BUTTTON TO CREATE THE COMPANY -->
+                        <x-form.input-container size="auto" class="col-span-1">
+                            <x-button
+                                    size="full"
+                                    type="submit"
+                            >
+                                Create
+                            </x-button>
+                        </x-form.input-container>
+                    </div>
+                </div>
             @endif
         </x-form.container>
     </div>

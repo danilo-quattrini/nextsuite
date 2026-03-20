@@ -46,6 +46,50 @@ class CreateCompany extends Component
         return view('livewire.create-company');
     }
 
+    // ==== TABLE OPERATION ===
+
+    /**
+     * Method that maps each column of the
+     * table we are going to create with this
+     * key => value form.
+     *   [
+     *      'key' => 'full_name',
+     *      'label' => 'User',
+     *      'icon' => 'user',
+     *      'visible' => true,
+     *      'hiddenOnMobile' => false,
+     *   ]
+     * @return array for the table
+     * */
+    #[Computed]
+    public function tableColumns(): array
+    {
+        return [
+            [
+                'key' => 'full_name',
+                'label' => 'User',
+                'icon' => 'user',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+            ],
+            [
+                'key' => 'email',
+                'label' => 'Email',
+                'icon' => 'envelope',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+            ],
+            [
+                'key' => 'id',
+                'label' => 'Invite',
+                'icon' => 'user-plus',
+                'type' => 'checkbox',
+                'visible' => true,
+                'hiddenOnMobile' => false,
+            ]
+        ];
+    }
+
     /**
      * Get all the users from the database
      * @return  LengthAwarePaginator pagination of the users
