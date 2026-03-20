@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -166,6 +167,21 @@ class User extends Authenticatable
         return $this->company;
     }
 
+    /**
+     * Get all the users in the system
+     * independently of its role.
+     *
+     * */
+    public static function getUsers(): LengthAwarePaginator
+    {
+        $page = request()->get('page', 1);
+
+        $key = self::CACHE_KEY . ':page:' . $page;
+
+        return Cache::tags(self::CACHE_KEY)->remember($key, self::CACHE_TTL, function (){
+           return static::paginate(6);
+        });
+    }
     /**
      * Check if the user has a company.
      */
