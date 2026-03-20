@@ -19,9 +19,8 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasRoles;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens;
+    use HasRoles;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -75,6 +74,7 @@ class User extends Authenticatable
         ];
     }
 
+    // ==== CACHE OPERATIONS ====
     /**
      * Clear the cache if the user has been created, updated, or deleted.
      */
@@ -85,16 +85,43 @@ class User extends Authenticatable
         static::deleted(fn() => self::clearAllContexts());
     }
 
+    /**
+     * Method to clear all the element that
+     * has as tag the CACHE_KEY declared in the model.
+     * */
     protected static function clearAllContexts(): void
     {
         Cache::tags([self::CACHE_KEY])->flush();
     }
 
+    /**
+     * Get the cache key.
+     * @return string the key of the cache, releated to a specific user id.
+     */
+    public function getCacheKey(?int $userId = null): string
+    {
+        $id = $userId ?? Auth::id();
+
+        if (!$id) {
+            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
+        }
+
+        return self::CACHE_KEY . ':' . $id;
+    }
+
+    // ==== RELEATIONS ====
+
+    /**
+     * Get the company owned by the user if it has one of it.
+    */
     public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'owner_id');
     }
 
+    /**
+     * Get all the customers owne / create by the user
+     */
     public function customer(): HasMany
     {
         return $this->hasMany(Customer::class);
@@ -113,7 +140,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the skill schema create by the user.
+     * Get all the skill schema create by the user.
      */
     public function skillSchema(): BelongsToMany
     {
@@ -145,19 +172,5 @@ class User extends Authenticatable
     public function hasCompany(): bool
     {
         return $this->company()->exists();
-    }
-
-    /**
-     * Get the cache key.
-     */
-    public function getCacheKey(?int $userId = null): string
-    {
-        $id = $userId ?? Auth::id();
-
-        if (!$id) {
-            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
-        }
-
-        return self::CACHE_KEY . ':' . $id;
     }
 }
