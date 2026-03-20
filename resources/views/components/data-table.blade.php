@@ -50,6 +50,19 @@
                                             {!! $formatValue($getColumnValue($row, $column), $column) !!}
                                         </p>
                                     </div>
+                                @elseif(($column['type'] ?? '') === 'checkbox')
+                                    <x-toggle-container>
+                                        <x-slot:element>
+                                            <x-form.checkbox
+                                                    :id="'checkbox-' . $row->{$primaryKey}"
+                                                    :name="'checkbox-' . $row->{$primaryKey}"
+                                                    wire:model.live="selectedRows.{{ $row->{$primaryKey} }}"
+                                                    size="md"
+                                                    :wrap="true"
+                                            />
+                                        </x-slot:element>
+                                        <x-slot:span></x-slot:span>
+                                    </x-toggle-container>
                                 @else
                                     {{-- Regular column --}}
                                     <p class="table-text">
