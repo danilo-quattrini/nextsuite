@@ -33,6 +33,7 @@ class CreateCompany extends Component
     public function mount(): void
     {
         $this->fields = Field::all();
+        $this->fields = Field::getFields();
     }
 
     public function render()
