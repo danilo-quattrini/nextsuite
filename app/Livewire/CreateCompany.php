@@ -20,15 +20,14 @@ class CreateCompany extends Component
     use ArrayOperation;
 
     public string $name;
-    public ?string $trade_name = null;
     public ?string $website = null;
     public ?string $email = null;
     public ?string $vat_number = null;
     public ?string $address_line = null;
     public ?string $city = null;
-    public ?string $postal_code = null;
     public string $phone =  '';
     public $company_photo;
+
     public $fields;
     public ?int $owner_id = null;
 
@@ -37,7 +36,6 @@ class CreateCompany extends Component
 
     public function mount(): void
     {
-        $this->fields = Field::all();
         $this->fields = Field::getFields();
     }
 
@@ -127,10 +125,10 @@ class CreateCompany extends Component
             'company_photo' => 'nullable|image|max:2048',
             'name' => 'required|min:5|max:255|unique:companies',
             'website' => 'nullable|url|max:255',
-            'email' => 'email|max:255',
+            'email' => 'required|email|max:255',
             'vat_number' => 'string|max:255',
             'address_line' => 'nullable|string|max:255',
-            'city' => 'string|max:255',
+            'city' => 'required|string|max:255',
             'phone' => 'required|string|max:50',
             'selectedFields' => 'required|min:1',
             'selectedRows'   => 'required|array|min:1',
@@ -166,11 +164,10 @@ class CreateCompany extends Component
             ],
 
             2 => [
-                'address_line' => 'nullable|string|max:255',
+                'address_line' => 'required|string|max:255',
                 'city' => 'required|string|max:255',
-                'phone' => 'required|string',
+                'phone' => 'required|string|max:50',
                 'selectedFields' => 'required|min:1',
-                'owner_id' => 'exists:users,id',
             ]
         ];
     }
@@ -186,12 +183,15 @@ class CreateCompany extends Component
                 'email.required'     => 'An email address for this company is required.',
                 'email.unique'       => 'This company email is already registered.',
                 'website.url'     => 'Enter a valid URL for this company.',
-                'vat.required'       => 'VAT is required.'
+                'vat_number.required'       => 'VAT is required.'
             ],
             2 => [
                 'city.required'       => 'The city of the company is required.',
                 'city.string'         => 'You should write a city for your company',
-                'phone.required'      => 'Please add a phone number for this company.'
+                'address_line.required'        => 'The address line of the company is required.',
+                'address_line.string'        => 'You should write an address line for your company.',
+                'phone.required'      => 'Please add a phone number for this company.',
+                'phone.string'        => 'Phone should be into a valid format'
             ]
         ];
     }
