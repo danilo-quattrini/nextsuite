@@ -29,12 +29,21 @@ class GenericNotification extends Notification implements ShouldQueue
         return $this->channels;
     }
 
+    /**
+     * The mail representation.
+     */
     public function toMail($notifiable): MailMessage
     {
-        return (new MailMessage)
-            ->line('');
-    }
+        $mail =  (new MailMessage)
+            ->subject($this->subject)
+            ->line($this->message);
 
+        if($this->actionText && $this->actionUrl){
+            $mail->action($this->actionText, $this->actionUrl);
+        }
+
+        return $mail;
+    }
 
     /**
      * The database representation (stored in notifications table).
