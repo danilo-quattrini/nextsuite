@@ -11,9 +11,14 @@ class GenericNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct()
+    public function __construct(
+        protected string $subject,
+        protected string  $message,
+        protected ?string $actionText = null,
+        protected ?string $actionUrl  = null,
+        protected array   $channels   = ['mail']
+    )
     {
-        $this->onConnection(config('cache.stores'));
     }
 
     public function via($notifiable): array
