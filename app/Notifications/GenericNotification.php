@@ -21,9 +21,12 @@ class GenericNotification extends Notification implements ShouldQueue
     {
     }
 
+    /**
+     * Which channels to use — driven by whatever was passed in.
+     */
     public function via($notifiable): array
     {
-        return ['mail', 'database'];
+        return $this->channels;
     }
 
     public function toMail($notifiable): MailMessage
