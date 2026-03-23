@@ -58,8 +58,11 @@ class GenericNotification extends Notification implements ShouldQueue
         ];
     }
 
+    /**
+     * Generic array fallback (used by broadcast, etc.)
+     */
     public function toArray($notifiable): array
     {
-        return [];
+        return $this->toDatabase($notifiable);
     }
 }
