@@ -214,7 +214,7 @@ class CreateCompany extends Component
             'website' => $validated['website'] ?? null,
             'email' => $validated['email'],
             'vat_number' => $validated['vat_number'],
-            'address_line' => $validated['address_line1'] ?? null,
+            'address_line' => $validated['address_line'] ?? null,
             'city' => $validated['city'] ?? null,
             'phone' => $validated['phone'],
             'company_photo' => $imageName ?? null,
