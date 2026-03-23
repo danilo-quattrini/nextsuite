@@ -35,9 +35,18 @@ class GenericNotification extends Notification implements ShouldQueue
             ->line('');
     }
 
+
+    /**
+     * The database representation (stored in notifications table).
+     */
     public function toDatabase($notifiable): array
     {
-        return [];
+        return [
+            'subject'     => $this->subject,
+            'message'     => $this->message,
+            'action_text' => $this->actionText,
+            'action_url'  => $this->actionUrl,
+        ];
     }
 
     public function toArray($notifiable): array
