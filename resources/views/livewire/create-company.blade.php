@@ -107,9 +107,10 @@
                         <x-form.input-container size="auto">
                             <x-form.label-container label="{{ __('Phone number') }}" :required="true"/>
                                 <x-input
-                                        id="phone_display"
-                                        type="tel"
+                                        id="phone"
+                                        name="phone"
                                         wire:model="phone"
+                                        type="text"
                                         right-icon="phone"
                                         placeholder="123-4567-8901"
                                         :error="$errors->has('phone')"
