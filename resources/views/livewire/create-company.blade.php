@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit" enctype="multipart/form-data">
+<div wire:submit.prevent="submit" enctype="multipart/form-data">
     @csrf
     <div class="max-w-full mx-auto p-xl space-y-2xl">
         <x-form.step-progress-bar
@@ -255,7 +255,7 @@
                         <x-form.input-container size="auto" class="col-span-1">
                             <x-button
                                     size="full"
-                                    type="submit"
+                                    wire:click="submit"
                             >
                                 Create
                             </x-button>
@@ -265,4 +265,4 @@
             @endif
         </x-form.container>
     </div>
-</form>
+</div>
