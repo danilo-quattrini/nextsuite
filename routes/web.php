@@ -66,8 +66,6 @@ Route::middleware([
     Route::get('/company/create', 'create')
         ->name('company.create');
 
-   Route::get('/company', 'show')
-       ->name('company.show');
 });
 
 Route::middleware([
@@ -101,6 +99,10 @@ Route::middleware([
 
     Route::get('/report/{customer}', ShowCustomerReport::class)
         ->name('report.show');
+
+    /* COMPANY ROUTES */
+    Route::livewire('/company', 'pages::company.view')
+        ->name('company.show');
 
     /* SKILL SCHEMA ROUTES*/
     Route::livewire('skill-schema', 'pages::customer.view' )

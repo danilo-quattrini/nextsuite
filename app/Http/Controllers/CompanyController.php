@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
@@ -20,12 +21,5 @@ class CompanyController extends Controller
     public function create(): View
     {
         return view('company.create');
-    }
-
-    public function show(): View
-    {
-        $company = Auth::user()->company;
-
-        return view('company.show', compact('company'));
     }
 }
