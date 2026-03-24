@@ -122,6 +122,9 @@ class CreateCompany extends Component
     }
 
     // ====== VALIDATION OPERATION =====
+    /**
+     * Validation rules
+     */
     protected function rules(): array
     {
         return [
@@ -150,6 +153,9 @@ class CreateCompany extends Component
         ];
     }
 
+    /**
+     * Array of each step with their relative rules
+     */
     protected function stepRules(): array
     {
         return  [
@@ -166,9 +172,6 @@ class CreateCompany extends Component
                 'city' => 'required|string|max:255',
                 'phone' => 'required|string|max:50',
                 'selectedFields' => 'required|min:1',
-            ],
-            3 => [
-                'selectedRows' => 'required|array|min:1',
             ]
         ];
     }
@@ -193,10 +196,6 @@ class CreateCompany extends Component
                 'address_line.string'        => 'You should write an address line for your company.',
                 'phone.required'      => 'Please add a phone number for this company.',
                 'phone.string'        => 'Phone should be into a valid format'
-            ],
-            3  => [
-                'selectedRows.required' => 'You should select at least one user for your company, it\'s required .',
-                'selectedRows.min'      => 'You should select at least one user for your company, minimum 1.',
             ]
         ];
     }
