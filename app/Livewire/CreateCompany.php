@@ -232,7 +232,7 @@ class CreateCompany extends Component
             array_keys($this->selectedFields)
         );
 
-        $this->sendInvitationEmail($company);
+        $this->sendInvitation($company, $selectedUserId);
 
         $this->redirect(
             auth()->check()
@@ -241,18 +241,31 @@ class CreateCompany extends Component
         );
     }
 
-    private function sendInvitationEmail(Company $company): void
-    {
-        if(empty($this->selectedRows))
+    /**
+     * Send invitation to all users that has been selected,
+     * during the process of the company creation.
+     *
+     * @param  Company  $company that has been created.
+     * @param  array  $selectedUserId user ids have been selected during the
+     * creation.
+     * */
+    private function sendInvitation(
+        Company $company,
+        array $selectedUserId
+    ): void {
+
+        if(empty($selectedUserId))
             return;
 
-        $users = User::find($this->selectedRows);
+        $users = User::find($selectedUserId);
 
         if($users->isNotEmpty()){
             app(NotificationService::class)->sendBulk(
                 notifiables: $users,
                 subject: "Receive and invitation from the company {$company->name}",
                 message: "Hi dear you have been invited to join in the company {$company->name}",
+                actionText: "Join",
+                actionUrl: "",
                 channels: ['mail', 'database']
             );
         }
