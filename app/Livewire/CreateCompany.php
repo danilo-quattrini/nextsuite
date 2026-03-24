@@ -5,6 +5,7 @@ namespace App\Livewire;
 use App\Models\Company;
 use App\Models\Field;
 use App\Models\User;
+use App\Notifications\Services\NotificationService;
 use App\Traits\ArrayOperation;
 use App\Traits\WithStep;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -132,7 +133,6 @@ class CreateCompany extends Component
             'phone' => 'required|string|max:50',
             'selectedFields' => 'required|min:1',
             'selectedRows'   => 'required|array|min:1',
-            'selectedRows.*' => 'required|integer|distinct',
             'owner_id' => 'nullable|exists:users,id',
         ];
     }
@@ -143,12 +143,8 @@ class CreateCompany extends Component
     protected function messages(): array
     {
         return [
-            'selectedRows.required' => 'You should select at least one user for your company.',
-            'selectedRows.min'      => 'You should select at least one user for your company.',
-            // For the wildcard rules, use the exact attribute pattern:
-            'selectedRows.*.required' => 'Each selected user must be valid.',
-            'selectedRows.*.integer'  => 'Each selected user must be valid.',
-            'selectedRows.*.distinct' => 'You cannot select the same user twice.',
+            'selectedRows.required' => 'You should select at least one user for your company, it\'s required .',
+            'selectedRows.min'      => 'You should select at least one user for your company, minimum 1.',
         ];
     }
 
@@ -168,6 +164,9 @@ class CreateCompany extends Component
                 'city' => 'required|string|max:255',
                 'phone' => 'required|string|max:50',
                 'selectedFields' => 'required|min:1',
+            ],
+            3 => [
+                'selectedRows' => 'required|array|min:1',
             ]
         ];
     }
@@ -192,6 +191,10 @@ class CreateCompany extends Component
                 'address_line.string'        => 'You should write an address line for your company.',
                 'phone.required'      => 'Please add a phone number for this company.',
                 'phone.string'        => 'Phone should be into a valid format'
+            ],
+            3  => [
+                'selectedRows.required' => 'You should select at least one user for your company, it\'s required .',
+                'selectedRows.min'      => 'You should select at least one user for your company, minimum 1.',
             ]
         ];
     }
@@ -199,6 +202,8 @@ class CreateCompany extends Component
     // ===== SUBMIT OPERATION ====
     public function submit(): void
     {
+        $this->selectedRows = array_keys(array_filter($this->selectedRows));
+
         $validated = $this->validate();
 
 
@@ -226,10 +231,29 @@ class CreateCompany extends Component
             array_keys($this->selectedFields)
         );
 
+        $this->sendInvitationEmail($company);
+
         $this->redirect(
             auth()->check()
                 ? route('company.show')
                 : route('login')
         );
+    }
+
+    private function sendInvitationEmail(Company $company): void
+    {
+        if(empty($this->selectedRows))
+            return;
+
+        $users = User::find($this->selectedRows);
+
+        if($users->isNotEmpty()){
+            app(NotificationService::class)->sendBulk(
+                notifiables: $users,
+                subject: "Receive and invitation from the company {$company->name}",
+                message: "Hi dear you have been invited to join in the company {$company->name}",
+                channels: ['mail', 'database']
+            );
+        }
     }
 }
