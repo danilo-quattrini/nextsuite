@@ -84,13 +84,6 @@
                 ],
                 [
                     'type' => 'link',
-                    'label' => 'Service',
-                    'icon' => 'briefcase',
-                    'href' => '#',
-                    'active' => false,
-                ],
-                [
-                    'type' => 'link',
                     'label' => 'Employees',
                     'icon' => 'user-group',
                     'href' => '#',
