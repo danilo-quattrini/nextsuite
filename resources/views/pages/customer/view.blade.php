@@ -11,14 +11,14 @@ use Livewire\WithPagination;
 
 new class extends Component {
 
-    use WithPagination, WithoutUrlPagination;
+    use WithPagination;
 
     protected string $paginationTheme = 'tailwind';
 
-    #[Computed]
-    public function customers(): _IH_Customer_C|LengthAwarePaginator|array
+    #[Computed(cache: false)]
+    public function customers(): LengthAwarePaginator
     {
-        return Customer::getCustomersOwnedByUser();
+        return Customer::getCustomersOwnedByUser(page: $this->getPage());
     }
 };
 ?>
