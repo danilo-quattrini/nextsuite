@@ -153,6 +153,15 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the company where the user belongs to, in this case the user it's an employee.
+     */
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'company_employee', 'employee_id', 'company_id');
+    }
+
+    // ==== HELPER METHODS ====
+    /**
      * Get the user company if exists.
      */
     public function getCompany(): ?Company
@@ -172,15 +181,16 @@ class User extends Authenticatable
      * Get all the users in the system
      * independently of its role.
      *
+     * @param  int  $page the current page that has been set
+     * @return LengthAwarePaginator
      * */
-    public static function getUsers(): LengthAwarePaginator
+    public static function getUsers(int $page =  1): LengthAwarePaginator
     {
-        $page = request()->get('page', 1);
 
         $key = self::CACHE_KEY . ':page:' . $page;
 
-        return Cache::tags(self::CACHE_KEY)->remember($key, self::CACHE_TTL, function (){
-           return static::paginate(6);
+        return Cache::tags(self::CACHE_KEY)->remember($key, self::CACHE_TTL, function () use ($page){
+           return static::paginate(6, ['*'], 'page', $page);
         });
     }
     /**
