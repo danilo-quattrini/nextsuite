@@ -13,11 +13,13 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class CreateCompany extends Component
 {
     use WithFileUploads;
     use WithStep;
+    use WithPagination;
     use ArrayOperation;
 
     public string $name;
@@ -48,9 +50,8 @@ class CreateCompany extends Component
     // ==== TABLE OPERATION ===
 
     /**
-     * Method that maps each column of the
-     * table we are going to create with this
-     * key => value form.
+     * Method that maps each column of the table we are going to create with this format.
+     * ```
      *   [
      *      'key' => 'full_name',
      *      'label' => 'User',
@@ -58,6 +59,7 @@ class CreateCompany extends Component
      *      'visible' => true,
      *      'hiddenOnMobile' => false,
      *   ]
+     * ```
      * @return array for the table
      * */
     #[Computed]
@@ -91,12 +93,12 @@ class CreateCompany extends Component
 
     /**
      * Get all the users from the database
-     * @return  LengthAwarePaginator pagination of the users
+     * @return  LengthAwarePaginator pagination of the users in the current page.
      * */
-    #[Computed]
+    #[Computed(cache: false)]
     public function users(): LengthAwarePaginator
     {
-        return User::getUsers();
+        return User::getUsers(page: $this->getPage());
     }
 
     // ==== FIELD OPERATION ====
