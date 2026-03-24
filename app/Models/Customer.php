@@ -358,27 +358,31 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
     /**
      * Get all the customers owned by a user with saved them inside the cache
      */
-    public static function getCustomersOwnedByUser(?string $context = null)
-    {
+    public static function getCustomersOwnedByUser(
+        ?string $context = null,
+        int $page = 1
+    ): LengthAwarePaginator {
+
         $context = $context ?? Route::currentRouteName() ?? 'default';
-        $page = request()->get('page', 1);
+
         $userId = Auth::id();
 
         $key = self::CACHE_KEY . ':owned:' . $userId . ':' . $context . ':page:' . $page;
 
-        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($userId) {
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($userId, $page) {
             return static::with('user')
                 ->where('user_id', $userId)
-                ->paginate(6);
+                ->paginate(6, ['*'], 'page', $page);
         });
     }
 
     /**
      * Get all the customers with reviews and their average, save them inside the cache
      */
-    public static function getCustomersWithReviews(?string $context = null)
-    {
-        $page = request()->get('page', 1);
+    public static function getCustomersWithReviews(
+        ?string $context = null,
+        int $page = 1
+    ): LengthAwarePaginator {
 
         if ($context === null) {
             $currentRoute = Route::currentRouteName();
@@ -387,11 +391,11 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
         $key = self::CACHE_KEY . ':context:' . $context . ':page:' . $page;
 
-        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () {
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($page) {
             return static::with('skills')
                 ->withCount('reviews as reviews_count')
                 ->withAvg('reviews as reviews_avg_rating', 'rating')
-                ->paginate(6);
+                ->paginate(6, ['*'], 'page', $page);
         });
 
     }
