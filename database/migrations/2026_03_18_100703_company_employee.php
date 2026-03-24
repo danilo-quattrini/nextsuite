@@ -10,8 +10,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('company_employee', function (Blueprint $table) {
-            $table->foreignIdFor(Company::class)->constrained('companies');
-            $table->foreignIdFor(User::class, 'employee_id')->constrained('users');
+            $table->foreignIdFor(Company::class)
+                ->constrained('companies')
+                ->cascadeOnDelete();
+            $table->foreignIdFor(User::class, 'employee_id')
+                ->constrained('users')
+                ->cascadeOnDelete();
             $table->timestamps();
 
             $table->primary(['company_id', 'employee_id']);
