@@ -203,7 +203,7 @@ class CreateCompany extends Component
     // ===== SUBMIT OPERATION ====
     public function submit(): void
     {
-        $this->selectedRows = array_keys(array_filter($this->selectedRows));
+        $selectedUserId = array_keys(array_filter($this->selectedRows));
 
         $validated = $this->validate();
 
