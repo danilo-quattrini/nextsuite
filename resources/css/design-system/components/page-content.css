@@ -151,7 +151,8 @@
 }
 
 .page-content__actions {
-    @apply mt-6 flex flex-wrap gap-3 border-t border-outline-grey/70 pt-4;
+    @apply mt-6 flex flex-wrap gap-3 justify-start
+    border-t border-outline-grey/70 pt-4;
 }
 
 /* ============================================================
@@ -163,7 +164,9 @@
 }
 
 .page-content__dropdown-item {
-    @apply flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-outline-grey hover:bg-outline-grey;
+    @apply flex items-center gap-2 px-4 py-2 rounded-md
+    text-sm font-medium border border-outline-grey
+    hover:bg-outline-grey;
 }
 
 /* ============================================================
@@ -171,5 +174,7 @@
    ============================================================ */
 
 .page-content__pagination {
-    @apply mt-10 p-6 bg-white border border-outline-grey rounded-md flex flex-col sm:flex-row items-center sm:justify-between xl:justify-center shadow-sm;
+    @apply mt-10 p-6 bg-white border border-outline-grey rounded-md
+    flex flex-col sm:flex-row items-center
+    sm:justify-between xl:justify-center shadow-sm;
 }
