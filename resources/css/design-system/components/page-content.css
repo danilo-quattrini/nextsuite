@@ -130,11 +130,11 @@
 }
 
 .page-content__name {
-    @apply text-sm font-semibold text-black;
+    @apply text-sm font-semibold text-black truncate;
 }
 
 .page-content__email {
-    @apply text-xs text-primary-grey;
+    @apply text-xs text-primary-grey truncate;
 }
 
 
