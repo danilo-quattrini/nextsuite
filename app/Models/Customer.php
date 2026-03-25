@@ -330,15 +330,16 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
 
         $query = static::with(['reviews.author', 'skills', 'roles'])
             ->withCount('reviews as reviews_count')
-            ->withAvg('reviews as reviews_avg_rating', 'rating');
+            ->withAvg('reviews as reviews_avg_rating', 'rating')
+            ->groupBy('customers.id');
 
         if (!empty($role)) {
             $query->role($role);
         }
 
         if (!empty($skillIds)) {
-            $query->whereIn('id', function ($query) use ($skillIds) {
-                $query->select('customer_id')
+            $query->whereIn('id', function ($sub) use ($skillIds) {
+                $sub->select('customer_id')
                     ->from('skill_customers')
                     ->whereIn('skill_id', $skillIds)
                     ->groupBy('customer_id')
@@ -347,11 +348,11 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         }
 
         if ($ratingStars > 0) {
-            $query->having('reviews_avg_rating', '>=', $ratingStars);
+            $query->havingRaw('reviews_avg_rating >= ?', [$ratingStars]);
         }
 
         return $query
-            ->orderByDesc('reviews_avg_rating')
+            ->orderByRaw('reviews_avg_rating IS NULL ASC, reviews_avg_rating DESC')
             ->paginate($perPage);
     }
 
