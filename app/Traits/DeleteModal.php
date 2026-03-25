@@ -18,6 +18,7 @@ trait DeleteModal
     {
         $model = match ($type) {
             'customer' => Customer::findOrFail($id),
+            'company' => Company::findOrFail($id),
             'template' => Template::findOrFail($id),
             default => throw new \InvalidArgumentException('Invalid reviewable type'),
         };
