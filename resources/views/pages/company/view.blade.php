@@ -4,11 +4,22 @@ use App\Models\Company;
 use Livewire\Component;
 
 new class extends Component {
-    public Company $company;
 
+    public ?Company $company = null;
+
+    public bool $isOwner = false;
+
+    /**
+     * Load the user and then the company where
+     * the user belongs to or has, and trigger a
+     * flag if the user's the owner of it or not.
+     * */
     public function mount(): void
     {
-        $this->company = Auth::user()->company;
+        $user = Auth::user();
+
+        $this->company = $user->company ?? $user->companies->first();
+        $this->isOwner = $user->company !== null;
     }
 };
 ?>
