@@ -39,8 +39,9 @@ class CreateCustomer extends Component
         RoleService $roleService
     ): void
     {
-      $this->nationalities = $nationalityService->all();
-      $this->roles = $roleService->getAllRoleNames();
+        $this->authorize('create', Customer::class);
+        $this->nationalities = $nationalityService->all();
+        $this->roles = $roleService->getAllRoleNames();
     }
 
     public function render(): View
@@ -67,6 +68,8 @@ class CreateCustomer extends Component
 
     public function submit(): void
     {
+        $this->authorize('create', Customer::class);
+
         $user = Auth::user();
 
         $this->form->validate();
