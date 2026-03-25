@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Traits\DeleteModal;
 use App\Traits\WithReview;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -24,6 +25,33 @@ class CustomerTable extends Component
     public ?string $roleToSearch = '';
     public bool $showFilterSection = false;
 
+    /**
+     * Authorize only the users who are able to see the
+     * customers and have the permission customer.read
+     * */
+    public function mount(): void
+    {
+        $this->authorize('view-any', Customer::class);
+    }
+
+    public function render(): View
+    {
+        return view('livewire.customer.customer-table');
+    }
+
+    /**
+     * Method that maps each column of the table we are going to create with this format.
+     * ```
+     *   [
+     *      'key' => 'full_name',
+     *      'label' => 'User',
+     *      'icon' => 'user',
+     *      'visible' => true,
+     *      'hiddenOnMobile' => false,
+     *   ]
+     * ```
+     * @return array for the table
+     * */
     #[Computed]
     public function tableColumns(): array
     {
@@ -103,6 +131,19 @@ class CustomerTable extends Component
             ]
         ];
     }
+
+    /**
+     * Method that set an array of actions to perform into the table.
+     * ```
+     *   [
+     *      'label' => 'label name to show',
+     *      'icon' => name of the icon,
+     *      'route' => web.php route to perform in,
+     *      'color' => button color,
+     *   ]
+     * ```
+     * @return array for the action section in the data-table
+     * */
     #[Computed]
     public function tableActions(): array
     {
@@ -134,11 +175,23 @@ class CustomerTable extends Component
         ];
     }
 
+    /**
+     * Open the filter dropdown section to show in the view.
+     * */
     public function openFilterSection(): void
     {
         $this->dispatch('toggle-filter-section');
     }
 
+    /**
+     * Method that receives an event of type 'customer-filters-updated',
+     * where it will take the @param  string|null  $roleToSearch role to search
+     * in the database, the @param  array|null  $skillIds skill ids' to search on the
+     * customer and in the end the @param  int|null  $ratingStars to see.
+     *
+     * It will assign them to the class variables and reset the pagination to the
+     * first page.
+     * */
     #[On('customer-filters-updated')]
     public function applyFilters(
         ?string $roleToSearch,
@@ -161,10 +214,5 @@ class CustomerTable extends Component
             $this->selectedSkillIds,
             $this->selectedRatingStars
         );
-    }
-
-    public function render()
-    {
-        return view('livewire.customer.customer-table');
     }
 }
