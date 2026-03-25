@@ -1,9 +1,12 @@
 <?php
 
 use App\Models\Company;
+use App\Traits\DeleteModal;
 use Livewire\Component;
 
 new class extends Component {
+
+    use DeleteModal;
 
     public ?Company $company = null;
 
@@ -21,6 +24,40 @@ new class extends Component {
         $this->company = $user->company ?? $user->companies->first();
         $this->isOwner = $user->company !== null;
     }
+
+    /**
+     * Override the trait's deleteModelElement to handle
+     * company-specific logic.
+     *
+     * To remove a company first, it's necessary to
+     * detach all the skills from a customer, then delete
+     * the customer associated with the company from the database.
+
+     * After that detach employees from the company before deleting it
+     * and redirecting to company creation.
+     */
+    public function deleteModelElement(): void
+    {
+        $this->company->customers->each(function ($customer) {
+            $customer->skills()->detach();
+        });
+
+        $this->company->customers()->delete();
+
+        $this->company->employee()->detach();
+
+        $this->company->delete();
+
+        $this->reset([
+            'showDeleteModal',
+            'id',
+            'modelType'
+        ]);
+
+        session()->flash('info', 'Company deleted successfully.');
+
+        $this->redirect(route('company.create'), navigate: true);
+    }
 };
 ?>
 <x-card.content-page-card
@@ -30,7 +67,7 @@ new class extends Component {
     @if (!$company)
         {{--    CARD IF NO COMPANY HAS BEEN LOADED    --}}
         <div class="rounded-xl border border-dashed border-outline-grey p-10 text-center bg-white">
-            <x-heroicon name="building-office" class="mx-auto h-12 w-12 text-primary-grey" />
+            <x-heroicon name="building-office" class="mx-auto h-12 w-12 text-primary-grey"/>
             <h2 class="mt-4 text-lg font-semibold text-black">No company associated</h2>
             <p class="mt-2 text-sm text-primary-grey">
                 You currently don't belong to any company. Please contact an administrator or create one.
@@ -83,12 +120,54 @@ new class extends Component {
                             </div>
                         </div>
                     </div>
-
                 </div>
+
+                    {{-- ACTIONS COMPANY BUTTON --}}
+                    @if($isOwner)
+                        <x-dropdown
+                                align="right"
+                                width="80"
+                                content-classes="p-sm bg-white"
+                        >
+                            <x-slot:trigger>
+                                <x-button
+                                        type="button"
+                                        variant="white"
+                                        size="auto"
+                                        aria-label="Company actions"
+                                >
+                                    <x-heroicon name="ellipsis-vertical"/>
+                                </x-button>
+                            </x-slot:trigger>
+
+                            <x-slot:content>
+                                <div class="flex-col items-center space-y-3">
+                                    <div class="flex flex-col space-y-2 min-w-40">
+                                        <a
+                                                href=""
+                                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
+                                        >
+                                            <x-heroicon name="pencil-square" class="text-primary-grey"/>
+                                            <span>Edit Company</span>
+                                        </a>
+
+                                        <button
+                                                type="button"
+                                                wire:click.prevent="$dispatch('delete-element', { id: {{ $company->id }} , type: 'company' })"
+                                                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
+                                            >
+                                                <x-heroicon name="trash"/>
+                                                <span>Delete</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </x-slot:content>
+                            </x-dropdown>
+                    @endif
             </div>
 
 
-            <hr class="border-outline-grey mx-6" />
+            <hr class="border-outline-grey mx-6"/>
 
             {{-- COMPANY STATS --}}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 p-6">
@@ -118,4 +197,7 @@ new class extends Component {
             </div>
         </x-card.card-container>
     @endif
+
+    {{-- DELETE MODAL --}}
+    <x-popup.delete-popup :show-delete-modal="$showDeleteModal"/>
 </x-card.content-page-card>
