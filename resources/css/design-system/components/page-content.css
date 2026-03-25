@@ -126,7 +126,7 @@
 }
 
 .page-content__avatar-image {
-    @apply w-12 h-12;
+    @apply w-10 h-10 sm:w-12 sm:h-12;
 }
 
 .page-content__name {
