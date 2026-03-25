@@ -83,8 +83,16 @@
 }
 
 .page-content__card {
-    @apply bg-white border border-outline-grey rounded-md xl:px-10 xl:py-8 flex flex-col justify-between  transition-all;
+    @apply bg-white border border-outline-grey rounded-md
+    p-sm sm:p-md
+    flex flex-col justify-between
+    transition-all;
 }
+
+.page-content__card--compact {
+    @apply p-3 sm:p-4 gap-3;
+}
+
 /* ============================================================
    CARD — ANIMATION
    ============================================================ */
