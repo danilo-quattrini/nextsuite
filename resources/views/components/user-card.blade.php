@@ -1,3 +1,19 @@
+{{--
+    user-card.blade.php
+
+    Props
+    ─────
+    user       Model   required  The user/model to display.
+    href       string  optional  Named route for the card link.
+    compact    bool    false     Use the compact card variant (less padding).
+    showMeta   bool    true      Show the phone/DOB/nationality/role block.
+    showRating bool    true      Show the star-rating block.
+
+    Slot
+    ────
+    $slot  optional  Extra content injected after the actions area.
+--}}
+
 @php
     use Illuminate\Support\Carbon;
     $modelType = get_class($user) ?? ' ';
