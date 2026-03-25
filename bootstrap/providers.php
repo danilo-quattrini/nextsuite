@@ -6,4 +6,5 @@ return [
     App\Providers\JetstreamServiceProvider::class,
     App\Providers\VoltServiceProvider::class,
     App\Providers\RoleServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
 ];
