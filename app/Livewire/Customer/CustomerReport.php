@@ -17,7 +17,7 @@ class CustomerReport extends Component
     #[Computed(cache: false)]
     public function customers(): LengthAwarePaginator
     {
-        return Customer::getCustomersWithReviews(page: $this->getPage());
+        return Customer::getCustomersOwnedByUser(page: $this->getPage());
     }
 
     public function render(): View

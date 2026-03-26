@@ -373,6 +373,8 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($userId, $page) {
             return static::with('user')
                 ->where('user_id', $userId)
+                ->withCount('reviews as reviews_count')
+                ->withAvg('reviews as reviews_avg_rating', 'rating')
                 ->paginate(6, ['*'], 'page', $page);
         });
     }
