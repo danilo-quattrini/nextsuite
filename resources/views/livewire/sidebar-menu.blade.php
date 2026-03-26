@@ -86,6 +86,7 @@
                     'type' => 'link',
                     'label' => 'Employees',
                     'icon' => 'user-group',
+                    'requires_company' => true,
                     'href' => '#',
                     'active' => false,
                 ],
@@ -169,6 +170,12 @@
 
             <div class="sidebar__section-items">
                 @foreach($section['items'] as $item)
+                    {{-- PERMISSION TO SEE SECTION ONLY IF IT HAS A COMPANY --}}
+                    @if(isset($item['requires_company']) && $item['requires_company'] && !$hasCompany)
+                        @continue
+                    @endif
+
+                    {{-- DROPDOWN ITEM IT WILL SHOW THE DROPDOWN MENU' --}}
                     @if($item['type'] === 'dropdown')
                         <x-sidebar.dropdown-link
                             :active="$item['active']"
@@ -195,6 +202,7 @@
                         </x-sidebar.dropdown-link>
 
                     @else
+                        {{-- INSTEAD OF THE DROPDOWN THE NORMAL ITEM --}}
                         <x-sidebar.sidebar-link
                                 href="{{ $item['href'] }}"
                                 :active="$item['active']"
