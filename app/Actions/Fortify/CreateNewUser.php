@@ -33,7 +33,7 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
-        $user->assignRole('employee');
+        $user->assignRole('guest');
 
         if (isset($input['profile_photo'])) {
             $user->updateProfilePhoto($input['profile_photo']);
