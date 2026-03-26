@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Domain\Role\Services\RoleService;
 use App\Models\Company;
 use App\Models\Field;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Notifications\Services\NotificationService;
 use App\Traits\ArrayOperation;
 use App\Traits\WithStep;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -234,6 +236,8 @@ class CreateCompany extends Component
 
         $this->sendInvitation($company, $selectedUserId);
 
+        $this->setOwnerRole();
+
         $this->redirect(
             auth()->check()
                 ? route('company.show')
@@ -268,6 +272,27 @@ class CreateCompany extends Component
                 actionUrl: "",
                 channels: ['mail', 'database']
             );
+        }
+    }
+    /**
+     * Set the role of the authenticated user from
+     * 'guest' or any type of role different from 'owner'
+     * to 'owner'.
+     *
+     * After the role has been synced, it will call
+     * the RoleService instance to invalid the cache
+     * of the old role, then it will dispatch an event
+     * to refresh
+     * */
+    private function setOwnerRole(): void
+    {
+        $user = Auth::user();
+
+        if(!$user->hasRole('owner'))
+        {
+            $user->syncRoles(['owner']);
+            app(RoleService::class)->invalidateUserCache($user);
+            $this->dispatch('refresh-navigation-menu');
         }
     }
 }

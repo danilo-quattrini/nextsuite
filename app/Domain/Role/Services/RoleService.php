@@ -34,6 +34,21 @@ class RoleService
         );
     }
     /**
+     * Invalidate all cached role data for a specific user.
+     * Call this after role/permission changes.
+     * @param  Authenticatable  $user
+     */
+    public function invalidateUserCache(Authenticatable $user): void
+    {
+        $this->cache->tags([self::CACHE_KEY])->forget(
+            self::CACHE_KEY . ":user:{$user->getAuthIdentifier()}:roles"
+        );
+        $this->cache->tags([self::CACHE_KEY])->forget(
+            self::CACHE_KEY . ":user:{$user->getAuthIdentifier()}:permissions"
+        );
+    }
+
+    /**
      * Get all the role available in the system.
      * @return array
      **/
