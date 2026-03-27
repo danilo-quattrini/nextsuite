@@ -94,9 +94,10 @@ class CustomerTable extends Component
                 'hiddenOnMobile' => true,
             ],
             [
-                'key' => 'nationality',
+                'key' => 'nationality_iso',
                 'label' => 'Nationality',
                 'icon' => 'globe-europe-africa',
+                'type' => 'nationality',
                 'visible' => true,
                 'hiddenOnMobile' => true,
             ],

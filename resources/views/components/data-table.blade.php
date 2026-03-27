@@ -65,9 +65,16 @@
                                     </x-toggle-container>
                                 @else
                                     {{-- Regular column --}}
-                                    <p class="table-text">
-                                        {!! $formatValue($getColumnValue($row, $column), $column) !!}
-                                    </p>
+                                    @if(($column['type'] ?? '') === 'nationality')
+                                        <div class="flex items-center gap-sm">
+                                            <x-nationality-flag :code="$getColumnValue($row, $column)" class="w-5 h-5" />
+                                            <p class="table-text">{{ $getColumnValue($row, $column) }}</p>
+                                        </div>
+                                    @else
+                                        <p class="table-text">
+                                            {!! $formatValue($getColumnValue($row, $column), $column) !!}
+                                        </p>
+                                    @endif
                                 @endif
                             </td>
                         @endif
