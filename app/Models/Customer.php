@@ -36,6 +36,7 @@ class Customer extends Model implements SkillAssignable, AttributeAssignable
         'dob',
         'gender',
         'nationality',
+        'nationality_iso',
         'company_id',
         'user_id',
     ];
