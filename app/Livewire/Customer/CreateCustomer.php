@@ -82,7 +82,7 @@ class CreateCustomer extends Component
             $this->customer_photo->storeAs('customer-profile-photos', $imageName, 'public');
         }
 
-        $companyId = $user->company?->id ?? $user->companies->first()->id ?? null;
+        $companyId = $user->company?->id ?? $user->companies->first()->id;
 
         $customer = Customer::create([
             'profile_photo_url' => $imageName ?? null,
@@ -94,7 +94,7 @@ class CreateCustomer extends Component
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
             'company_id' => $companyId,
-            'user_id' => auth()->id()
+            'user_id' => $user->id
         ]);
 
         foreach ($this->form->skills as $key => $value){
