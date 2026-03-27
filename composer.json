@@ -25,6 +25,7 @@
         "livewire/volt": "^1.7.0",
         "openai-php/client": "^0.18.0",
         "openai-php/laravel": "^0.18.0",
+        "outhebox/blade-flags": "^1.7",
         "propaganistas/laravel-phone": "^6.0",
         "rinvex/countries": "^9.1",
         "salahhusa9/laravel-updater": "dev-Add-Bitbucket-repository-support",
