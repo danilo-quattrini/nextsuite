@@ -21,7 +21,7 @@ class NationalityService
      *
      * @return array<int, array{code:string, name:string, flag:string}>
      */
-    public function all()
+    public function all(): array
     {
         return cache()->rememberForever('nationalities', function () {
             return collect(countries())
