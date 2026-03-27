@@ -66,7 +66,9 @@ class CreateCustomer extends Component
         $this->form->addSkill($user, $skillId, $skillLevel, $skillYears);
     }
 
-    public function submit(): void
+    public function submit(
+        NationalityService $nationalityService
+    ): void
     {
         $this->authorize('create', Customer::class);
 
@@ -87,6 +89,7 @@ class CreateCustomer extends Component
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'nationality' => $this->form->nationality,
+            'nationality_iso' => $nationalityService->codeFromName($this->form->nationality),
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,

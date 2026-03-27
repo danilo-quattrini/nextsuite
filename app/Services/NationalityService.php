@@ -38,4 +38,17 @@ class NationalityService
                 ->toArray();
         });
     }
+
+    /**
+     * Return the ISO code to use for nationalities.
+     * @param  string  $name Nationality name.
+     * @return string|null
+     */
+    public function codeFromName(string $name): ?string
+    {
+        $match = collect($this->all())
+            ->firstWhere('name', $name);
+
+        return $match ? strtolower($match['code']) : null;
+    }
 }
