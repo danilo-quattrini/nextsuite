@@ -28,7 +28,7 @@
     'showRating' => true,
 ])
 
-{{-- CHANGE 11: render <div> instead of bare <a> when href/user are absent --}}
+{{-- Render <div> instead of bare <a> when href/user are absent --}}
 @php
     $isLink    = !empty($href) && !empty($user);
     $tag       = $isLink ? 'a' : 'div';
@@ -59,7 +59,7 @@
         </div>
     </div>
 
-    {{-- ── Meta block (CHANGE 9: hidden when showMeta=false) ── --}}
+    {{-- SHOW META INFORMATION LIKE PHONE, DOB, ECC.. --}}
     @if($showMeta)
         <div class="page-content__meta mt-4">
             <p>
@@ -70,10 +70,13 @@
                 <span class="page-content__meta-label">DOB:</span>
                 {{ $user->dob ? Carbon::parse($user->dob)->format('d-m-Y') : '---' }}
             </p>
-            <p>
-                <span class="page-content__meta-label">Nationality:</span>
-                {{ $user->nationality ?: '---' }}
-            </p>
+
+            {{--NATIONALITIES WITH FLAG--}}
+            <div class="flex justify-start items-center gap-xs">
+                <x-nationality-flag :code="$user->nationality_iso"/>
+                <p>{{ $user->nationality ?: '---' }}</p>
+            </div>
+
             <p>
                     <span class="page-content__meta-label">
                         Role{{ count($user->getRoleNames()) > 1 ? 's' : '' }}:
@@ -81,7 +84,7 @@
                 {{ ucfirst($user->getRoleNames()->first()) ?: '---' }}
             </p>
 
-            {{-- ── Rating (CHANGE 10: hidden when showRating=false) ── --}}
+            {{-- SHOW RATING SECTION ON THE CARD --}}
             @if($showRating)
                 <div class="space-y-1">
                     <div class="page-content__meta-label">
