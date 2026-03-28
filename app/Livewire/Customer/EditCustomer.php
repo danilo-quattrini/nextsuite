@@ -113,12 +113,14 @@ class EditCustomer extends Component
     public function nextStep(): void
     {
         if ($this->step === 1 && $this->newCustomerPhoto !== null) {
-            $this->validate([
-                'newCustomerPhoto' => [
-                    'nullable',
-                    'mimes:jpeg,png,jpg,webp',
-                    'image',
-                    'max:2048'
+            $this->validate(
+                [
+                    'newCustomerPhoto' => [
+                        'nullable',
+                        'mimes:jpeg,png,jpg,webp',
+                        'image',
+                        'max:2048'
+                    ],
                 ],
                 [
                     'newCustomerPhoto.mimes' => 'Photo must be jpeg, png, jpg or webp.',
