@@ -126,7 +126,7 @@ class EditCustomer extends Component
                     'newCustomerPhoto.mimes' => 'Photo must be jpeg, png, jpg or webp.',
                     'newCustomerPhoto.max'   => 'Photo must not exceed 2MB.'
                 ]
-            ]);
+            );
         }
 
         $this->traitNextStep();
