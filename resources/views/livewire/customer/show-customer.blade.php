@@ -11,7 +11,8 @@
         />
 
         {{--  DELETE OPERATION ON CUSTOMER TRIGGER BUTTON & DROPDWON   --}}
-        <x-form.dropdown-button align="right">
+        @canany(['customer.delete', 'customer.update'], [$customer])
+            <x-form.dropdown-button align="right">
             <x-slot:trigger>
                 <x-button
                         type="button"
@@ -49,6 +50,7 @@
             </x-slot:content>
 
         </x-form.dropdown-button>
+        @endcanany
     </div>
 
     {{-- INFO GRID --}}
