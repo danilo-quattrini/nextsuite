@@ -69,6 +69,12 @@
                     'active' => request()->routeIs('company.*'),
                     'children' => [
                         [
+                            'label' => 'Company List',
+                            'icon' => 'list-bullet',
+                            'href' => route('company.index'),
+                            'active' => request()->routeIs('company.index'),
+                        ],
+                        [
                             'label' => 'Create Company',
                             'icon' => 'plus',
                             'href' => route('company.create'),
