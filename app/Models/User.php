@@ -111,7 +111,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return self::CACHE_KEY . ':' . $id;
     }
 
-    // ==== RELEATIONS ====
+    // ==== RELATIONS ====
 
     /**
      * Get the company owned by the user if it has one of it.

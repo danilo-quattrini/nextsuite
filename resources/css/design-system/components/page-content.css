@@ -137,6 +137,9 @@
     @apply text-xs text-primary-grey truncate;
 }
 
+.page-content__link{
+    @apply  font-medium text-primary hover:text-button-hover leading-snug truncate;
+}
 
 /* ============================================================
    META
