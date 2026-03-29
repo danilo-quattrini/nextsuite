@@ -72,10 +72,12 @@ new class extends Component {
     {
         $user = User::find($id);
 
-        $this->company->employee()->detach();
-
-        session()->flash('info', 'Exit from the company ' . $this->company->name);
-
+        if($user->belongsToACompany()) {
+            $this->company->employee()->detach($user);
+            session()->flash('info', 'Exit from the company ' . $this->company->name);
+        }else{
+            session()->flash('error', 'Sorry but you don\'t belong to any company');
+        }
         $this->redirect(route('company.show'));
     }
 };
