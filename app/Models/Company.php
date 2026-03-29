@@ -65,4 +65,27 @@ class Company extends Model
     {
         return $this->belongsToMany(User::class, 'company_employee', 'company_id', 'employee_id');
     }
+
+    // ====== HEAVY OPERATION =====
+
+    /**
+     * Get all the companies with fields and a customer
+     * count on it that shows how many customers are inside
+     * it.
+     *
+     * @param int $page, the current page where it's the pagination
+     * */
+    public static function getCompanies(
+        int $page  = 1
+    ): LengthAwarePaginator
+    {
+        $key = self::CACHE_KEY . ':list:' . 'page:'. $page;
+
+        return Cache::tags([self::CACHE_KEY])->remember($key, self::CACHE_TTL, function () use ($page) {
+            return static::with('fields')
+                ->withCount('customers')
+                ->orderBy('name')
+                ->paginate(6, ['*'], 'page', $page);
+        });
+    }
 }
