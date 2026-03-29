@@ -63,11 +63,15 @@ class NotificationService
         iterable $notifiables,
         string   $subject,
         string   $message,
+        ?string $actionText = null,
+        ?string $actionUrl  = null,
         array    $channels = ['mail'],
     ): void {
         Notification::send($notifiables, new GenericNotification(
             subject:  $subject,
             message:  $message,
+            actionText: $actionText,
+            actionUrl:  $actionUrl,
             channels: $channels,
         ));
     }
