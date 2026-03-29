@@ -39,7 +39,7 @@
                                     <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
                                         <div class="flex flex-col items-start gap-4">
                                             <label
-                                                    for="new_customer_photo"
+                                                    for="newCustomerPhoto"
                                                     class="relative w-32 h-32 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
                                             >
 
@@ -51,13 +51,13 @@
                                                 />
 
                                                 <input
-                                                        id="new_customer_photo"
+                                                        id="newCustomerPhoto"
                                                         type="file"
                                                         wire:model.defer="newCustomerPhoto"
                                                         class="hidden"
                                                 />
                                             </label>
-                                            <x-input-error for="new_customer_photo"/>
+                                            <x-input-error for="newCustomerPhoto"/>
                                         </div>
 
                                         <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-lg">

@@ -39,8 +39,9 @@ class CreateCustomer extends Component
         RoleService $roleService
     ): void
     {
-      $this->nationalities = $nationalityService->all();
-      $this->roles = $roleService->getAllRoleNames();
+        $this->authorize('create', Customer::class);
+        $this->nationalities = $nationalityService->all();
+        $this->roles = $roleService->getAllRoleNames();
     }
 
     public function render(): View
@@ -65,8 +66,12 @@ class CreateCustomer extends Component
         $this->form->addSkill($user, $skillId, $skillLevel, $skillYears);
     }
 
-    public function submit(): void
+    public function submit(
+        NationalityService $nationalityService
+    ): void
     {
+        $this->authorize('create', Customer::class);
+
         $user = Auth::user();
 
         $this->form->validate();
@@ -77,16 +82,19 @@ class CreateCustomer extends Component
             $this->customer_photo->storeAs('customer-profile-photos', $imageName, 'public');
         }
 
+        $companyId = $user->company?->id ?? $user->companies->first()->id;
+
         $customer = Customer::create([
             'profile_photo_url' => $imageName ?? null,
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'nationality' => $this->form->nationality,
+            'nationality_iso' => $nationalityService->codeFromName($this->form->nationality),
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
-            'company_id' => auth()->user()->company?->id,
-            'user_id' => auth()->id()
+            'company_id' => $companyId,
+            'user_id' => $user->id
         ]);
 
         foreach ($this->form->skills as $key => $value){

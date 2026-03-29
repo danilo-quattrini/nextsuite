@@ -30,7 +30,7 @@
       "description": "Can create and manage support tickets and client communications."
     },
     {
-      "name": "viewer",
+      "name": "guest",
       "guard_name": "web",
       "description": "Read-only access to company data such as reports and project status."
     }

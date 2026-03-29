@@ -7,14 +7,13 @@
                     <span>Prev</span>
                 </span>
             @else
-                <a
-                    href="{{ $paginator->previousPageUrl() }}"
-                    rel="prev"
-                    class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition"
+                <button
+                        wire:click="previousPage"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition cursor-pointer"
                 >
                     <x-heroicon name="chevron-left" class="text-black" />
                     <span>Prev</span>
-                </a>
+                </button>
             @endif
 
             <div class="flex items-center gap-4">
@@ -27,18 +26,18 @@
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
                                 <span
-                                    aria-current="page"
-                                    class="w-9 h-9 flex items-center justify-center rounded-md bg-primary text-white font-semibold"
+                                        aria-current="page"
+                                        class="w-9 h-9 flex items-center justify-center rounded-md bg-primary text-white font-semibold cursor-pointer"
                                 >
                                     {{ $page }}
                                 </span>
                             @else
-                                <a
-                                    href="{{ $url }}"
-                                    class="w-9 h-9 flex items-center justify-center rounded-md text-black hover:border hover:border-primary hover:text-primary transition font-semibold"
+                                <button
+                                        wire:click="gotoPage({{ $page }})"
+                                        class="w-9 h-9 flex items-center justify-center rounded-md text-black hover:border hover:border-primary hover:text-primary transition font-semibold cursor-pointer"
                                 >
                                     {{ $page }}
-                                </a>
+                                </button>
                             @endif
                         @endforeach
                     @endif
@@ -46,14 +45,13 @@
             </div>
 
             @if ($paginator->hasMorePages())
-                <a
-                    href="{{ $paginator->nextPageUrl() }}"
-                    rel="next"
-                    class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition"
+                <button
+                        wire:click="nextPage"
+                        class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition cursor-pointer"
                 >
                     <span>Next</span>
                     <x-heroicon name="chevron-right" class="text-primary-grey" />
-                </a>
+                </button>
             @else
                 <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white cursor-not-allowed">
                     <span>Next</span>

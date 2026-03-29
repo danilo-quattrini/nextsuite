@@ -21,7 +21,7 @@ class NationalityService
      *
      * @return array<int, array{code:string, name:string, flag:string}>
      */
-    public function all()
+    public function all(): array
     {
         return cache()->rememberForever('nationalities', function () {
             return collect(countries())
@@ -37,5 +37,18 @@ class NationalityService
                 ->values()
                 ->toArray();
         });
+    }
+
+    /**
+     * Return the ISO code to use for nationalities.
+     * @param  string  $name Nationality name.
+     * @return string|null
+     */
+    public function codeFromName(string $name): ?string
+    {
+        $match = collect($this->all())
+            ->firstWhere('name', $name);
+
+        return $match ? strtolower($match['code']) : null;
     }
 }

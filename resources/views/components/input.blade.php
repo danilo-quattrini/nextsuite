@@ -1,7 +1,7 @@
 @props([
     'leftIcon' => null,
     'rightIcon' => null,
-    'size' => 'md',
+    'size' => 'lg',
     'error' => false,
     'placeholder' => '',
 ])

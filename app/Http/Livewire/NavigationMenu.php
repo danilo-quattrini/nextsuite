@@ -20,13 +20,23 @@ class NavigationMenu extends Component
     protected $listeners = [
         'refresh-navigation-menu' => '$refresh',
     ];
+    /**
+     * Runs the method on every request in the page
+     * */
+    public function boot(RoleService $roleService): void
+    {
+        $this->roleService = $roleService;
+    }
 
+    /**
+     * Constructor of the Livewire component.
+     * */
     public function mount(RoleService $roleService): void
     {
         $this->roleService = $roleService;
     }
 
-    #[Computed]
+    #[Computed(cache: false)]
     public function userRole()
     {
         $roles = $this->roleService->getUserRoleNames(Auth::user());

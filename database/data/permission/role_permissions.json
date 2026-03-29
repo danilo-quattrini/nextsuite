@@ -38,7 +38,7 @@
     "review.create", "review.read", "review.update",
     "customer.create", "customer.read", "customer.update"
   ],
-  "viewer": [
+  "guest": [
     "attribute.read",
     "skill.read",
     "review.read",

@@ -1,3 +1,7 @@
+/* ============================================================
+   PAGE CONTENT — LAYOUT & STRUCTURE
+   ============================================================ */
+
 .page-content__container {
     @apply min-h-screen rounded-md bg-white-base;
 }
@@ -18,6 +22,10 @@
     @apply max-w-full;
 }
 
+/* ============================================================
+   HERO TYPOGRAPHY
+   ============================================================ */
+
 .page-content__title {
     @apply text-3xl sm:text-4xl font-semibold text-black;
 }
@@ -25,6 +33,10 @@
 .page-content__subtitle {
     @apply text-sm sm:text-base text-primary-grey mt-2;
 }
+
+/* ============================================================
+   STATS
+   ============================================================ */
 
 .page-content__stats {
     @apply flex flex-wrap gap-3;
@@ -42,6 +54,10 @@
     @apply text-3xl font-semibold text-black;
 }
 
+/* ============================================================
+   BODY & SWITCH
+   ============================================================ */
+
 .page-content__body {
     @apply container mx-auto px-4 sm:px-8 py-8 max-w-full;
 }
@@ -58,26 +74,48 @@
     @apply ring ring-primary text-primary;
 }
 
+/* ============================================================
+   GRID
+   ============================================================ */
 
 .page-content__grid {
     @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6;
 }
 
 .page-content__card {
-    @apply bg-white border border-outline-grey rounded-md xl:px-10 xl:py-8 flex flex-col justify-between  transition-all;
+    @apply bg-white border border-outline-grey rounded-md
+    p-sm sm:p-md
+    flex flex-col justify-between
+    transition-all;
 }
+
+.page-content__card--compact {
+    @apply p-3 sm:p-4 gap-3;
+}
+
+/* ============================================================
+   CARD — ANIMATION
+   ============================================================ */
 
 .page-content__card__animation:hover{
     @apply cursor-pointer shadow-md shadow-secondary -translate-y-2 ring-1 ring-primary;
 }
+
+/* ============================================================
+   CARD — INFO BLOCK
+   ============================================================ */
 
 .page-content__card-info {
     @apply space-y-4;
 }
 
 .page-content__card-header {
-    @apply flex items-start justify-between gap-4;
+    @apply flex flex-wrap items-start justify-between gap-4; /* ← added flex-wrap */
 }
+
+/* ============================================================
+   PROFILE
+   ============================================================ */
 
 .page-content__profile {
     @apply flex items-center gap-4;
@@ -88,16 +126,24 @@
 }
 
 .page-content__avatar-image {
-    @apply w-12 h-12;
+    @apply w-10 h-10 sm:w-12 sm:h-12;
 }
 
 .page-content__name {
-    @apply text-sm font-semibold text-black;
+    @apply text-sm font-semibold text-black truncate;
 }
 
 .page-content__email {
-    @apply text-xs text-primary-grey;
+    @apply text-xs text-primary-grey truncate;
 }
+
+.page-content__link{
+    @apply  font-medium text-primary hover:text-button-hover leading-snug truncate;
+}
+
+/* ============================================================
+   META
+   ============================================================ */
 
 .page-content__meta {
     @apply text-sm text-black space-y-2;
@@ -108,17 +154,30 @@
 }
 
 .page-content__actions {
-    @apply mt-6 flex flex-wrap gap-3 border-t border-outline-grey/70 pt-4;
+    @apply mt-6 flex flex-wrap gap-3 justify-start
+    border-t border-outline-grey/70 pt-4;
 }
+
+/* ============================================================
+   DROPDOWN
+   ============================================================ */
 
 .page-content__dropdown-list {
     @apply flex flex-col gap-2;
 }
 
 .page-content__dropdown-item {
-    @apply flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium border border-outline-grey hover:bg-outline-grey;
+    @apply flex items-center gap-2 px-4 py-2 rounded-md
+    text-sm font-medium border border-outline-grey
+    hover:bg-outline-grey;
 }
 
+/* ============================================================
+   PAGINATION
+   ============================================================ */
+
 .page-content__pagination {
-    @apply mt-10 p-6 bg-white border border-outline-grey rounded-md flex flex-col sm:flex-row items-center sm:justify-between xl:justify-center shadow-sm;
+    @apply mt-10 p-6 bg-white border border-outline-grey rounded-md
+    flex flex-col sm:flex-row items-center
+    sm:justify-between xl:justify-center shadow-sm;
 }

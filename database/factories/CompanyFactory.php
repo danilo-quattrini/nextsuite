@@ -18,10 +18,12 @@ class CompanyFactory extends Factory
     public function definition(): array
     {
         return [
-            'company_photo' => $this->faker->name(),
             'name' => $this->faker->name(),
             'phone' => $this->faker->phoneNumber(),
             'email' => $this->faker->email(),
+            'city' => $this->faker->city(),
+            'address_line' => $this->faker->address(),
+            'website' => $this->faker->url(),
             'vat_number' => $this->faker->randomNumber(),
             'owner_id' => User::factory(),
             'created_at' => Carbon::now(),

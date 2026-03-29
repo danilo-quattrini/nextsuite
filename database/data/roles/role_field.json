@@ -5,5 +5,5 @@
   "accountant": ["Finance", "Logistics", "Construction", "Retail", "Healthcare", "Legal", "Hospitality", "Agriculture"],
   "employee": ["Gym", "Nutrition", "Human Resources", "Artificial Intelligence", "Software", "Healthcare", "Legal", "Education", "Logistics", "Finance", "Marketing", "Construction", "Agriculture", "Retail", "Hospitality"],
   "support": ["Software", "Artificial Intelligence", "Healthcare", "Legal", "Education", "Retail", "Hospitality"],
-  "viewer": ["Gym", "Nutrition", "Human Resources", "Artificial Intelligence", "Software", "Healthcare", "Legal", "Education", "Logistics", "Finance", "Marketing", "Construction", "Agriculture", "Retail", "Hospitality"]
+  "guest": ["Gym", "Nutrition", "Human Resources", "Artificial Intelligence", "Software", "Healthcare", "Legal", "Education", "Logistics", "Finance", "Marketing", "Construction", "Agriculture", "Retail", "Hospitality"]
 }

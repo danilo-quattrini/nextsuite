@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->dateTime('dob');
             $table->string('gender');
             $table->string('nationality');
+            $table->string('nationality_iso')->nullable();
             $table->foreignIdFor(Company::class, 'company_id')
                 ->nullable()
                 ->constrained('companies')

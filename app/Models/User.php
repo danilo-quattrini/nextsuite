@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -17,17 +18,17 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasRoles;
-
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    use HasApiTokens;
+    use HasRoles;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
     private const string CACHE_KEY = "user";
+    private const int CACHE_TTL = 3600;
 
     /**
      * The attributes that are mass assignable.
@@ -75,6 +76,7 @@ class User extends Authenticatable
         ];
     }
 
+    // ==== CACHE OPERATIONS ====
     /**
      * Clear the cache if the user has been created, updated, or deleted.
      */
@@ -85,16 +87,43 @@ class User extends Authenticatable
         static::deleted(fn() => self::clearAllContexts());
     }
 
+    /**
+     * Method to clear all the element that
+     * has as tag the CACHE_KEY declared in the model.
+     * */
     protected static function clearAllContexts(): void
     {
         Cache::tags([self::CACHE_KEY])->flush();
     }
 
+    /**
+     * Get the cache key.
+     * @return string the key of the cache, releated to a specific user id.
+     */
+    public function getCacheKey(?int $userId = null): string
+    {
+        $id = $userId ?? Auth::id();
+
+        if (!$id) {
+            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
+        }
+
+        return self::CACHE_KEY . ':' . $id;
+    }
+
+    // ==== RELATIONS ====
+
+    /**
+     * Get the company owned by the user if it has one of it.
+    */
     public function company(): HasOne
     {
         return $this->hasOne(Company::class, 'owner_id');
     }
 
+    /**
+     * Get all the customers owne / create by the user
+     */
     public function customer(): HasMany
     {
         return $this->hasMany(Customer::class);
@@ -113,7 +142,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the skill schema create by the user.
+     * Get all the skill schema create by the user.
      */
     public function skillSchema(): BelongsToMany
     {
@@ -123,6 +152,15 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    /**
+     * Get the company where the user belongs to, in this case the user it's an employee.
+     */
+    public function companies(): BelongsToMany
+    {
+        return $this->belongsToMany(Company::class, 'company_employee', 'employee_id', 'company_id');
+    }
+
+    // ==== HELPER METHODS ====
     /**
      * Get the user company if exists.
      */
@@ -140,6 +178,22 @@ class User extends Authenticatable
     }
 
     /**
+     * Get all the users in the system
+     * independently of its role.
+     *
+     * @param  int  $page the current page that has been set
+     * @return LengthAwarePaginator
+     * */
+    public static function getUsers(int $page =  1): LengthAwarePaginator
+    {
+
+        $key = self::CACHE_KEY . ':page:' . $page;
+
+        return Cache::tags(self::CACHE_KEY)->remember($key, self::CACHE_TTL, function () use ($page){
+           return static::paginate(6, ['*'], 'page', $page);
+        });
+    }
+    /**
      * Check if the user has a company.
      */
     public function hasCompany(): bool
@@ -148,16 +202,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the cache key.
+     * Check if the user belongs to a company (it's an employee of a company).
      */
-    public function getCacheKey(?int $userId = null): string
+    public function belongsToACompany(): bool
     {
-        $id = $userId ?? Auth::id();
-
-        if (!$id) {
-            throw new \RuntimeException('Cannot generate cache key: No authenticated user');
-        }
-
-        return self::CACHE_KEY . ':' . $id;
+        return $this->companies()->exists();
     }
 }

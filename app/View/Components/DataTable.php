@@ -64,6 +64,7 @@ class DataTable extends Component
         return match($type) {
             'date' => $this->formatDate($value),
             'number' => number_format($value, 0),
+            'nationality' => $value,
             default => (string) $value,
         };
     }

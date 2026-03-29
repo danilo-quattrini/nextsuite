@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Template;
 use Livewire\Attributes\On;
@@ -18,6 +19,7 @@ trait DeleteModal
     {
         $model = match ($type) {
             'customer' => Customer::findOrFail($id),
+            'company' => Company::findOrFail($id),
             'template' => Template::findOrFail($id),
             default => throw new \InvalidArgumentException('Invalid reviewable type'),
         };

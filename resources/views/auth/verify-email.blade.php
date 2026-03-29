@@ -1,39 +1,62 @@
 <x-guest-layout>
-    <x-authentication-card>
-        <x-slot:logo>
-            <x-authentication-card-logo />
-        </x-slot:logo>
+    <div class="min-h-screen mx-auto flex flex-col justify-center items-center overflow-hidden">
+        <x-card.card-container card-size="lg">
 
-        <x-slot:message>
-            {{ __('Before continuing, could you verify your email address?.') }}<br>
-            {{ __('We sent you a link! If you didn\'t receive thought email, we will gladly send you another') }}
-        </x-slot:message>
+            {{-- Logo --}}
+            <div class="flex justify-center items-center mb-6">
+                <x-authentication-card-logo />
+            </div>
 
-
-        <div class="mt-2 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
-
-                <div class="w-[470px] flex items-center justify-center">
-                    <x-button size="large" type="submit">
-                        {{ __('Resend Email') }}
-                    </x-button>
+            {{-- Icon --}}
+            <div class="flex justify-center mb-6">
+                <div class="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center">
+                    <x-heroicon name="envelope" class="text-primary"  size="xl"/>
                 </div>
-            </form>
-            <form method="POST" action="{{ route('logout') }}" class="inline">
-                @csrf
+            </div>
 
-                <div class="w-[470px] flex items-center justify-center">
-                    <x-button size="large" type="submit" variant="rest">
+            {{-- Heading --}}
+            <div class="text-center mb-2">
+                <h3>
+                    {{ __('Verify your email') }}
+                </h3>
+            </div>
+
+            {{-- Description --}}
+            <div class="text-center mb-6 px-4">
+                <p class="text-sm text-primary-grey leading-relaxed">
+                    {{ __("We've sent a verification link to your email address. Please check your inbox and click the link to continue.") }}
+                </p>
+                <p class="text-sm text-primary-grey-400 mt-1">
+                    {{ __("Didn't receive it? Check your spam folder or request a new one below.") }}
+                </p>
+            </div>
+
+            {{-- Actions --}}
+            <div class="flex flex-col gap-3 w-full px-4">
+
+                <form method="POST" action="{{ route('verification.send') }}">
+                    @csrf
+                    <x-button size="full" type="submit">
+                        {{ __('Resend Verification Email') }}
+                    </x-button>
+                </form>
+
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-button size="full" type="submit" variant="rest">
                         {{ __('Log Out') }}
                     </x-button>
-                </div>
-            </form>
-            <div>
+                </form>
+
+            </div>
+
+            {{-- Edit Profile --}}
+            <div class="mt-5 text-center">
                 <a href="{{ route('profile.show') }}">
                     <x-span-link>{{ __('Edit Profile') }}</x-span-link>
                 </a>
             </div>
-        </div>
-    </x-authentication-card>
+
+        </x-card.card-container>
+    </div>
 </x-guest-layout>

@@ -18,6 +18,8 @@ class ShowCustomer extends Component
     public function mount(): void
     {
         $this->customer = Customer::findCustomerWithReview($this->customer->id);
+
+        $this->authorize('view', $this->customer);
     }
     public function render() : View
     {

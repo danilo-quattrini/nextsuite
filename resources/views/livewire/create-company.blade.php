@@ -1,4 +1,4 @@
-<form wire:submit.prevent="submit" enctype="multipart/form-data">
+<div wire:submit.prevent="submit" enctype="multipart/form-data">
     @csrf
     <div class="max-w-full mx-auto p-xl space-y-2xl">
         <x-form.step-progress-bar
@@ -6,6 +6,7 @@
                 :steps="[
                     ['key' => 1, 'label' => 'Company Profile'],
                     ['key' => 2, 'label' => 'Details'],
+                    ['key' => 3, 'label' => 'Invite Employee'],
                 ]"
         />
 
@@ -17,7 +18,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-lg">
 
                         <!-- AVATAR UPLOAD WRAPPER -->
-                        <div class="flex flex-col items-start justify-center">
+                        <div class="flex flex-col items-start justify-center space-y-lg">
                             <label
                                     for="company_photo"
                                     class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
@@ -106,9 +107,10 @@
                         <x-form.input-container size="auto">
                             <x-form.label-container label="{{ __('Phone number') }}" :required="true"/>
                                 <x-input
-                                        id="phone_display"
-                                        type="tel"
+                                        id="phone"
+                                        name="phone"
                                         wire:model="phone"
+                                        type="text"
                                         right-icon="phone"
                                         placeholder="123-4567-8901"
                                         :error="$errors->has('phone')"
@@ -134,7 +136,7 @@
                                         <x-tag
                                                 variant="white"
                                                 :dismissible="true"
-                                                size="lg"
+                                                size="md"
                                         >
                                             {{ $fields->firstWhere('id', $fieldId)?->name }}
                                         </x-tag>
@@ -200,21 +202,67 @@
                             </x-button>
                         </x-form.input-container>
 
+                        <x-form.input-container size="auto"  class="col-span-1">
+                            <x-button
+                                    size="full"
+                                    wire:click="nextStep"
+                            >
+                                Next
+                            </x-button>
+                        </x-form.input-container>
+                    </div>
+                </div>
+                {{-- ================= STEP 3 ================= --}}
+            @elseif($step === 3)
+                <div wire:key="company-step-3" class="space-y-6">
+
+                    <!-- TABLE WITH THE USERS -->
+                    <x-data-table
+                            :table-data="$this->users"
+                            :columns="$this->tableColumns"
+                            photo-field="profile_photo_url"
+                            name-field="full_name"
+                            empty-message="Sorry but nothing it is there not there"
+                    />
+
+                    {{--   ERROR DROPDOWN FIELDS --}}
+                    <x-input-error for="selectedRows"/>
+                    {{-- Catches any wildcard errors --}}
+                    @error('selectedRows.*')
+                    <span class="text-secondary-error text-sm">{{ $message }}</span>
+                    @enderror
+
+
+                    @if(count($this->users) != 0)
+                        <div class="page-content__pagination">
+                            {{ $this->users->links('components.pagination') }}
+                        </div>
+                    @endif
+
+                    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-md">
+                        <!-- BUTTON TO GO BACK -->
+                        <x-form.input-container size="auto"  class="col-span-1">
+                            <x-button
+                                    variant="rest"
+                                    size="full"
+                                    wire:click="previousStep"
+                            >
+                                Back
+                            </x-button>
+                        </x-form.input-container>
+
                         <!-- BUTTTON TO CREATE THE COMPANY -->
                         <x-form.input-container size="auto" class="col-span-1">
                             <x-button
                                     size="full"
-                                    type="submit"
+                                    wire:click="submit"
                             >
                                 Create
                             </x-button>
                         </x-form.input-container>
                     </div>
-                    <div class="flex justify-between">
-
-                    </div>
                 </div>
             @endif
         </x-form.container>
     </div>
-</form>
+</div>
