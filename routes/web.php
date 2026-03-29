@@ -101,8 +101,11 @@ Route::middleware([
         ->name('report.show');
 
     /* COMPANY ROUTES */
-    Route::livewire('/company', 'pages::company.view')
+    Route::livewire('/company/details', 'pages::company.view')
         ->name('company.show');
+
+    Route::livewire('/company', 'pages::company.index')
+        ->name('company.index');
 
     /* SKILL SCHEMA ROUTES*/
     Route::livewire('skill-schema', 'pages::customer.view' )
