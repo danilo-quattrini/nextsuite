@@ -107,6 +107,9 @@ Route::middleware([
     Route::livewire('/company', 'pages::company.index')
         ->name('company.index');
 
+    Route::livewire('/company/{company}/requests', 'pages::company.requests')
+        ->name('company.requests');
+
     /* SKILL SCHEMA ROUTES*/
     Route::livewire('skill-schema', 'pages::customer.view' )
         ->name('skill-schema');
