@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,7 +18,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasRoles;
@@ -199,5 +199,13 @@ class User extends Authenticatable
     public function hasCompany(): bool
     {
         return $this->company()->exists();
+    }
+
+    /**
+     * Check if the user belongs to a company (it's an employee of a company).
+     */
+    public function belongsToACompany(): bool
+    {
+        return $this->companies()->exists();
     }
 }
