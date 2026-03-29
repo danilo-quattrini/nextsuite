@@ -45,7 +45,9 @@ class EditCustomer extends Component
         $this->roles = $roleService->getAllRoleNames();
     }
 
-    public function edit(): void
+    public function edit(
+        NationalityService $nationalityService
+    ): void
     {
         $this->validate();
 
@@ -56,6 +58,7 @@ class EditCustomer extends Component
             'full_name'  => $this->form->full_name,
             'email' => $this->form->email,
             'nationality' => $this->form->nationality,
+            'nationality_iso' => $nationalityService->codeFromName($this->form->nationality),
             'phone' => $this->form->phone,
             'dob'   => $this->form->dob,
             'gender' => $this->form->gender,
