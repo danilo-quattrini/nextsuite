@@ -16,5 +16,5 @@
 }
 
 .empty-state__action{
-    @apply flex justify-center items-center py-4;
+    @apply flex justify-center items-center py-sm gap-sm;
 }

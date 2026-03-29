@@ -88,30 +88,34 @@ new class extends Component {
 >
     @if (!$company)
         {{--    CARD IF NO COMPANY HAS BEEN LOADED    --}}
-        <div class="rounded-xl border border-dashed border-outline-grey p-10 text-center bg-white">
-            <x-heroicon name="building-office" class="mx-auto h-12 w-12 text-primary-grey"/>
-            <h2 class="mt-4 text-lg font-semibold text-black">No company associated</h2>
-            <p class="mt-2 text-sm text-primary-grey">
-                You currently don't belong to any company. Please contact an administrator or create one.
-            </p>
-            <div class="flex justify-center items-center mt-6 gap-sm">
-                <x-button
-                        href=""
-                        size="large"
-                        variant="rest"
-                >
-                    Join
-                </x-button>
-
-                <p> or </p>
-                <x-button
-                        href="{{ route('company.create') }}"
-                        size="large"
-                >
-                    Create company
-                </x-button>
-            </div>
-        </div>
+        <x-card.card-container
+                card-size="lg"
+        >
+            <x-empty-state
+                    icon="building-office"
+                    message="No company has been created or have been found"
+                    description="You should create a new company"
+            >
+                <x-slot:action>
+                    <x-button
+                            size="auto"
+                            href="{{ route('company.index') }}"
+                            variant="white"
+                    >
+                        <x-heroicon name="inbox-arrow-down"/>
+                        Join
+                    </x-button>
+                    <p> or </p>
+                    <x-button
+                            size="auto"
+                            href="{{ route('company.create') }}"
+                    >
+                        <x-heroicon name="plus"/>
+                        Create
+                    </x-button>
+                </x-slot:action>
+            </x-empty-state>
+        </x-card.card-container>
     @else
         <x-card.card-container>
             {{-- Header: logo + info + delete --}}
