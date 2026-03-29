@@ -57,7 +57,8 @@ class CustomerPolicy
      */
     public function create(User $user): bool
     {
-        return $user->hasPermissionTo('customer.create');
+        return $user->hasPermissionTo('customer.create')
+            && ($user->hasCompany() || $user->belongsToACompany());
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Notifications\Services;
 
+use App\Models\Company;
 use App\Notifications\GenericNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
@@ -87,5 +88,44 @@ class NotificationService
             actionUrl:  route('dashboard'),
             channels:   ['mail', 'database'],  // email + store in DB
         );
+    }
+
+    public function sendJoinAccepted(object $user, Company $company): bool
+    {
+        return $this->notify($user, new GenericNotification(
+            subject:    "Your request to join {$company->name} was accepted",
+            message:    "Your request to join {$company->name} has been accepted. Welcome aboard!",
+            actionText: 'Go to Dashboard',
+            actionUrl:  route('dashboard'),
+            channels:   ['mail', 'database'],
+        ));
+    }
+
+    public function sendJoinRefused(object $user, Company $company): bool
+    {
+        return $this->notify($user, new GenericNotification(
+            subject:    "Your request to join {$company->name} was not accepted",
+            message:    "Unfortunately your request to join {$company->name} has been refused.",
+            actionText: 'Browse Companies',
+            actionUrl:  route('company.index'),
+            channels:   ['mail', 'database'],
+        ));
+    }
+
+    private function notify(object $notifiable, GenericNotification $notification): bool
+    {
+        try {
+            $notifiable->notify($notification);
+            return true;
+        } catch (\Throwable $e) {
+            Log::error('Notification failed', [
+                'notification' => get_class($notification),
+                'notifiable'   => get_class($notifiable) . '#' . $notifiable->getKey(),
+                'error'        => $e->getMessage(),
+                'file'         => $e->getFile(),
+                'line'         => $e->getLine(),
+            ]);
+            return false;
+        }
     }
 }

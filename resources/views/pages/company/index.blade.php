@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Company;
+use App\Models\JoinRequest;
 use App\Models\User;
 use App\Notifications\Services\NotificationService;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -31,20 +32,101 @@ new class extends Component {
         int $companyId,
         int $userId
     ): void {
-        $owner = Company::find($companyId)->users()->first();
-        $user = User::find($userId);
+        $company = Company::findOrFail($companyId);
+        $user = User::findOrFail($userId);
+        $owner = $company->users;
 
+        // Block if already a member
+        if ($company->employee()->where('employee_id', $userId)->exists()) {
+            session()->flash('error', 'You are already a member of this company.');
+            return;
+        }
+
+        // Block if request already pending
+        $alreadyRequested = JoinRequest::where('user_id', $userId)
+            ->where('company_id', $companyId)
+            ->where('status', 'pending')
+            ->exists();
+
+        if ($alreadyRequested) {
+            session()->flash('info', 'You already have a pending request for this company.');
+            return;
+        }
+
+        // Create the join request record
+        JoinRequest::create([
+            'user_id' => $userId,
+            'company_id' => $companyId,
+            'status' => 'pending',
+        ]);
+
+        // route('company.requests', $companyId)
         if ($owner) {
             app(NotificationService::class)->send(
                 notifiable: $owner,
                 subject: "Request to join into your company",
-                message: "There's a request from the user {$user->full_name} to join into your company.",
-                actionText: "Accept",
-                actionUrl: route('dashboard'),
+                message: "There's a request from the user **{$user->full_name}** to join into your company.",
+                actionText: "Review Request",
+                actionUrl:  route('company.requests', $owner->company),
                 channels: ['mail', 'database']
             );
-            session()->flash('info', 'Invitation sent to the owner' . $owner->full_name );
+            session()->flash('info', 'Your request has been sent to '.$owner->full_name);
         }
+    }
+
+    /**
+     * Owner accepts a join request.
+     * Attaches user to company, notifies user.
+     */
+    #[On('accept-join')]
+    public function acceptJoin(int $joinRequestId): void
+    {
+        $joinRequest = JoinRequest::with(['user', 'company'])->findOrFail($joinRequestId);
+
+        if (! $joinRequest->isPending()) {
+            session()->flash('error', 'This request has already been handled.');
+            return;
+        }
+
+        // Attach user to company
+        $joinRequest->company->employee()->attach($joinRequest->user_id);
+
+        // Mark request as accepted
+        $joinRequest->update(['status' => 'accepted']);
+
+        // Notify the user
+        app(NotificationService::class)->sendJoinAccepted(
+            user:    $joinRequest->user,
+            company: $joinRequest->company,
+        );
+
+        session()->flash('success', "{$joinRequest->user->full_name} has been added to the company.");
+    }
+
+    /**
+     * Owner refuses a join request.
+     * Notifies user of the decision.
+     */
+    #[On('refuse-join')]
+    public function refuseJoin(int $joinRequestId): void
+    {
+        $joinRequest = JoinRequest::with(['user', 'company'])->findOrFail($joinRequestId);
+
+        if (! $joinRequest->isPending()) {
+            session()->flash('error', 'This request has already been handled.');
+            return;
+        }
+
+        // Mark request as refused
+        $joinRequest->update(['status' => 'refused']);
+
+        // Notify the user
+        app(NotificationService::class)->sendJoinRefused(
+            user:    $joinRequest->user,
+            company: $joinRequest->company,
+        );
+
+        session()->flash('info', "{$joinRequest->user->full_name}'s request has been refused.");
     }
 };
 ?>
