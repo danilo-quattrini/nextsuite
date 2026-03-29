@@ -1,7 +1,9 @@
 <?php
 
 use App\Models\Company;
+use App\Models\User;
 use App\Traits\DeleteModal;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 new class extends Component {
@@ -9,6 +11,7 @@ new class extends Component {
     use DeleteModal;
 
     public ?Company $company = null;
+    public ?User $user = null;
 
     public bool $isOwner = false;
 
@@ -19,10 +22,10 @@ new class extends Component {
      * */
     public function mount(): void
     {
-        $user = Auth::user();
+        $this->user = Auth::user();
 
-        $this->company = $user->company ?? $user->companies->first();
-        $this->isOwner = $user->company !== null;
+        $this->company = $this->user->company ?? $this->user->companies->first();
+        $this->isOwner = $this->user->company !== null;
     }
 
     /**
@@ -57,6 +60,23 @@ new class extends Component {
         session()->flash('info', 'Company deleted successfully.');
 
         $this->redirect(route('company.create'), navigate: true);
+    }
+
+    /**
+     * Method to detach an employee from a company
+     *
+     * @param  int  $id  employee id;
+     * */
+    #[On('exit-company')]
+    public function exitCompany(int $id): void
+    {
+        $user = User::find($id);
+
+        $this->company->employee()->detach();
+
+        session()->flash('info', 'Exit from the company ' . $this->company->name);
+
+        $this->redirect(route('company.show'));
     }
 };
 ?>
@@ -122,48 +142,57 @@ new class extends Component {
                     </div>
                 </div>
 
-                    {{-- ACTIONS COMPANY BUTTON --}}
-                    @if($isOwner)
-                        <x-dropdown
-                                align="right"
-                                width="80"
-                                content-classes="p-sm bg-white"
-                        >
-                            <x-slot:trigger>
-                                <x-button
-                                        type="button"
-                                        variant="white"
-                                        size="auto"
-                                        aria-label="Company actions"
-                                >
-                                    <x-heroicon name="ellipsis-vertical"/>
-                                </x-button>
-                            </x-slot:trigger>
+                {{-- ACTIONS COMPANY BUTTON --}}
+                @if($isOwner)
+                    <x-dropdown
+                            align="right"
+                            width="80"
+                            content-classes="p-sm bg-white"
+                    >
+                        <x-slot:trigger>
+                            <x-button
+                                    type="button"
+                                    variant="white"
+                                    size="auto"
+                                    aria-label="Company actions"
+                            >
+                                <x-heroicon name="ellipsis-vertical"/>
+                            </x-button>
+                        </x-slot:trigger>
 
-                            <x-slot:content>
-                                <div class="flex-col items-center space-y-3">
-                                    <div class="flex flex-col space-y-2 min-w-40">
-                                        <a
-                                                href=""
-                                                class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
-                                        >
-                                            <x-heroicon name="pencil-square" class="text-primary-grey"/>
-                                            <span>Edit Company</span>
-                                        </a>
+                        <x-slot:content>
+                            <div class="flex-col items-center space-y-3">
+                                <div class="flex flex-col space-y-2 min-w-40">
+                                    <a
+                                            href=""
+                                            class="flex items-center gap-2 px-3 py-2 rounded-md text-sm hover:bg-outline-grey transition"
+                                    >
+                                        <x-heroicon name="pencil-square" class="text-primary-grey"/>
+                                        <span>Edit Company</span>
+                                    </a>
 
-                                        <button
-                                                type="button"
-                                                wire:click.prevent="$dispatch('delete-element', { id: {{ $company->id }} , type: 'company' })"
-                                                    class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
-                                            >
-                                                <x-heroicon name="trash"/>
-                                                <span>Delete</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </x-slot:content>
-                            </x-dropdown>
-                    @endif
+                                    <button
+                                            type="button"
+                                            wire:click.prevent="$dispatch('delete-element', { id: {{ $company->id }} , type: 'company' })"
+                                            class="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-secondary-error hover:bg-secondary-error-100 cursor-pointer transition"
+                                    >
+                                        <x-heroicon name="trash"/>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </x-slot:content>
+                    </x-dropdown>
+                @else
+                    <x-button
+                            size="auto"
+                            variant="white"
+                            wire:click="$dispatch('exit-company', {id: {{ $user->id }}})"
+                    >
+                        <x-heroicon name="arrow-left-start-on-rectangle"/>
+                        Exit
+                    </x-button>
+                @endif
             </div>
 
 
