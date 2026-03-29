@@ -212,7 +212,7 @@ class CreateCompany extends Component
 
         if($this->company_photo) {
             $imageName = strtolower(str_replace(' ', '_', $this->name)).'.'.$this->company_photo->extension();
-            $this->company_photo->storeAs('business-profile-photos', $imageName, 'public');
+            $this->company_photo->storeAs('company-profile-photos', $imageName, 'public');
         }
 
         $userId = $validated['owner_id'] ?? auth()->id();
