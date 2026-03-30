@@ -178,17 +178,28 @@
     position: relative;
     cursor: wait;
     pointer-events: none;
+    color: transparent;
 }
-.btn-loading .btn-label {
-    opacity: 0;
-}
+
 .btn-loading::after {
     content: '';
     position: absolute;
-    width: 14px; height: 14px;
-    border: 2px solid currentColor;
+    inset: 0;
+    margin: auto;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--color-white);
     border-top-color: transparent;
     border-radius: 50%;
     animation: btn-spin 0.6s linear infinite;
+}
+
+.btn-white.btn-loading::after,
+.btn-outline-primary.btn-loading::after,
+.btn-outline-muted.btn-loading::after,
+.btn-ghost.btn-loading::after,
+.btn-outline-dashed.btn-loading::after {
+    border-color: var(--color-primary);
+    border-top-color: transparent;
 }
 @keyframes btn-spin { to { transform: rotate(360deg); } }

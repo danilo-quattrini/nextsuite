@@ -26,16 +26,21 @@
     ];
 
     $sizes = [
+        'sm'   => 'btn-sm',
+        'md'   => 'btn-md',
+        'lg'   => 'btn-lg',
+        'icon' => 'btn-icon',
         'default' => 'w-[72px] h-[40px]',
         'large' => 'w-[150px] h-[40px]',
         'auto' => 'px-4 py-2 h-[40px]',
-        'full' => 'w-full h-[40px]'
+        'full' => 'btn-full'
     ];
 
     $classes = trim(implode(' ', [
         $base,
         $variants[$variant] ?? $variants['primary'],
         $sizes[$size] ?? $sizes['default'],
+        $loading  ? 'btn-loading'  : '',
     ]));
 
     $isDisabled = $disabled || $loading;
@@ -48,7 +53,7 @@
             aria-disabled="{{ $isDisabled ? 'true' : 'false' }}"
             {{ $attributes->merge(['class' => $classes]) }}
     >
-        <span class="btn-label">{{ $slot }}</span>
+       {{ $slot }}
     </a>
 @else
     <button
@@ -56,6 +61,6 @@
             {{ $isDisabled ? 'disabled' : '' }}
             {{ $attributes->merge(['class' => $classes]) }}
     >
-        <span class="btn-label">{{ $slot }}</span>
+        {{ $slot }}
     </button>
 @endif
