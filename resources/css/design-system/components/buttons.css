@@ -1,19 +1,24 @@
 /* Button Base */
 .btn{
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-md);
     gap: var(--spacing-xs);
     border-radius: var(--radius-md);
-    font-size: var(--text-sm) ;
+    font-size: var(--font-size-sm) ;
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--tracking-button);
     line-height: var(--line-height-none);
-    transition: all var(--transition-slow);
+    transition: background-color var(--transition-fast),
+                border-color var(--transition-fast),
+                color var(--transition-fast),
+                box-shadow var(--transition-fast);
     cursor: pointer;
-    border: none;
+    border: 1px solid transparent;
     text-decoration: none;
+    white-space: nowrap;
+    user-select: none;
 }
 
 /* ── Sizes ─────────────────────────────── */
