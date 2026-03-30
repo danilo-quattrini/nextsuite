@@ -3,6 +3,9 @@
     'size' => 'default',
     'type' => 'button',
     'href' => null,
+    'disabled' => false,
+    'loading'  => false,
+    'external' => false,
 ])
 
 @php
@@ -16,10 +19,10 @@
         'error' => 'btn-error',
         'warning' => 'btn-warning',
         'outline-primary' => 'btn-outline-primary',
-        'outline-disable' => 'btn-outline-disable',
+        'outline-muted' => 'btn-outline-muted',
         'outline-error' => 'btn-outline-error',
         'outline-warning' => 'btn-outline-warning',
-        'outline-dashed' => 'btn-outline-disable-dashed'
+        'outline-dashed' => 'btn-outline-dashed'
     ];
 
     $sizes = [
@@ -34,14 +37,25 @@
         $variants[$variant] ?? $variants['primary'],
         $sizes[$size] ?? $sizes['default'],
     ]));
+
+    $isDisabled = $disabled || $loading;
 @endphp
 
 @if($href)
-    <a href="{{ $href }}" {{ $attributes->merge(['class' => $classes]) }}>
-        {{ $slot }}
+    <a
+            href="{{ $isDisabled ? '#' : $href }}"
+            {{ $external ? 'target=_blank rel=noopener' : '' }}
+            aria-disabled="{{ $isDisabled ? 'true' : 'false' }}"
+            {{ $attributes->merge(['class' => $classes]) }}
+    >
+        <span class="btn-label">{{ $slot }}</span>
     </a>
 @else
-    <button type="{{ $type }}" {{ $attributes->merge(['class' => $classes]) }}>
-        {{ $slot }}
+    <button
+            type="{{ $type }}"
+            {{ $isDisabled ? 'disabled' : '' }}
+            {{ $attributes->merge(['class' => $classes]) }}
+    >
+        <span class="btn-label">{{ $slot }}</span>
     </button>
 @endif
