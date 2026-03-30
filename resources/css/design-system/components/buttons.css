@@ -66,12 +66,13 @@
 
 .btn-white {
     background-color: var(--color-white);
-    font-weight: var(--font-weight-medium);
-    border: 1px solid var(--color-outline-grey);
-
+    border-color: var(--color-outline-grey);
+    color: var(--color-primary-grey-700);
     &:hover:not(:disabled) {
-        @apply border border-primary text-primary transition delay-25 duration-150 ease-in;
+        border-color: var(--color-primary);
+        color: var(--color-primary);
     }
+    &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-secondary); }
 }
 
 .btn-rest {
