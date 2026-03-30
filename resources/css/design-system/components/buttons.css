@@ -104,10 +104,9 @@
 
     &:hover:not(:disabled) {
         background-color: var(--color-secondary-error-hover);
-        color: var(--color-white);
     }
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--color-primary-grey);
+        outline: none; box-shadow: 0 0 0 4px var(--color-secondary-error-100);
     }
 }
 .btn-warning {
@@ -115,11 +114,11 @@
     color: var(--color-white);
 
     &:hover:not(:disabled) {
-        background-color: var(--color-secondary-warning);
-        color: var(--color-white);
+        filter: brightness(0.92);
     }
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--color-primary-grey);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary-warning-100);
     }
 }
 
