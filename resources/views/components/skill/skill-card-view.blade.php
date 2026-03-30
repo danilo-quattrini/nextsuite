@@ -13,22 +13,27 @@
                             </div>
                         </div>
                         <x-button
-                                type="button"
-                                size="auto"
+                                size="icon"
                                 variant="error"
                                 wire:click="removeItem('skills', {{ (int) $skillId }})"
                         >
-                            <x-heroicon class="text-white" name="trash" />
+                            <x-heroicon name="trash" />
                         </x-button>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
-                        <span class="px-3 py-1 rounded-full bg-outline-grey text-sm text-black">
+                        <x-tag
+                                variant="white"
+                                size="sm"
+                        >
                             Level: {{ $data['level'] }}
-                        </span>
+                        </x-tag>
                         @if($data['years'] != null)
-                            <span class="px-3 py-1 rounded-full bg-outline-grey text-sm text-black">
+                            <x-tag
+                                    variant="white"
+                                    size="sm"
+                            >
                                 Years: {{ $data['years'] }}
-                            </span>
+                            </x-tag>
                         @endif
                     </div>
                 </div>

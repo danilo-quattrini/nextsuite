@@ -12,19 +12,21 @@
                         </div>
                     </div>
                     <x-button
-                            type="button"
-                            size="auto"
+                            size="icon"
                             variant="error"
                             wire:click="removeItem('attributes', {{ (int) $attributeId }})"
                     >
-                        <x-heroicon class="text-white" name="trash" />
+                        <x-heroicon name="trash" />
                     </x-button>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="text-xs font-semibold uppercase tracking-wide text-primary-grey">Value</span>
-                    <span class="px-3 py-1 rounded-full bg-outline-grey text-sm text-black">
+                    <x-tag
+                            variant="white"
+                            size="sm"
+                    >
                         {{ ucfirst($data['value']) }}
-                    </span>
+                    </x-tag>
                 </div>
             </div>
         @endforeach

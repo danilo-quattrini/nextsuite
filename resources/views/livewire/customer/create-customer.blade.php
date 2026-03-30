@@ -134,28 +134,34 @@
                                 </div>
 
                                 {{--  CUSTOMER ATTIRBUTE SECTION --}}
-                                <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
-                                    <x-form.label-container label="Attributes"/>
+                                <x-card.card-container
+                                        title="Attributes"
+                                        icon="user-circle"
+                                        size="lg"
+                                >
+
+                                    <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
 
                                     <x-button
-                                            size="auto"
+                                            size="full"
+                                            variant="outline-dashed"
                                             wire:click="$dispatch('open-add-attribute')"
                                     >
                                         <x-heroicon size="lg" name="plus"/>
                                     </x-button>
-                                    
-                                    <x-attribute.attribute-card-view :customerAttributes="$form->attributes" />
 
                                     <x-form.input-container>
                                         @livewire('attribute.attribute-modal')
                                     </x-form.input-container>
-                                </div>
+                                </x-card.card-container>
 
-                                <div class="flex justify-end">
-                                    <x-button size="large" wire:click="nextStep">
-                                        Next
-                                    </x-button>
-                                </div>
+                                {{-- NEXT BUTTON --}}
+                                <x-button
+                                        size="full"
+                                        wire:click="nextStep"
+                                >
+                                    Next
+                                </x-button>
                             </div>
 
                             {{-- ================= STEP 2 ================= --}}
@@ -230,28 +236,35 @@
                                     </x-form.input-container>
                                 </div>
 
-                                <div class="border border-outline-grey rounded-lg p-6 bg-white space-y-4">
-                                    <x-form.label-container label="Skills"/>
-
+                                <x-card.card-container
+                                        title="Skills"
+                                        icon="star"
+                                        size="lg"
+                                >
                                     <x-skill.skill-card-view :skills="$form->skills" :hide-soft-skills="true" />
 
-                                    <x-form.input-container>
-                                        <x-button
-                                                size="auto"
-                                                wire:click="$dispatch('open-hard-skill-modal')"
-                                        >
-                                            <x-heroicon name="plus"/>
-                                            New Skill
-                                        </x-button>
-                                        <livewire:skill-modal />
-                                    </x-form.input-container>
-                                </div>
+                                    <x-button
+                                            variant="outline-dashed"
+                                            size="full"
+                                            wire:click="$dispatch('open-hard-skill-modal')"
+                                    >
+                                        <x-heroicon name="plus"/>
+                                    </x-button>
+                                    <livewire:skill-modal />
+                                </x-card.card-container>
 
-                                <div class="flex justify-between">
-                                    <x-button variant="rest" size="large" wire:click="previousStep">
+                                <div class="flex justify-between gap-sm">
+                                    <x-button
+                                            variant="rest"
+                                            size="full"
+                                            wire:click="previousStep"
+                                    >
                                         Back
                                     </x-button>
-                                    <x-button size="large" type="submit">
+                                    <x-button
+                                            size="full"
+                                            type="submit"
+                                    >
                                         Create
                                     </x-button>
                                 </div>
