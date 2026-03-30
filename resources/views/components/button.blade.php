@@ -11,7 +11,7 @@
     $variants = [
         'primary' => 'btn-primary',
         'white' => 'btn-white',
-        'rest' => 'btn-rest',
+        'rest' => 'btn-ghost',
         'disable' => 'btn-disable',
         'error' => 'btn-error',
         'warning' => 'btn-warning',

@@ -75,12 +75,14 @@
     &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-secondary); }
 }
 
-.btn-rest {
+.btn-ghost {
     background-color: var(--color-secondary);
     color: var(--color-primary);
-
+    &:hover:not(:disabled) {
+        background-color: oklch(62% 0.18 264 / 35%);
+    }
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--color-secondary);
+        outline: none; box-shadow: 0 0 0 4px var(--color-secondary);
     }
 }
 
