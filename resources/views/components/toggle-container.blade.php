@@ -31,14 +31,12 @@
     'description' => null
 ])
 <label class="ds-checkbox-container">
-    {{$element}}
-    {{$span}}
+    {{ $element }}   {{-- Must be first: the <input> --}}
+    {{ $span }}      {{-- Must be second: the .ds-checkbox-mark span --}}
     <span class="ds-checkbox-label">
-        {{$slot}}
-        <br>
+        {{ $slot }}
         @if($description)
-            <span class="ds-checkbox-description">{{$description}}</span>
+            <span class="ds-checkbox-description">{{ $description }}</span>
         @endif
     </span>
-
 </label>

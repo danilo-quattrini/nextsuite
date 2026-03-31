@@ -58,30 +58,46 @@
 
 @php
     $allowedSizes = ['sm', 'md', 'lg'];
-    $size = strtolower((string) $size);
-    $size = in_array($size, $allowedSizes, true) ? $size : 'md';
+    $size = in_array(strtolower((string) $size), $allowedSizes, true)
+                        ? strtolower((string) $size)
+                        : 'md';
     $wrap = filter_var($wrap, FILTER_VALIDATE_BOOL);
     $inputSizeClass = "ds-checkbox-input--{$size}";
     $wrapperSizeClass = "ds-checkbox--{$size}";
-    $hasSlot = trim((string) $slot) !== '';
-    $labelText = $label ?? ($hasSlot ? $slot : null);
+
     $inputClasses = trim("ds-checkbox-input {$inputSizeClass} {$inputClass}");
-    $wrapperClasses = trim(implode(' ', [
+    $wrapperClasses = trim(implode(' ', array_filter([
         'ds-checkbox',
         $wrapperSizeClass,
         $containerClass,
         $attributes->get('class'),
-    ]));
+    ])));
 @endphp
 
 @if($wrap)
     <label class="{{ $wrapperClasses }}">
-        <input type="checkbox" {{ $attributes->except('class')->merge(['class' => $inputClasses]) }} />
+        <input
+                type="checkbox"
+                {{ $attributes->except('class')->merge(['class' => $inputClasses]) }}
+        />
         <span class="ds-checkbox-mark {{ $boxClass }}"></span>
-        @if($labelText)
-            <span class="ds-checkbox-label {{ $labelClass }}">{{ $labelText }}</span>
+
+        {{-- Label: prop takes priority over slot content --}}
+        @if($label)
+            <span class="ds-checkbox-label {{ $labelClass }}">{{ $label }}</span>
+        @elseif($slot->isNotEmpty())
+            {{-- Slot allows rich content: icons, links, markup --}}
+            <span class="ds-checkbox-label {{ $labelClass }}">{{ $slot }}</span>
         @endif
     </label>
 @else
-    <input type="checkbox" {{ $attributes->merge(['class' => $inputClasses]) }} />
+    {{--
+        Input-only mode: renders nothing but the <input>.
+        The caller is responsible for placing .ds-checkbox-mark
+        as the very next sibling in the DOM.
+    --}}
+    <input
+            type="checkbox"
+            {{ $attributes->merge(['class' => $inputClasses]) }}
+    />
 @endif
