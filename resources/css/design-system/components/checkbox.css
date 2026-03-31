@@ -26,6 +26,7 @@
     line-height: var(--line-height-snug);
 }
 
+/* ── Sizes ─────────────────────────────── */
 .ds-checkbox--sm {
     --checkbox-size: 1.25rem;
     --checkbox-icon-width: 0.625rem;
