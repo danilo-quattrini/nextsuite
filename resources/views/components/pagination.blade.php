@@ -2,18 +2,21 @@
     <nav class="flex items-center justify-center" role="navigation" aria-label="Pagination">
         <div class="flex items-center gap-8 px-4 py-2">
             @if ($paginator->onFirstPage())
-                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white cursor-not-allowed">
-                    <x-heroicon name="chevron-left" class="text-primary-grey" />
-                    <span>Prev</span>
-                </span>
-            @else
-                <button
-                        wire:click="previousPage"
-                        class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition cursor-pointer"
+                <x-button
+                        variant="disable"
+                        size="full"
+                        :disabled="true"
                 >
-                    <x-heroicon name="chevron-left" class="text-black" />
-                    <span>Prev</span>
-                </button>
+                    <x-heroicon name="chevron-left"/>
+                </x-button>
+            @else
+                <x-button
+                        variant="white"
+                        size="full"
+                        wire:click="previousPage"
+                >
+                    <x-heroicon name="chevron-left" />
+                </x-button>
             @endif
 
             <div class="flex items-center gap-4">
@@ -25,19 +28,20 @@
                     @if (is_array($element))
                         @foreach ($element as $page => $url)
                             @if ($page == $paginator->currentPage())
-                                <span
-                                        aria-current="page"
-                                        class="w-9 h-9 flex items-center justify-center rounded-md bg-primary text-white font-semibold cursor-pointer"
+                                <x-button
+                                        size="icon"
+                                        variant="primary"
                                 >
                                     {{ $page }}
-                                </span>
+                                </x-button>
                             @else
-                                <button
+                                <x-button
+                                        size="icon"
+                                        variant="white"
                                         wire:click="gotoPage({{ $page }})"
-                                        class="w-9 h-9 flex items-center justify-center rounded-md text-black hover:border hover:border-primary hover:text-primary transition font-semibold cursor-pointer"
                                 >
                                     {{ $page }}
-                                </button>
+                                </x-button>
                             @endif
                         @endforeach
                     @endif
@@ -45,18 +49,21 @@
             </div>
 
             @if ($paginator->hasMorePages())
-                <button
+                <x-button
+                        variant="white"
+                        size="full"
                         wire:click="nextPage"
-                        class="flex items-center gap-2 px-3 py-2 rounded-md text-black hover:bg-outline-grey transition cursor-pointer"
                 >
-                    <span>Next</span>
-                    <x-heroicon name="chevron-right" class="text-primary-grey" />
-                </button>
+                    <x-heroicon name="chevron-right" />
+                </x-button>
             @else
-                <span class="flex items-center gap-2 px-3 py-2 rounded-md text-primary-grey bg-white cursor-not-allowed">
-                    <span>Next</span>
-                    <x-heroicon name="chevron-right" class="text-primary-grey" />
-                </span>
+                <x-button
+                        size="full"
+                        variant="disable"
+                        :disabled="true"
+                >
+                    <x-heroicon name="chevron-right" />
+                </x-button>
             @endif
         </div>
     </nav>
