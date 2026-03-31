@@ -21,7 +21,7 @@
     cursor: pointer;
     user-select: none;
     gap: var(--checkbox-gap);
-    font-size: var(--text-sm);
+    font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-snug);
 }
