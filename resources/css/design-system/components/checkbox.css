@@ -16,7 +16,10 @@
     --checkbox-checked-border: var(--color-primary);
     --checkbox-focus-ring: var(--color-primary);
 
-    @apply inline-flex items-center cursor-pointer select-none;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
     gap: var(--checkbox-gap);
     font-size: var(--text-sm);
     font-weight: var(--font-weight-medium);
