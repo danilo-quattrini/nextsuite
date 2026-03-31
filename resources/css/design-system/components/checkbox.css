@@ -68,7 +68,10 @@
 
 /* Custom Box */
 .ds-checkbox-mark {
-    @apply inline-flex items-center justify-center shrink-0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
     width: var(--checkbox-size);
     height: var(--checkbox-size);
     border-radius: var(--checkbox-radius);
