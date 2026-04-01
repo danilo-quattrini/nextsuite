@@ -34,17 +34,18 @@
 ])
 @php
     $sizes = [
-        'full' => ' w-full ',
-        'default' => ' w-117.5 max-w-full',
-        'medium' => ' w-58.75 max-w-full ',
-        'small' => ' w-64 ',
-        'compact' => ' w-40 ',
-        'auto' => ' w-auto ',
+        'full' => 'input-container--full',
+        'default' => 'input-container--default',
+        'medium' => 'input-container--medium',
+        'small' => 'input-container--small',
+        'compact' => 'input-container--compact',
+        'auto' => 'input-container--auto',
     ];
 
-    $class = '  flex flex-col justify-start items-start gap-4 ' . ' ' . ($sizes[$size] ?? $sizes['default'] )
-
+    $sizeClass = $sizes[$size] ?? $sizes['default'];
+    $class = 'input-container ' . $sizeClass;
 @endphp
+
 <div {{ $attributes->merge(['class' => $class]) }}>
-    {{$slot}}
+    {{ $slot }}
 </div>
