@@ -23,6 +23,10 @@
     --avatar-size: 8rem;       /* 128px */
 }
 
+.avatar-upload--xl .avatar-upload__circle {
+    --avatar-size: 10rem;       /* 254 */
+}
+
 /* ── Circle ─────────────────────────────── */
 
 .avatar-upload__circle {

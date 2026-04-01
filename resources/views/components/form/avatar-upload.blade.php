@@ -27,6 +27,7 @@
     id         string   Input/label id pair (defaults to name value)
     current    string   URL of existing image to pre-populate the preview
     label      string   Helper text below the avatar (default: 'Upload photo')
+    icon       string   Name of the HEROICON to place into the avatar
     size       string   sm | md | lg  — controls avatar diameter (default: md)
     error      bool     Highlights the ring in error color (default: false)
 
@@ -45,6 +46,7 @@
     'id'      => null,
     'current' => null,
     'label'   => null,
+    'icon'    => 'user-plus',
     'size'    => 'md',
     'error'   => false,
 ])
@@ -52,7 +54,7 @@
 @php
     $inputId = $id ?? $name;
 
-    $allowedSizes = ['sm', 'md', 'lg'];
+    $allowedSizes = ['sm', 'md', 'lg', 'xl'];
     $size = in_array($size, $allowedSizes, true) ? $size : 'md';
 
     $wrapperClass = trim(implode(' ', array_filter([
@@ -90,6 +92,17 @@
             $refs.fileInput.files = dt.files;
         }
     }"
+    x-init="
+        if (typeof $wire !== 'undefined') {
+            $wire.on('upload:finished', () => {
+                const file = $refs.fileInput.files[0];
+                if (file) preview = URL.createObjectURL(file);
+            });
+            $wire.on('upload:errored', () => {
+                preview = @js($current);
+            });
+        }
+    "
 >
     {{-- Clickable / droppable circle --}}
     <label
@@ -114,7 +127,7 @@
 
         {{-- Placeholder icon (shown when no preview) --}}
         <span class="avatar-upload__placeholder" x-show="!preview">
-            <x-heroicon name="user-plus" size="{{ $size }}" />
+            <x-heroicon name="{{ $icon }}" size="{{ $size }}" />
         </span>
 
         {{-- Hover overlay (shown over existing image) --}}
