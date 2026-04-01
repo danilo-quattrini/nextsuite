@@ -39,8 +39,8 @@
 
 }
 .input-border.has-error {
-    outline: 1px solid var(--color-secondary-error) !important;
-    outline-color: var(--color-secondary-error) !important;
+    outline: 1px solid var(--color-secondary-error);
+    outline-color: var(--color-secondary-error);
 }
 
 .input-border:focus-within:not(.has-error) {
