@@ -1,3 +1,56 @@
+{{--
+    INPUT COMPONENT
+    ===============
+    A styled text input with optional left/right icons and password toggle.
+    Wraps a native <input> inside a .input-border container.
+
+    USAGE — basic:
+        <x-form.input
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            wire:model="email"
+        />
+
+    USAGE — with icons:
+        <x-form.input
+            name="email"
+            type="email"
+            leftIcon="envelope"
+            rightIcon="check"
+            placeholder="Email"
+            :error="$errors->has('email')"
+        />
+
+    USAGE — password with toggle:
+        <x-form.input
+            name="password"
+            type="password"
+            leftIcon="lock-closed"
+            rightIcon="eye"
+            placeholder="Password"
+        />
+
+    PROPS
+    -----
+    leftIcon     string   Heroicon name for the left slot (optional)
+    rightIcon    string   Heroicon name for the right slot. Pass "eye"
+                          to get the password show/hide toggle.
+    size         string   Icon size passed to x-heroicon (default: lg)
+    error        bool     Applies has-error styling (default: false)
+    placeholder  string   Native placeholder text (default: '')
+
+    All other attributes (name, type, id, wire:model, x-model,
+    required, disabled, autocomplete, etc.) are forwarded to <input>.
+
+    NOTES
+    -----
+    - Default input type is "text". Always pass type="password" explicitly
+      when using rightIcon="eye" or the toggle will not work correctly.
+    - The Alpine `hasValue` variable tracks whether the input is filled
+      to drive icon color changes.
+    - The Alpine `isVisible` variable tracks password visibility state.
+--}}
 @props([
     'leftIcon' => null,
     'rightIcon' => null,
