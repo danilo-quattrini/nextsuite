@@ -32,9 +32,8 @@
     border-radius: var(--radius-md);
     border: 1px solid var(--color-outline-grey);
     background-color: var(--color-white);
-    transition: all;
-    transition-duration: 150ms;
-    outline: var(--color-outline-grey);
+    transition: border-color var(--transition-fast), outline var(--transition-fast);
+    outline: 1px solid transparent;
     outline-offset: -2px;
 
 }
