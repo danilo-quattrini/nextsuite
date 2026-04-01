@@ -60,21 +60,32 @@
 ])
 
 @php
-    $base = 'input-border';
-    $input = 'input';
+    $inputType = $attributes->get('type', 'text');
 
+    /*
+     * Icon color logic:
+     * - Error state:  always red
+     * - Filled state: black
+     * - Default:      primary-grey
+     * The Alpine x-bind:class below handles filled/unfilled dynamically.
+     * The static $iconColor class covers the error case upfront.
+     */
     $iconColor = $error
-        ? 'text-secondary-error group-focus-within:text-secondary-error'
-        : 'group-focus-within:text-black';
+        ? 'text-secondary-error'
+        : 'text-primary-grey group-focus-within:text-black';
 @endphp
 
 {{-- ========================================================= --}}
 {{-- WRAPPER --}}
 {{-- ========================================================= --}}
 <div
-        class="group {{ $base }} {{ $error ? 'has-error' : '' }}"
-        x-data="{ show: false, filled: false, error: @json($error) }"
-        x-init="filled = $refs.input && $refs.input.value && $refs.input.value.length > 0"
+        class="group input-border {{ $error ? 'has-error' : '' }}"
+        x-data="{
+                    isVisible: false,
+                    hasValue: false,
+                    hasError: @json($error)
+        }"
+        x-init="hasValue = $refs.input?.value?.length > 0"
 >
     {{-- ========================================================= --}}
     {{-- LEFT ICON (ONLY IF NOT PHONE INPUT) --}}
@@ -85,63 +96,68 @@
                 size="{{ $size }}"
                 variant="outline"
                 class="{{ $iconColor }}"
-                x-bind:class="{ ' text-black': filled && error,
-                                'text-primary-grey'  : !filled && !error
+                x-bind:class="{
+                    'text-black': hasValue && hasError,
+                    'text-primary-grey'  : !hasValue && !hasError
                 }"
         />
     @endif
 
     <input
             x-ref="input"
-            type="{{ $attributes->get('type') }}"
-            class="{{ $input }} {{$attributes->get('class')}}"
+            type="{{ $inputType }}"
             placeholder="{{ $placeholder }}"
-            @input="filled = $event.target.value.length > 0"
-            {{ $attributes->except('type') }}
+            @input="hasValue = $event.target.value.length > 0"
+            {{ $attributes->except(['type', 'class'])->merge(['class' => 'input ' . $attributes->get('class', '')]) }}
     />
 
     {{-- ========================================================= --}}
     {{-- RIGHT ICON (NOT FOR PHONE INPUTS) --}}
     {{-- ========================================================= --}}
     @if($rightIcon)
-        @if($rightIcon !== 'eye')
-            <x-heroicon
-                    :name="$rightIcon"
-                    size="{{ $size }}"
-                    variant="outline"
-                    class="{{ $iconColor }}"
-                    x-bind:class="{ ' text-black': filled && error,
-                                'text-primary-grey'  : !filled && !error
-                    }"
-            />
-        @else
+        @if($rightIcon === 'eye')
             <span
-                    @click="show = !show; $refs.input.type = show ? 'text' : 'password'"
-                    class="cursor-pointer"
+                    @click="isVisible = !isVisible; $refs.input.type = isVisible ? 'text' : 'password'"
+                    class="cursor-pointer shrink-0"
+                    role="button"
+                    aria-label="Toggle password visibility"
             >
-                <span x-show="!show">
+                <span x-show="!isVisible">
                    <x-heroicon
                            name="eye"
                            size="{{ $size }}"
                            variant="outline"
                            class="{{ $iconColor }}"
-                           x-bind:class="{ ' text-black': filled && error,
-                                'text-primary-grey'  : !filled && !error
+                           x-bind:class="{
+                                'text-black': hasValue && hasError,
+                                'text-primary-grey'  : !hasValue && !hasError
                            }"
                    />
                 </span>
-                <span x-show="show">
+                <span x-show="isVisible">
                     <x-heroicon
                             name="eye-slash"
                             size="{{ $size }}"
                             variant="outline"
                             class="{{ $iconColor }}"
-                            x-bind:class="{ ' text-black': filled && error,
-                                'text-primary-grey'  : !filled && !error
+                            x-bind:class="{
+                                'text-black': hasValue && hasError,
+                                'text-primary-grey'  : !hasValue && !hasError
                             }"
                     />
                 </span>
             </span>
+        @else
+            <x-heroicon
+                    :name="$rightIcon"
+                    size="{{ $size }}"
+                    variant="outline"
+                    class="{{ $iconColor }}"
+                    x-bind:class="{
+                        'text-black':        hasValue && !hasError,
+                        'text-primary-grey': !hasValue && !hasError
+                }"
+            />
         @endif
     @endif
 
