@@ -1,0 +1,18 @@
+/* ============================================
+   INPUT CONTAINER
+   ============================================ */
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: var(--spacing-sm);
+}
+
+.input-container--full    { width: 100%; }
+.input-container--default { width: 47rem; max-width: 100%; }
+.input-container--medium  { width: 23.5rem; max-width: 100%; }
+.input-container--small   { width: 16rem; }
+.input-container--compact { width: 10rem; }
+.input-container--auto    { width: auto; }
