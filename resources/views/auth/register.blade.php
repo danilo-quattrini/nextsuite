@@ -14,21 +14,11 @@
             <x-form.container>
 
                 <!-- AVATAR UPLOAD -->
-                <div class="flex flex-col items-center gap-2">
-                    <label for="profile_photo"
-                           class="relative w-24 h-24 rounded-full overflow-hidden cursor-pointer
-                                  bg-secondary flex items-center justify-center
-                                  ring-2 ring-offset-2 ring-transparent
-                                  hover:ring-primary transition-all duration-200">
-                        <img id="profilePreview"
-                             class="absolute inset-0 w-full h-full object-cover hidden"
-                             alt="Profile preview">
-                        <x-heroicon name="user-plus" variant="outline" size="lg"
-                                    id="placeholderIcon" class="text-primary" />
-                    </label>
-                    <span class="text-xs text-primary-grey">{{ __('Upload photo') }}</span>
-                    <input id="profile_photo" name="profile_photo" type="file" class="hidden" accept="image/*">
-                    <x-input-error for="profile_photo"/>
+                <div class="flex justify-center items-center">
+                    <x-form.avatar-upload
+                            id="profile_photo"
+                            size="lg"
+                    />
                 </div>
 
                 <!-- FULL NAME -->

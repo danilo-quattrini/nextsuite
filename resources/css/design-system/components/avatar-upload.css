@@ -1,0 +1,124 @@
+/* ============================================
+   AVATAR UPLOAD
+   ============================================ */
+
+.avatar-upload {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-xs);
+}
+
+/* ── Size scale ─────────────────────────── */
+
+.avatar-upload--sm .avatar-upload__circle {
+    --avatar-size: 4rem;       /* 64px */
+}
+
+.avatar-upload--md .avatar-upload__circle {
+    --avatar-size: 6rem;       /* 96px — matches original w-24 h-24 */
+}
+
+.avatar-upload--lg .avatar-upload__circle {
+    --avatar-size: 8rem;       /* 128px */
+}
+
+/* ── Circle ─────────────────────────────── */
+
+.avatar-upload__circle {
+    --avatar-size: 6rem;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    background-color: var(--color-secondary);
+    color: var(--color-primary);
+
+    /* Ring — invisible by default, animates on interact */
+    outline: 2px solid transparent;
+    outline-offset: 3px;
+    transition:
+            outline-color var(--transition-base),
+            background-color var(--transition-base);
+}
+
+/* Hover: reveal ring */
+.avatar-upload__circle:hover {
+    outline-color: var(--color-primary);
+}
+
+/* Drag-over: stronger ring + tint */
+.avatar-upload__circle.is-dragging {
+    outline-color: var(--color-primary);
+    background-color: var(--color-secondary);
+    outline-width: 3px;
+}
+
+/* Error ring */
+.avatar-upload.has-error .avatar-upload__circle {
+    outline-color: var(--color-secondary-error);
+}
+
+/* ── Preview image ──────────────────────── */
+
+.avatar-upload__preview {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+/* ── Placeholder icon ───────────────────── */
+
+.avatar-upload__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    transition: opacity var(--transition-fast);
+}
+
+.avatar-upload__circle:hover .avatar-upload__placeholder {
+    color: var(--color-button-hover);
+}
+
+/* ── Hover overlay (camera icon over existing photo) ── */
+
+.avatar-upload__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: oklch(0% 0 0 / 40%);
+    color: var(--color-white);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity var(--transition-base);
+}
+
+.avatar-upload__circle:hover .avatar-upload__overlay,
+.avatar-upload__circle.is-dragging .avatar-upload__overlay {
+    opacity: 1;
+}
+
+/* ── Helper label ───────────────────────── */
+
+.avatar-upload__label {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-primary-grey);
+    text-align: center;
+}
+
+.avatar-upload.has-error .avatar-upload__label {
+    color: var(--color-secondary-error);
+}
