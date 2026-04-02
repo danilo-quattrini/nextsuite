@@ -15,9 +15,8 @@
             <x-form.dropdown-button align="right">
             <x-slot:trigger>
                 <x-button
-                        type="button"
                         variant="white"
-                        size="auto"
+                        size="icon"
                         aria-label="Customer options"
                 >
                     <x-heroicon

@@ -6,15 +6,17 @@
         </x-tag>
     @endif
 
-    {{-- HARD SKILL MODAL --}}
-    <x-slot:action>
-        <x-button
-                size="auto"
-                wire:click="$dispatch('open-hard-skill-modal')"
-        >
-            <x-heroicon size="lg" name="plus"/>
-        </x-button>
-    </x-slot:action>
+    @if($this->hardSkills()->isNotEmpty())
+        {{-- HARD SKILL MODAL --}}
+        <x-slot:action>
+            <x-button
+                    size="icon"
+                    wire:click="$dispatch('open-hard-skill-modal')"
+            >
+                <x-heroicon size="lg" name="plus"/>
+            </x-button>
+        </x-slot:action>
+    @endif
 
     {{-- LOADING STATE --}}
     @if($isLoading)
@@ -66,7 +68,6 @@
                     <div class="skills-pagination__actions">
                         <x-button
                                 variant="white"
-                                size="auto"
                                 wire:click="showMore"
                                 wire:loading.attr="disabled"
                                 wire:transition
@@ -79,7 +80,6 @@
 
                         <x-button
                             variant="white"
-                            size="auto"
                             wire:click="showAll"
                             wire:loading.attr="disabled"
                         >
@@ -91,7 +91,6 @@
                 @if($this->canShowLess)
                     <x-button
                             variant="white"
-                            size="auto"
                             wire:click="showLess"
                             wire:loading.attr="disabled"
                     >

@@ -57,13 +57,12 @@ class extends Component {
 <x-card.card-container title="Reviews">
     <x-slot:action>
         <x-button
-                type="button"
                 wire:click.prevent="$dispatch('review-user', { id: {{ $customer->id }}, type: 'customer' })"
-                size="auto"
-                variant="warning"
         >
-            <x-heroicon name="pencil" size="sm"/>
-            Leave a Review
+            <x-heroicon
+                    name="pencil"
+            />
+            Review
         </x-button>
     </x-slot:action>
 

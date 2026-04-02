@@ -110,29 +110,19 @@ class extends Component {
             <span class="skills-loading__text">Updating attributes...</span>
         </div>
     @else
-        @if($userAttributes->isNotEmpty())
-            <x-slot:action>
-                <x-button
-                        size="auto"
-                        wire:click="$dispatch('open-add-attribute')"
-                >
-                    <x-heroicon size="lg" name="plus"/>
-                </x-button>
-            </x-slot:action>
-        @endif
-
         @forelse($userAttributes as $attribute)
             <x-card.card-container
                     title="{{ $attribute->name}}"
+                    subtitle="{{ $attribute->description ?? '' }}"
                     size="lg"
                     card-size="sm"
             >
                 <x-slot:action>
                     {{-- DELETE AND EDIT BUTTONS --}}
-                    <div class="flex justify-between items-center gap-sm">
+                    <div class="flex justify-between items-center gap-xs">
                         <x-button
                                 variant="disable"
-                                size="auto"
+                                size="icon"
                                 wire:click="$dispatch('open-edit-attribute',{
                                     attributeId: {{ $attribute->id }},
                                     userId: {{ $customer->id }}
@@ -142,7 +132,7 @@ class extends Component {
                         </x-button>
                         <x-button
                                 variant="error"
-                                size="auto"
+                                size="icon"
                                 wire:click="removeAttribute({{ $attribute->id }})"
                         >
                             <x-heroicon name="trash" size="lg"/>
@@ -172,6 +162,18 @@ class extends Component {
                 </x-slot:action>
             </x-empty-state>
         @endforelse
+        @if($userAttributes->isNotEmpty())
+            <x-button
+                    variant="outline-dashed"
+                    size="full"
+                    wire:click="$dispatch('open-add-attribute')"
+            >
+                <x-heroicon
+                        name="plus"
+                        size="lg"
+                />
+            </x-button>
+        @endif
     @endif
 
     @livewire('attribute.attribute-modal')

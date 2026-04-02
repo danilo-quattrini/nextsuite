@@ -101,7 +101,7 @@ new class extends Component {
     <x-slot:action>
         @if($skillSchemaExists)
             <x-button
-                    size="auto"
+                    size="icon"
                     wire:click="$dispatch('open-soft-skill-modal')"
             >
                 <x-heroicon size="lg" name="plus"/>
@@ -109,8 +109,7 @@ new class extends Component {
         @endif
     </x-slot:action>
 
-    {{--    <livewire:skill-modal :user="$customer"/>--}}
-
+    {{--EMPTY STATE (NO SKILL SCHEMA)--}}
     @if($softSkills->isEmpty())
         <x-empty-state
                 icon="star"
@@ -120,9 +119,11 @@ new class extends Component {
          <x-slot:action>
              <x-button
                      href="{{ route('skill-schema.create', $customer) }}"
-                     size="auto"
              >
-                 <x-heroicon size="lg" name="plus"/>
+                 <x-heroicon
+                         name="plus"
+                         size="lg"
+                 />
                  Create Schema
              </x-button>
          </x-slot:action>
