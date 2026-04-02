@@ -29,7 +29,7 @@
 @props([
     'name' => null,
     'id' => null,
-    'options' => null
+    'placeholder' => null,
 ])
 <select
         name="{{ $name }}"
@@ -45,5 +45,9 @@
         $dispatch('select-changed', { label: selected ? selected.text : 'Select an option' });
     "
 >
+    @if($placeholder)
+        <option value="" disabled selected hidden>{{ $placeholder }}</option>
+    @endif
+
     {{ $options ?? $slot }}
 </select>
