@@ -60,7 +60,8 @@
     }
 
     &:focus-visible {
-        box-shadow: 0 0 0 4px var(--color-primary);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary);
     }
 }
 
@@ -68,21 +69,29 @@
     background-color: var(--color-white);
     border-color: var(--color-outline-grey);
     color: var(--color-primary-grey-700);
+
     &:hover:not(:disabled) {
         border-color: var(--color-primary);
         color: var(--color-primary);
     }
-    &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-secondary); }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary);
+    }
 }
 
 .btn-ghost {
     background-color: var(--color-secondary);
     color: var(--color-primary);
+
     &:hover:not(:disabled) {
         background-color: oklch(62% 0.18 264 / 35%);
     }
+
     &:focus-visible {
-        outline: none; box-shadow: 0 0 0 4px var(--color-secondary);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary);
     }
 }
 
@@ -94,7 +103,9 @@
         background-color: var(--color-primary-grey);
         color: var(--color-white);
     }
+
     &:focus-visible {
+        outline: none;
         box-shadow: 0 0 0 4px var(--color-primary-grey);
     }
 }
@@ -105,8 +116,10 @@
     &:hover:not(:disabled) {
         background-color: var(--color-secondary-error-hover);
     }
+
     &:focus-visible {
-        outline: none; box-shadow: 0 0 0 4px var(--color-secondary-error-100);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary-error-100);
     }
 }
 .btn-warning {
@@ -116,6 +129,7 @@
     &:hover:not(:disabled) {
         filter: brightness(0.92);
     }
+
     &:focus-visible {
         outline: none;
         box-shadow: 0 0 0 4px var(--color-secondary-warning-100);
@@ -127,12 +141,15 @@
     background-color: transparent;
     border-color: var(--color-primary);
     color: var(--color-primary);
+
     &:hover:not(:disabled) {
         border-color: var(--color-button-hover);
         color: var(--color-button-hover);
     }
+
     &:focus-visible {
-        outline: none; box-shadow: 0 0 0 4px var(--color-secondary);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary);
     }
 }
 
@@ -140,36 +157,61 @@
     background-color: transparent;
     border-color: var(--color-secondary-error);
     color: var(--color-secondary-error);
-    &:hover:not(:disabled) { border-color: var(--color-secondary-error-hover); color: var(--color-secondary-error-hover); }
-    &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-secondary-error-100); }
+
+    &:hover:not(:disabled) {
+        border-color: var(--color-secondary-error-hover);
+        color: var(--color-secondary-error-hover);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary-error-100);
+    }
 }
 
 .btn-outline-warning{
     background-color: transparent;
     border-color: var(--color-secondary-warning);
     color: var(--color-primary-grey-700);
-    &:hover:not(:disabled) { filter: brightness(0.92); }
-    &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-secondary-warning-100); }
+
+    &:hover:not(:disabled) {
+        filter: brightness(0.92);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary-warning-100);
+    }
 }
 
 .btn-outline-muted {
     background-color: transparent;
     border-color: var(--color-outline-grey);
     color: var(--color-primary-grey);
-    &:hover:not(:disabled) { border-color: var(--color-primary-grey); }
-    &:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--color-primary-grey-100); }
+
+    &:hover:not(:disabled) {
+        border-color: var(--color-primary-grey);
+    }
+
+    &:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-primary-grey-100);
+    }
 }
 
 .btn-outline-dashed {
     background-color: transparent;
     border: 1px dashed var(--color-primary-grey);
     color: var(--color-primary-grey);
+
     &:hover:not(:disabled) {
         border-color: var(--color-primary);
         color: var(--color-primary);
     }
+
     &:focus-visible {
-        outline: none; box-shadow: 0 0 0 4px var(--color-secondary);
+        outline: none;
+        box-shadow: 0 0 0 4px var(--color-secondary);
     }
 }
 
