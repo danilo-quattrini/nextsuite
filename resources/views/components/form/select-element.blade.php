@@ -1,3 +1,31 @@
+{{--
+    SELECT ELEMENT
+    ==============
+    The native <select> element. Always used inside x-form.select-wrapper.
+
+    USAGE:
+        <x-form.select-wrapper>
+            <x-form.select-element name="country" wire:model="form.country">
+                <x-slot:options>
+                    <option value="" disabled selected hidden>Choose...</option>
+                    <option value="it">Italy</option>
+                </x-slot:options>
+            </x-form.select-element>
+        </x-form.select-wrapper>
+
+    PROPS
+    -----
+    name        string   name attribute on <select>
+    id          string   id attribute (defaults to name)
+    placeholder string   Text for the empty first option (optional).
+                         If provided, renders a disabled/selected/hidden
+                         option automatically — no need to add it in the slot.
+    options     slot     Named slot for <option> elements.
+
+    All other attributes (wire:model, x-model, required, etc.)
+    are forwarded directly to <select>.
+--}}
+
 @props([
     'name' => null,
     'id' => null,
