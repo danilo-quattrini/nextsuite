@@ -35,29 +35,15 @@
                         @if ($step === 1)
                             <div wire:key="customer-step-1" class="space-y-6">
                                 <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-6">
-                                    <div class="flex flex-col items-start justify-center">
-                                        <label
-                                                for="customer_photo"
-                                                class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
-                                        >
-                                            @if ($customer_photo)
-                                                <img
-                                                        src="{{ $customer_photo->temporaryUrl() }}"
-                                                        class="absolute inset-0 w-full h-full object-cover"
-                                                        alt="Customer Photo Preview"
-                                                />
-                                            @else
-                                                <x-heroicon name="user-plus" variant="outline" size="3xl" class="text-primary"/>
-                                            @endif
 
-                                            <input
-                                                    id="customer_photo"
-                                                    type="file"
-                                                    wire:model="customer_photo"
-                                                    class="hidden"
-                                            />
-                                        </label>
-                                        <x-input-error for="customer_photo"/>
+                                    <div class="flex flex-col items-start justify-center">
+                                        <x-form.avatar-upload
+                                                name="customer_photo"
+                                                size="xl"
+                                                :current="$customer_photo ? $customer_photo->temporaryUrl() : null"
+                                                :error="$errors->has('customer_photo')"
+                                                wire:model="customer_photo"
+                                        />
                                     </div>
 
                                     <div class="grid grid-cols-1 md:grid-cols-2 items-center gap-6">
@@ -114,11 +100,13 @@
                                             <x-form.label-container label="Role" :required="true"/>
 
                                             <x-form.select-wrapper :error="$errors->has('form.role')">
-                                                <x-form.select-element name="role" id="role" wire:model.defer="form.role">
+                                                <x-form.select-element
+                                                        name="role"
+                                                        id="role"
+                                                        placeholder="{{ __('Select role') }}"
+                                                        wire:model.defer="form.role"
+                                                >
                                                     <x-slot:options>
-                                                        <option value="" disabled selected hidden>
-                                                            Select role
-                                                        </option>
                                                         @foreach ($roles as $role)
                                                             <option value="{{ $role }}">
                                                                 {{ ucfirst($role) }}
@@ -192,11 +180,13 @@
                                         <x-form.label-container label="Nationality" :required="true"/>
 
                                         <x-form.select-wrapper :error="$errors->has('form.nationality')">
-                                            <x-form.select-element name="nationality" id="nationality" wire:model.defer="form.nationality">
+                                            <x-form.select-element
+                                                    name="nationality"
+                                                    id="nationality"
+                                                    placeholder="{{ __('Select nationality') }}"
+                                                    wire:model.defer="form.nationality"
+                                            >
                                                 <x-slot:options>
-                                                    <option value="" disabled selected hidden>
-                                                        Select nationality
-                                                    </option>
                                                     @foreach ($nationalities as $nation)
                                                         <option value="{{ $nation['name'] }}">
                                                             {{ $nation['flag'] }} {{ $nation['name'] }}

@@ -18,33 +18,15 @@
                     <div class="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-lg">
 
                         <!-- AVATAR UPLOAD WRAPPER -->
-                        <div class="flex flex-col items-start justify-center space-y-lg">
-                            <label
-                                    for="company_photo"
-                                    class="relative w-40 h-40 flex rounded-full overflow-hidden cursor-pointer bg-secondary items-center justify-center"
-                            >
-                                <!-- Preview -->
-                                @if ($company_photo)
-                                    <img id="companyPhotoPreview"
-                                         src="{{ $company_photo->temporaryUrl() }}"
-                                         class="absolute inset-0 w-full h-full object-cover"
-                                         alt="Company Photo Preview"
-                                    />
-                                @else
-                                    <!-- Default icon -->
-                                    <x-heroicon
-                                            name="building-office-2"
-                                            id="placeholderIcon"
-                                            variant="outline"
-                                            size="3xl"
-                                            class="text-primary"
-                                    />
-                                @endif
-                                <input id="company_photo" name="company_photo" wire:model="company_photo" type="file" class="hidden" />
-                            </label>
-
-                            {{--  ERROR MESSAGE --}}
-                            <x-input-error for="company_photo"/>
+                        <div class="flex items-center justify-center">
+                            <x-form.avatar-upload
+                                    name="company_photo"
+                                    size="xl"
+                                    icon="building-office-2"
+                                    :current="$company_photo ? $company_photo->temporaryUrl() : null"
+                                    :error="$errors->has('company_photo')"
+                                    wire:model="company_photo"
+                            />
                         </div>
 
                         {{--  INPUT FIELDS  --}}
