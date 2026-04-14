@@ -1,10 +1,12 @@
 ![nextsuite-logo.png](public/img/nextsuite-logo-full.png)
+
 # Nextsuite
 
 Nextsuite is a Laravel-based web application designed to manage customers and companies, 
 along with their associated skills, attributes, and other customizable characteristics. 
 It provides a flexible structure for organizing and enriching entity data, making it suitable for CRM-like use cases, 
 talent tracking, or business intelligence workflows.
+
 ---
 
 ## 🚀 Features 
