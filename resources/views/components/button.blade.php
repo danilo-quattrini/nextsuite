@@ -1,6 +1,6 @@
 @props([
     'variant' => 'primary',
-    'size' => 'default',
+    'size' => 'md',
     'type' => 'button',
     'href' => null,
     'disabled' => false,
@@ -30,9 +30,9 @@
         'md'   => 'btn-md',
         'lg'   => 'btn-lg',
         'icon' => 'btn-icon',
-        'default' => 'w-[72px] h-[40px]',
-        'large' => 'w-[150px] h-[40px]',
-        'auto' => 'px-4 py-2 h-[40px]',
+        'default' => 'w-[72px] h-[40px]', /* TO REPLACE IT WITH MD*/
+        'large' => 'w-[150px] h-[40px]', /* TO REPLACE IT WITH LG*/
+        'auto' => 'px-4 py-2 h-[40px]', /* TO  REPLACE IT WITH FULL*/
         'full' => 'btn-full'
     ];
 
