@@ -1,27 +1,26 @@
 @props(['skill', 'user', 'editable' => false])
 
-<div class="skill-card">
-    {{-- Header --}}
-    <div class="skill-card__header">
-        <div class="skill-card__title-wrapper">
-            <div class="skill-card__title-group">
-                <h4 class="skill-card__title">{{ $skill->name }}</h4>
-                <span class="skill-card__subtitle"> {{ $skill->description ?? '' }}</span>
-            </div>
-            {{-- Actions Dropdown --}}
-            @if($editable && $user)
-             <div class="flex items-center justify-between">
-                <x-button
-                        variant="error"
-                        size="auto"
-                        wire:click.prevent="$wire.removeSkill({{ $skill->id }})"
-                >
-                    <x-heroicon name="trash" size="lg"/>
-                </x-button>
-             </div>
-            @endif
-        </div>
-    </div>
+<x-card.card-container
+        title="{{ $skill->name }}"
+        subtitle="{{ $skill->description ?? '' }}"
+        size="lg"
+        card-size="sm"
+>
+    {{-- Actions --}}
+    @if($editable && $user)
+        <x-slot:action>
+            <x-button
+                    variant="error"
+                    size="icon"
+                    wire:click.prevent="$wire.removeSkill({{ $skill->id }})"
+            >
+                <x-heroicon
+                        name="trash"
+                        size="lg"
+                />
+            </x-button>
+        </x-slot:action>
+    @endif
 
     {{-- Stats Grid --}}
     <div class="skill-card__stats">
@@ -53,4 +52,4 @@
             </div>
         </div>
     </div>
-</div>
+</x-card.card-container>

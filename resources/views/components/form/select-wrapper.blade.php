@@ -38,7 +38,6 @@
 --}}
 @props([
     'error' => false,
-    'base' => 'select-border',
     'disable' => false,
 ])
 {{-- ========================================================= --}}
@@ -47,17 +46,17 @@
 <div
      x-data="searchableSelect()"
      x-init="init()"
-     x-on:focusin="handleFocusIn()"
-     x-on:blur="handleBlur()"
-     x-on:change="handleChange()"
-     x-on:click="focusSelect()"
-     x-on:keydown="handleTypeSearch($event)"
-     :class="{ 'open': open, 'has-value': hasValue }"
-     class="{{ $base }} {{ $error ? 'has-error' : '' }} {{ $disable ? 'is-disable' : '' }}"
+     @focusin="handleFocusIn()"
+     @focusout="handleBlur($event)"       {{-- ✅ passes event so relatedTarget check works --}}
+     @click="focusSelect()"
+     @keydown="handleTypeSearch($event)"
+     :class="{
+        'open':       open,
+        'has-value':  hasValue,
+    }"
+     class="select-border {{ $error ? 'has-error' : '' }} {{ $disable ? 'is-disable' : '' }}"
      tabindex="0"
 >
-
-
     {{ $slot }}
 
     <x-heroicon

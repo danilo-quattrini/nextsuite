@@ -34,16 +34,16 @@
 <select
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
-        {{ $attributes->merge(['class' => 'select']) }}
         x-ref="select"
-        x-on:change="
+        @change="
+        hasValue = $refs.select.value !== '';
         let selected = $refs.select.selectedOptions[0];
-        $dispatch('select-changed', { label: selected ? selected.text : 'Select an option' });
+        $dispatch('select-changed', {
+            value: $refs.select.value,
+            label: selected ? selected.text : ''
+        });
     "
-        x-on:input="
-        let selected = $refs.select.selectedOptions[0];
-        $dispatch('select-changed', { label: selected ? selected.text : 'Select an option' });
-    "
+        {{ $attributes->merge(['class' => 'select']) }}
 >
     @if($placeholder)
         <option value="" disabled selected hidden>{{ $placeholder }}</option>
